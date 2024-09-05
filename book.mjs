@@ -3,6 +3,7 @@ const params =
 {
     "ManualCaptcha" : "tru",
     "UPI": "imloveairtel@ybl",
+    "120day" :"True";
     "class": "3A",
     "quota": "GN",
     "train_number": "17216",
