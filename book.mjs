@@ -1,24 +1,26 @@
 import {IRCTC} from "irctc-api";
 const params = 
 {
-    "ManualCaptcha" : "tru",
+    "ManualCaptcha" : "N",      // For Manual Entry  (Y/N)
+    "PremiumCaptcha": "N",      //For 100 Sucess Rate  (Y/N)
+    "firstday" : "N",             //only In case 120 Days Before (Y/N)
     "UPI": "imloveairtel@ybl",
     "class": "3A",
     "quota": "GN",
-    "train_number": "17216",
-    "from": "ATP",
-    "to": "KDP",
+    "train_number": "12163",
+    "from": "TU",
+    "to": "RU",
     "journey_date": "20240909",
-    "mobile_number": "6295612485",
-    "userID": "ppk00",
-    "password": "Grazia@4731",
+    "mobile_number": "7987094362",
+    "userID": "PPK01",
+    "password": "9024",
     "passengers": 
     [
         {
-            "age": "20",
+            "age": "31",
             "food": "",
-            "name": "JYOTI KUMARI",
-            "sex": "F",
+            "name": "Manoj K Meena",
+            "sex": "M",
             "berth":"SL"
         },
        
