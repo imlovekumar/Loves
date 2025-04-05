@@ -20,6 +20,9 @@ https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_HIN_IDC_MOB/Fallback/J
 https://tataplay.slivcdn.com/hls/live/2011749/SABHD/master.m3u8
 #EXTINF:-1 tvg-id="1" group-title="IPL",IPL Only When Live
 https://ee4ee8c03a26.eu-central-1.playback.live-video.net/api/video/v1/eu-central-1.755921704393.channel.LOohfipmCQDP.m3u8
+#EXTINF:-1 tvg-id="1" group-title="IPL",Star Sports 2 HD Hindi
+https://backend.theleotradingco.in/star1/output.m3u8
+
 #EXTINF:-1 tvg-id="sony-marathi" tvg-name="Sony Marathi" tvg-language="Marathi" tvg-logo="https://i.postimg.cc/ZqvcSG5j/SONY-MARATHI.png" group-title="Entertainment",Sony Marathii
 https://tataplay.slivcdn.com/hls/live/2011740/SonyMarathi/master.m3u8
 
