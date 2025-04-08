@@ -7,7 +7,7 @@ http://tataipl.ydns.eu/live/tataipl/tataipl/10897.ts
 #EXTINF:-1 tvg-id="1" group-title="IPL",Tata IPL
 http://tataipl.ydns.eu/live/tataipl/tataipl/12392.ts
 #EXTINF:-1 tvg-id="1" group-title="IPL",IPL Hindi
-https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_HIN_IDC_MOB/Fallback/index.m3u8
+https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/index.m3u8?hdnea=exp=1744120376~acl=/*~hmac=2bcbc79cd85d82d015074ce8e9e610241fbfae7bfa36e34695bb245ec736f541
 #EXTINF:-1 tvg-id="1" group-title="IPL",IPL Bhojpuri
 https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_Bhoj_IDC_MOB/Fallback/index.m3u8
 #EXTINF:-1 tvg-id="1" group-title="IPL",Sony 3 HD Hindi
