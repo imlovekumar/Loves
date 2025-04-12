@@ -9,8 +9,8 @@ https://tataplay.slivcdn.com/hls/live/2011671/SETHD/master.m3u8
 https://tataplay.slivcdn.com/hls/live/2011749/SABHD/master.m3u8
 #EXTINF:-1 tvg-id="1" group-title="IPL",IPL Only When Live
 https://ee4ee8c03a26.eu-central-1.playback.live-video.net/api/video/v1/eu-central-1.755921704393.channel.LOohfipmCQDP.m3u8
-#EXTINF:-1 tvg-id="1" group-title="IPL",Star Sports 2 HD Hindi
-https://backend.theleotradingco.in/star1/livestream2.m3u8
+#EXTINF:-1 tvg-id="1" group-title="IPL",Crickflix
+https://backend.urtractorparts.us/livestream2/index.m3u8
 #EXTINF:-1 tvg-id="1" group-title="IPL",TSports HD
 https://live-test.tsports.com/live-02/index.m3u8?hdnts=URLPrefix=aHR0cHM6Ly9saXZlLXRlc3QudHNwb3J0cy5jb20v~Expires=17433570233600~hmac=036dd412f9ce63d9d20a342564fe9f43ccea62116268d86c1bf89a5bbaca80bb
 
