@@ -1,15 +1,6 @@
-#EXTINF:-1 tvg-id="1" group-title="IPL",StarSports 1 Hindi HD
-http://tataipl.ydns.eu/live/tataipl/tataipl/3716.ts
-#EXTINF:-1 tvg-id="1" group-title="IPL",Star Sports 2 HD
-http://tataipl.ydns.eu/live/tataipl/tataipl/3717.ts
-#EXTINF:-1 tvg-id="1" group-title="IPL",Star Sports 1 HD
-http://tataipl.ydns.eu/live/tataipl/tataipl/10897.ts
+
 #EXTINF:-1 tvg-id="1" group-title="IPL",Tata IPL
 https://user472.hls-video.net/media2/token/a3f0c81db39d64f85b6f6a5cfaa1b2ce/stream.m3u8?token=90d509b2c7adcbe46c11f139bb1175d2
-#EXTINF:-1 tvg-id="1" group-title="IPL",IPL Hindi
-https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/index.m3u8?hdnea=exp=1744120376~acl=/*~hmac=2bcbc79cd85d82d015074ce8e9e610241fbfae7bfa36e34695bb245ec736f541
-#EXTINF:-1 tvg-id="1" group-title="IPL",IPL Bhojpuri
-https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_Bhoj_IDC_MOB/Fallback/index.m3u8
 #EXTINF:-1 tvg-id="1" group-title="IPL",Sony 3 HD Hindi
 https://tataplay.slivcdn.com/hls/live/2020591/TEN3HD/master.m3u8
 #EXTINF:-1 tvg-id="sony-hd" tvg-name="SET HD" tvg-language="Hindi" tvg-logo="https://i.postimg.cc/xCV0N1yy/SONY-SET-HD.png" group-title="Entertainment",SET HD
@@ -19,7 +10,7 @@ https://tataplay.slivcdn.com/hls/live/2011749/SABHD/master.m3u8
 #EXTINF:-1 tvg-id="1" group-title="IPL",IPL Only When Live
 https://ee4ee8c03a26.eu-central-1.playback.live-video.net/api/video/v1/eu-central-1.755921704393.channel.LOohfipmCQDP.m3u8
 #EXTINF:-1 tvg-id="1" group-title="IPL",Star Sports 2 HD Hindi
-https://backend.theleotradingco.in/star1/output.m3u8
+https://backend.theleotradingco.in/star1/livestream2.m3u8
 #EXTINF:-1 tvg-id="1" group-title="IPL",TSports HD
 https://live-test.tsports.com/live-02/index.m3u8?hdnts=URLPrefix=aHR0cHM6Ly9saXZlLXRlc3QudHNwb3J0cy5jb20v~Expires=17433570233600~hmac=036dd412f9ce63d9d20a342564fe9f43ccea62116268d86c1bf89a5bbaca80bb
 
