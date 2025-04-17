@@ -1,11 +1,7 @@
 
-#EXTINF:-1 tvg-id="1" group-title="IPL",Tata IPL
-https://v18tataplaysyndication.akamaized.net/bpk-tv/StarSports_2_Hin_HD_voot_MOB/output03/index.m3u8?hdnea=exp=1744567356~acl=/*~hmac=82d268d059edd5c96bdf772e0565dc807a8117a505a1de8c984a82644c598b7b
-#EXTINF:-1 tvg-id="1" group-title="IPL",Sony 3 HD Hindi
-https://tataplay.slivcdn.com/hls/live/2020591/TEN3HD/master.m3u8
-#EXTINF:-1 tvg-id="1" group-title="IPL",IPL Only When LIVE
+#EXTINF:-1 tvg-id="1",IPL Only When LIVE
 https://live.aoneroom.com/moviebox/wefeed05.m3u8?auth_key=1744615696-0-0-e15b10662e3a00ed562396542d1c89ef
-#EXTINF:-1 tvg-id="1" group-title="IPL",Crickflix
+#EXTINF:-1 tvg-id="1",Crickflix
 https://backend.urtractorparts.us/livestream2/index.m3u8
-#EXTINF:-1 tvg-id="1" group-title="IPL",Star Sports 1HD
+#EXTINF:-1 tvg-id="1",Star Sports 1HD
 https://backend.urtractorparts.us/star1/index.m3u8
