@@ -1,6 +1,6 @@
 #EXTM3U
 #EXTINF:-1,Playlist 1
-http://example.com/playlist1.m3u
+https://bdixtv-ecru.vercel.app/ipl-world-wide.m3u
 
 #EXTINF:-1,Playlist 2
 https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/iPl
