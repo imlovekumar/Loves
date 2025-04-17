@@ -1,6 +1,12 @@
 #EXTM3U x-tvg-url="http://172.20.10.3:5350/epg.xml.gz"
 
 
+#EXTINF:-1 tvg-id="1" group-title="Love",IPL Only When Live
+https://live.aoneroom.com/moviebox/wefeed05.m3u8?auth_key=1744615696-0-0-e15b10662e3a00ed562396542d1c89ef
+#EXTINF:-1 tvg-id="1" group-title="Love",Crickflix
+https://backend.urtractorparts.us/livestream2/index.m3u8
+#EXTINF:-1 tvg-id="1" group-title="Love",Star Sports 1HD
+https://backend.urtractorparts.us/star1/index.m3u8
 
 #EXTINF:-1 tvg-id=143 tvg-name="CNBC Tv18 Prime HD" tvg-logo="http://172.20.10.3:5350/jtvimage/CNBC_Tv18_Prime_HD.png" tvg-language="English" tvg-type="Business" group-title="Business", CNBC Tv18 Prime HD
 http://172.20.10.3:5350/live/143.m3u8
