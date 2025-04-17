@@ -3,5 +3,5 @@
 https://live.aoneroom.com/moviebox/wefeed05.m3u8?auth_key=1744615696-0-0-e15b10662e3a00ed562396542d1c89ef
 #EXTINF:-1 tvg-id="1",Crickflix
 https://backend.urtractorparts.us/livestream2/index.m3u8
-#EXTINF:-1 tvg-id="1",Star Sports 1HD
+#EXTINF:-1 tvg-id="1" tvg-logo="https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/IMG_6444.jpeg", Star Sports 1HD
 https://backend.urtractorparts.us/star1/index.m3u8
