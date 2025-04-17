@@ -19,3 +19,6 @@ http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c065e27
 
 #EXTINF:-1 group-title="Info",BBC Earth HD
 http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d221c583f761ae70ea1bfb36649ceed2f00/index.m3u8?token=14c183fbf4106786a2f397f9ecb21a1f3b5a50a6f78b65295f4b936bfba511b248faa91d2983df1e5bd719ace19cceb199ae69498b6f7373db336270f3b06627b687130183-be4368d05cefe867b4166d15eec0753a
+
+#EXTINF:-1 tvg-name="Star 4K Tata" group-title="Sports",Star 4K Tata
+http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=513f4c43bdd25fbb721b4ccaa15c21412752bd1a124707e3e2f9977fa2338b195dbebb169882d61d434bececdcd57031deb56766dbc28520a33a95f5f0c2a6a552c4c897cd-f6ca6c59cbe71eed8289f22bc005945c
