@@ -7,6 +7,11 @@ https://backend.urtractorparts.us/livestream2/index.m3u8
 https://backend.urtractorparts.us/star1/index.m3u8
 #EXTINF:-1,History TV 18
 http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861962401552f6601fb05b2cfd96d49d5/index.m3u8?token=1e8c7ff4df7e46ff3f233d8318a9e822f29bef702bec323981efd99d6b86018acafba5ef451ddfab52d79901610c1a054c12badb96e1cb8fa5018f70c6fcb6e30f307678a483-a7d58c44abf461d3dd6528eebc5499eb
+#EXTINF:-1,Star 4K
+http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=6db8754ae922eca8c0ff57776d8f364680d8339cd1f60851344fa9da51e2915556cde6efc450ed16132ad858fffc9498fc725da11be1c36458a3bbe925683d75a7e23b9a102b-539cdab9bd31fd453734b17d6cfddf6c
+#EXTINF:-1,Star Sports 1 HD Hindi
+http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d3913533f6708eb03b0adbe035ed9ec256ea2/index.m3u8?token=4c3e807b770e8343789dbf3cb398dbdfb343bc4a9bfe5ad5e0b4a7198454cc01241346ba854c08363bdf177ba6f00496596d2799d9e86de053c733a782629b82eb18a8b2b15c-1febc391e0f83a3d2dd2aff50ee6215a
+
 #EXTINF:-1 tvg-id="1", Baby John
 http://netfree2.cc/mobile/pv/hls/0LX5EEBYNSMXTWC09NJFPB9BIU.m3u8?q=720p&in=50b894e088d308d6e576447ab0cabcc8::ef36d851492bd9ca4f73ce3a0e820a9b::1744917259::ni
 #EXTINF:-1 tvg-id="1", Marco HD
