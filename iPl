@@ -3,8 +3,6 @@
 https://live.aoneroom.com/moviebox/wefeed05.m3u8?auth_key=1744615696-0-0-e15b10662e3a00ed562396542d1c89ef
 #EXTINF:-1  group-title="Sports" tvg-id="1",Crickflix
 https://backend.urtractorparts.us/livestream2/index.m3u8
-#EXTINF:-1 group-title="Sports" tvg-id="1" tvg-logo="https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/IMG_6444.jpeg", Star Sports 1HD
-https://backend.urtractorparts.us/star1/index.m3u8
 #EXTINF:-1 group-title="Info",History TV 18
 http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861962401552f6601fb05b2cfd96d49d5/index.m3u8?token=1e8c7ff4df7e46ff3f233d8318a9e822f29bef702bec323981efd99d6b86018acafba5ef451ddfab52d79901610c1a054c12badb96e1cb8fa5018f70c6fcb6e30f307678a483-a7d58c44abf461d3dd6528eebc5499eb
 #EXTINF:-1 group-title="Sports",Star 4K
