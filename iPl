@@ -2,7 +2,7 @@
 #EXTINF:-1 tvg-name="Nat Geo HD Hindi" group-title="Info" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Natgeologo.svg/1280px-Natgeologo.svg.png",Nat Geo HD Hindi
 http://xott.live:8080/mother/mother/206285
 
-#EXTINF:-1 tvg-name="History 18 Hindi HD" group-title="Info" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/refs/heads/main/countries/india/history-tv18-hd-in.png",History 18 Hindi HD
+#EXTINF:-1 tvg-name="History TV 18 Hindi HD" group-title="Info" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/refs/heads/main/countries/india/history-tv18-hd-in.png",History TV 18 Hindi HD
 http://xott.live:8080/mother/mother/206294
 
 #EXTINF:-1 tvg-name="Nat Geo Wild HINDI" group-title="Info" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/National_Geographic_Wild_logo.svg/1200px-National_Geographic_Wild_logo.svg.png",Nat Geo Wild HINDI
@@ -11,11 +11,12 @@ http://xott.live:8080/mother/mother/206286
 #EXTINF:-1 tvg-name="Animal Planet Hindi" group-title="Info" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Animal_Planet_logo.svg/797px-Animal_Planet_logo.svg.png",Animal Planet Hindi
 http://xott.live:8080/mother/mother/206282
 
-#EXTINF:-1 tvg-name="Discovery ID HD" group-title="Info" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/2/27/Investigation_Discovery_Logo_2018.svg",Discovery ID HD
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bbb4a47755ceed2f/index.m3u8?token=a355c704eced12fa910278898eea23bf2fbaed0e8008d618a52559392d3760fc26c2c1d6718fed8eafb29fea2d501d4f3776bdc54780ab098f5da9ec8dba54be2e1d32708aed-49d798872979ce5dcf08d5c3d8280500
-
 #EXTINF:-1 tvg-name="Discovery HD" group-title="Info" tvg-logo="https://github.com/maddy-mad/TV_Logos/raw/refs/heads/master/India/Discovery_HD_World.png",Discovery HD
 http://xott.live:8080/mother/mother/109974
+
+
+
+
 
 #EXTINF:-1 tvg-name="Tata IPL Hindi" group-title="Sports",Tata IPL Hindi
 https://imnoob.site/ZAP4K/play.php?id=67996
