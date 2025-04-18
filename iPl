@@ -1,4 +1,7 @@
 
+
+#EXTINF:-1 tvg-name="Discovery HD Hindi" group-title="Info",Discovery HD Hindi
+https://engca.xxxcdn.online:8978/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bba9ae604dd5fa5f61/index.m3u8?token=5a9e981b3a6fed11a430cf0bc935285d0404d056f3dadbe8aeade0fb967d3ddde6fcdbbf45e6e60cd71ee649c57c4807df9ed445643307d4f44e298781c502856bd36d658171-b17d13594db2154e0e70f109682af7a0
 #EXTINF:-1 group-title="Sports" tvg-id="1",IPL Only When LIVE
 https://live.aoneroom.com/moviebox/wefeed05.m3u8?auth_key=1744615696-0-0-e15b10662e3a00ed562396542d1c89ef
 #EXTINF:-1  group-title="Sports" tvg-id="1",Crickflix
