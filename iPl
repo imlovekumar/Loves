@@ -16,49 +16,31 @@ http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861962401552f
 
 
 
-
-
 #EXTINF:-1 tvg-name="Tata IPL Hindi" group-title="Sports",Tata IPL Hindi
 https://imnoob.site/ZAP4K/play.php?id=67996
-
 #EXTINF:-1 tvg-name="IPL Bhojpuri" group-title="Sports",IPL Bhojpuri
 https://imnoob.site/ZAP4K/play.php?id=68006
-
-#EXTINF:-1 tvg-name="Astro" group-title="Sports",Astro
-https://imnoob.site/ZAP4K/play.php?id=12141
-
-#EXTINF:-1 tvg-name="Marvel Disney" group-title="Kids",Marvel Disney
-https://imnoob.site/ZAP4K/play.php?id=11649
-
-#EXTINF:-1 group-title="Sports" tvg-id="1",IPL Only When LIVE
-https://live.aoneroom.com/moviebox/wefeed05.m3u8?auth_key=1744615696-0-0-e15b10662e3a00ed562396542d1c89ef
-
-#EXTINF:-1  group-title="Sports" tvg-id="1",Crickflix
-https://backend.urtractorparts.us/livestream2/index.m3u8
-
-#EXTINF:-1 group-title="Sports",Star 4K
-http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=9de04522b990f4bad7c4dc44a1004cfa4962e6ae2a8787d201ccb45e5585985203d6d23da2667c024f88a4ded8fb5ec2ccb61b044f219d812efd30d34ee7813ec073a83a8a-cbd1cd9fff402fc57694dd2dfbb6366a
-
-#EXTINF:-1 group-title="Sports",Star Sports 1 HD Hindi
-http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d3913533f6708eb03b0adbe035ed9ec256ea2/index.m3u8?token=4c3e807b770e8343789dbf3cb398dbdfb343bc4a9bfe5ad5e0b4a7198454cc01241346ba854c08363bdf177ba6f00496596d2799d9e86de053c733a782629b82eb18a8b2b15c-1febc391e0f83a3d2dd2aff50ee6215a
-
-
-
-
-#EXTINF:-1 tvg-name="Star Gold HD" group-title="Movies",Star Gold HD
-https://imnoob.site/ZAP4K/play.php?id=1042
+#EXTINF:-1 tvg-id="553" tvg-name="STAR SPORTS 2 HINDI 4K" group-title="Sports",STAR SPORTS 2 HINDI 4K
+http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc37e124663ac61ef550d472870/index.m3u8?token=5ccc32728d44d4464e63197fd9d197f897601f514a311add03d027b698efd760957f326462f945bfe326cee7e618fa668989cdf34011a9e0d3e02b241d8ef255b95241a095-0ae5df2613bb16673e251986f9693b89
+#EXTINF:-1 tvg-id="602" tvg-name="STAR SPORTS SELECT 2 4K" group-title="Sports",STAR SPORTS SELECT 2 4K
+http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d3913533f6708eb03b0adbe6144dde0287eb491bdccfb/index.m3u8?token=a5c316987975cc2e95c1649db11a07fdda9c3ddf1883a2e9efc4de59f59e97219b5a279b047058d11da35c1824ec7c1a1ca71398ada3a8d8505a23ffcb2dc97ca355ed8193-e2d468c690f4ef6e0af56f389384608b
+#EXTINF:-1 tvg-id="603" tvg-name="SONY SPORTS 5 4K" group-title="Sports",SONY SPORTS 5 4K
+http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d221c583f6711fc0ed0b5/index.m3u8?token=0a7bd0ebba7740c38eb310d7e737256d9bc94758eb158b7b033d14eadcabaef3171f63c6badac37d3d2c6bc5f1408317818d4630804520f37d52199c28196809e7ea921e0f-ebd103795ba57b5a4795b62f1a4c90ed
+#EXTINF:-1 tvg-id="1507" tvg-name="DD SPORTS 4K" group-title="Sports",DD SPORTS 4K
+http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a290d52307b0af002/index.m3u8?token=4e8ddb755e06a10d9680155a752a6cd2bd7ed2523752c9836a1b902e0d60d6532a4e3adf87dd0007727a94099b7e3e5d9acc00f5eb9d4dde871bc312e1ae88917b2b75b0a9-214a44129990d9aa6cb4e781b414e677
+#EXTINF:-1 tvg-id="2968" tvg-name="STAR SPORTS 2 HINDI FHD" group-title="Sports",STAR SPORTS 2 HINDI FHD
+http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc37e124663ac61ef550d472870/index.m3u8?filter=tracks:v1a1&token=734920cac7a01c96a7f6ef5541c64c6708ad56340d71ce7edd8a10a5f24b7b798f283c6aeff3edaa67c47651123cda1410fe84ee696396dac39d9dd784e5c31ae7755d826d-e2b0326e9d88cdd96b01741fa82afdb4
+#EXTINF:-1 tvg-id="2982" tvg-name="STAR SPORTS 1 4K hin" group-title="Sports",STAR SPORTS 1 4K hin
+http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d3913533f6708eb03b0adbe035ed9ec256ea2/index.m3u8?token=10d6fd65c847a692b7ec2f00977637810a272382ade574e9af93bd9d23c8a8f7249cdbc8f349c8c8042ac30ef0b8c76f9153156c3cce4c031fe3c8550fddc2fcce07962aa2-5cc6ab7e917ef81122d68821f7473c19
+#EXTINF:-1 tvg-id="3012" tvg-name="STAR SPORTS 1 HINDI FHD" group-title="Sports",STAR SPORTS 1 HINDI FHD
+http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d3913533f6708eb03b0adbe035ed9ec256ea2/index.m3u8?token=cea25b781abe94b7f563f23d3da1d070e25a428fbfd8c517baff3b8a2404a2f5448a6975d42540d98ad3b5fe1024c56038a449d8b4f419626999d2da4d3cf5b94d4a52b26e-e060cdb16afa399e86c9375eadddc4e9
+#EXTINF:-1 tvg-id="2937" tvg-name="IPL 2025 4K UHD hevc" group-title="Sports",IPL 2025 4K UHD hevc
+http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=4f03180b82ef87e80076f7845d3aa1d3a02e75f738b5171d8194b08ed4d769aa2b85eb91fca8e925d1133524ba1daaca8a238248b07060887f6e20f295e9022c2729aa103c-90ebbff23ed8dadc4a6736239b48fae3
+#EXTINF:-1 tvg-id="2938" tvg-name="IPL 2025 STAR 4K UHD hevc" group-title="Sports",IPL 2025 STAR 4K UHD hevc
+http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=26150fd33f16301555c582787932b0e62cdf7e6dd72a7e1ea113dc1f292cf0768a761a41491bc884d00db9fe1ab53384ec7714713d4ea7f6b86ff79849d77e459322e6111d-cea5d32c596ef553622573a7824b0778
+#EXTINF:-1 tvg-id="502" tvg-name="MH1 SHRADDHA" group-title="Sports",MH1 SHRADDHA
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619325635e337c0ae515a0b6a0/index.m3u8?token=18af06f741211c176888821376ed0920a7a5ed54b4fdf9eaa59a9b819fe2a868040d2559fa576a52ad73eefb7ae46b316e310387e36c7edb0cde29897e0aa4e6d8f97a2f76-42f8b7a3d894f7f912f84c645a7b60c2
+#EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="Sports",STAR SPORTS 4K UHD hevc
+http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=7a4449fad4d8bce512830a6ce8c56f5b68f835c4cb0170322eeaea54591bc5106931307b410969b9994039bdcec9cb427accf2d6a40b7118e3a2a54ecebf9d0f9a53d0c61f-88a1ce8774b2c0dbd8af37faf0f38813
 
 
-#EXTINF:-1 group-title="Sports",A Sports
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd77a6f2468bc7f902c1640/index.m3u8?token=754cec338f4f497f4e4114129eaa5d57b1b5393efd94ff8e4b50de559598117c45b28bb1b77c61b7e3f1604301e96e19d3ed123ed6d0139c114dd954ccadb59fc161200ace-5f5158d354b40dae799feaa12aa5701a
-
-#EXTINF:-1 group-title="Sports", Star Sports 2 HD
-http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc37e124663ac61ef550d472870/index.m3u8?token=9d5fca82b7440046b275ab129faf35df3ee732178eccb15fb3bef624a8852c2925f1ea5e3a2be31884718e212db0b80dfab6da823128c76d67b550b497377518509f0262c4dd-8729aa0f7a2b4dbe2e8bd212a91fe6d1
-
-
-#EXTINF:-1 group-title="Sports", Sony Sports 1 HD
-http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618a281c5e516b6cef/index.m3u8?token=2ee25b4b75708bd5327d41469d4be3db44f18aa79c8129fb37649561b7c376144daa1d344096a0edd94c87849252f4dcd1c778eb673148b675ac4ed876cc5780e56bb6de8010-6cc1fcf78417b53dd2abc28c04c4087a
-
-
-#EXTINF:-1 tvg-name="Star 4K Tata" group-title="Sports",Star 4K Tata
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=9de04522b990f4bad7c4dc44a1004cfa4962e6ae2a8787d201ccb45e5585985203d6d23da2667c024f88a4ded8fb5ec2ccb61b044f219d812efd30d34ee7813ec073a83a8a-cbd1cd9fff402fc57694dd2dfbb6366a
