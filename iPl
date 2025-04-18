@@ -1,18 +1,18 @@
-
-#EXTINF:-1 tvg-name="Nat Geo HD Hindi" group-title="Info" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Natgeologo.svg/1280px-Natgeologo.svg.png",Nat Geo HD Hindi
-http://xott.live:8080/mother/mother/206285
-
-#EXTINF:-1 tvg-name="History TV 18 Hindi HD" group-title="Info" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/refs/heads/main/countries/india/history-tv18-hd-in.png",History TV 18 Hindi HD
-http://xott.live:8080/mother/mother/206294
-
-#EXTINF:-1 tvg-name="Nat Geo Wild HINDI" group-title="Info" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/National_Geographic_Wild_logo.svg/1200px-National_Geographic_Wild_logo.svg.png",Nat Geo Wild HINDI
-http://xott.live:8080/mother/mother/206286
-
-#EXTINF:-1 tvg-name="Animal Planet Hindi" group-title="Info" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Animal_Planet_logo.svg/797px-Animal_Planet_logo.svg.png",Animal Planet Hindi
-http://xott.live:8080/mother/mother/206282
-
-#EXTINF:-1 tvg-name="Discovery HD" group-title="Info" tvg-logo="https://github.com/maddy-mad/TV_Logos/raw/refs/heads/master/India/Discovery_HD_World.png",Discovery HD
-http://xott.live:8080/mother/mother/109974
+#EXTM3U
+#EXTINF:-1 tvg-id="89" tvg-name="DISCOVERY WORLD HD" group-title="Info",DISCOVERY WORLD HD
+http://engca.xxxcdn.online:8978/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bba9ae604dd5fa5f61/index.m3u8?token=1a1742c3a6eb64f1ad8250873efbf253b4694677c4e06d94da93dd5771a4eb8b1df7447d879f0aa277264768d6b9cbf3fd9c967e9acd88cbaa6d5b8e62cb3dafe9a48efef4-ec16ac1374c29fd5e63a09945bb6f7ce
+#EXTINF:-1 tvg-id="172" tvg-name="DISCOVERY SCIENCE INDIA" group-title="Info",DISCOVERY SCIENCE INDIA
+http://engca.xxxcdn.online:8978/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bbada27b44dfe62e75a2eda6b1f1/index.m3u8?token=79ff3ee161d59bf041d04639187cbe64138dda44abedca429105bc0d9ae6491a9e9cfc4c28aba52942f97a307cdc75f15bca7637eb91aa687478c812ef41048229a8d868c2-f7ba89440ec5cf200875cce304f4717b
+#EXTINF:-1 tvg-id="290" tvg-name="ANIMAL PLANET HD" group-title="Info",ANIMAL PLANET HD
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619f231b4c217807f41da5b0a4665ed9e1/index.m3u8?token=9ce1f56408682429f7f3a57d816c254cda705d0aefed3ca28ad39897653cd8e3c9dcaa3a59db72960d214500b46a901ba67f21fd36d48146b6f55cdc53c0efc5011c586ecf-be7cd6f6a6243646c0996815be27692b
+#EXTINF:-1 tvg-id="288" tvg-name="TRAVEL XP 4K" group-title="Info",TRAVEL XP 4K
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc47c1c4272b361863d0d4924/index.m3u8?filter=tracks:v1a2&token=2a654cbe9c15dd5e2d5e8c96ead2513e39a5e19d9bc117dad860bc021f2fd2c820a18076eddd431f2652972b84af00b4e535d5577e1c7a85889d813f4c0e1a94fa6569d679-46b395a0c7b6dc94ed0ff9e71d355d19
+#EXTINF:-1 tvg-id="285" tvg-name="NAT GEO WILD HD." group-title="Info",NAT GEO WILD HD.
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c065e277117fb06adb2a56d49d58b/index.m3u8?token=4437c55cef347e3ab128cb36ca1154d56465f701daee3cd5780599ad039539dcb25c1e914213c6c4161f5e6d12bd1aa1782dedbd2f93e17914036b8fa46db599c29b78b047-fc41687a6a9f722de38ae501b3b09949
+#EXTINF:-1 tvg-id="284" tvg-name="NATIONAL GEOGRAPHIC HD" group-title="Info",NATIONAL GEOGRAPHIC HD
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c06482f7a19e80ea3bbae7553d0f52363a8fcaabc/index.m3u8?token=2b755b69df4c79453daed998e3496a78e4df14e22a54f18825a84f01a26579803593ab6115a35c2732d2f023cfeef539fab5de247e752d7ed5604045b83b742a9d70752bf3-8d95d2c0959324515fce0d46f69507e5
+#EXTINF:-1 tvg-id="286" tvg-name="HISTORY TV18 4K" group-title="Info",HISTORY TV18 4K
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861962401552f6601fb05b2cfd96d49d5/index.m3u8?token=0383f0568d920e95dd50b8644a24e1f4160839d14e164d681443bf76b538f26182df2938e16b6db2da20fcadfc9b45ee6dadbf1a7477016f07f8fac7b1868b6f6606697317-af129ba9f04c08981ec2cfa6ffd70962
 
 
 
