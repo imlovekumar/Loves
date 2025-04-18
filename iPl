@@ -17,7 +17,10 @@ http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c06482f
 #EXTINF:-1 group-title="Info",Nat Geo Wild HD
 http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c065e277117fb06adb2a56d49d58b/index.m3u8?token=3bb85128229e65aa9c578d32d57124fe150b0c150b1e2c322f7c652d34069bf3b25b68cece31914398d4a9b098e34b39cbcd866033053b018f1d0ca54a95399e08704f3fab-18626fcca70b4000dc2982e7126f1a45
 
+#EXTM3U
 
+#EXTINF:-1 tvg-name="Discovery HD" group-title="Info",Discovery HD
+http://89.41.180.67:49893/ghLs2zdZSnFvSS000f866d3b313e8776332c8da287676052967bc26f7cf4eff9ab9d256cc12f031be4ca/tracks-v1a1a2a3a4a5a6a7/mono.m3u8?token=0c6f66887aadf89c2eb745e4e5eeb677
 #EXTINF:-1 group-title="Sports",A Sports
 http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd77a6f2468bc7f902c1640/index.m3u8?token=754cec338f4f497f4e4114129eaa5d57b1b5393efd94ff8e4b50de559598117c45b28bb1b77c61b7e3f1604301e96e19d3ed123ed6d0139c114dd954ccadb59fc161200ace-5f5158d354b40dae799feaa12aa5701a
 #EXTINF:-1 group-title="Sports", Star Sports 2 HD
