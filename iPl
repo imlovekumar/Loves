@@ -15,7 +15,7 @@ http://xott.live:8080/mother/mother/206282
 #EXTINF:-1 group-title="Info",Discovery ID HD
 http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bbb4a47755ceed2f/index.m3u8?token=a355c704eced12fa910278898eea23bf2fbaed0e8008d618a52559392d3760fc26c2c1d6718fed8eafb29fea2d501d4f3776bdc54780ab098f5da9ec8dba54be2e1d32708aed-49d798872979ce5dcf08d5c3d8280500
 
-#EXTINF:-1 tvg-name="Discovery HD" group-title="Info",Discovery HD
+#EXTINF:-1 tvg-logo="https://github.com/maddy-mad/TV_Logos/raw/refs/heads/master/India/Discovery_HD_World.png" tvg-name="Discovery HD" group-title="Info",Discovery HD
 http://xott.live:8080/mother/mother/109974
 
 #EXTINF:-1 tvg-name="Tata IPL Hindi" group-title="Sports",Tata IPL Hindi
