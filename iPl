@@ -25,7 +25,16 @@ http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc37e124663ac61ef550d4728
 
 #EXTINF:-1 group-title="Sports", Sony Sports 1 HD
 http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618a281c5e516b6cef/index.m3u8?token=2ee25b4b75708bd5327d41469d4be3db44f18aa79c8129fb37649561b7c376144daa1d344096a0edd94c87849252f4dcd1c778eb673148b675ac4ed876cc5780e56bb6de8010-6cc1fcf78417b53dd2abc28c04c4087a
+#EXTM3U
 
+#EXTINF:-1 tvg-name="Animal Planet" group-title="Info",Animal Planet
+http://menu26.reycdn.me/ghLs2zdZSnFvSS000f866d3a365d9c76222c93a8fc627e5a8078cd6164f4e9ffa39a3e6ec1391419/video.m3u8?token=3d162a5808aaf8a4d802fdec47e88c17
+
+#EXTINF:-1 tvg-name="Marvel Kids" group-title="Kids",Marvel Kids
+http://origi-drrp-3.prcdn.cc/ghLs2zdZSnFvSS000f866d3a365d9c76222c81b2f47d60519064c57f62f5/index.m3u8?token=0d2f49ddea4bc50359e4cad8aa6c9413
+
+#EXTINF:-1 tvg-name="Star Gold HD" group-title="Movies",Star Gold HD
+http://origi-drrp-3.prcdn.cc/ghLs2zdZSnFvSS000f866d3a365d9c76222c81b2f47d60519064c57f62f5/index.m3u8?token=bbdb0d5bd69f297f35d6cf770159e94f
 
 #EXTINF:-1 group-title="Info",BBC Earth HD
 http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d221c583f761ae70ea1bfb36649ceed2f00/index.m3u8?token=14c183fbf4106786a2f397f9ecb21a1f3b5a50a6f78b65295f4b936bfba511b248faa91d2983df1e5bd719ace19cceb199ae69498b6f7373db336270f3b06627b687130183-be4368d05cefe867b4166d15eec0753a
