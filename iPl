@@ -20,6 +20,13 @@ http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c065e27
 #EXTINF:-1 tvg-name="Discovery HD" group-title="Info",Discovery HD
 https://imnoob.site/ZAP4K/play.php?id=11636
 
+
+#EXTINF:-1 tvg-name="Star Gold HD" group-title="Movies",Star Gold HD
+https://imnoob.site/ZAP4K/play.php?id=1042
+
+#EXTINF:-1 tvg-name="Animal Planet HD" group-title="Info",Animal Planet HD
+https://imnoob.site/ZAP4K/play.php?id=803
+
 #EXTINF:-1 group-title="Sports",A Sports
 http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd77a6f2468bc7f902c1640/index.m3u8?token=754cec338f4f497f4e4114129eaa5d57b1b5393efd94ff8e4b50de559598117c45b28bb1b77c61b7e3f1604301e96e19d3ed123ed6d0139c114dd954ccadb59fc161200ace-5f5158d354b40dae799feaa12aa5701a
 #EXTINF:-1 group-title="Sports", Star Sports 2 HD
