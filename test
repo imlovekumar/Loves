@@ -1,0 +1,47 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="2938" tvg-name="IPL 2025 STAR 4K UHD hevc" group-title="4K",IPL 2025 STAR 4K UHD hevc
+http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=e9d0455b35fea397b465deb7e4f644b795facf6fc4262a95c85ac381a09cb467e20a142a4d13d70e9069f4282c8503d9baf3e9252b93335a96cd7a8756f0e595bda7d7600b7b-78b122f8ce26c8b3ce06419ee18a70d5
+#EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
+http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=cd5e89b8b165d5e234d3b9d516094211e4056fb69b6afccfe4e8ba657d690bb2c9b35647328179b9c48ee43478f44ff8629933328f4191db7f577733b431ac8e38311c98de21-deed0cba02a3d8aa4676db7af7997965
+#EXTM3U
+#EXTINF:-1 tvg-id="156018" group-title="Infotainment",HISTORY TV 18 HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156018&extension=ts&play_token=fFiBibMWac
+#EXTINF:-1 tvg-id="155989" group-title="Infotainment",NAT GEO WILD FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155989&extension=ts&play_token=PmcvaZGuk5
+#EXTINF:-1 tvg-id="156011" group-title="Infotainment",NAT GEO FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156011&extension=ts&play_token=dDTyY4zBoM
+#EXTINF:-1 tvg-id="280754" group-title="Infotainment",DISCOVERY FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=280754&extension=ts&play_token=lf7YszvCWY
+#EXTINF:-1 tvg-id="156006" group-title="Infotainment",DISCOVERY JEET HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156006&extension=ts&play_token=xlMazdYPfu
+#EXTINF:-1 tvg-id="155999" group-title="Infotainment",DISCOVERY WORLD HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155999&extension=ts&play_token=vxrHnhhtJA
+#EXTINF:-1 tvg-id="156012" group-title="Infotainment",BBC EARTH HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156012&extension=ts&play_token=9tyqUGj5Cz
+#EXTINF:-1 tvg-id="156168" group-title="Infotainment",ANIMAL PLANET HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156168&extension=ts&play_token=MhY7N6bJ1W
+#EXTINF:-1 tvg-id="1540019" group-title="Infotainment",INVESTIGATION DISCOVERY
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1540019&extension=ts&play_token=BmdhzN3DDr
+#EXTINF:-1 tvg-id="1540018" group-title="Infotainment",DISCOVERY SCIENCE
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1540018&extension=ts&play_token=q5frg3pCaA
+#EXTINF:-1 tvg-id="1118064" group-title="Infotainment",BBC EARTH FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1118064&extension=ts&play_token=Lxps6dkPXf
+
+#EXTINF:-1 tvg-id="2938" tvg-name="IPL 2025 STAR 4K UHD hevc" group-title="4K",IPL 2025 STAR 4K UHD hevc
+http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=e9d0455b35fea397b465deb7e4f644b795facf6fc4262a95c85ac381a09cb467e20a142a4d13d70e9069f4282c8503d9baf3e9252b93335a96cd7a8756f0e595bda7d7600b7b-78b122f8ce26c8b3ce06419ee18a70d5
+#EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
+http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=cd5e89b8b165d5e234d3b9d516094211e4056fb69b6afccfe4e8ba657d690bb2c9b35647328179b9c48ee43478f44ff8629933328f4191db7f577733b431ac8e38311c98de21-deed0cba02a3d8aa4676db7af7997965
+#EXTINF:-1 tvg-id="1057243" group-title="SPORTS",SPORTS 18 FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1057243&extension=ts&play_token=n0McxTSQ52
+#EXTINF:-1 tvg-id="1698894" group-title="SPORTS",SPORTS 18 2 FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1698894&extension=ts&play_token=DRB8UaQKHK
+#EXTINF:-1 tvg-id="155968" group-title="SPORTS",STAR SPORTS 1 ENGLISH HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155968&extension=ts&play_token=Kdd1cnjdxe
+#EXTINF:-1 tvg-id="282674" group-title="SPORTS",STAR SPORTS HINDI 1
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=282674&extension=ts&play_token=ebA8t0hE1m
+#EXTINF:-1 tvg-id="1114582" group-title="SPORTS",STAR SPORTS 1 HINDI HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114582&extension=ts&play_token=aqnEK23WoU
+#EXTINF:-1 tvg-id="1114581" group-title="SPORTS",STAR SPORTS 2 FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114581&extension=ts&play_token=1IVpLFHpCq
+#EXTINF:-1 tvg-id="155967" group-title="SPORTS",STAR SPORTS 1 HINDI
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155967&extension=ts&play_token=XwMnpL7FpH
