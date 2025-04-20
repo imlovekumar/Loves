@@ -25,7 +25,9 @@ http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1540018&
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1118064&extension=ts&play_token=Lxps6dkPXf
 
 
-
+#EXTM3U
+#EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="SPORTS",STAR SPORTS 4K UHD hevc
+http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=5390387314e1f213340b71c84b0f2b0ae58d5411b04a1d1c16a273581ebf8a530036a1b3a02f91754bfd5b5b8b8d51259a2418e57a230c4fd8566a1d9ae06d16c1cb98b46148-4cf311db6cfcbe51ab9b401c99961bc3
 #EXTINF:-1 tvg-id="1057243" group-title="SPORTS",SPORTS 18 FHD
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1057243&extension=ts&play_token=n0McxTSQ52
 #EXTINF:-1 tvg-id="1698894" group-title="SPORTS",SPORTS 18 2 FHD
