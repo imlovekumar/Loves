@@ -65,11 +65,3 @@ http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114577&
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156010&extension=ts&play_token=OVJY4U5GfA
 #EXTINF:-1 tvg-id="156010" group-title="SPORTS",SPORTS| TEN 2
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=282671&extension=ts&play_token=rVilQuWKhE
-#EXTINF:-1 tvg-id="282671" group-title="SPORTS",SPORTS| TEN 3 FHD
-http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114578&extension=ts&play_token=a6lihwnJqk
-#EXTINF:-1 tvg-id="1114578" group-title="SPORTS",SPORTS| TEN 3 HD
-http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156024&extension=ts&play_token=URGvNntyUI
-#EXTINF:-1 tvg-id="156024" group-title="SPORTS",SPORTS| TEN 3
-http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=282672&extension=ts&play_token=8ycioIyYXu
-#EXTINF:-1 tvg-id="282672" group-title="SPORTS",SPORTS| TEN 4 FHD
-http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114579&extension=ts&play_token=OrreHaMOsW
