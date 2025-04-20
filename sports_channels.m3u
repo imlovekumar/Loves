@@ -1,0 +1,89 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="1057243" group-title="SPORTS",SPORTS| SPORTS 18 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1057243&extension=ts&play_token=n0McxTSQ52
+#EXTINF:-1 tvg-id="1057243" group-title="SPORTS",SPORTS| SPORTS 18 2 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1698894&extension=ts&play_token=DRB8UaQKHK
+#EXTINF:-1 tvg-id="1698894" group-title="SPORTS",SPORTS| SPORTS 18 3 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1698893&extension=ts&play_token=rstldcGFOk
+#EXTINF:-1 tvg-id="1698893" group-title="SPORTS",SPORTS| A SPORTS HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=281100&extension=ts&play_token=a2lHL9Z49g
+#EXTINF:-1 tvg-id="281100" group-title="SPORTS",SPORTS| D SPORTS HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=156027&extension=ts&play_token=fF83HiZRZZ
+#EXTINF:-1 tvg-id="156027" group-title="SPORTS",SPORTS| DD SPORTS
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=155983&extension=ts&play_token=7Ieil7D2r5
+#EXTINF:-1 tvg-id="155983" group-title="SPORTS",SPORTS| ASTRO CRICKET HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=315181&extension=ts&play_token=OBHhbRZtqv
+#EXTINF:-1 tvg-id="315181" group-title="SPORTS",SPORTS| TSPORTS
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=156016&extension=ts&play_token=nJLmYsrt8p
+#EXTINF:-1 tvg-id="156016" group-title="SPORTS",SPORTS| STAR SPORTS KANNADA
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=156102&extension=ts&play_token=44Pg5ko4NL
+#EXTINF:-1 tvg-id="156102" group-title="SPORTS",SPORTS| STAR SPORTS 1 ENGLISH HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=155968&extension=ts&play_token=Kdd1cnjdxe
+#EXTINF:-1 tvg-id="155968" group-title="SPORTS",SPORTS| STAR SPORTS HINDI 1 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1114582&extension=ts&play_token=aqnEK23WoU
+#EXTINF:-1 tvg-id="1114582" group-title="SPORTS",SPORTS| STAR SPORTS 1 HINDI HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=155967&extension=ts&play_token=XwMnpL7FpH
+#EXTINF:-1 tvg-id="155967" group-title="SPORTS",SPORTS| STAR SPORTS HINDI 1
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=282674&extension=ts&play_token=ebA8t0hE1m
+#EXTINF:-1 tvg-id="282674" group-title="SPORTS",SPORTS| STAR SPORTS 1 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1114580&extension=ts&play_token=1t9wQStGKr
+#EXTINF:-1 tvg-id="1114580" group-title="SPORTS",SPORTS| STAR SPORTS 1
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=282677&extension=ts&play_token=FWBpUOjQgF
+#EXTINF:-1 tvg-id="282677" group-title="SPORTS",SPORTS| STAR SPORTS 2 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1114581&extension=ts&play_token=1IVpLFHpCq
+#EXTINF:-1 tvg-id="1114581" group-title="SPORTS",SPORTS| STAR SPORTS 2 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=155966&extension=ts&play_token=gZ06giAlQV
+#EXTINF:-1 tvg-id="155966" group-title="SPORTS",SPORTS| STAR SPORTS 2
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=282673&extension=ts&play_token=oZCmmuTVJF
+#EXTINF:-1 tvg-id="282673" group-title="SPORTS",SPORTS| STAR SPORTS 3
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=155976&extension=ts&play_token=PqVQDNbY4j
+#EXTINF:-1 tvg-id="155976" group-title="SPORTS",SPORTS| STAR SPORTS 3
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=282678&extension=ts&play_token=SygeBFQ0L4
+#EXTINF:-1 tvg-id="282678" group-title="SPORTS",SPORTS| STAR SPORTS SELECT 1 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1114583&extension=ts&play_token=D9c1xcnPWz
+#EXTINF:-1 tvg-id="1114583" group-title="SPORTS",SPORTS| STAR SPORTS SELECT 1 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=155972&extension=ts&play_token=3OKXutZMBw
+#EXTINF:-1 tvg-id="155972" group-title="SPORTS",SPORTS| STAR SPORTS SELECT 1
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=282675&extension=ts&play_token=7yFvdO1rfV
+#EXTINF:-1 tvg-id="282675" group-title="SPORTS",SPORTS| STAR SPORTS SELECT 2 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1114584&extension=ts&play_token=8bI7kklnW9
+#EXTINF:-1 tvg-id="1114584" group-title="SPORTS",SPORTS| STAR SPORTS SELECT 2 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=155973&extension=ts&play_token=ZkZt0Yok0e
+#EXTINF:-1 tvg-id="155973" group-title="SPORTS",SPORTS| STAR SPORTS SELECT 2
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=282676&extension=ts&play_token=6a7eDNtbp2
+#EXTINF:-1 tvg-id="282676" group-title="SPORTS",SPORTS| STAR SPORTS TAMIL
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=155873&extension=ts&play_token=yvXgBXkO1n
+#EXTINF:-1 tvg-id="155873" group-title="SPORTS",SPORTS| TEN 1 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1114576&extension=ts&play_token=vaZzf3OEhh
+#EXTINF:-1 tvg-id="1114576" group-title="SPORTS",SPORTS| TEN 1 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=156017&extension=ts&play_token=GD7OYYdpOF
+#EXTINF:-1 tvg-id="156017" group-title="SPORTS",SPORTS| TEN 1
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=282670&extension=ts&play_token=VxneUwahzE
+#EXTINF:-1 tvg-id="282670" group-title="SPORTS",SPORTS| TEN 2 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1114577&extension=ts&play_token=7a5Uwndo67
+#EXTINF:-1 tvg-id="1114577" group-title="SPORTS",SPORTS| TEN 2 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=156010&extension=ts&play_token=OVJY4U5GfA
+#EXTINF:-1 tvg-id="156010" group-title="SPORTS",SPORTS| TEN 2
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=282671&extension=ts&play_token=rVilQuWKhE
+#EXTINF:-1 tvg-id="282671" group-title="SPORTS",SPORTS| TEN 3 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1114578&extension=ts&play_token=a6lihwnJqk
+#EXTINF:-1 tvg-id="1114578" group-title="SPORTS",SPORTS| TEN 3 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=156024&extension=ts&play_token=URGvNntyUI
+#EXTINF:-1 tvg-id="156024" group-title="SPORTS",SPORTS| TEN 3
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=282672&extension=ts&play_token=8ycioIyYXu
+#EXTINF:-1 tvg-id="282672" group-title="SPORTS",SPORTS| TEN 4 FHD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1114579&extension=ts&play_token=OrreHaMOsW
+#EXTINF:-1 tvg-id="1114579" group-title="SPORTS",SPORTS| HUB SPORTS 1 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1110667&extension=ts&play_token=nOadSWWJSr
+#EXTINF:-1 tvg-id="1110667" group-title="SPORTS",SPORTS| HUB SPORTS 2 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1110666&extension=ts&play_token=mDdThn78PW
+#EXTINF:-1 tvg-id="1110666" group-title="SPORTS",SPORTS| HUB SPORTS 3 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1110665&extension=ts&play_token=cJgVajHkHf
+#EXTINF:-1 tvg-id="1110665" group-title="SPORTS",SPORTS| MY SUPERSPORTS 1 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1111034&extension=ts&play_token=cJai8LW4G5
+#EXTINF:-1 tvg-id="1111034" group-title="SPORTS",SPORTS| MY SUPERSPORTS 2 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1111033&extension=ts&play_token=DLL8yMa0W1
+#EXTINF:-1 tvg-id="1111033" group-title="SPORTS",SPORTS| MY SUPERSPORTS 3 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1111032&extension=ts&play_token=8QMfH80QI7
+#EXTINF:-1 tvg-id="1111032" group-title="SPORTS",SPORTS| MY SUPERSPORTS 4 HD
+http:\/\/magonlyx.abcott.me:80\/play\/live.php?mac=00:1A:79:8F:AF:E3&stream=1111031&extension=ts&play_token=yYHq1603zt
