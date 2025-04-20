@@ -1,3 +1,5 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="900" tvg-name="DISNEY JR 4K cc" group-title="kidds",DISNEY JR 4K cc
-http://kdz-prm.packetcdn.me:8273/8be1228d28529b5fbbb8bc3a2cd4670e5a72a661943f0d352b6b3bc7/index.m3u8?token=4d52899b98d69f3185596926a19cf74210c83318c8e93f23fb6eb5971fd583800ddf2a2d3f16d05add9e3bbec19cec94005d9cffe28fa76de94c8fe12d563f4c4b7d2dc38c-dcc85298c4129b2246848b734085d213
+#EXTINF:-1, Playlist 1
+https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/4k
+#EXTINF:-1, Playlist 2
+https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/iPl
