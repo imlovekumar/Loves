@@ -26,8 +26,8 @@ http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1118064&
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1057243&extension=ts&play_token=n0McxTSQ52
 #EXTINF:-1 tvg-id="1698894" group-title="Sports" tvg-logo="https://raw.githubusercontent.com/amjiddader/tv_logo/master/India/Sports18.png",Star Sports 2 HD Hindi
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1698894&extension=ts&play_token=DRB8UaQKHK
-#EXTINF:-1 tvg-id="1114581" group-title="Sports",Sky Sports UK
-http://magonlyx.abcott.me/play/live.php?mac=00:1A:79:8F:AF:E3&stream=83454&extension=ts&play_token=vBXzx2iy12
+#EXTINF:-1 tvg-id="1114581" group-title="Sports",SKY SPORTS CRICKET
+http://magonlyx.abcott.me/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1458675&extension=ts&play_token=0RLxBURRix
 #EXTINF:-1 tvg-id="155968" group-title="Sports" tvg-logo="https://raw.githubusercontent.com/amjiddader/tv_logo/master/India/Star_Sports_1.png",STAR SPORTS 1 HD ENG
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155968&extension=ts&play_token=Kdd1cnjdxe
 #EXTINF:-1 tvg-id="282674" group-title="Sports" tvg-logo="https://raw.githubusercontent.com/amjiddader/tv_logo/master/India/Star_Sports_1.png",STAR SPORTS 1 HD HINDI
