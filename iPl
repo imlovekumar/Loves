@@ -1,8 +1,8 @@
 #EXTM3U
 #EXTINF:-1 tvg-id="2938" tvg-name="IPL 2025 STAR 4K UHD hevc" group-title="4K",IPL 2025 STAR 4K UHD hevc
-http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=c6d01e47a9da88afcb9a7771627c13abbebd205f62036b4a2667682b7dde9cf6de90802f28d8c3999779f302b04a5eba0929471a841fab7a2e56030cb4715a745a13cdf9-694a66d4e20968befc3fc43bb05cc802
+http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=502372f361bed6436908e0d254529084355f6af7dcf2f6c4972344973b3c10d7cd4d992c4b0814b127de93ac3776e4cbb3160dbcf4cfdac131f830f67ef237bd6b6ed8f0e161-05d8fcc41f723d4d4e50c82c64bbd26b
 #EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=594e0ab0227533f7ed1d6b0b4ecfc1d0abb91e9c0386a6fec0c729b2849d26ab43d1ac0f8a94a1e47e3550d22d5daa0224f1c9d6f5d73c9247cf0e4bdd16ac63c8af9c88-27bf1a66d39156eec4fc18a341cca721
+http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=10158cee68be8ce6c02c45f71e05c611245fa6e58cf12595377ca07380067cf801ced23072647b569e2adca2868788058625d6189e4c48413d0997668905029fe4f12eb9eeaa-ba6418acfd46d6da9737da4dcb395f0b
 #EXTM3U
 #EXTINF:-1 tvg-id="156018" group-title="Infotainment" tvg-logo="https://raw.githubusercontent.com/amjiddader/tv_logo/master/India/History_TV18.png",HISTORY TV 18 HD
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156018&extension=ts&play_token=fFiBibMWac
