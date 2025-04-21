@@ -32,3 +32,18 @@ http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155968&e
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=282674&extension=ts&play_token=ebA8t0hE1m
 #EXTINF:-1 tvg-id="1114581" group-title="Sports",STAR SPORTS 2 FHD Eng
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114581&extension=ts&play_token=1IVpLFHpCq
+#EXTM3U
+#EXTINF:-1 tvg-id="284" tvg-name="NATIONAL GEOGRAPHIC HD" group-title="Knowledge",NATIONAL GEOGRAPHIC HD
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c06482f7a19e80ea3bbae7553d0f52363a8fcaabc/index.m3u8?token=28bcd28cb9079285478a7df2184ab3a7580fc91ed963846e6909042a98ead72f3422059983e003b7a4cba6fd2228b47027f2032b724e72d9dfa775c6a7fd0bcfe40e150fb5-7f8c3a93738eaa1a5ea154362e12bd49
+#EXTINF:-1 tvg-id="285" tvg-name="NAT GEO WILD HD." group-title="Knowledge",NAT GEO WILD HD.
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c065e277117fb06adb2a56d49d58b/index.m3u8?token=34075dce9bd5bc86bd33d1a43fbe52eaf69d54561395ff1057692ed0ccfb6ead3b66c8e92285b4eee33c1c8bb8ce0f7af0896b24190c4a088a71cafb1bde757e97027be868-e622123aa8deab7dcbaae44e277daae9
+#EXTINF:-1 tvg-id="286" tvg-name="HISTORY TV18 4K" group-title="Knowledge",HISTORY TV18 4K
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861962401552f6601fb05b2cfd96d49d5/index.m3u8?token=31c867f45e46f8902b9b4719c952282fe99c35e3cfdd830e9b267108a8c2765267b3710075ae52dc562177147f61dc273ad60655934b2335c2a99be4be8b708b0a888ac85d-b0b5fa4a3586954b0a98d8b21aa751b9
+#EXTINF:-1 tvg-id="287" tvg-name="DISCOVERY ID INDIA 4K*" group-title="Knowledge",DISCOVERY ID INDIA 4K*
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bbb4a47755ceed2f/index.m3u8?token=e966b0f55b70c2daeb45abc7274f245dc4572b7bc4a16db3db4bd7f27ff47e40069f467e903625366e3cd2198d1ab74e1b395a51b15cf6ee7e91c14adb0541133d5c25e69b-aecd33418dfa1ef06d6f839d36ff9953
+#EXTINF:-1 tvg-id="288" tvg-name="TRAVEL XP 4K" group-title="Knowledge",TRAVEL XP 4K
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc47c1c4272b361863d0d4924/index.m3u8?filter=tracks:v1a2&token=db89525f421e048f640ed084e6c6ea36b84d52c7d37f5c9eee890258109ad8598bdad40f590632ff870a176bf178194bb063c09ff0a2642575de864ec03c20d4dc2c6269c3-3891738cd0119df43f5b17c632102552
+#EXTINF:-1 tvg-id="289" tvg-name="SONY BBC EARTH HD*" group-title="Knowledge",SONY BBC EARTH HD*
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d221c583f761ae70ea1bfb36649ceed2f00/index.m3u8?token=8657255fbe4be7e566d4e79466c1bf39fa0de2ab88c3355fbd8cf7633e1ca69d137c4d71986bf5704449f6f73fd2635dc245cb856544fee3c7aacb25d5704ef0e62e625019-4c9dd6193fd09dd241ae2e7cc3c97136
+#EXTINF:-1 tvg-id="290" tvg-name="ANIMAL PLANET HD" group-title="Knowledge",ANIMAL PLANET HD
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619f231b4c217807f41da5b0a4665ed9e1/index.m3u8?token=b67fb137cc1f912fd599ea5592f7ba4244b7d3d97dbde2470e37a58f69ca410f850e6fe7dbbf3f1cfa6caf8858e68251c807246c552f777983daf6e5fe5ae90e8e8d77b4ce-26d8a6078f5af2e5bf6cfb44da0811d5
