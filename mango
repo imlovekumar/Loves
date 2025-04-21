@@ -1,4 +1,3 @@
-#EXTM3U
 #EXTINF:-1 tvg-id="156018" group-title="Infotainment" tvg-logo="https://raw.githubusercontent.com/amjiddader/tv_logo/master/India/History_TV18.png",HISTORY TV 18 HD
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156018&extension=ts&play_token=fFiBibMWac
 #EXTINF:-1 tvg-id="155989" group-title="Infotainment" tvg-logo="https://raw.githubusercontent.com/amjiddader/tv_logo/master/India/Nat_Geo_Wild.png",NAT GEO WILD FHD
