@@ -3,7 +3,7 @@
 http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=502372f361bed6436908e0d254529084355f6af7dcf2f6c4972344973b3c10d7cd4d992c4b0814b127de93ac3776e4cbb3160dbcf4cfdac131f830f67ef237bd6b6ed8f0e161-05d8fcc41f723d4d4e50c82c64bbd26b
 #EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
 http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=10158cee68be8ce6c02c45f71e05c611245fa6e58cf12595377ca07380067cf801ced23072647b569e2adca2868788058625d6189e4c48413d0997668905029fe4f12eb9eeaa-ba6418acfd46d6da9737da4dcb395f0b
-#EXTM3U
+
 #EXTINF:-1 tvg-id="156018" group-title="Infotainment" tvg-logo="https://raw.githubusercontent.com/amjiddader/tv_logo/master/India/History_TV18.png",HISTORY TV 18 HD
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156018&extension=ts&play_token=fFiBibMWac
 #EXTINF:-1 tvg-id="155989" group-title="Infotainment" tvg-logo="https://raw.githubusercontent.com/amjiddader/tv_logo/master/India/Nat_Geo_Wild.png",NAT GEO WILD FHD
@@ -34,7 +34,7 @@ http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155968&e
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=282674&extension=ts&play_token=ebA8t0hE1m
 #EXTINF:-1 tvg-id="1114581" group-title="Sports",STAR SPORTS 2 FHD Eng
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114581&extension=ts&play_token=1IVpLFHpCq
-#EXTM3U
+
 #EXTINF:-1 tvg-id="1295" tvg-name="TRAVEL XP 4K UHD hevc" group-title="Knowledge",TRAVEL XP 4K UHD hevc
 http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc47c1c4272b361863d0d352b6b0dec15/index.m3u8?token=6555ff93b1a6643313acdd3bd3817cce25e04bcc502bb31fa1c714239e7aad4fe0109eda098000f659c18ea4e35c461772b21362204fa471ac7805f68cc8aa8412e92a8072ba-dd85ad24f0d451f7368fd470f1effb84
 #EXTINF:-1 tvg-id="172" tvg-name="DISCOVERY SCIENCE INDIA" group-title="Knowledge",DISCOVERY SCIENCE INDIA
@@ -57,4 +57,3 @@ http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc47c1c4272b361863d0d4924
 http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d221c583f761ae70ea1bfb36649ceed2f00/index.m3u8?token=2f8461db44cfcd34f0de29e0413d8955d039f269f5825ee8653522de6e89a9f4c895d8f7c479771255334d2415b35cedb1c2d2c0e2af9ee440917073372c52a4ba01dc735c3f-7f365bf106786b753b5865409aa7fadf
 #EXTINF:-1 tvg-id="290" tvg-name="ANIMAL PLANET HD" group-title="Knowledge",ANIMAL PLANET HD
 http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619f231b4c217807f41da5b0a4665ed9e1/index.m3u8?token=b9249f81dba87a4c445b95fe4cf4310e127fc7770f72dcc8952c2fd1efa29253dfe7f24391b785835e7d20bc5751ba31359cf76c6df8bc211d3270848932ca2fe7d376c508a8-2ca95082cf003e4d961b573be9a58030
-#
