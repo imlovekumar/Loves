@@ -2,7 +2,7 @@ import requests
 import base64
 
 # GitHub Config
-GITHUB_TOKEN = "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"  # Add your GitHub token here
+GITHUB_TOKEN = "woooowwwwwe"  # Add your GitHub token here
 GITHUB_OWNER = "imlovekumar"
 GITHUB_REPO = "Loves"
 GITHUB_FILE_PATH = "iPl"
