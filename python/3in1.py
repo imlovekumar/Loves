@@ -9,8 +9,8 @@ GITHUB_FILE_PATH = "iPl"
 GITHUB_COMMIT_MSG = "Update IPTV M3U playlist"
 
 # URLs to fetch
-url1 = "https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/4k"
-url2 = "https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/mango"
+url1 = "https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/mango"
+url2 = "https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/4k"
 url3 = "https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/info"
 url4 = "https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/sony"
 
