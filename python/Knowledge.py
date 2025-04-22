@@ -9,7 +9,7 @@ MAC_ADDRESS = "00:1A:79:B6:D0:06"
 SN = "E7327B057414E"
 
 # GitHub Config
-GITHUB_TOKEN = "woooooowwww"
+GITHUB_TOKEN = "woww"
 GITHUB_OWNER = "imlovekumar"
 GITHUB_REPO = "Loves"
 GITHUB_FILE_PATH = "info"
