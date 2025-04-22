@@ -104,7 +104,7 @@ def get_playback_link(token, cmd):
 
 
 def build_m3u_playlist(channels):
-    lines = ["#EXTM3U"]
+    lines = [""]
     for channel in channels:
         lines.append(
             f'#EXTINF:-1 tvg-id="{channel["number"]}" tvg-name="{channel["name"]}" group-title="{channel["group_title"]}",{channel["name"]}'
