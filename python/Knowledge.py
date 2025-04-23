@@ -146,7 +146,7 @@ def update_github_file(token, owner, repo, file_path, new_content, commit_messag
 # --- Main Flow ---
 def main():
     try:
-        group_input = "1295:Knowledge,172:Knowledge,828:Knowledge,219:Knowledge,284:Knowledge,285:Knowledge,286:Knowledge,287:Knowledge,288:Knowledge,289:Knowledge,290:Knowledge"
+        group_input = "284:Knowledge,285:Knowledge,287:Knowledge,289:Knowledge,291:Knowledge"
         #group_input = input("Enter Channel Number and Group Title (e.g., 101:sports,102:news): ").strip()
         channel_groups = {}
         for pair in group_input.split(","):
@@ -191,7 +191,7 @@ def main():
 
         playlist = build_m3u_playlist(channels)
         print("\nGenerated M3U Playlist:\n")
-        print(playlist)
+        #print(playlist)
 
         update_github_file(
             token=GITHUB_TOKEN,
