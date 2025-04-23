@@ -29,7 +29,7 @@ http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155968&e
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=282674&extension=ts&play_token=ebA8t0hE1m
 #EXTINF:-1 tvg-id="1114581" group-title="Sports",STAR SPORTS 2 FHD Eng
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114581&extension=ts&play_token=1IVpLFHpCq
-EXTINF:-1 tvg-id="111" group-title="Movies",Test
+#EXTINF:-1 tvg-id="111" group-title="Movies",Test
 https://drive.google.com/uc?export=download&id=1D0VYbNbHPM8jCrn3qnwhfrsb2DLGn4Ca
 
 
