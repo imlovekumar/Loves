@@ -29,3 +29,5 @@ http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155968&e
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=282674&extension=ts&play_token=ebA8t0hE1m
 #EXTINF:-1 tvg-id="1114581" group-title="Sports",STAR SPORTS 2 FHD Eng
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114581&extension=ts&play_token=1IVpLFHpCq
+EXTINF:-1 tvg-id="100" group-title="Kids",pogo Hindi
+https://amg01448-samsungin-pogo-samsungin-dzccl.amagi.tv/playlist/amg01448-samsungin-pogo-samsungin/playlist.m3u8
