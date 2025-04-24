@@ -1,5 +1,5 @@
 #EXTM3U
 #EXTINF:-1 tvg-id="hotstar-ipl" tvg-name="Hotstar IPL 2025" tvg-logo="https://example.com/logo.png" group-title="Sports",Hotstar IPL 2025
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)
-#EXTVLCOPT:http-cookie=hdntl=exp=1745508094~raf=1745506894~acl=/hls/live/2117033/inallow-ipl-2025/hin/1540040300/15mindvrm014edc70e09e48478286e1c48856aa608f24april2025/master_ap~ttl=1800~type=paid~data=ip=dT30SnXytyI3xTNH1JUhbISQO50fQJFewnRY6jG5OsirZg6iubQ4uKk-userid=hhrJO3aUsnagC1YhPGuhTh6iKZFpswN4rNQyGiDYldPH-did=JKg73xIBwoGeiLo2utCTVeaaTCr9fCdA6uUrCy7Zl4SmrLfDEJTpUZz-cc=in-de=2-pl=ios-ap=25.02.24.4311-ut=paid-~hmac=320ed5f1a62c81fbe6eff4d09a9eba6b3f34800eabe89192669803108cd55f6b
-https://live-bpk.cdn.hotstar.com/hls/live/2117033/inallow-ipl-2025/hin/1540040300/15mindvrm014edc70e09e48478286e1c48856aa608f24april2025/master_ap_1080_6.m3u8
+#EXTVLCOPT:http-cookie=hdntl=exp=1745505516~raf=1745504316~acl=/hls/live/2117033/inallow-ipl-2025/hin/1540040300/15mindvrm014edc70e09e48478286e1c48856aa608f24april2025/master_ap~ttl=1800~type=paid~data=ip=dT30SnXytyI3xTNH1JUhbISQO50fQJFewnRY6jG5OsirZg6iubQ4uKk-userid=hhrJO3aUsnagC1YhPGuhTh6iKZFpswN4rNQyGiDYldPH-did=JKg73xIBwoGeiLo2utCTVeaaTCr9fCdA6uUrCy7Zl4SmrLfDEJTpUZz-cc=in-de=2-pl=ios-ap=25.02.24.4311-ut=paid-~hmac=0f8a2b7e24c08721549f606c765cfae826c203a1671d798afe85ac537e49c574
+https://absicka6aqdgaaayaaaaaaaaaaaaa.live-cf.cdn.hotstar.com/hls/live/2117033/inallow-ipl-2025/hin/1540040300/15mindvrm014edc70e09e48478286e1c48856aa608f24april2025/master_ap_1080_6.m3u8
