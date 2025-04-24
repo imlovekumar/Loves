@@ -29,23 +29,24 @@ http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155968&e
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=282674&extension=ts&play_token=ebA8t0hE1m
 #EXTINF:-1 tvg-id="1114581" group-title="Sports",STAR SPORTS 2 FHD Eng
 http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114581&extension=ts&play_token=1IVpLFHpCq
-#EXTINF:-1 tvg-id="111" group-title="Movies",Test
-https://drive.google.com/uc?export=download&id=1D0VYbNbHPM8jCrn3qnwhfrsb2DLGn4Ca
-#EXTINF:-1 tvg-id="111" group-title="Sports",CricFlix
+#EXTINF:-1 tvg-id="111" group-title="Sports",CricFlix 1
 https://backend.urtractorparts.us/livestream2/index.m3u8
+#EXTINF:-1 tvg-id="111" group-title="Sports",CricFlix 2
+https://backend.urtractorparts.us/livestream1/index.m3u8
+
 
 #EXTINF:-1 tvg-id="2938" tvg-name="IPL 2025 STAR 4K UHD hevc" group-title="4K",IPL 2025 STAR 4K UHD hevc
-http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=e41193bcb00b44b713d58bb7883ef07088693f9eebd678cc57cf70857e28a433708adbd7ca2d0c186fc6ffe45b2754a6529f9b7f8f262760b90f39a1383765086648b341aca7-96145d8258fb6ba6a9546dbbceb5392b
+http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=8ee75fc61f5140ca9d1246d4a0a77921a9ffffd592f51263ac333c0ac37c78aaf0dcc48e6fb312dd61d7e0058127e7434e47643812ca4ab439e92c1a9e3298d9d8044f294c12-21daae120e8ed7996cd1fa3b71f48dba
 #EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=4db9fea67baeb9dd2213c62954b0c75d69e4be5bf0db2c3b12dc5a5b3c53b42b2ab533f730545a0c067944c48ff3716e06141d65ad6e27b86b0310d97539b795e8adc895aef2-0c001b0ca73a348f66b08289a7d12a3c
+http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=fa2aad82c138a409ef745d8d95f08806301dccb8c55ec9d05862572a96dd49c0bd1ab5559ea3a11adae228bc029e16160ac2c803409631b0f7f129da37696a7f38b738e721ae-aff9a9413fe800a063ccea2b01778030
 
 #EXTINF:-1 tvg-id="284" tvg-name="NATIONAL GEOGRAPHIC HD" group-title="Knowledge",NATIONAL GEOGRAPHIC HD
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c06482f7a19e80ea3bbae7553d0f52363a8fcaabc/index.m3u8?token=2fc0239bcb39c32a85efc47f9f9f69942b8901a0e7a78671fc9043f3d68a0d594bfce04b46aaba433b0cbc2dc219b6e3798ee37fbcb05e73df6c38b98632399d74c683e2d96f-a2a318bf81ff0d1607e99dc9e989240b
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c06482f7a19e80ea3bbae7553d0f52363a8fcaabc/index.m3u8?token=997afcafca4cad9c7b439a5f4f84cccf917fcd0a6770a7fcc984625daaa79582060baaa3b7bee29678ef05ed9592a14c4e1512aa37b3fd513218d6ac795008d365cb9d34530d-72e7b3202305fb833ede18af60f5c9a7
 #EXTINF:-1 tvg-id="285" tvg-name="NAT GEO WILD HD." group-title="Knowledge",NAT GEO WILD HD.
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c065e277117fb06adb2a56d49d58b/index.m3u8?token=fc211faa78651b9b420be43ed572b715a7adf020921d20448c0438ee5e4e7e6d853fb879e1cae299cf874fa269d126baaed239e7d2d5651f78afd1ed980b1d8850daed9179cd-558ada329bb044764e9bca0d708fd2db
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c065e277117fb06adb2a56d49d58b/index.m3u8?token=99be51d5b68b6a2ebc1bfe7ff54f37d950fba63531cd76d04243aebe811a2f1808bfa85d1d165efa4240f33c25d0866467e92df5e7c0031d776f4d9c7d1e23dc3ae0eab5dfc5-b6341369a14104f604b3ef66c2713159
 #EXTINF:-1 tvg-id="287" tvg-name="DISCOVERY ID INDIA 4K*" group-title="Knowledge",DISCOVERY ID INDIA 4K*
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bbb4a47755ceed2f/index.m3u8?token=a5c5e31be8b4d97ea27b5bdb280666b9a5bb13508d26334ce420eb773eb8f8ba53bcdaf87e7427b81cacb0264345f7ba4e0c319d05a59ec174a5c71d30a1c5d0a1e1f69d874e-631c04170e0438b9b93ef07c955b86c1
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bbb4a47755ceed2f/index.m3u8?token=16600ae44dd6d07e3b78315893276bca19889eb2b39d0133d243cd0c85ff0d9ea09f1a6bde8ebbdbf8d80f436d70681fa44fdd68db5eb8aa7007a4cec5ff4de3d10d5d4f6821-79dc738a959b8ebc3a2bbaf93141fbef
 #EXTINF:-1 tvg-id="289" tvg-name="SONY BBC EARTH HD*" group-title="Knowledge",SONY BBC EARTH HD*
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d221c583f761ae70ea1bfb36649ceed2f00/index.m3u8?token=574dff701f42bda2d30dd23a54f8233ff60194dd64a6bc72f87c2c042fc2a0c4bdaf01ed1fbe5501cec03b458320f482f99998ff07cd83b19d4c96d623d4f5ac0e524958277b-491dd65096fd310e4fd139db548f8b3c
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d221c583f761ae70ea1bfb36649ceed2f00/index.m3u8?token=181181979503e98cf90500c9d392c0258420cb9c9a39c537021fdfe77879697fc91f899463eb6285065a10fa0f1c9a7977bf9db42af56345513812c6a6797f4a2a8062b81dcd-f1a67048ae540ee6cbb9847c170ec22c
 #EXTINF:-1 tvg-id="291" tvg-name="FOX LIFE HINDI 4K" group-title="Knowledge",FOX LIFE HINDI 4K
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b86198220a5e2c7d1ee10eacbacf/index.m3u8?token=6d6317aebd3f12602b41cc5a80d49b2fa71df70f1582676fff9b9669b14b7a49333a97434748ec5b8a5f03b82cc998bf5cec87eb1cedc6cc59d5259b50e789381175a73e0261-e353f5192448c4a36332b4301bfe2617
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b86198220a5e2c7d1ee10eacbacf/index.m3u8?token=69446896c6f571a76d293d2c373590bb3c3c1ac3b4781bdc2f808667bc2f8acb703234633d6c6c93326c1ce0dedbeebab38ee8803587f67764a7c318c91059b582fdd78b9b3e-9a58d364481024157f1a8debe9c15bb8
