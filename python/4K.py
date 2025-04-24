@@ -84,8 +84,7 @@ def find_channel_by_number(token, user_input_number):
             return {
                 "number": channel.get("number"),
                 "name": channel.get("name"),
-                "cmd": channel.get("cmd"),
-                "logo": channel.get("logo")
+                "cmd": channel.get("cmd")
             }
     return None
 
@@ -108,7 +107,7 @@ def build_m3u_playlist(channels):
     lines = [""]
     for channel in channels:
         lines.append(
-            f'#EXTINF:-1 tvg-id="{channel["number"]}" tvg-logo="{channel["logo"]}" tvg-name="{channel["name"]}" group-title="{channel["group_title"]}",{channel["name"]}'
+            f'#EXTINF:-1 tvg-id="{channel["number"]}" tvg-name="{channel["name"]}" group-title="{channel["group_title"]}",{channel["name"]}'
         )
         lines.append(channel["url"])
     return "\n".join(lines)
