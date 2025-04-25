@@ -35,9 +35,9 @@ https://backend.urtractorparts.us/livestream2/index.m3u8
 https://backend.urtractorparts.us/livestream1/index.m3u8
 
 #EXTINF:-1 tvg-id="2938" tvg-name="IPL 2025 STAR 4K UHD hevc" group-title="4K",IPL 2025 STAR 4K UHD hevc
-http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=a11f24c49be502f02aa85d21758f761d3bcfcace896389dc7dccbef5dc50c85da38378b43574833801b542f11286df31723dcd5370805c943afa6dba8e5704147fe0155680e5-fed83843ee5ba8f5809f831bf31645d2
+http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=a64619a5eb05bed90db830568cfc8a923bd138f367c4d58f6120c5b016c0ff96338eeb429f59cf31966216840d2e36ad592d241b662f4972d79b9a72fdc1f1fcf930cb37a973-fc242b194a7cc17cc9645a6905510eae
 #EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=4835ddf586afd94cd85cd8d84f7ec55c38ce1d28fff84838084044ab947718faf7b4965a7b639aa429f993ca564829013f6745c8c50d86a46fac77d8a4cebf8fd60b193d84e6-feeaa465fad8034e1a03cc1dadc91f56
+http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=d88a760e4f9f9f1e2135c94380a2c7a4a659faaecffe89bf032e3742176ce92d02e3007c8a510d5588b406a3768eae8588d98069c4c7e16a7e6b44426bc7ede32e5499cf7a85-838ad2b3cda06abb88f58ba2ba1e4354
 
 #EXTINF:-1 tvg-id="284" tvg-name="NATIONAL GEOGRAPHIC HD" group-title="Knowledge",NATIONAL GEOGRAPHIC HD
 http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c06482f7a19e80ea3bbae7553d0f52363a8fcaabc/index.m3u8?token=33b94dcadcffb9dc7f7a4693a2769bd23a6d544a13a9112f0316ecb8f5ba6dda0754c5ce255d6d83ecc64b9654d191b4bd762ed6276331eec7c9f01f4cac7bc7ba5636638022-cdb5ca8d52f42ede98f3f760224eccef
