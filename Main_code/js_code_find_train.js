@@ -1,5 +1,5 @@
 ( async () => {
-    const user_data = {user_data_js};
+    const user_data = __user_data_js__;
 
     function classTranslator(e) 
     {
