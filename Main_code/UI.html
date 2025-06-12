@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>IRCTC Launcher</title>
+        <style>
+            * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            }
+
+            html, body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: relative;
+            }
+
+            /* Blurred background */
+            body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(https://github.com/imlovekumar/Loves/blob/main/banner.jpg?raw=true) no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(8px);
+            opacity: 0.5;
+            z-index: -1;
+            }
+
+            /* Foreground content */
+            .container {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            }
+
+            .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            }
+
+            .logo-row {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            }
+
+            .logo-separator {
+            width: 1px;
+            height: 80px;
+            background-color: #213d77;
+            border-radius: 1px;
+            }
+
+
+            .date {
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 5px 15px;
+            border-radius: 6px;
+            }
+
+            .clock {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 5px 15px;
+            border-radius: 6px;
+            }
+
+            .railway-heading {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            line-height: 1.42857143;
+            letter-spacing: .35px;
+            text-align: center;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-family: Body, Quicksand, sans-serif;
+            color: #213d77;
+            font-size: 3rem;
+            font-weight: 600;
+            display: block;
+            margin-top: 0px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            }
+
+
+            .button {
+            background-color: #fb792b;
+            color: #fff;
+            padding: 16px 32px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            }
+
+            .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            }
+
+            .button:active {
+            transform: scale(0.98);
+            }
+        </style>
+        </head>
+        <body>
+        <div class="container">
+            <div class="railway-heading">PUNISHER AUTOMATION</div>
+            <div class="logo-row">
+        <img class="logo" src="https://github.com/imlovekumar/Loves/blob/main/icon.png?raw=true" alt="IRCTC Logo" />
+        <div class="logo-separator"></div>
+        <img class="logo" src="https://github.com/imlovekumar/Loves/blob/main/secondry-logo.png?raw=true" alt="IRCTC Logo" />
+        </div>
+        <div class="date" id="date">Loading date...</div>
+        <div class="clock" id="clock">--:--:--</div>
+        <button class="button" onclick="window.location.href='https://www.irctc.co.in/nget/train-search'">
+            🚂 Go to IRCTC
+        </button>
+        </div>
+
+        <script>
+            function updateClockAndDate() {
+            const now = new Date();
+
+            // Clock
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+
+            // Date
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                            'July', 'August', 'September', 'October', 'November', 'December'];
+            const day = days[now.getDay()];
+            const date = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            document.getElementById('date').textContent = `${day}, ${date} ${month} ${year}`;
+            }
+
+            setInterval(updateClockAndDate, 1000);
+            updateClockAndDate();
+        </script>
+        </body>
+        </html>
