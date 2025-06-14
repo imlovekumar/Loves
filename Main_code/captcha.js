@@ -1,41 +1,47 @@
 (async () => {
-
-    // === Configuration ===
-    const config = {
-        typingOptions: {
-            minDelay: 15,                  // Minimum typing delay per character (ms)
-            maxDelay: 30                   // Maximum typing delay per character (ms)
-        }
-    };
     
     // === Utility: Simulate human-like typing ===
-    function simulateTyping(el, text, options = {}) {
-        const { minDelay = 20, maxDelay = 40 } = options;
-        const triggerKey = (type, char) => {
-            const evt = new KeyboardEvent(type, {
-                key: char,
+    async function simulateMouseInteraction(element) {
+        const rect = element.getBoundingClientRect();
+        const x = rect.left + Math.random() * rect.width;
+        const y = rect.top + Math.random() * rect.height;
+
+        const events = ["mouseover", "mouseenter", "mousemove", "mousedown", "mouseup", "click"];
+
+        for (const type of events) {
+            const event = new MouseEvent(type, {
                 bubbles: true,
-                cancelable: true
+                cancelable: true,
+                view: window,
+                clientX: x,
+                clientY: y,
             });
-            el.dispatchEvent(evt);
-        };
-        const triggerInput = () => {
-            el.dispatchEvent(new Event('input', { bubbles: true }));
-        };
-        return (async () => {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            el.focus({ preventScroll: true });
-            el.value = '';
-            for (const char of text) {
-                triggerKey('keydown', char);
-                triggerKey('keypress', char);
-                el.value += char;
-                triggerInput();
-                triggerKey('keyup', char);
-                await new Promise(res => setTimeout(res, minDelay + Math.random() * (maxDelay - minDelay)));
-            }
-        })();
+            element.dispatchEvent(event);
+            await new Promise(res => setTimeout(res, Math.random() * 60 + 40));
+        }
+    
     }
+    async function typeTextHumanLike(e, text) {
+        if (!e || typeof text !== "string") return;
+
+        await simulateMouseInteraction(e);  // Hover + Click
+        e.focus();
+        e.value = "";
+        e.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
+
+        for (const char of text) {
+            e.dispatchEvent(new KeyboardEvent("keydown", { key: char, bubbles: true }));
+            e.value += char;
+            e.dispatchEvent(new InputEvent("input", { bubbles: true, cancelable: true, data: char, inputType: "insertText" }));
+            e.dispatchEvent(new KeyboardEvent("keyup", { key: char, bubbles: true }));
+
+            await new Promise(res => setTimeout(res, Math.random() * 100 + 50));
+        }
+
+        e.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    function addDelay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
     // === Utility: Simulate fast & stealthy click ===
     function simulateClick(el) {
@@ -87,7 +93,7 @@
             if (i && s) 
             {   
                 console.log("Captcha Typings !");
-                await simulateTyping(i, s,config.typingOptions);
+                await typeTextHumanLike(i, s);
                 setTimeout(() => 
                     {
                         const submit = document.querySelector("#review > div.col-lg-9.col-md-9.col-sm-12.remove-padding > form > div.form-group.col-xs-12.hidden-xs > div > button.btnDefault.train_Search");
