@@ -21,17 +21,11 @@
         __select_pay__
   }
 
-  function on_paytm() {
-    // your payment option selection here
-        __on_paytm__
-  }
-
   // Flags to prevent re-execution
   window.hasRuntrain_list = window.hasRuntrain_list || false;
   window.hasRunpsgninput = window.hasRunpsgninput || false;
   window.hasRunFinalCaptcha = window.hasRunFinalCaptcha || false;  
   window.hasRunSelectPay = window.hasRunSelectPay || false;
-  window.hasRunOnPaytm = window.hasRunOnPaytm || false;
   
 
   function checkPage() {
@@ -52,10 +46,6 @@
     else if (url.includes('bkgPaymentOptions') && !window.hasRunSelectPay ) {
       window.hasRunSelectPay = true;
       select_pay();
-    } 
-    else if (url.includes('paytmpayments') && !window.hasRunOnPaytm ) {
-      window.hasRunOnPaytm = true;
-      on_paytm();
     }
   }
   // Watch every second
