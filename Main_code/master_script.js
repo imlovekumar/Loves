@@ -27,39 +27,46 @@
   }
 
   // Flags to prevent re-execution
-  let hasRuntrain_list = false;
-  let hasRunpsgninput = false;
-  let hasRunFinalCaptcha = false;
-  let hasRunSelectPay = false;
-  let hasRunOnPaytm = false;
+  window.hasRuntrain_list = window.hasRuntrain_list || false;
+  window.hasRunpsgninput = window.hasRunpsgninput || false;
+  window.hasRunFinalCaptcha = window.hasRunFinalCaptcha || false;  
+  window.hasRunSelectPay = window.hasRunSelectPay || false;
+  window.hasRunOnPaytm = window.hasRunOnPaytm || false;
   
 
   function checkPage() {
     const url = window.location.href;
 
-    if (url.includes('train-list') && !hasRuntrain_list ) {
-      hasRuntrain_list = true;
+    if (url.includes('train-list') && !window.hasRuntrain_list ) {
+      window.hasRuntrain_list = true;
       train_list();
     } 
-    else if (url.includes('psgninput') && !hasRunpsgninput ) {
-      hasRunpsgninput = true;
+    else if (url.includes('psgninput') && !window.hasRunpsgninput ) {
+      window.hasRunpsgninput = true;
       psgninput();
     } 
-    else if (url.includes('reviewBooking') && !hasRunFinalCaptcha ) {
-      hasRunFinalCaptcha = true;
+    else if (url.includes('reviewBooking') && !window.hasRunFinalCaptcha ) {
+      window.hasRunFinalCaptcha = true;
       final_captcha();
     } 
-    else if (url.includes('bkgPaymentOptions') && !hasRunSelectPay ) {
-      hasRunSelectPay = true;
+    else if (url.includes('bkgPaymentOptions') && !window.hasRunSelectPay ) {
+      window.hasRunSelectPay = true;
       select_pay();
     } 
-    else if (url.includes('paytmpayments') && !hasRunOnPaytm ) {
-      hasRunOnPaytm = true;
+    else if (url.includes('paytmpayments') && !window.hasRunOnPaytm ) {
+      window.hasRunOnPaytm = true;
       on_paytm();
     }
   }
+  // Watch every second
+  if (!window.myCheckInterval) {
+      window.myCheckInterval = setInterval(checkPage, 1000);
+  }
 
-  checkPage();
-  setInterval(checkPage, 1000); // re-check every second
+  // Also re-check on every page load
+  window.addEventListener('load', function() {
+      console.log("Page reloaded — re-checking page");
+      checkPage();
+  });
 
 })();
