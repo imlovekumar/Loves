@@ -1,6 +1,16 @@
 (function() {
   // define helper functions here if needed
 
+  function train_list() {
+    // your captcah Script here
+        __train_list__
+  }
+
+  function psgninput() {
+    // your captcah Script here
+        __psgninput__
+  }
+
   function final_captcha() {
     // your captcah Script here
         __final_captcha__
@@ -17,14 +27,25 @@
   }
 
   // Flags to prevent re-execution
+  let hasRuntrain_list = false;
+  let hasRunpsgninput = false;
   let hasRunFinalCaptcha = false;
   let hasRunSelectPay = false;
   let hasRunOnPaytm = false;
+  
 
   function checkPage() {
     const url = window.location.href;
 
-    if (url.includes('reviewBooking') && !hasRunFinalCaptcha ) {
+    if (url.includes('train-list') && !hasRuntrain_list ) {
+      hasRuntrain_list = true;
+      train_list();
+    } 
+    else if (url.includes('psgninput') && !hasRunpsgninput ) {
+      hasRunpsgninput = true;
+      psgninput();
+    } 
+    else if (url.includes('reviewBooking') && !hasRunFinalCaptcha ) {
       hasRunFinalCaptcha = true;
       final_captcha();
     } 
