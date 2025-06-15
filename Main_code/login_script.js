@@ -92,7 +92,7 @@
         })();
     }
 
-    function solveCaptcha(e = 0) 
+    async function solveCaptcha(e = 0) 
     {
         if (e >= 100) return;
         const t = document.querySelector(".captcha-img");
