@@ -27,7 +27,7 @@
     }
 
     let paymentGroup = "BHIM/ UPI/ USSD";
-    let paymentOption = "Pay using BHIM (Powered by PAYTM ) also accepts UPI";
+    let paymentOption = "Amazon Pay UPI";
     let found = false;
     //console.log("Searching",paymentOption);
     let interval = setInterval(() => {
