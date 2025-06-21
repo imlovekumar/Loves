@@ -25,9 +25,10 @@
                 {
                     clearInterval(t);
                     console.log("✓ Auto Submit");
-                    simulateClick(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
+                    btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
+                    btn.focus();
+                    simulateClick(btn);
                     console.log("✓ Auto Submitted");
-                    //window.scrollBy(0, 268, "smooth");
                 }
             }, 500);
         }
@@ -104,9 +105,8 @@
         if (!e) return alert("Not on the right page.");
         for (let i = 1; i < user_data.passenger_details.length; i++) 
         {
-            await addDelay(300);
             simulateClick(document.getElementsByClassName("prenext")[0]);
-            await addDelay(300);
+            await addDelay(102);
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
 
@@ -160,20 +160,20 @@
         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
         {
             upg.focus();
-            await addDelay(500);
+            await addDelay(7);
             simulateClick(upg);
             console.log("✔ Auto Upgradation Checked !");
-            await addDelay(500);
+            await addDelay(53);
         }
 
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
             conf.focus();
-            await addDelay(500);
+            await addDelay(4);
             simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
-            await addDelay(500);
+            await addDelay(49);
         }
 
         const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
@@ -192,7 +192,7 @@
         if (payOptions) 
         {
             payOptions.focus();
-            await addDelay(500);
+            await addDelay(5);
             simulateClick(payOptions);
             console.log("पे UPI Selected");            
             await addDelay(500);
