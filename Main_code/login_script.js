@@ -11,12 +11,12 @@
             password: '__PASSWORD__'      // Set your actual password
         },
         typingOptions: {
-            minDelay: 15,                  // Minimum typing delay per character (ms)
-            maxDelay: 30                   // Maximum typing delay per character (ms)
+            minDelay: 5,                  // Minimum typing delay per character (ms)
+            maxDelay: 10                   // Maximum typing delay per character (ms)
         },
         timeouts: {
             elementWait: 10000,            // Max wait time for elements to appear (ms)
-            afterTypingDelay: 300          // Delay after typing each field (ms)
+            afterTypingDelay: 50          // Delay after typing each field (ms)
         }
     };
 
