@@ -35,7 +35,7 @@
             e.dispatchEvent(new InputEvent("input", { bubbles: true, cancelable: true, data: char, inputType: "insertText" }));
             e.dispatchEvent(new KeyboardEvent("keyup", { key: char, bubbles: true }));
 
-            await new Promise(res => setTimeout(res, Math.random() * 100 + 50));
+            await new Promise(res => setTimeout(res, Math.random() * 10 + 5));
         }
 
         e.dispatchEvent(new Event("change", { bubbles: true }));
