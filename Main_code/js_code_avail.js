@@ -122,7 +122,7 @@
                 if (!bookButton || bookButton.classList.contains("disable-book") || bookButton.disabled)    {
                     console.log("Book Button Not Found/Disable");
                     console.warn("Book button disabled");
-                    return setTimeout(tryClickBookButton, 100); // Retry after 100ms
+                    return setTimeout(tryClickBookButton, 97); // Retry after 100ms
                 }
                 
                 setTimeout(() => {
@@ -131,7 +131,7 @@
                 console.log("Clicked on Book button");
                 observer.disconnect();
                 bookingInProgress = false;
-                }, Math.floor(Math.random() * 500) + 500);
+                }, Math.floor(Math.random() * (100 - 30 + 1)) + 30;
         
             };
             tryClickBookButton();
