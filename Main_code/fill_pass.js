@@ -25,7 +25,7 @@
                 {
                     clearInterval(t);
                     console.log("✓ Auto Submit");
-                    simulateMouseInteraction(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
+                    simulateClick(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
                     console.log("✓ Auto Submitted");
                     //window.scrollBy(0, 268, "smooth");
                 }
