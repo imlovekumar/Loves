@@ -131,7 +131,7 @@
                 console.log("Clicked on Book button");
                 observer.disconnect();
                 bookingInProgress = false;
-                }, Math.floor(Math.random() * (100 - 30 + 1)) + 30;
+                }, Math.floor(Math.random() * 30) + 90);
         
             };
             tryClickBookButton();
