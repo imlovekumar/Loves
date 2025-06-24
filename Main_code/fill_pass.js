@@ -101,7 +101,7 @@
         for (let i = 0; i < user_data.passenger_details.length; i++)
         {
             let el = o[i];
-            const pnameInput = el.querySelector("p-autocomplete input");
+            const pnameInput = el.querySelector("p-autocomplete > span > input");
             if (pnameInput) 
             {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);}
             const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
