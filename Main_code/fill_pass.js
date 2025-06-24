@@ -80,18 +80,16 @@
         console.log("📝 Travel Insurance YES !");
 
         // Set payment type
-        let paymentRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='paymentType'][name='paymentType'] input[type='radio']")];
+        const paymentRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='paymentType'][name='paymentType'] input[type='radio']")];
         addDelay(100);
-        let paymentValue = "1";
-        if (user_data.other_preferences.paymentmethod.includes("UPI")) {
-            paymentValue = "2";
-        }
-        paymentRadios.filter(e => e.value === paymentValue)[0]?.click();
+        const paymentValue = (user_data.other_preferences.paymentmethod || "").includes("UPI") ? '2' : '1';
+        paymentRadios.find(e => e.value === paymentValue)?.click();
         console.log("पे UPI Selected");
         
         // Submit the form
         submitPassengerDetailsForm(passengerInput);
     } catch (error) {
         console.error("Error in fillPassengerDetails:", error);
+        window.alert("An error occurred while filling passenger details:\n" + error.message);
     }
 })();
