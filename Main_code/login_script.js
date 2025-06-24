@@ -9,7 +9,8 @@
         },
         values: {
             username: '__USERNAME__',        // Set your actual username
-            password: '__PASSWORD__'      // Set your actual password
+            password: '__PASSWORD__',      // Set your actual password
+            captcha: 'X'
         },
         typingOptions: {
             minDelay: 5,                  // Minimum typing delay per character (ms)
@@ -97,7 +98,7 @@
     (async () => {
         try {
             const { loginButton, username, password,captchaInput } = config.selectors;
-            const { username: unameVal, password: pwdVal } = config.values;
+            const { username: unameVal, password: pwdVal,captcha: capman } = config.values;
             const { elementWait, afterTypingDelay } = config.timeouts;
 
             // 1. Click login button
@@ -116,6 +117,8 @@
 
             // 4. Log: now solve CAPTCHA manually
             const capInp = await waitForElement(captchaInput, elementWait);
+            await simulateTyping(capInp, capman, config.typingOptions);
+            await new Promise(res => setTimeout(res, afterTypingDelay));
             console.log('✅ Username & password filled.\nNow click captcha solve button.');
 
         } catch (err) {
