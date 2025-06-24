@@ -3,8 +3,7 @@
     var user_data = _pax_data_;
     function submitPassengerDetailsForm(e) 
     {
-        console.log("✓ Passenger Filling Completed");        
-        console.log("✓ Auto Submit");
+        console.log("✓ Passenger Filling Completed");
         addDelay(200);
         e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")?.click();
         console.log("✓ Auto Submitted");
