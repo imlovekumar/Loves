@@ -1,14 +1,10 @@
 (async function() 
 {
-
     var user_data = _pax_data_;
     let keyCounter = 0x0;
-
     function submitPassengerDetailsForm(e) 
     {
         console.log("✓ Passenger Filling Completed");
-        //window.scrollBy(0, 258, "smooth");
-
         if (user_data.other_preferences.psgManual) 
         {
             console.log("PLz Manually submit !");
@@ -26,7 +22,6 @@
                     clearInterval(t);
                     console.log("✓ Auto Submit");
                     btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
-                    btn.focus();
                     simulateClick(btn);
                     console.log("✓ Auto Submitted");
                 }
@@ -38,9 +33,7 @@
         const rect = element.getBoundingClientRect();
         const x = rect.left + Math.random() * rect.width;
         const y = rect.top + Math.random() * rect.height;
-
         const events = ["mouseover", "mouseenter", "mousemove", "mousedown", "mouseup", "click"];
-
         for (const type of events) {
             const event = new MouseEvent(type, {
                 bubbles: true,
@@ -51,26 +44,21 @@
             });
             element.dispatchEvent(event);
             await new Promise(res => setTimeout(res, Math.random() * 60 + 40));
-        }
-    
+        }    
     }
     async function typeTextHumanLike(e, text) {
         if (!e || typeof text !== "string") return;
-
         await simulateMouseInteraction(e);  // Hover + Click
         e.focus();
         e.value = "";
         e.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
-
         for (const char of text) {
             e.dispatchEvent(new KeyboardEvent("keydown", { key: char, bubbles: true }));
             e.value += char;
             e.dispatchEvent(new InputEvent("input", { bubbles: true, cancelable: true, data: char, inputType: "insertText" }));
             e.dispatchEvent(new KeyboardEvent("keyup", { key: char, bubbles: true }));
-
             await new Promise(res => setTimeout(res, Math.random() * 100 + 50));
         }
-
         e.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
@@ -107,46 +95,30 @@
         {
             await addDelay(200);
             simulateClick(document.getElementsByClassName("prenext")[0]);
-            await addDelay(300);
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
-
         const o = [...e.querySelectorAll("app-passenger")];
-
         for (let i = 0; i < user_data.passenger_details.length; i++)
         {
             let el = o[i];
             const pnameInput = el.querySelector("p-autocomplete input");
             if (pnameInput) 
             {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);}
-
             const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
             if(pageInput)
             {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);}
-
             el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
             el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
-
             el.querySelector("select[formcontrolname='passengerBerthChoice']").value = user_data.passenger_details[i].berth;
             el.querySelector("select[formcontrolname='passengerBerthChoice']").dispatchEvent(new Event("change"));
-
             let food = el.querySelector("select[formcontrolname='passengerFoodChoice']");
             if (food) 
             {
                 food.value = user_data.passenger_details[i].food;
                 food.dispatchEvent(new Event("change"));
             }
-
-            try 
-            {
-                let chk = el.querySelector("input[type='checkbox'][formcontrolname='childBerthFlag']");
-                if (chk && p.passengerchildberth) chk.click();
-            }
-            catch (err) { console.error("Child berth error", err); }
         };
         console.log("👬🏾 All Passenger Detail Filled !");
-
-
         if (user_data.other_preferences.mobileNumber) 
         {
             let m = e.querySelector("input#mobileNumber");
@@ -155,35 +127,26 @@
                 console.log("📞 Mobile Number Filled !");
             }
         }
-
-
         let upg = e.querySelector("input#autoUpgradation");
         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
         {
-            upg.focus();
             await addDelay(7);
             simulateClick(upg);
             console.log("✔ Auto Upgradation Checked !");
-            await addDelay(53);
         }
-
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
-            conf.focus();
             await addDelay(4);
             simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
-            await addDelay(49);
         }
-
         const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
         const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
         if (ins) { 
             simulateClick(ins);
             console.log("📝 Travel Insurance YES !");            
         }
-
         const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
         const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
         if (payOptions) 
@@ -192,10 +155,11 @@
             await addDelay(5);
             simulateClick(payOptions);
             console.log("पे UPI Selected");            
-            await addDelay(500);
+            await addDelay(300);
         }
-        
-
         submitPassengerDetailsForm(e);
-    } catch (e) { alert("Script error: " + e.message);}
+    } 
+    catch (e) { 
+        alert("Script error: " + e.message);
+    }
 })();
