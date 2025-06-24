@@ -1,92 +1,19 @@
 (async function() 
 {
     var user_data = _pax_data_;
-    let keyCounter = 0x0;
     function submitPassengerDetailsForm(e) 
     {
-        console.log("✓ Passenger Filling Completed");
-        if (user_data.other_preferences.psgManual) 
-        {
-            console.log("PLz Manually submit !");
-            btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
-            btn.focus();
-        } 
-        else 
-        {
-            var keyCounter = new Date().getTime();
-            var t = setInterval(function() 
-            {
-                var o = new Date().getTime();
-                if (o - keyCounter > 300) 
-                {
-                    clearInterval(t);
-                    console.log("✓ Auto Submit");
-                    btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
-                    simulateClick(btn);
-                    console.log("✓ Auto Submitted");
-                }
-            }, 500);
-        }
-    }
-
-    async function simulateMouseInteraction(element) {
-        const rect = element.getBoundingClientRect();
-        const x = rect.left + Math.random() * rect.width;
-        const y = rect.top + Math.random() * rect.height;
-        const events = ["mouseover", "mouseenter", "mousemove", "mousedown", "mouseup", "click"];
-        for (const type of events) {
-            const event = new MouseEvent(type, {
-                bubbles: true,
-                cancelable: true,
-                view: window,
-                clientX: x,
-                clientY: y,
-            });
-            element.dispatchEvent(event);
-            await new Promise(res => setTimeout(res, Math.random() * 60 + 40));
-        }    
-    }
-    async function typeTextHumanLike(e, text) {
-        if (!e || typeof text !== "string") return;
-        await simulateMouseInteraction(e);  // Hover + Click
-        e.focus();
-        e.value = "";
-        e.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
-        for (const char of text) {
-            e.dispatchEvent(new KeyboardEvent("keydown", { key: char, bubbles: true }));
-            e.value += char;
-            e.dispatchEvent(new InputEvent("input", { bubbles: true, cancelable: true, data: char, inputType: "insertText" }));
-            e.dispatchEvent(new KeyboardEvent("keyup", { key: char, bubbles: true }));
-            await new Promise(res => setTimeout(res, Math.random() * 100 + 100));
-        }
-        e.dispatchEvent(new Event("change", { bubbles: true }));
-    }
-
-    function addDelay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-
-    // === Utility: Simulate fast & stealthy click ===
-    function simulateClick(el) {
-        if (!el) return;
-        const delay = ms => new Promise(res => setTimeout(res, ms));
-        const fire = type => {
-            el.dispatchEvent(new MouseEvent(type, {
-                bubbles: true,
-                cancelable: true,
-                clientX: el.getBoundingClientRect().left + 1,
-                clientY: el.getBoundingClientRect().top + 1
-            }));
-        };
-        return (async () => {
-            fire('mouseover');
-            await delay(10 + Math.random() * 10);
-            fire('mousedown');
-            await delay(10 + Math.random() * 15);
-            fire('mouseup');
-            await delay(5 + Math.random() * 10);
-            fire('click');
-        })();
+        console.log("✓ Passenger Filling Completed");        
+        console.log("✓ Auto Submit");
+        addDelay(200);
+        e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")?.click();
+        console.log("✓ Auto Submitted");
     }
     
+    function addDelay(ms) { 
+        return new Promise(resolve => setTimeout(resolve, ms)); 
+    }
+   
     try 
     {
         let passengerInput = document.querySelector("app-passenger-input");
