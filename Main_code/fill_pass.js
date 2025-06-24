@@ -180,7 +180,7 @@
         let insuranceRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input[type='radio'][name='travelInsuranceOpted-0']")];
         addDelay(200);
         insuranceRadios.filter(e => e.value === (user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : "false"))[0]?.click();    
-        console.log("📝 Travel Insurance YES !"); 
+        console.log("📝 Travel Insurance YES !");
         
         // if (user_data.other_preferences.mobileNumber) 
         // {
@@ -211,17 +211,29 @@
         //     console.log("📝 Travel Insurance YES !");            
         // }
         
-        const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
-        const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
-        if (payOptions) 
-        {
-            payOptions.focus();
-            await addDelay(5);
-            simulateClick(payOptions);
-            console.log("पे UPI Selected");            
-            await addDelay(300);
+        // const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
+        // const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
+        // if (payOptions) 
+        // {
+        //     payOptions.focus();
+        //     await addDelay(5);
+        //     simulateClick(payOptions);
+        //     console.log("पे UPI Selected");            
+        //     await addDelay(300);
+        // }
+
+        // Set payment type
+        let paymentRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='paymentType'][name='paymentType'] input[type='radio']")];
+        addDelay(100);
+        let paymentValue = "1";
+        if (user_data.other_preferences.paymentmethod.includes("UPI")) {
+            paymentValue = "2";
         }
-        submitPassengerDetailsForm(e);
+        paymentRadios.filter(e => e.value === paymentValue)[0]?.click();
+        
+        // Submit the form
+        submitPassengerDetailsForm(passengerInput);
+        //submitPassengerDetailsForm(e);
     } catch (error) {
         console.error("Error in fillPassengerDetails:", error);
     }
