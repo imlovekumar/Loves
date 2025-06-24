@@ -10,7 +10,7 @@
         values: {
             username: '__USERNAME__',        // Set your actual username
             password: '__PASSWORD__',     // Set your actual password
-            capX:''
+            capX:'X'
         },
         typingOptions: {
             minDelay: 5,                  // Minimum typing delay per character (ms)
