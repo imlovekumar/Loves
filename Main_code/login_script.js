@@ -4,7 +4,8 @@
         selectors: {
             loginButton: "a.search_btn.loginText.ng-star-inserted",   // Button that opens the login form
             username: "input[formcontrolname='userid']",         // Username input field
-            password: "input[formcontrolname='password']"          // Password input field
+            password: "input[formcontrolname='password']",          // Password input field
+            captchaInput: "#captcha"                                // Captcha Field
         },
         values: {
             username: '__USERNAME__',        // Set your actual username
@@ -95,7 +96,7 @@
     // === Main Automation Flow (Up to password only) ===
     (async () => {
         try {
-            const { loginButton, username, password } = config.selectors;
+            const { loginButton, username, password,captchaInput } = config.selectors;
             const { username: unameVal, password: pwdVal } = config.values;
             const { elementWait, afterTypingDelay } = config.timeouts;
 
@@ -114,6 +115,7 @@
             await new Promise(res => setTimeout(res, afterTypingDelay));
 
             // 4. Log: now solve CAPTCHA manually
+            const capInp = await waitForElement(captchaInput, elementWait);
             console.log('✅ Username & password filled.\nNow click captcha solve button.');
 
         } catch (err) {
