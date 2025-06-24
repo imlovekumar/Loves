@@ -184,10 +184,6 @@
             console.log("📝 Travel Insurance YES !");            
         }
 
-
-        let coach = e.querySelector("input[formcontrolname='coachId']");
-        if (coach && user_data.travel_preferences.prefcoach) coach.value = user_data.travel_preferences.prefcoach;
-
         const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
         const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
         if (payOptions) 
