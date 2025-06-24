@@ -21,7 +21,7 @@
             var t = setInterval(function() 
             {
                 var o = new Date().getTime();
-                if (o - keyCounter > 2000) 
+                if (o - keyCounter > 300) 
                 {
                     clearInterval(t);
                     console.log("✓ Auto Submit");
