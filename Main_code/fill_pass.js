@@ -12,6 +12,40 @@
     function addDelay(ms) { 
         return new Promise(resolve => setTimeout(resolve, ms)); 
     }
+
+   async function simulateMouseInteraction(element) {
+       const rect = element.getBoundingClientRect();
+       const x = rect.left + Math.random() * rect.width;
+       const y = rect.top + Math.random() * rect.height;
+       const events = ["mouseover", "mouseenter", "mousemove", "mousedown", "mouseup", "click"];
+       for (const type of events) {
+           const event = new MouseEvent(type, {
+               bubbles: true,
+               cancelable: true,
+               view: window,
+               clientX: x,
+               clientY: y,
+           });
+           element.dispatchEvent(event);
+           await new Promise(res => setTimeout(res, Math.random() * 60 + 40));
+       }    
+   }
+
+   async function typeTextHumanLike(e, text) {
+       if (!e || typeof text !== "string") return;
+       await simulateMouseInteraction(e);  // Hover + Click
+       e.focus();
+       e.value = "";
+       e.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
+       for (const char of text) {
+           e.dispatchEvent(new KeyboardEvent("keydown", { key: char, bubbles: true }));
+           e.value += char;
+           e.dispatchEvent(new InputEvent("input", { bubbles: true, cancelable: true, data: char, inputType: "insertText" }));
+           e.dispatchEvent(new KeyboardEvent("keyup", { key: char, bubbles: true }));
+           await new Promise(res => setTimeout(res, Math.random() * 100 + 100));
+       }
+       e.dispatchEvent(new Event("change", { bubbles: true }));
+   }
    
     try 
     {
@@ -27,12 +61,14 @@
         // Fill passenger details
         user_data.passenger_details.forEach((p, i) => {
             const nameInput = passengers[i].querySelector("p-autocomplete > span > input");
-            nameInput.value = p.name;
-            nameInput.dispatchEvent(new Event("input"));
+            //nameInput.value = p.name;
+            //nameInput.dispatchEvent(new Event("input"));
+            await typeTextHumanLike(nameInput, p.name);
 
             const ageInput = passengers[i].querySelector("input[type='number'][formcontrolname='passengerAge']");
-            ageInput.value = p.age;
-            ageInput.dispatchEvent(new Event("input"));
+            //ageInput.value = p.age;
+            //ageInput.dispatchEvent(new Event("input"));
+            await typeTextHumanLike(ageInput, String(p.age));
 
             const genderSelect = passengers[i].querySelector("select[formcontrolname='passengerGender']");
             genderSelect.value = p.gender;
