@@ -9,7 +9,7 @@
          submitButton.focus();
       } else {
          setTimeout(() => {
-            submitButton.click();
+            simulateClick(submitButton);
             console.log("✓ Auto Submitted");
          }, 500);
       }
