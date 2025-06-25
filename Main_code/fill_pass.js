@@ -26,23 +26,23 @@
         let passengers = [...passengerInput.querySelectorAll("app-passenger")];
         // Fill passenger details
         user_data.passenger_details.forEach((p, i) => {
-            let nameInput = passengers[i].querySelector("p-autocomplete > span > input");
+            const nameInput = passengers[i].querySelector("p-autocomplete > span > input");
             nameInput.value = p.name;
             nameInput.dispatchEvent(new Event("input"));
 
-            let ageInput = passengers[i].querySelector("input[type='number'][formcontrolname='passengerAge']");
+            const ageInput = passengers[i].querySelector("input[type='number'][formcontrolname='passengerAge']");
             ageInput.value = p.age;
             ageInput.dispatchEvent(new Event("input"));
 
-            let genderSelect = passengers[i].querySelector("select[formcontrolname='passengerGender']");
+            const genderSelect = passengers[i].querySelector("select[formcontrolname='passengerGender']");
             genderSelect.value = p.gender;
             genderSelect.dispatchEvent(new Event("change"));
 
-            let berthSelect = passengers[i].querySelector("select[formcontrolname='passengerBerthChoice']");
+            const berthSelect = passengers[i].querySelector("select[formcontrolname='passengerBerthChoice']");
             berthSelect.value = p.berth;
             berthSelect.dispatchEvent(new Event("change"));
 
-            let foodSelect = passengers[i].querySelector("select[formcontrolname='passengerFoodChoice']");
+            const foodSelect = passengers[i].querySelector("select[formcontrolname='passengerFoodChoice']");
             if (foodSelect) {
                 foodSelect.value = p.food;
                 foodSelect.dispatchEvent(new Event("change"));
@@ -52,28 +52,28 @@
         
         // Fill mobile number if provided
         if (user_data.other_preferences.mobileNumber !== "") {
-            let mobileInput = passengerInput.querySelector("input#mobileNumber[formcontrolname='mobileNumber'][name='mobileNumber']");
+            const mobileInput = passengerInput.querySelector("input#mobileNumber[formcontrolname='mobileNumber'][name='mobileNumber']");
             mobileInput.value = user_data.other_preferences.mobileNumber;
             mobileInput.dispatchEvent(new Event("input"));
             console.log("📞 Mobile Number Filled !");
         }
 
         // Auto upgradation
-        let autoUpgradeCheckbox = passengerInput.querySelector("input#autoUpgradation[type='checkbox'][formcontrolname='autoUpgradationSelected']");
+        const autoUpgradeCheckbox = passengerInput.querySelector("input#autoUpgradation[type='checkbox'][formcontrolname='autoUpgradationSelected']");
         if (autoUpgradeCheckbox) {
             autoUpgradeCheckbox.checked = !!user_data.other_preferences.autoUpgradation;
             console.log("✔ Auto Upgradation Checked !");
         }
 
         // Confirm berths only
-        let confirmBerthsCheckbox = passengerInput.querySelector("input#confirmberths[type='checkbox'][formcontrolname='bookOnlyIfCnf']");
+        const confirmBerthsCheckbox = passengerInput.querySelector("input#confirmberths[type='checkbox'][formcontrolname='bookOnlyIfCnf']");
         if (confirmBerthsCheckbox) {
             confirmBerthsCheckbox.checked = !!user_data.other_preferences.confirmberths;
             console.log("✔ Only Confirmed Seat Checked !");
         }
 
         // Travel insurance
-        let insuranceRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input[type='radio'][name='travelInsuranceOpted-0']")];
+        const insuranceRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input[type='radio'][name='travelInsuranceOpted-0']")];
         addDelay(200);
         insuranceRadios.filter(e => e.value === (user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : "false"))[0]?.click();    
         console.log("📝 Travel Insurance YES !");
