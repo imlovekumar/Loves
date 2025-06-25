@@ -120,9 +120,10 @@
 
       //Auto Upgradation
       const autoUpgradeCheckbox = passengerInput.querySelector("input#autoUpgradation[type='checkbox'][formcontrolname='autoUpgradationSelected']");
-      if (autoUpgradeCheckbox) {
+      if (autoUpgradeCheckbox && user_data.other_preferences.autoUpgradation !== autoUpgradeCheckbox.checked) {
          await addDelay(Math.floor(Math.random() * 100) + 100);
-         autoUpgradeCheckbox.checked = !!user_data.other_preferences.autoUpgradation;
+         simulateClick(autoUpgradeCheckbox);
+         //autoUpgradeCheckbox.checked = !!user_data.other_preferences.autoUpgradation;
          console.log("✔ Auto Upgradation Checked !");
       }
 
