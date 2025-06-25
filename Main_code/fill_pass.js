@@ -15,6 +15,28 @@
          }, 500);
       }
    }
+   
+   function simulateClick(el) {
+        if (!el) return;
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+        const fire = type => {
+            el.dispatchEvent(new MouseEvent(type, {
+                bubbles: true,
+                cancelable: true,
+                clientX: el.getBoundingClientRect().left + 1,
+                clientY: el.getBoundingClientRect().top + 1
+            }));
+        };
+        return (async () => {
+            fire('mouseover');
+            await delay(10 + Math.random() * 10);
+            fire('mousedown');
+            await delay(10 + Math.random() * 15);
+            fire('mouseup');
+            await delay(5 + Math.random() * 10);
+            fire('click');
+        })();
+    }
 
    function addDelay(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
