@@ -59,7 +59,7 @@
       let passengerInput = document.querySelector("app-passenger-input");
       let index = 1;
       while (index < user_data.passenger_details.length) {
-         addDelay(200);
+         await addDelay(200);
          document.getElementsByClassName("prenext")[0].click();
          index++;
          console.log("All",user_data.passenger_details.length,"Passenger Box Open");
@@ -106,7 +106,7 @@
       const autoUpgradeCheckbox = passengerInput.querySelector("input#autoUpgradation[type='checkbox'][formcontrolname='autoUpgradationSelected']");
       if (autoUpgradeCheckbox) {
          autoUpgradeCheckbox.focus();
-         addDelay(7);
+         await addDelay(7);
          autoUpgradeCheckbox.checked = !!user_data.other_preferences.autoUpgradation;
          console.log("✔ Auto Upgradation Checked !");
       }
@@ -115,20 +115,20 @@
       const confirmBerthsCheckbox = passengerInput.querySelector("input#confirmberths[type='checkbox'][formcontrolname='bookOnlyIfCnf']");
       if (confirmBerthsCheckbox) {
          confirmBerthsCheckbox.focus();
-         addDelay(7);
+         await addDelay(7);
          confirmBerthsCheckbox.checked = !!user_data.other_preferences.confirmberths;
          console.log("✔ Only Confirmed Seat Checked !");
       }
 
       // Travel insurance
       const insuranceRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input[type='radio'][name='travelInsuranceOpted-0']")];
-      addDelay(200);
+      await addDelay(200);
       insuranceRadios.filter(e => e.value === (user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : "false"))[0]?.click();    
       console.log("📝 Travel Insurance YES !");
 
       // Set payment type
       const paymentRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='paymentType'][name='paymentType'] input[type='radio']")];
-      addDelay(100);
+      await addDelay(100);
       const paymentValue = (user_data.other_preferences.paymentmethod || "").includes("UPI") ? '2' : '1';
       paymentRadios.find(e => e.value === paymentValue)?.click();
       console.log("पे UPI Selected");
