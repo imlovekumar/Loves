@@ -9,7 +9,6 @@
          submitButton.focus();
       } else {
          setTimeout(() => {
-            submitButton.focus();
             submitButton.click();
             console.log("✓ Auto Submitted");
          }, 500);
@@ -108,6 +107,7 @@
             foodSelect.value = p.food;
             foodSelect.dispatchEvent(new Event("change"));
          }
+         await addDelay(Math.floor(Math.random() * 100) + 100);
       }
       console.log("👬🏾 All Passenger Detail Filled !");
 
@@ -121,6 +121,7 @@
       //Auto Upgradation
       const autoUpgradeCheckbox = passengerInput.querySelector("input#autoUpgradation[type='checkbox'][formcontrolname='autoUpgradationSelected']");
       if (autoUpgradeCheckbox) {
+         await addDelay(Math.floor(Math.random() * 100) + 100);
          autoUpgradeCheckbox.checked = !!user_data.other_preferences.autoUpgradation;
          console.log("✔ Auto Upgradation Checked !");
       }
@@ -128,19 +129,20 @@
       // Book Only If Confirm
       const confirmBerthsCheckbox = passengerInput.querySelector("input#confirmberths[type='checkbox'][formcontrolname='bookOnlyIfCnf']");
       if (confirmBerthsCheckbox) {
+         await addDelay(Math.floor(Math.random() * 100) + 100);
          confirmBerthsCheckbox.checked = !!user_data.other_preferences.confirmberths;
          console.log("✔ Only Confirmed Seat Checked !");
       }
 
       //Insurance Yes/No
       const insuranceRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input[type='radio'][name='travelInsuranceOpted-0']")];
-      await addDelay(200);
+      await addDelay(Math.floor(Math.random() * 100) + 100);
       insuranceRadios.filter(e => e.value === (user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : "false"))[0]?.click();
       console.log("📝 Travel Insurance YES !");
 
       //Payment Selection
       const paymentRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='paymentType'][name='paymentType'] input[type='radio']")];
-      await addDelay(100);
+      await addDelay(Math.floor(Math.random() * 100) + 100);
       paymentRadios.scrollIntoView({ behavior: 'smooth', block: 'center' });
       const paymentValue = (user_data.other_preferences.paymentmethod || "").includes("UPI") ? '2' : '1';
       paymentRadios.find(e => e.value === paymentValue)?.click();
