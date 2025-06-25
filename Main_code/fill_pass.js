@@ -78,7 +78,6 @@
 
    try {
       let passengerInput = document.querySelector("app-passenger-input");
-
       let index = 1;
       while (index < user_data.passenger_details.length) {
          await addDelay(200);
@@ -86,68 +85,68 @@
          index++;
          console.log("All", user_data.passenger_details.length, "Passenger Box Open");
       }
-
       let passengers = [...passengerInput.querySelectorAll("app-passenger")];
-
       for (let i = 0; i < user_data.passenger_details.length; i++) {
          const p = user_data.passenger_details[i];
-
+         //Name
          const nameInput = passengers[i].querySelector("p-autocomplete > span > input");
          await typeTextHumanLike(nameInput, p.name);
-
+         // Age
          const ageInput = passengers[i].querySelector("input[type='number'][formcontrolname='passengerAge']");
          await typeTextHumanLike(ageInput, String(p.age));
-
+         //Gender
          const genderSelect = passengers[i].querySelector("select[formcontrolname='passengerGender']");
          genderSelect.value = p.gender;
          genderSelect.dispatchEvent(new Event("change"));
-
+         // Berth Select
          const berthSelect = passengers[i].querySelector("select[formcontrolname='passengerBerthChoice']");
          berthSelect.value = p.berth;
          berthSelect.dispatchEvent(new Event("change"));
-
+         // Food Selection
          const foodSelect = passengers[i].querySelector("select[formcontrolname='passengerFoodChoice']");
          if (foodSelect) {
             foodSelect.value = p.food;
             foodSelect.dispatchEvent(new Event("change"));
          }
       }
-
       console.log("👬🏾 All Passenger Detail Filled !");
 
+      //Mobile Number
       if (user_data.other_preferences.mobileNumber !== "") {
          const mobileInput = passengerInput.querySelector("input#mobileNumber[formcontrolname='mobileNumber'][name='mobileNumber']");
          await typeTextHumanLike(mobileInput, user_data.other_preferences.mobileNumber);
          console.log("📞 Mobile Number Filled !");
       }
 
+      //Auto Upgradation
       const autoUpgradeCheckbox = passengerInput.querySelector("input#autoUpgradation[type='checkbox'][formcontrolname='autoUpgradationSelected']");
       if (autoUpgradeCheckbox) {
-         autoUpgradeCheckbox.focus();
-         await addDelay(7);
          autoUpgradeCheckbox.checked = !!user_data.other_preferences.autoUpgradation;
          console.log("✔ Auto Upgradation Checked !");
       }
 
+      // Book Only If Confirm
       const confirmBerthsCheckbox = passengerInput.querySelector("input#confirmberths[type='checkbox'][formcontrolname='bookOnlyIfCnf']");
       if (confirmBerthsCheckbox) {
-         confirmBerthsCheckbox.focus();
-         await addDelay(7);
          confirmBerthsCheckbox.checked = !!user_data.other_preferences.confirmberths;
          console.log("✔ Only Confirmed Seat Checked !");
       }
 
+      //Insurance Yes/No
       const insuranceRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input[type='radio'][name='travelInsuranceOpted-0']")];
       await addDelay(200);
       insuranceRadios.filter(e => e.value === (user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : "false"))[0]?.click();
       console.log("📝 Travel Insurance YES !");
 
+      //Payment Selection
       const paymentRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='paymentType'][name='paymentType'] input[type='radio']")];
       await addDelay(100);
+      paymentRadios.scrollIntoView({ behavior: 'smooth', block: 'center' });
       const paymentValue = (user_data.other_preferences.paymentmethod || "").includes("UPI") ? '2' : '1';
       paymentRadios.find(e => e.value === paymentValue)?.click();
       console.log("पे UPI Selected");
 
+      //Submit Pax Data
       submitPassengerDetailsForm(passengerInput);
 
    } catch (error) {
