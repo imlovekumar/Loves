@@ -123,15 +123,14 @@
       if (autoUpgradeCheckbox && user_data.other_preferences.autoUpgradation !== autoUpgradeCheckbox.checked) {
          await addDelay(Math.floor(Math.random() * 100) + 100);
          simulateClick(autoUpgradeCheckbox);
-         //autoUpgradeCheckbox.checked = !!user_data.other_preferences.autoUpgradation;
          console.log("✔ Auto Upgradation Checked !");
       }
 
       // Book Only If Confirm
       const confirmBerthsCheckbox = passengerInput.querySelector("input#confirmberths[type='checkbox'][formcontrolname='bookOnlyIfCnf']");
-      if (confirmBerthsCheckbox) {
+      if (confirmBerthsCheckbox && user_data.other_preferences.confirmberths !== confirmBerthsCheckbox.checked) {
          await addDelay(Math.floor(Math.random() * 100) + 100);
-         confirmBerthsCheckbox.checked = !!user_data.other_preferences.confirmberths;
+         simulateClick(confirmBerthsCheckbox);
          console.log("✔ Only Confirmed Seat Checked !");
       }
 
