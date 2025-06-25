@@ -143,7 +143,6 @@
       //Payment Selection
       const paymentRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='paymentType'][name='paymentType'] input[type='radio']")];
       await addDelay(Math.floor(Math.random() * 100) + 100);
-      paymentRadios.scrollIntoView({ behavior: 'smooth', block: 'center' });
       const paymentValue = (user_data.other_preferences.paymentmethod || "").includes("UPI") ? '2' : '1';
       paymentRadios.find(e => e.value === paymentValue)?.click();
       console.log("पे UPI Selected");
