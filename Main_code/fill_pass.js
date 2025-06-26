@@ -26,7 +26,7 @@
                     clearInterval(t);
                     console.log("✓ Auto Submit");
                     btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
-                    btn.focus();
+                    scrollToView(btn);
                     simulateClick(btn);
                     console.log("✓ Auto Submitted");
                 }
@@ -173,7 +173,7 @@
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
-            conf.focus();
+            scrollToView(conf);
             await addDelay(4);
             simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
@@ -183,6 +183,7 @@
         const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
         const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
         if (ins) { 
+            scrollToView(ins);
             simulateClick(ins);
             console.log("📝 Travel Insurance YES !");            
         }
@@ -195,7 +196,7 @@
         const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
         if (payOptions) 
         {
-            payOptions.focus();
+            scrollToView(payOptions);
             await addDelay(5);
             simulateClick(payOptions);
             console.log("पे UPI Selected");            
