@@ -105,7 +105,6 @@
         if (!e) return alert("Not on the right page.");
         for (let i = 1; i < user_data.passenger_details.length; i++) 
         {
-            await addDelay(200);
             simulateClick(document.getElementsByClassName("prenext")[0]);
             await addDelay(300);
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
