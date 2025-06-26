@@ -103,6 +103,10 @@
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     
+    function humanDelay(min = 100, max = 250) {
+        return new Promise(resolve => setTimeout(resolve, Math.random() * (max - min) + min));
+    }
+    
     try 
     {
         const e = document.querySelector("app-passenger-input");
@@ -164,26 +168,25 @@
         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
         {
             scrollToView(upg);
-            await addDelay(7);
+            await humanDelay();
             simulateClick(upg);
             console.log("✔ Auto Upgradation Checked !");
-            await addDelay(53);
         }
 
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
             scrollToView(conf);
-            await addDelay(4);
+            await humanDelay();
             simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
-            await addDelay(49);
         }
 
         const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
         const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
         if (ins) { 
             scrollToView(ins);
+            await humanDelay();
             simulateClick(ins);
             console.log("📝 Travel Insurance YES !");            
         }
@@ -197,10 +200,9 @@
         if (payOptions) 
         {
             scrollToView(payOptions);
-            await addDelay(5);
+            await humanDelay();
             simulateClick(payOptions);
             console.log("पे UPI Selected");            
-            await addDelay(500);
         }
         
 
