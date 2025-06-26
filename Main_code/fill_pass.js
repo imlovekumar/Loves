@@ -7,13 +7,12 @@
     function submitPassengerDetailsForm(e) 
     {
         console.log("✓ Passenger Filling Completed");
-        //window.scrollBy(0, 258, "smooth");
 
         if (user_data.other_preferences.psgManual) 
         {
             console.log("PLz Manually submit !");
             btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
-            btn.focus();
+            scrollToView(btn);
         } 
         else 
         {
