@@ -2,15 +2,13 @@
     // === Configuration ===
     const config = {
         selectors: {
-            loginButton: "a.search_btn.loginText.ng-star-inserted",   // Button that opens the login form
-            username: "input[formcontrolname='userid']",         // Username input field
-            password: "input[formcontrolname='password']",          // Password input field
-            captchaInput: "#captcha"                                // Captcha Field
+            loginButton: "a.search_btn.loginText.ng-star-inserted",    // Button that opens the login form
+            username: "input[formcontrolname='userid']",                // Username input field
+            password: "input[formcontrolname='password']"             // Password input field
         },
         values: {
             username: '__USERNAME__',        // Set your actual username
-            password: '__PASSWORD__',     // Set your actual password
-            capX:'X'
+            password: '__PASSWORD__'        // Set your actual password
         },
         typingOptions: {
             minDelay: 5,                  // Minimum typing delay per character (ms)
@@ -98,7 +96,7 @@
     (async () => {
         try {
             const { loginButton, username, password,captchaInput } = config.selectors;
-            const { username: unameVal, password: pwdVal,capX: capTX } = config.values;
+            const { username: unameVal, password: pwdVal} = config.values;
             const { elementWait, afterTypingDelay } = config.timeouts;
 
             // 1. Click login button
@@ -116,8 +114,6 @@
             await new Promise(res => setTimeout(res, afterTypingDelay));
 
             // 4. Log: now solve CAPTCHA manually
-            const capInp = await waitForElement(captchaInput, elementWait);
-            await simulateTyping(capInp, capTX, config.typingOptions);
             console.log('✅ Username & password filled.\nNow click captcha solve button.');
 
         } catch (err) {
