@@ -113,7 +113,7 @@
         for (let i = 1; i < user_data.passenger_details.length; i++) 
         {
             simulateClick(document.getElementsByClassName("prenext")[0]);
-            await addDelay(300);
+            await humanDelay(100, 300);
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
 
