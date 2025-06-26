@@ -99,6 +99,10 @@
         })();
     }
     
+    function scrollToView(el) {
+        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
     try 
     {
         const e = document.querySelector("app-passenger-input");
@@ -159,7 +163,7 @@
         let upg = e.querySelector("input#autoUpgradation");
         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
         {
-            upg.focus();
+            scrollToView(upg);
             await addDelay(7);
             simulateClick(upg);
             console.log("✔ Auto Upgradation Checked !");
