@@ -86,7 +86,7 @@
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     
-    function humanDelay(min = 200, max = 300) {
+    function humanDelay(min = 100, max = 300) {
         return new Promise(resolve => setTimeout(resolve, Math.random() * (max - min) + min));
     }
     
@@ -146,7 +146,7 @@
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked){
             scrollToView(conf);
-            await humanDelay(500,1000);
+            await humanDelay();
             simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
         }
@@ -154,7 +154,7 @@
         const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
         if (ins) { 
             scrollToView(ins);
-            await humanDelay(500,1000);
+            await humanDelay();
             simulateClick(ins);
             console.log("📝 Travel Insurance YES !");            
         }
