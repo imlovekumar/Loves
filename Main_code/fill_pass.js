@@ -1,18 +1,27 @@
 (async function() {
    var user_data = _pax_data_;
 
-   function submitPassengerDetailsForm(containerElement) {
-      console.log("✓ Passenger Filling Completed");
-      const submitButton = containerElement.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']");
-      if (user_data.other_preferences.psgManual) {
+   let keyCounter = 0x0;
+   function submitPassengerDetailsForm(e) {
+     console.log("✓ Passenger Filling Completed");
+     window.scrollBy(0, 258, "smooth");   
+     if (user_data.other_preferences.psgManual) {
          console.log("✎ Please submit manually!");
-         submitButton.focus();
-      } else {
-         setTimeout(() => {
-            simulateClick(submitButton);
-            console.log("✓ Auto Submitted");
+         btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
+         btn.focus();
+     } else {
+         var keyCounter = new Date().getTime();
+         var t = setInterval(function() {
+             var o = new Date().getTime();
+             if (o - keyCounter > 300) {
+                 clearInterval(t);
+                 btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
+                 btn.focus();
+                 simulateClick(btn);
+                 console.log("✓ Auto Submitted");
+             }
          }, 500);
-      }
+     }
    }
    
    function simulateClick(el) {
@@ -111,41 +120,57 @@
       }
       console.log("👬🏾 All Passenger Detail Filled !");
 
-      //Mobile Number
-      if (user_data.other_preferences.mobileNumber !== "") {
-         const mobileInput = passengerInput.querySelector("input#mobileNumber[formcontrolname='mobileNumber'][name='mobileNumber']");
-         await typeTextHumanLike(mobileInput, user_data.other_preferences.mobileNumber);
-         console.log("📞 Mobile Number Filled !");
-      }
+      if (user_data.other_preferences.mobileNumber) 
+        {
+            let m = e.querySelector("input#mobileNumber");
+            if (m) { 
+                await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
+                console.log("📞 Mobile Number Filled !");
+            }
+        }
 
-      //Auto Upgradation
-      const autoUpgradeCheckbox = passengerInput.querySelector("input#autoUpgradation[type='checkbox'][formcontrolname='autoUpgradationSelected']");
-      if (autoUpgradeCheckbox && user_data.other_preferences.autoUpgradation !== autoUpgradeCheckbox.checked) {
-         await addDelay(Math.floor(Math.random() * 100) + 100);
-         simulateClick(autoUpgradeCheckbox);
-         console.log("✔ Auto Upgradation Checked !");
-      }
 
-      // Book Only If Confirm
-      const confirmBerthsCheckbox = passengerInput.querySelector("input#confirmberths[type='checkbox'][formcontrolname='bookOnlyIfCnf']");
-      if (confirmBerthsCheckbox && user_data.other_preferences.confirmberths !== confirmBerthsCheckbox.checked) {
-         await addDelay(Math.floor(Math.random() * 100) + 100);
-         simulateClick(confirmBerthsCheckbox);
-         console.log("✔ Only Confirmed Seat Checked !");
-      }
+        let upg = e.querySelector("input#autoUpgradation");
+        if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
+        {
+            upg.focus();
+            await addDelay(7);
+            simulateClick(upg);
+            console.log("✔ Auto Upgradation Checked !");
+            await addDelay(53);
+        }
 
-      //Insurance Yes/No
-      const insuranceRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input[type='radio'][name='travelInsuranceOpted-0']")];
-      await addDelay(Math.floor(Math.random() * 100) + 100);
-      insuranceRadios.filter(e => e.value === (user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : "false"))[0]?.click();
-      console.log("📝 Travel Insurance YES !");
+        let conf = e.querySelector("input#confirmberths");
+        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
+        {
+            conf.focus();
+            await addDelay(4);
+            simulateClick(conf);
+            console.log("✔ Only Confirmed Seat Checked !");
+            await addDelay(49);
+        }
 
-      //Payment Selection
-      const paymentRadios = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='paymentType'][name='paymentType'] input[type='radio']")];
-      await addDelay(Math.floor(Math.random() * 100) + 100);
-      const paymentValue = (user_data.other_preferences.paymentmethod || "").includes("UPI") ? '2' : '1';
-      paymentRadios.find(e => e.value === paymentValue)?.click();
-      console.log("पे UPI Selected");
+        const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
+        const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
+        if (ins) { 
+            simulateClick(ins);
+            console.log("📝 Travel Insurance YES !");            
+        }
+
+
+        let coach = e.querySelector("input[formcontrolname='coachId']");
+        if (coach && user_data.travel_preferences.prefcoach) coach.value = user_data.travel_preferences.prefcoach;
+
+        const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
+        const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
+        if (payOptions) 
+        {
+            payOptions.focus();
+            await addDelay(5);
+            simulateClick(payOptions);
+            console.log("पे UPI Selected");            
+            await addDelay(500);
+        }
 
       //Submit Pax Data
       submitPassengerDetailsForm(passengerInput);
