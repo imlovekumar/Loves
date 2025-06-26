@@ -146,7 +146,7 @@
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked){
             scrollToView(conf);
-            await humanDelay();
+            await humanDelay(500,1000);
             simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
         }
@@ -154,7 +154,7 @@
         const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
         if (ins) { 
             scrollToView(ins);
-            await humanDelay();
+            await humanDelay(500,1000);
             simulateClick(ins);
             console.log("📝 Travel Insurance YES !");            
         }
