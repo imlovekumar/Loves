@@ -1,6 +1,4 @@
-(async function() 
-{
-
+(async function() {
     var user_data = _pax_data_;
     let keyCounter = 0x0;
 
@@ -88,7 +86,7 @@
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     
-    function humanDelay(min = 100, max = 250) {
+    function humanDelay(min = 200, max = 300) {
         return new Promise(resolve => setTimeout(resolve, Math.random() * (max - min) + min));
     }
     
