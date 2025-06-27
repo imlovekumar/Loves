@@ -108,7 +108,7 @@
     try 
     {
         let passengerInput = document.querySelector("app-passenger-input");
-        if (!e) return alert("Not on the right page.");
+        if (!passengerInput) return alert("Not on the right page.");
         let index = 1;
         while (index < user_data.passenger_details.length) {
             simulateClick(document.getElementsByClassName("prenext")[0]);
