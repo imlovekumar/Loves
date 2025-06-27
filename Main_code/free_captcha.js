@@ -71,7 +71,7 @@
         if (e >= 100) return;
         const t = document.querySelector(".captcha-img");
         if (!t || !t.src || t.src.length < 23) return setTimeout(() => solveCaptcha(e + 1), 1e3);
-        console.log("Captcha Found !");
+        console.log("🔍 Captcha Found!");
         const postData = {
           img: t.src.slice(22)
         };
@@ -89,11 +89,11 @@
             const json = await r.json();
             const raw = json.data[0];
             const s = raw.replaceAll(" ", "");
-            console.log("Captcha Solved !");
+            console.log("✅ Captcha Solved! (FREE)");
             const i = document.querySelector("#captcha");
             if (i && s) 
             {   
-                console.log("Captcha Typings !");
+                console.log("⌨️ Typing Captcha...");
                 await typeTextHumanLike(i, s);
                 setTimeout(() => 
                     {
