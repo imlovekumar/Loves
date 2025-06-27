@@ -109,9 +109,7 @@
     {
         const e = document.querySelector("app-passenger-input");
         if (!e) return alert("Not on the right page.");
-        for (let pbox = 1; pbox < user_data.passenger_details.length; pbox++) 
-        {
-            await humanDelay(150, 400);  // slower, more human
+        for (let pbox = 1; pbox < user_data.passenger_details.length; pbox++) {
             simulateClick(document.getElementsByClassName("prenext")[0]);
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
@@ -119,12 +117,12 @@
         const o = [...e.querySelectorAll("app-passenger")];
         for (let i = 0; i < user_data.passenger_details.length; i++) {
             let el = o[i];
-            let pnameInput = el.querySelector("p-autocomplete input");
+            let pnameInput = el.querySelector("p-autocomplete > span > input");
             if (pnameInput) {
                 simulateClick(pnameInput);
                 await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);
             }
-            let pageInput = el.querySelector("input[formcontrolname='passengerAge']");
+            let pageInput = el.querySelector("input[type='number'][formcontrolname='passengerAge']");
             if(pageInput)  {
                 simulateClick(pageInput);
                 await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);
