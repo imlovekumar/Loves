@@ -13,7 +13,8 @@
         {
             console.log("PLz Manually submit !");
             btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
-            //btn.focus();
+            scrollToView(btn);
+            btn.focus();
         } 
         else 
         {
@@ -24,10 +25,8 @@
                 if (o - keyCounter > 2000) 
                 {
                     clearInterval(t);
-                    console.log("✓ Auto Submit");
                     simulateClick(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
                     console.log("✓ Auto Submitted");
-                    //window.scrollBy(0, 268, "smooth");
                 }
             }, 500);
         }
@@ -97,6 +96,16 @@
             fire('click');
         })();
     }
+
+    function scrollToView(el) {
+        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function humanDelay(min = 100, max = 250) {
+        return new Promise(resolve => setTimeout(resolve, Math.random() * (max - min) + min));
+    }
+
+
     
     try 
     {
@@ -104,9 +113,8 @@
         if (!e) return alert("Not on the right page.");
         for (let i = 1; i < user_data.passenger_details.length; i++) 
         {
-            await addDelay(300);
+            await humanDelay(150, 400);  // slower, more human
             simulateClick(document.getElementsByClassName("prenext")[0]);
-            await addDelay(300);
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
 
@@ -129,6 +137,7 @@
                 food.value = user_data.passenger_details[i].food;
                 food.dispatchEvent(new Event("change"));
             }
+            await humanDelay();
         };
         console.log("👬🏾 All Passenger Detail Filled !");
 
@@ -136,7 +145,8 @@
         if (user_data.other_preferences.mobileNumber) 
         {
             let m = e.querySelector("input#mobileNumber");
-            if (m) { 
+            if (m) {
+                scrollToView(m);
                 await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
                 console.log("📞 Mobile Number Filled !");
             }
@@ -146,26 +156,29 @@
         let upg = e.querySelector("input#autoUpgradation");
         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
         {
+            scrollToView(upg);
             upg.focus();
-            await addDelay(500);
+            await humanDelay();
             simulateClick(upg);
             console.log("✔ Auto Upgradation Checked !");
-            await addDelay(500);
+            await humanDelay();
         }
 
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
+            scrollToView(conf);
             conf.focus();
-            await addDelay(500);
+            await humanDelay();
             simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
-            await addDelay(500);
+            await humanDelay();
         }
 
         const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
         const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
         if (ins) { 
+            scrollToView(ins);
             simulateClick(ins);
             console.log("📝 Travel Insurance YES !");            
         }
@@ -174,11 +187,12 @@
         const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
         if (payOptions) 
         {
+            scrollToView(payOptions);
             payOptions.focus();
-            // await addDelay(500);
-            // simulateClick(payOptions);
-            // console.log("पे UPI Selected");            
-            // await addDelay(500);
+            await humanDelay();
+            simulateClick(payOptions);
+            console.log("पे UPI Selected");            
+            await humanDelay();
         }
         
 
