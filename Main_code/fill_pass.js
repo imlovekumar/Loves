@@ -99,7 +99,7 @@
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    function humanDelay(min = 100, max = 250) {
+    function humanDelay(min = 100, max = 300) {
         return new Promise(resolve => setTimeout(resolve, Math.random() * (max - min) + min));
     }
 
@@ -119,12 +119,16 @@
         const o = [...e.querySelectorAll("app-passenger")];
         for (let i = 0; i < user_data.passenger_details.length; i++) {
             let el = o[i];
-            const pnameInput = el.querySelector("p-autocomplete input");
-            if (pnameInput) 
-            {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);}
-            const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
-            if(pageInput)
-            {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);}
+            let pnameInput = el.querySelector("p-autocomplete input");
+            if (pnameInput) {
+                simulateClick(pnameInput);
+                await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);
+            }
+            let pageInput = el.querySelector("input[formcontrolname='passengerAge']");
+            if(pageInput)  {
+                simulateClick(pageInput);
+                await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);
+            }
             el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
             el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
             el.querySelector("select[formcontrolname='passengerBerthChoice']").value = user_data.passenger_details[i].berth;
@@ -135,7 +139,6 @@
                 food.value = user_data.passenger_details[i].food;
                 food.dispatchEvent(new Event("change"));
             }
-            await humanDelay();
         };
         console.log("👬🏾 All Passenger Detail Filled !");
 
