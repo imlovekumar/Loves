@@ -99,7 +99,7 @@
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    function humanDelay(min = 100, max = 300) {
+    function humanDelay(min = 100, max = 250) {
         return new Promise(resolve => setTimeout(resolve, Math.random() * (max - min) + min));
     }
 
@@ -107,45 +107,42 @@
     
     try 
     {
-        let passengerInput = document.querySelector("app-passenger-input");
-        if (!passengerInput) return alert("Not on the right page.");
-        let index = 1;
-        while (index < user_data.passenger_details.length) {
+        const e = document.querySelector("app-passenger-input");
+        if (!e) return alert("Not on the right page.");
+        for (let i = 1; i < user_data.passenger_details.length; i++) 
+        {
+            await humanDelay(150, 400);  // slower, more human
             simulateClick(document.getElementsByClassName("prenext")[0]);
-            index++;
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
 
-        let passengers = [...passengerInput.querySelectorAll("app-passenger")];
-        // Fill passenger details
-        user_data.passenger_details.forEach((p, i) => {
-            let pnameInput = passengers[i].querySelector("p-autocomplete > span > input");
-            if (pnameInput) {
-                simulateClick(pnameInput);
-                typeTextHumanLike(pnameInput, p.name);
-            }
-            let pageInput = passengers[i].querySelector("input[type='number'][formcontrolname='passengerAge']");
-            if(pageInput)  {
-                simulateClick(pageInput);
-                typeTextHumanLike(pageInput, p.age);
-            }
-            passengers[i].querySelector("select[formcontrolname='passengerGender']").value = p.gender;
-            passengers[i].querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
-            passengers[i].querySelector("select[formcontrolname='passengerBerthChoice']").value = p.berth;
-            passengers[i].querySelector("select[formcontrolname='passengerBerthChoice']").dispatchEvent(new Event("change"));
-            
-            let food = passengers[i].querySelector("select[formcontrolname='passengerFoodChoice']");
-            if (food) {
-                food.value = p.food;
+        const o = [...e.querySelectorAll("app-passenger")];
+        for (let i = 0; i < user_data.passenger_details.length; i++) {
+            let el = o[i];
+            const pnameInput = el.querySelector("p-autocomplete input");
+            if (pnameInput) 
+            {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);}
+            const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
+            if(pageInput)
+            {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);}
+            el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
+            el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
+            el.querySelector("select[formcontrolname='passengerBerthChoice']").value = user_data.passenger_details[i].berth;
+            el.querySelector("select[formcontrolname='passengerBerthChoice']").dispatchEvent(new Event("change"));
+            let food = el.querySelector("select[formcontrolname='passengerFoodChoice']");
+            if (food) 
+            {
+                food.value = user_data.passenger_details[i].food;
                 food.dispatchEvent(new Event("change"));
             }
-        });
+            await humanDelay();
+        };
         console.log("👬🏾 All Passenger Detail Filled !");
 
 
         if (user_data.other_preferences.mobileNumber) 
         {
-            let m = passengerInput.querySelector("input#mobileNumber");
+            let m = e.querySelector("input#mobileNumber");
             if (m) {
                 scrollToView(m);
                 await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
@@ -154,7 +151,7 @@
         }
 
 
-        let upg = passengerInput.querySelector("input#autoUpgradation");
+        let upg = e.querySelector("input#autoUpgradation");
         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
         {
             scrollToView(upg);
@@ -165,7 +162,7 @@
             await humanDelay();
         }
 
-        let conf = passengerInput.querySelector("input#confirmberths");
+        let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
             scrollToView(conf);
@@ -177,7 +174,7 @@
         }
 
         const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
-        const ins = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
+        const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
         if (ins) { 
             scrollToView(ins);
             simulateClick(ins);
@@ -185,7 +182,7 @@
         }
         
         const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
-        const payOptions = [...passengerInput.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
+        const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
         if (payOptions) 
         {
             scrollToView(payOptions);
@@ -197,6 +194,6 @@
         }
         
 
-        submitPassengerDetailsForm(passengerInput);
-    } catch (error) { alert("An error occurred while filling passenger details:\n" + error.message);}
+        submitPassengerDetailsForm(e);
+    } catch (e) { alert("Script error: " + e.message);}
 })();
