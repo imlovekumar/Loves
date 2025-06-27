@@ -52,7 +52,7 @@
         }
     
     }
-    async function typeTextHumanLike(e, text) {
+    async function typeTextHumanLike(e, text,minDelay =50, maxDelay = 150) {
         if (!e || typeof text !== "string") return;
 
         await simulateMouseInteraction(e);  // Hover + Click
@@ -65,8 +65,8 @@
             e.value += char;
             e.dispatchEvent(new InputEvent("input", { bubbles: true, cancelable: true, data: char, inputType: "insertText" }));
             e.dispatchEvent(new KeyboardEvent("keyup", { key: char, bubbles: true }));
-
-            await new Promise(res => setTimeout(res, Math.random() * 100 + 50));
+            const delay = Math.random() * (maxDelay - minDelay) + minDelay;
+            await new Promise(res => setTimeout(res, delay));
         }
 
         e.dispatchEvent(new Event("change", { bubbles: true }));
@@ -122,10 +122,10 @@
             let el = o[i];
             const pnameInput = el.querySelector("p-autocomplete input");
             if (pnameInput) 
-            {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);}
+            {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name,100,300);}
             const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
             if(pageInput)
-            {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);}
+            {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age,100,400);}
             el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
             el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
             el.querySelector("select[formcontrolname='passengerBerthChoice']").value = user_data.passenger_details[i].berth;
