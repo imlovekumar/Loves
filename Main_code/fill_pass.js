@@ -72,8 +72,6 @@
         e.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
-    function addDelay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-
     // === Utility: Simulate fast & stealthy click ===
     function simulateClick(el) {
         if (!el) return;
