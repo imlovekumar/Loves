@@ -13,7 +13,7 @@
         {
             console.log("PLz Manually submit !");
             btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
-            btn.focus();
+            //btn.focus();
         } 
         else 
         {
@@ -25,7 +25,7 @@
                 {
                     clearInterval(t);
                     console.log("✓ Auto Submit");
-                    simulateMouseInteraction(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
+                    simulateClick(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
                     console.log("✓ Auto Submitted");
                     //window.scrollBy(0, 268, "smooth");
                 }
@@ -135,36 +135,29 @@
                 food.value = user_data.passenger_details[i].food;
                 food.dispatchEvent(new Event("change"));
             }
-
-            try 
-            {
-                let chk = el.querySelector("input[type='checkbox'][formcontrolname='childBerthFlag']");
-                if (chk && p.passengerchildberth) chk.click();
-            }
-            catch (err) { console.error("Child berth error", err); }
         };
         console.log("👬🏾 All Passenger Detail Filled !");
 
 
-        if (user_data.other_preferences.mobileNumber) 
-        {
-            let m = e.querySelector("input#mobileNumber");
-            if (m) { 
-                await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
-                console.log("📞 Mobile Number Filled !");
-            }
-        }
+        // if (user_data.other_preferences.mobileNumber) 
+        // {
+        //     let m = e.querySelector("input#mobileNumber");
+        //     if (m) { 
+        //         await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
+        //         console.log("📞 Mobile Number Filled !");
+        //     }
+        // }
 
 
-        let upg = e.querySelector("input#autoUpgradation");
-        if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
-        {
-            upg.focus();
-            await addDelay(500);
-            simulateClick(upg);
-            console.log("✔ Auto Upgradation Checked !");
-            await addDelay(500);
-        }
+        // let upg = e.querySelector("input#autoUpgradation");
+        // if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
+        // {
+        //     upg.focus();
+        //     await addDelay(500);
+        //     simulateClick(upg);
+        //     console.log("✔ Auto Upgradation Checked !");
+        //     await addDelay(500);
+        // }
 
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
@@ -176,26 +169,26 @@
             await addDelay(500);
         }
 
-        const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
-        const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
-        if (ins) { 
-            simulateClick(ins);
-            console.log("📝 Travel Insurance YES !");            
-        }
+        // const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
+        // const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
+        // if (ins) { 
+        //     simulateClick(ins);
+        //     console.log("📝 Travel Insurance YES !");            
+        // }
 
 
-        let coach = e.querySelector("input[formcontrolname='coachId']");
-        if (coach && user_data.travel_preferences.prefcoach) coach.value = user_data.travel_preferences.prefcoach;
+        // let coach = e.querySelector("input[formcontrolname='coachId']");
+        // if (coach && user_data.travel_preferences.prefcoach) coach.value = user_data.travel_preferences.prefcoach;
 
         const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
         const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
         if (payOptions) 
         {
             payOptions.focus();
-            await addDelay(500);
-            simulateClick(payOptions);
-            console.log("पे UPI Selected");            
-            await addDelay(500);
+            // await addDelay(500);
+            // simulateClick(payOptions);
+            // console.log("पे UPI Selected");            
+            // await addDelay(500);
         }
         
 
