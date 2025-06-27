@@ -47,7 +47,7 @@
                         setTimeout(() => {
                             console.log("Auto Pay & Book Clicked!");
                             simulateClick(payButton);
-                        }, 1000);
+                        }, 3000);
                         }
                         break;
                     }
