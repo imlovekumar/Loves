@@ -111,24 +111,18 @@
         }
 
         const o = [...e.querySelectorAll("app-passenger")];
-
-        for (let i = 0; i < user_data.passenger_details.length; i++)
-        {
+        for (let i = 0; i < user_data.passenger_details.length; i++) {
             let el = o[i];
             const pnameInput = el.querySelector("p-autocomplete input");
             if (pnameInput) 
             {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);}
-
             const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
             if(pageInput)
             {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);}
-
             el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
             el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
-
             el.querySelector("select[formcontrolname='passengerBerthChoice']").value = user_data.passenger_details[i].berth;
             el.querySelector("select[formcontrolname='passengerBerthChoice']").dispatchEvent(new Event("change"));
-
             let food = el.querySelector("select[formcontrolname='passengerFoodChoice']");
             if (food) 
             {
