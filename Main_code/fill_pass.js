@@ -18,73 +18,108 @@
                     console.log("✓ Auto Submit");
                     btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
                     scrollToView(btn);
-                    simulateClick(btn);
+                    fastClick(btn);
                     console.log("✓ Auto Submitted");
                 }
             }, 500);
         }
     }
 
-     // === Configuration ===
-    const config = {
-        typingOptions: {
-            minDelay: 5,                  // Minimum typing delay per character (ms)
-            maxDelay: 10                   // Maximum typing delay per character (ms)
-        }
-    };
+    function fastFill(element, text) {
+  if (!element || typeof text !== "string") {
+    console.warn("Element not provided or text is not a string for fastFill.");
+    return;
+  }
 
+  element.focus();
+  element.value = text;
 
-    // === Utility: Simulate fast & stealthy click ===
-    function simulateClick(el) {
-        if (!el) return;
-        const delay = ms => new Promise(res => setTimeout(res, ms));
-        const fire = type => {
-            el.dispatchEvent(new MouseEvent(type, {
-                bubbles: true,
-                cancelable: true,
-                clientX: el.getBoundingClientRect().left + 1,
-                clientY: el.getBoundingClientRect().top + 1
-            }));
-        };
-        return (async () => {
-            fire('mouseover');
-            await delay(10 + Math.random() * 10);
-            fire('mousedown');
-            await delay(10 + Math.random() * 15);
-            fire('mouseup');
-            await delay(5 + Math.random() * 10);
-            fire('click');
-        })();
+  element.dispatchEvent(new Event("input", {
+    bubbles: true,
+    cancelable: true
+  }));
+
+  element.dispatchEvent(new Event("change", {
+    bubbles: true,
+    cancelable: true
+  }));
+
+  element.blur();
+}
+
+function fastClick(element) {
+  if (element && typeof element.click === "function") {
+    if (element.disabled) {
+      console.warn("Element is disabled and cannot be clicked:", element);
+      return;
     }
 
-    // === Utility: Simulate human-like typing ===
-    function simulateTyping(el, text, options = {}) {
-        const { minDelay = 20, maxDelay = 40 } = options;
-        const triggerKey = (type, char) => {
-            const evt = new KeyboardEvent(type, {
-                key: char,
-                bubbles: true,
-                cancelable: true
-            });
-            el.dispatchEvent(evt);
-        };
-        const triggerInput = () => {
-            el.dispatchEvent(new Event('input', { bubbles: true }));
-        };
-        return (async () => {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            el.focus({ preventScroll: true });
-            el.value = '';
-            for (const char of text) {
-                triggerKey('keydown', char);
-                triggerKey('keypress', char);
-                el.value += char;
-                triggerInput();
-                triggerKey('keyup', char);
-                await new Promise(res => setTimeout(res, minDelay + Math.random() * (maxDelay - minDelay)));
-            }
-        })();
-    }
+    element.click();
+  } else {
+    console.warn("Invalid element or element.click is not a function:", element);
+  }
+}
+
+    //  // === Configuration ===
+    // const config = {
+    //     typingOptions: {
+    //         minDelay: 5,                  // Minimum typing delay per character (ms)
+    //         maxDelay: 10                   // Maximum typing delay per character (ms)
+    //     }
+    // };
+
+
+    // // === Utility: Simulate fast & stealthy click ===
+    // function simulateClick(el) {
+    //     if (!el) return;
+    //     const delay = ms => new Promise(res => setTimeout(res, ms));
+    //     const fire = type => {
+    //         el.dispatchEvent(new MouseEvent(type, {
+    //             bubbles: true,
+    //             cancelable: true,
+    //             clientX: el.getBoundingClientRect().left + 1,
+    //             clientY: el.getBoundingClientRect().top + 1
+    //         }));
+    //     };
+    //     return (async () => {
+    //         fire('mouseover');
+    //         await delay(10 + Math.random() * 10);
+    //         fire('mousedown');
+    //         await delay(10 + Math.random() * 15);
+    //         fire('mouseup');
+    //         await delay(5 + Math.random() * 10);
+    //         fire('click');
+    //     })();
+    // }
+
+    // // === Utility: Simulate human-like typing ===
+    // function simulateTyping(el, text, options = {}) {
+    //     const { minDelay = 20, maxDelay = 40 } = options;
+    //     const triggerKey = (type, char) => {
+    //         const evt = new KeyboardEvent(type, {
+    //             key: char,
+    //             bubbles: true,
+    //             cancelable: true
+    //         });
+    //         el.dispatchEvent(evt);
+    //     };
+    //     const triggerInput = () => {
+    //         el.dispatchEvent(new Event('input', { bubbles: true }));
+    //     };
+    //     return (async () => {
+    //         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    //         el.focus({ preventScroll: true });
+    //         el.value = '';
+    //         for (const char of text) {
+    //             triggerKey('keydown', char);
+    //             triggerKey('keypress', char);
+    //             el.value += char;
+    //             triggerInput();
+    //             triggerKey('keyup', char);
+    //             await new Promise(res => setTimeout(res, minDelay + Math.random() * (maxDelay - minDelay)));
+    //         }
+    //     })();
+    // }
 
     // async function simulateMouseInteraction(element) {
     //     const rect = element.getBoundingClientRect();
@@ -157,7 +192,7 @@
         if (!e) return alert("Not on the right page.");
         // Add additional passenger rows
         for (let i = 1; i < user_data.passenger_details.length; i++) {
-            simulateClick(document.getElementsByClassName("prenext")[0]);
+            fastClick(document.getElementsByClassName("prenext")[0]);
             await humanDelay(100, 300);
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
@@ -169,13 +204,13 @@
             const pnameInput = el.querySelector("p-autocomplete input");
             if (pnameInput) {
                 pnameInput.click();
-                await simulateTyping(pnameInput, user_data.passenger_details[i].name,config.typingOptions);
+                await fastFill(pnameInput, user_data.passenger_details[i].name);
             }
 
             const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
             if(pageInput){
                 pageInput.click();
-                await simulateTyping(pageInput, user_data.passenger_details[i].age,config.typingOptions);
+                await fastFill(pageInput, user_data.passenger_details[i].age);
             }
 
             el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
@@ -197,7 +232,7 @@
         if (user_data.other_preferences.mobileNumber) {
             let m = e.querySelector("input#mobileNumber");
             if (m) { 
-                await simulateTyping(m, user_data.other_preferences.mobileNumber,config.typingOptions);
+                await fastFill(m, user_data.other_preferences.mobileNumber);
                 console.log("📞 Mobile Number Filled !");
             }
         }
@@ -206,7 +241,7 @@
             scrollToView(upg);
             upg.focus();
             await humanDelay();
-            simulateClick(upg);
+            fastClick(upg);
             console.log("✔ Auto Upgradation Checked !");
         }
         let conf = e.querySelector("input#confirmberths");
@@ -214,7 +249,7 @@
             scrollToView(conf);
             conf.focus();
             await humanDelay();
-            simulateClick(conf);
+            fastClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
         }
         const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
@@ -223,7 +258,7 @@
             scrollToView(ins);
             ins.focus();
             await humanDelay();
-            simulateClick(ins);
+            fastClick(ins);
             console.log("📝 Travel Insurance YES !");            
         }
         let coach = e.querySelector("input[formcontrolname='coachId']");
@@ -234,7 +269,7 @@
             scrollToView(payOptions);
             payOptions.focus();
             await humanDelay();
-            simulateClick(payOptions);
+            fastClick(payOptions);
             console.log("पे UPI Selected");            
         }
         submitPassengerDetailsForm(e);
