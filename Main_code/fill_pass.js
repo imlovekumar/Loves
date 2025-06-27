@@ -25,39 +25,14 @@
         }
     }
 
-    async function simulateMouseInteraction(element) {
-        const rect = element.getBoundingClientRect();
-        const x = rect.left + Math.random() * rect.width;
-        const y = rect.top + Math.random() * rect.height;
-        const events = ["mouseover", "mouseenter", "mousemove", "mousedown", "mouseup", "click"];
-        for (const type of events) {
-            const event = new MouseEvent(type, {
-                bubbles: true,
-                cancelable: true,
-                view: window,
-                clientX: x,
-                clientY: y,
-            });
-            element.dispatchEvent(event);
-            await new Promise(res => setTimeout(res, Math.random() * 60 + 40));
+     // === Configuration ===
+    const config = {
+        typingOptions: {
+            minDelay: 5,                  // Minimum typing delay per character (ms)
+            maxDelay: 10                   // Maximum typing delay per character (ms)
         }
-    }
-    
-    async function typeTextHumanLike(e, text) {
-        if (!e || typeof text !== "string") return;
-        await simulateMouseInteraction(e);  // Hover + Click
-        e.focus();
-        e.value = "";
-        e.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
-        for (const char of text) {
-            e.dispatchEvent(new KeyboardEvent("keydown", { key: char, bubbles: true }));
-            e.value += char;
-            e.dispatchEvent(new InputEvent("input", { bubbles: true, cancelable: true, data: char, inputType: "insertText" }));
-            e.dispatchEvent(new KeyboardEvent("keyup", { key: char, bubbles: true }));
-            await new Promise(res => setTimeout(res, Math.random() * 100 + 50));
-        }
-        e.dispatchEvent(new Event("change", { bubbles: true }));
-    }
+    };
+
 
     // === Utility: Simulate fast & stealthy click ===
     function simulateClick(el) {
@@ -81,6 +56,92 @@
             fire('click');
         })();
     }
+
+    // === Utility: Simulate human-like typing ===
+    function simulateTyping(el, text, options = {}) {
+        const { minDelay = 20, maxDelay = 40 } = options;
+        const triggerKey = (type, char) => {
+            const evt = new KeyboardEvent(type, {
+                key: char,
+                bubbles: true,
+                cancelable: true
+            });
+            el.dispatchEvent(evt);
+        };
+        const triggerInput = () => {
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+        };
+        return (async () => {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.focus({ preventScroll: true });
+            el.value = '';
+            for (const char of text) {
+                triggerKey('keydown', char);
+                triggerKey('keypress', char);
+                el.value += char;
+                triggerInput();
+                triggerKey('keyup', char);
+                await new Promise(res => setTimeout(res, minDelay + Math.random() * (maxDelay - minDelay)));
+            }
+        })();
+    }
+
+    // async function simulateMouseInteraction(element) {
+    //     const rect = element.getBoundingClientRect();
+    //     const x = rect.left + Math.random() * rect.width;
+    //     const y = rect.top + Math.random() * rect.height;
+    //     const events = ["mouseover", "mouseenter", "mousemove", "mousedown", "mouseup", "click"];
+    //     for (const type of events) {
+    //         const event = new MouseEvent(type, {
+    //             bubbles: true,
+    //             cancelable: true,
+    //             view: window,
+    //             clientX: x,
+    //             clientY: y,
+    //         });
+    //         element.dispatchEvent(event);
+    //         await new Promise(res => setTimeout(res, Math.random() * 60 + 40));
+    //     }
+    // }
+    
+    // async function typeTextHumanLike(e, text) {
+    //     if (!e || typeof text !== "string") return;
+    //     await simulateMouseInteraction(e);  // Hover + Click
+    //     e.focus();
+    //     e.value = "";
+    //     e.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
+    //     for (const char of text) {
+    //         e.dispatchEvent(new KeyboardEvent("keydown", { key: char, bubbles: true }));
+    //         e.value += char;
+    //         e.dispatchEvent(new InputEvent("input", { bubbles: true, cancelable: true, data: char, inputType: "insertText" }));
+    //         e.dispatchEvent(new KeyboardEvent("keyup", { key: char, bubbles: true }));
+    //         await new Promise(res => setTimeout(res, Math.random() * 100 + 50));
+    //     }
+    //     e.dispatchEvent(new Event("change", { bubbles: true }));
+    // }
+
+    // // === Utility: Simulate fast & stealthy click ===
+    // function simulateClick(el) {
+    //     if (!el) return;
+    //     const delay = ms => new Promise(res => setTimeout(res, ms));
+    //     const fire = type => {
+    //         el.dispatchEvent(new MouseEvent(type, {
+    //             bubbles: true,
+    //             cancelable: true,
+    //             clientX: el.getBoundingClientRect().left + 1,
+    //             clientY: el.getBoundingClientRect().top + 1
+    //         }));
+    //     };
+    //     return (async () => {
+    //         fire('mouseover');
+    //         await delay(10 + Math.random() * 10);
+    //         fire('mousedown');
+    //         await delay(10 + Math.random() * 15);
+    //         fire('mouseup');
+    //         await delay(5 + Math.random() * 10);
+    //         fire('click');
+    //     })();
+    // }
     
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -108,13 +169,13 @@
             const pnameInput = el.querySelector("p-autocomplete input");
             if (pnameInput) {
                 pnameInput.click();
-                await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);
+                await simulateTyping(pnameInput, user_data.passenger_details[i].name,config.typingOptions);
             }
 
             const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
             if(pageInput){
                 pageInput.click();
-                await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);
+                await simulateTyping(pageInput, user_data.passenger_details[i].age,config.typingOptions);
             }
 
             el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
@@ -136,7 +197,7 @@
         if (user_data.other_preferences.mobileNumber) {
             let m = e.querySelector("input#mobileNumber");
             if (m) { 
-                await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
+                await simulateTyping(m, user_data.other_preferences.mobileNumber,config.typingOptions);
                 console.log("📞 Mobile Number Filled !");
             }
         }
