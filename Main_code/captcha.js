@@ -65,12 +65,17 @@
             fire('click');
         })();
     }
+    
+    function scrollToView(el) {
+        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 
     async function solveCaptcha(e = 0) 
     {
         if (e >= 100) return;
         const t = document.querySelector(".captcha-img");
         if (!t || !t.src || t.src.length < 23) return setTimeout(() => solveCaptcha(e + 1), 1e3);
+        scrollToView(t);
         console.log("Captcha Found !");
         const n = JSON.stringify({  userid: "__userid__",
                                     apikey: "__apikey__",
