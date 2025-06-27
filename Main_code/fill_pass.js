@@ -107,39 +107,39 @@
     
     try 
     {
-        const e = document.querySelector("app-passenger-input");
+        let passengerInput = document.querySelector("app-passenger-input");
         if (!e) return alert("Not on the right page.");
-        for (let pbox = 1; pbox < user_data.passenger_details.length; pbox++) {
+        let index = 1;
+        while (index < user_data.passenger_details.length) {
             simulateClick(document.getElementsByClassName("prenext")[0]);
+            index++;
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
 
-        let o = [...e.querySelectorAll("app-passenger")];
+        let passengers = [...passengerInput.querySelectorAll("app-passenger")];
         // Fill passenger details
         user_data.passenger_details.forEach((p, i) => {
-        // for (let i = 0; i < user_data.passenger_details.length; i++) {
-            let el = o[i];
-            let pnameInput = el.querySelector("p-autocomplete > span > input");
+            let pnameInput = passengers[i].querySelector("p-autocomplete > span > input");
             if (pnameInput) {
                 simulateClick(pnameInput);
                 typeTextHumanLike(pnameInput, p.name);
             }
-            let pageInput = el.querySelector("input[type='number'][formcontrolname='passengerAge']");
+            let pageInput = passengers[i].querySelector("input[type='number'][formcontrolname='passengerAge']");
             if(pageInput)  {
                 simulateClick(pageInput);
                 typeTextHumanLike(pageInput, p.age);
             }
-            el.querySelector("select[formcontrolname='passengerGender']").value = p.gender;
-            el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
-            el.querySelector("select[formcontrolname='passengerBerthChoice']").value = p.berth;
-            el.querySelector("select[formcontrolname='passengerBerthChoice']").dispatchEvent(new Event("change"));
-            let food = el.querySelector("select[formcontrolname='passengerFoodChoice']");
-            if (food) 
-            {
+            passengers[i].querySelector("select[formcontrolname='passengerGender']").value = p.gender;
+            passengers[i].querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
+            passengers[i].querySelector("select[formcontrolname='passengerBerthChoice']").value = p.berth;
+            passengers[i].querySelector("select[formcontrolname='passengerBerthChoice']").dispatchEvent(new Event("change"));
+            
+            let food = passengers[i].querySelector("select[formcontrolname='passengerFoodChoice']");
+            if (food) {
                 food.value = p.food;
                 food.dispatchEvent(new Event("change"));
             }
-        };
+        });
         console.log("👬🏾 All Passenger Detail Filled !");
 
 
