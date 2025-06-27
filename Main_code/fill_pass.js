@@ -114,27 +114,29 @@
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
 
-        const o = [...e.querySelectorAll("app-passenger")];
-        for (let i = 0; i < user_data.passenger_details.length; i++) {
+        let o = [...e.querySelectorAll("app-passenger")];
+        // Fill passenger details
+        user_data.passenger_details.forEach((p, i) => {
+        // for (let i = 0; i < user_data.passenger_details.length; i++) {
             let el = o[i];
             let pnameInput = el.querySelector("p-autocomplete > span > input");
             if (pnameInput) {
                 simulateClick(pnameInput);
-                await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);
+                typeTextHumanLike(pnameInput, p.name);
             }
             let pageInput = el.querySelector("input[type='number'][formcontrolname='passengerAge']");
             if(pageInput)  {
                 simulateClick(pageInput);
-                await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);
+                typeTextHumanLike(pageInput, p.age);
             }
-            el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
+            el.querySelector("select[formcontrolname='passengerGender']").value = p.gender;
             el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
-            el.querySelector("select[formcontrolname='passengerBerthChoice']").value = user_data.passenger_details[i].berth;
+            el.querySelector("select[formcontrolname='passengerBerthChoice']").value = p.berth;
             el.querySelector("select[formcontrolname='passengerBerthChoice']").dispatchEvent(new Event("change"));
             let food = el.querySelector("select[formcontrolname='passengerFoodChoice']");
             if (food) 
             {
-                food.value = user_data.passenger_details[i].food;
+                food.value = p.food;
                 food.dispatchEvent(new Event("change"));
             }
         };
