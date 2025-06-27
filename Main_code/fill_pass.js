@@ -113,6 +113,7 @@
         {
             await humanDelay(150, 400);  // slower, more human
             simulateClick(document.getElementsByClassName("prenext")[0]);
+            await humanDelay(150, 400);  // slower, more human
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
 
