@@ -109,7 +109,7 @@
     {
         const e = document.querySelector("app-passenger-input");
         if (!e) return alert("Not on the right page.");
-        for (let i = 1; i < user_data.passenger_details.length; i++) 
+        for (let pbox = 1; pbox < user_data.passenger_details.length; pbox++) 
         {
             await humanDelay(150, 400);  // slower, more human
             simulateClick(document.getElementsByClassName("prenext")[0]);
