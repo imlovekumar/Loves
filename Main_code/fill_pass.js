@@ -13,7 +13,7 @@
             var keyCounter = new Date().getTime();
             var t = setInterval(function() {
                 var o = new Date().getTime();
-                if (o - keyCounter > 300) {
+                if (o - keyCounter > 2000) {
                     clearInterval(t);
                     console.log("✓ Auto Submit");
                     btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
@@ -94,11 +94,13 @@
     {
         const e = document.querySelector("app-passenger-input");
         if (!e) return alert("Not on the right page.");
+        // Add additional passenger rows
         for (let i = 1; i < user_data.passenger_details.length; i++) {
             simulateClick(document.getElementsByClassName("prenext")[0]);
             await humanDelay(100, 300);
             console.log("All",user_data.passenger_details.length,"Passenger Box Open");
         }
+        
         const o = [...e.querySelectorAll("app-passenger")];
         for (let i = 0; i < user_data.passenger_details.length; i++){
             let el = o[i];
@@ -139,6 +141,7 @@
         let upg = e.querySelector("input#autoUpgradation");
         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) {
             scrollToView(upg);
+            upg.focus();
             await humanDelay();
             simulateClick(upg);
             console.log("✔ Auto Upgradation Checked !");
@@ -146,6 +149,7 @@
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked){
             scrollToView(conf);
+            conf.focus();
             await humanDelay();
             simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
@@ -154,6 +158,7 @@
         const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
         if (ins) { 
             scrollToView(ins);
+            ins.focus();
             await humanDelay();
             simulateClick(ins);
             console.log("📝 Travel Insurance YES !");            
@@ -164,6 +169,7 @@
         const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
         if (payOptions) {
             scrollToView(payOptions);
+            payOptions.focus();
             await humanDelay();
             simulateClick(payOptions);
             console.log("पे UPI Selected");            
