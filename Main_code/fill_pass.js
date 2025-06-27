@@ -145,7 +145,7 @@
 
         if (user_data.other_preferences.mobileNumber) 
         {
-            let m = e.querySelector("input#mobileNumber");
+            let m = passengerInput.querySelector("input#mobileNumber");
             if (m) {
                 scrollToView(m);
                 await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
@@ -154,7 +154,7 @@
         }
 
 
-        let upg = e.querySelector("input#autoUpgradation");
+        let upg = passengerInput.querySelector("input#autoUpgradation");
         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
         {
             scrollToView(upg);
@@ -165,7 +165,7 @@
             await humanDelay();
         }
 
-        let conf = e.querySelector("input#confirmberths");
+        let conf = passengerInput.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
             scrollToView(conf);
@@ -177,7 +177,7 @@
         }
 
         const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
-        const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
+        const ins = [...passengerInput.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
         if (ins) { 
             scrollToView(ins);
             simulateClick(ins);
@@ -185,7 +185,7 @@
         }
         
         const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
-        const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
+        const payOptions = [...passengerInput.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
         if (payOptions) 
         {
             scrollToView(payOptions);
@@ -197,6 +197,6 @@
         }
         
 
-        submitPassengerDetailsForm(e);
-    } catch (e) { alert("Script error: " + e.message);}
+        submitPassengerDetailsForm(passengerInput);
+    } catch (error) { alert("An error occurred while filling passenger details:\n" + error.message);}
 })();
