@@ -160,9 +160,10 @@
             await simulateTyping(passEl, pwdVal, config.typingOptions);
             await new Promise(res => setTimeout(res, afterTypingDelay));
 
-            // 4. Log: now solve CAPTCHA manually
+            // 4. Log: now solve CAPTCHA
+            console.log('✅ Username & password filled.');
             solveCaptcha();
-            console.log('✅ Username & password filled.\nNow click captcha solve button.');
+            
 
         } catch (err) {
             console.error('❌ Automation error:', err);
