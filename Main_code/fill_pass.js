@@ -221,12 +221,13 @@ function waitForCheckboxToBeChecked(el) {
         if (payOptions) 
         {
             scrollToView(payOptions);
-            //console.log("Plz Select UPI");
-            payOptions.focus();
-            await humanDelay();
-            simulateClick(payOptions);
-            console.log("पे UPI Selected");            
-            await humanDelay();
+            console.log("Plz Select UPI");
+            highlightBlinkingLabel('hjjsjsj', 0.3);
+            //payOptions.focus();
+            //await humanDelay();
+            //simulateClick(payOptions);
+            //console.log("पे UPI Selected");            
+            //await humanDelay();
         }
         submitPassengerDetailsForm(e);
     } catch (e) { alert("Script error: " + e.message);}
