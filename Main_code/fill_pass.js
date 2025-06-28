@@ -81,7 +81,7 @@
         })();
     }
     
-function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
+/*function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
   const labels = document.querySelectorAll('label');
 
   labels.forEach(label => {
@@ -121,7 +121,7 @@ function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
       }
     }
   });
-}
+}*/
     
 function waitForCheckboxToBeChecked(el) {
     return new Promise((resolve) => {
@@ -138,7 +138,7 @@ function waitForCheckboxToBeChecked(el) {
 }
 
     function scrollToView(el) {
-        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function humanDelay(min = 100, max = 250) {
@@ -209,8 +209,8 @@ function waitForCheckboxToBeChecked(el) {
         {
             await humanDelay();
             scrollToView(conf);
-            highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
-            highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
+            //highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
+            //highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
             //conf.focus();
             console.log("Plz Check Manually");
             await waitForCheckboxToBeChecked(conf);
