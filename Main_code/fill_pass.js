@@ -209,7 +209,7 @@ function waitForCheckboxToBeChecked(el) {
         {
             await humanDelay();
             scrollToView(conf);
-            //highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
+            highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
             conf.focus();
             console.log("Plz Check Manually");
             await waitForCheckboxToBeChecked(conf);
@@ -232,8 +232,9 @@ function waitForCheckboxToBeChecked(el) {
         {
             scrollToView(payOptions);
             console.log("Plz Select UPI");
-            //highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
+            highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
             payOptions.focus();
+            payOptions.click();
             //await humanDelay();
             //simulateClick(payOptions);
             //console.log("पे UPI Selected");            
