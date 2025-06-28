@@ -163,10 +163,10 @@
         //     await humanDelay();
         // }
 
-        let conf = e.querySelector("input#confirmberths");
-        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
-        {
-            scrollToView(conf);
+        // let conf = e.querySelector("input#confirmberths");
+        // if (conf && user_data.other_preferences.confirmberths !== conf.checked)
+        // {
+        //     scrollToView(conf);
             // conf.focus();
             // await humanDelay();
             // simulateClick(conf);
