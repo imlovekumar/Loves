@@ -95,19 +95,16 @@
         })();
     }
     
-    function waitForCheckboxToBeChecked(el) {
+function waitForCheckboxToBeChecked(el) {
     return new Promise((resolve) => {
         if (!el) return resolve();
-
         if (el.checked) return resolve();
-
         const onChange = () => {
             if (el.checked) {
                 el.removeEventListener('change', onChange);
                 resolve();
             }
         };
-
         el.addEventListener('change', onChange);
     });
 }
@@ -115,17 +112,13 @@
 function waitForRadioToBeSelected(el) {
     return new Promise((resolve) => {
         if (!el) return resolve();
-
-
         if (el.checked) return resolve();
-
         const onChange = () => {
             if (el.checked) {
                 el.removeEventListener('change', onChange);
                 resolve();
             }
         };
-
         el.addEventListener('change', onChange);
     });
 }
@@ -222,7 +215,8 @@ function waitForRadioToBeSelected(el) {
         const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
         if (payOptions) 
         {
-             scrollToView(payOptions);
+            scrollToView(payOptions);
+            await waitForRadioToBeSelected(payOptions);
         //     payOptions.focus();
         //     await humanDelay();
         //     simulateClick(payOptions);
