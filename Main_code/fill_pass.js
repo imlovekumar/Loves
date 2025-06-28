@@ -82,24 +82,15 @@
     }
     
 function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
+  // Find all label elements
   const labels = document.querySelectorAll('label');
 
   labels.forEach(label => {
-    // Match label containing the target text
     if (label.textContent.trim() === labelText) {
-      // Find the exact text node inside the label (non-input part)
-      for (const node of label.childNodes) {
-        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === labelText) {
-          const span = document.createElement('span');
-          span.className = 'blinking-highlight';
-          span.textContent = labelText;
+      // Wrap the text in a <span> with a blinking class
+      label.innerHTML = `<span class="blinking-highlight">${labelText}</span>`;
 
-          label.replaceChild(span, node);
-          break;
-        }
-      }
-
-      // Inject CSS once
+      // Inject CSS animation only once
       if (!document.getElementById('blinking-style')) {
         const style = document.createElement('style');
         style.id = 'blinking-style';
@@ -114,7 +105,6 @@ function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
             padding: 2px 4px;
             border-radius: 4px;
             font-weight: bold;
-            margin-left: 5px;
           }
         `;
         document.head.appendChild(style);
