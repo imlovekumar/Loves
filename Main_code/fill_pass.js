@@ -7,23 +7,16 @@
     function submitPassengerDetailsForm(e) 
     {
         console.log("✓ Passenger Filling Completed");
-        //window.scrollBy(0, 258, "smooth");
-
-        if (user_data.other_preferences.psgManual) 
-        {
+        if (user_data.other_preferences.psgManual) {
             console.log("PLz Manually submit !");
             // btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
             // scrollToView(btn);
             // btn.focus();
-        } 
-        else 
-        {
+        } else {
             var keyCounter = new Date().getTime();
-            var t = setInterval(function() 
-            {
+            var t = setInterval(function() {
                 var o = new Date().getTime();
-                if (o - keyCounter > 2000) 
-                {
+                if (o - keyCounter > 2000) {
                     clearInterval(t);
                     simulateClick(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
                     console.log("✓ Auto Submitted");
@@ -36,9 +29,7 @@
         const rect = element.getBoundingClientRect();
         const x = rect.left + Math.random() * rect.width;
         const y = rect.top + Math.random() * rect.height;
-
         const events = ["mouseover", "mouseenter", "mousemove", "mousedown", "mouseup", "click"];
-
         for (const type of events) {
             const event = new MouseEvent(type, {
                 bubbles: true,
@@ -50,16 +41,13 @@
             element.dispatchEvent(event);
             await new Promise(res => setTimeout(res, Math.random() * 60 + 40));
         }
-    
     }
     async function typeTextHumanLike(e, text,minDelay =50, maxDelay = 150) {
         if (!e || typeof text !== "string") return;
-
         await simulateMouseInteraction(e);  // Hover + Click
         e.focus();
         e.value = "";
         e.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
-
         for (const char of text) {
             e.dispatchEvent(new KeyboardEvent("keydown", { key: char, bubbles: true }));
             e.value += char;
@@ -68,11 +56,9 @@
             const delay = Math.random() * (maxDelay - minDelay) + minDelay;
             await new Promise(res => setTimeout(res, delay));
         }
-
         e.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
-    // === Utility: Simulate fast & stealthy click ===
     function simulateClick(el) {
         if (!el) return;
         const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -109,7 +95,6 @@ function waitForCheckboxToBeChecked(el) {
     });
 }
 
-
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -118,26 +103,10 @@ function waitForCheckboxToBeChecked(el) {
         return new Promise(resolve => setTimeout(resolve, Math.random() * (max - min) + min));
     }
 
-
-    
     try 
     {
         const e = document.querySelector("app-passenger-input");
         if (!e) return alert("Not on the right page.");
-        
-        let conf = e.querySelector("input#confirmberths");
-        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
-        {
-            await humanDelay();
-            scrollToView(conf);
-            conf.focus();
-            console.log("Plz Check Manually");
-            await waitForCheckboxToBeChecked(conf);
-            await humanDelay();
-            // simulateClick(conf);
-            console.log("✔ Only Confirmed Seat Checked !");
-            await humanDelay();
-        }
         
         for (let i = 1; i < user_data.passenger_details.length; i++) 
         {
@@ -193,8 +162,19 @@ function waitForCheckboxToBeChecked(el) {
         //     await humanDelay();
         // }
 
+        let conf = e.querySelector("input#confirmberths");
+        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
+        {
+            await humanDelay();
+            scrollToView(conf);
+            conf.focus();
+            console.log("Plz Check Manually");
+            await waitForCheckboxToBeChecked(conf);
+            await humanDelay();
+            // simulateClick(conf);
+            console.log("✔ Only Confirmed Seat Checked !");
+        }
         
-
         // const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
         // const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
         // if (ins) { 
@@ -209,15 +189,12 @@ function waitForCheckboxToBeChecked(el) {
         {
             scrollToView(payOptions);
             //console.log("Plz Select UPI");
-            
             payOptions.focus();
             await humanDelay();
             simulateClick(payOptions);
             console.log("पे UPI Selected");            
             await humanDelay();
         }
-        
-
         submitPassengerDetailsForm(e);
     } catch (e) { alert("Script error: " + e.message);}
 })();
