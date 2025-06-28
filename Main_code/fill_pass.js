@@ -81,6 +81,38 @@
         })();
     }
     
+function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
+  // Find all label elements
+  const labels = document.querySelectorAll('label');
+
+  labels.forEach(label => {
+    if (label.textContent.trim() === labelText) {
+      // Wrap the text in a <span> with a blinking class
+      label.innerHTML = `<span class="blinking-highlight">${labelText}</span>`;
+
+      // Inject CSS animation only once
+      if (!document.getElementById('blinking-style')) {
+        const style = document.createElement('style');
+        style.id = 'blinking-style';
+        style.textContent = `
+          @keyframes blinkColor {
+            0%   { background-color: yellow; }
+            50%  { background-color: red; }
+            100% { background-color: yellow; }
+          }
+          .blinking-highlight {
+            animation: blinkColor ${blinkSpeed}s infinite;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: bold;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+  });
+}
+    
 function waitForCheckboxToBeChecked(el) {
     return new Promise((resolve) => {
         if (!el) return resolve();
@@ -167,6 +199,7 @@ function waitForCheckboxToBeChecked(el) {
         {
             await humanDelay();
             scrollToView(conf);
+            highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
             conf.focus();
             console.log("Plz Check Manually");
             await waitForCheckboxToBeChecked(conf);
