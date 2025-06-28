@@ -4,8 +4,7 @@
     var user_data = _pax_data_;
     let keyCounter = 0x0;
 
-    function submitPassengerDetailsForm(e) 
-    {
+    function submitPassengerDetailsForm(e) {
         console.log("✓ Passenger Filling Completed");
         if (user_data.other_preferences.psgManual) {
             console.log("PLz Manually submit !");
@@ -150,8 +149,7 @@ function waitForCheckboxToBeChecked(el) {
         const e = document.querySelector("app-passenger-input");
         if (!e) return alert("Not on the right page.");
         
-        for (let i = 1; i < user_data.passenger_details.length; i++) 
-        {
+        for (let i = 1; i < user_data.passenger_details.length; i++) {
             await humanDelay(150, 400);  // slower, more human
             simulateClick(document.getElementsByClassName("prenext")[0]);
             await humanDelay(150, 400);  // slower, more human
@@ -193,8 +191,7 @@ function waitForCheckboxToBeChecked(el) {
 
 
          let upg = e.querySelector("input#autoUpgradation");
-         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) 
-         {
+         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) {
              scrollToView(upg);
              upg.focus();
              await humanDelay();
@@ -204,8 +201,7 @@ function waitForCheckboxToBeChecked(el) {
          }
         
         let conf = e.querySelector("input#confirmberths");
-        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
-        {
+        if (conf && user_data.other_preferences.confirmberths !== conf.checked){
             scrollToView(conf);
             //highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
             //console.log("Plz Check Manually");
@@ -225,8 +221,7 @@ function waitForCheckboxToBeChecked(el) {
         
         const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
         const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
-        if (payOptions) 
-        {
+        if (payOptions) {
             scrollToView(payOptions);
             console.log("Plz Select UPI");
             //highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
