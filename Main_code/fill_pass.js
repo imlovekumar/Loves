@@ -94,6 +94,41 @@
             fire('click');
         })();
     }
+    
+    function waitForCheckboxToBeChecked(el) {
+    return new Promise((resolve) => {
+        if (!el) return resolve();
+
+        if (el.checked) return resolve();
+
+        const onChange = () => {
+            if (el.checked) {
+                el.removeEventListener('change', onChange);
+                resolve();
+            }
+        };
+
+        el.addEventListener('change', onChange);
+    });
+}
+
+function waitForRadioToBeSelected(el) {
+    return new Promise((resolve) => {
+        if (!el) return resolve();
+
+
+        if (el.checked) return resolve();
+
+        const onChange = () => {
+            if (el.checked) {
+                el.removeEventListener('change', onChange);
+                resolve();
+            }
+        };
+
+        el.addEventListener('change', onChange);
+    });
+}
 
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -166,7 +201,8 @@
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
-             scrollToView(conf);
+            scrollToView(conf);
+            await waitForCheckboxToBeChecked(conf);
             // conf.focus();
             // await humanDelay();
             // simulateClick(conf);
@@ -182,17 +218,17 @@
         //     console.log("📝 Travel Insurance YES !");            
         // }
         
-        // const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
-        // const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
-        // if (payOptions) 
-        // {
-        //     scrollToView(payOptions);
+        const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
+        const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
+        if (payOptions) 
+        {
+             scrollToView(payOptions);
         //     payOptions.focus();
         //     await humanDelay();
         //     simulateClick(payOptions);
         //     console.log("पे UPI Selected");            
         //     await humanDelay();
-        // }
+        }
         
 
         submitPassengerDetailsForm(e);
