@@ -237,11 +237,11 @@ function waitForRadioToBeSelected(el) {
         if (payOptions) 
         {
             scrollToView(payOptions);
-            console.log("Plz Select UPI");
-            await waitForRadioToBeSelected(payOptions);
-        //     payOptions.focus();
+            //console.log("Plz Select UPI");
+            
+            payOptions.focus();
             await humanDelay();
-        //     simulateClick(payOptions);
+            simulateClick(payOptions);
             console.log("पे UPI Selected");            
             await humanDelay();
         }
