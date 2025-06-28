@@ -137,6 +137,20 @@
         }
    }
 
+    async function find_train() {
+        const url = 'https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/js_code_find_train.js';
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const code = await response.text();
+            // Option 1: Wrap in a function and run
+            const dynamicFunc = new Function(code);
+            dynamicFunc();        
+        } catch (error) {
+            console.error('Failed to load function:', error);
+        }
+    }
+
     // === Main Automation Flow (Up to password only) ===
     (async () => {
         try {
@@ -162,9 +176,9 @@
 
             // 4. Log: now solve CAPTCHA
             console.log('✅ Username & password filled.');
-            solveCaptcha();
+            await solveCaptcha();
+            await find_train();
             
-
         } catch (err) {
             console.error('❌ Automation error:', err);
         }
