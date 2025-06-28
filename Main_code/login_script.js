@@ -92,12 +92,17 @@
         })();
     }
 
+    function scrollToView(el) {
+        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
     async function solveCaptcha() {
         const t = document.querySelector(".captcha-img");
         if (!t || !t.src || t.src.length < 23) {
             console.log("❌ Captcha image not found or not loaded.");
             return;
         }
+        scrollToView(t);
         console.log("🔍 Captcha Found!");
         const base64Image = t.src.slice(22); // remove "data:image/jpeg;base64,"
         const postData = { img: base64Image };
