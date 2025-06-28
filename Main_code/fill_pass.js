@@ -207,9 +207,9 @@ function waitForCheckboxToBeChecked(el) {
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
             scrollToView(conf);
-            highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
-            console.log("Plz Check Manually");
-            await waitForCheckboxToBeChecked(conf);
+            //highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
+            //console.log("Plz Check Manually");
+            //await waitForCheckboxToBeChecked(conf);
             await humanDelay();
             simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
