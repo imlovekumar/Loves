@@ -141,15 +141,15 @@
         console.log("👬🏾 All Passenger Detail Filled !");
 
 
-        if (user_data.other_preferences.mobileNumber) 
-        {
-            let m = e.querySelector("input#mobileNumber");
-            if (m) {
-                scrollToView(m);
-                await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
-                console.log("📞 Mobile Number Filled !");
-            }
-        }
+        // if (user_data.other_preferences.mobileNumber) 
+        // {
+        //     let m = e.querySelector("input#mobileNumber");
+        //     if (m) {
+        //         scrollToView(m);
+        //         await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
+        //         console.log("📞 Mobile Number Filled !");
+        //     }
+        // }
 
 
         // let upg = e.querySelector("input#autoUpgradation");
@@ -166,14 +166,12 @@
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
-            conf.style.border = "2px solid red";
-            conf.style.backgroundColor = "yellow";
             scrollToView(conf);
-            // conf.focus();
-            // await humanDelay();
-            // simulateClick(conf);
-            // console.log("✔ Only Confirmed Seat Checked !");
-            // await humanDelay();
+            conf.focus();
+            await humanDelay();
+            simulateClick(conf);
+            console.log("✔ Only Confirmed Seat Checked !");
+            await humanDelay();
         }
 
         // const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
@@ -184,17 +182,17 @@
         //     console.log("📝 Travel Insurance YES !");            
         // }
         
-        // const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
-        // const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
-        // if (payOptions) 
-        // {
-        //     scrollToView(payOptions);
-        //     payOptions.focus();
-        //     await humanDelay();
-        //     simulateClick(payOptions);
-        //     console.log("पे UPI Selected");            
-        //     await humanDelay();
-        // }
+        const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
+        const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
+        if (payOptions) 
+        {
+            scrollToView(payOptions);
+            payOptions.focus();
+            await humanDelay();
+            simulateClick(payOptions);
+            console.log("पे UPI Selected");            
+            await humanDelay();
+        }
         
 
         submitPassengerDetailsForm(e);
