@@ -92,6 +92,44 @@
         })();
     }
 
+    async function solveCaptcha() {
+        const t = document.querySelector(".captcha-img");
+        if (!t || !t.src || t.src.length < 23) return setTimeout(() => solveCaptcha(e + 1), 1e3);
+        scrollToView(t);
+        console.log("🔍 Captcha Found!");
+        const postData = {
+          img: t.src.slice(22)
+        };
+        try {
+            const r = await fetch("https://backend.ocreditor.com/api/image/text", {
+                method: "POST",
+                headers: {
+                  'User-Agent': 'Vivaldi/1.15',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            });
+            const json = await r.json();
+            const raw = json.data[0];
+            const s = raw.replaceAll(" ", "");
+            console.log("✅ Captcha Solved! (FREE)");
+            const i = document.querySelector("#captcha");
+            if (i && s) {   
+                console.log("⌨️ Typing Captcha...");
+                await simulateTyping(i, s, config.typingOptions);
+                const Log_Btn = document.querySelector("#login_header_disable > div > div > div.ng-tns-c19-13.ui-dialog-content.ui-widget-content > div.irmodal.ng-tns-c19-13 > div > div.login-bg.pull-left > div > div.modal-body > form > span > button");
+                if(!Log_Btn) {
+                    console.log("❌ Login Button Not Found !");
+                    console.log("✍️ Login Manually ! ");
+                } else {
+                    console.log("✔ Login Button Found !");
+                    simulateClick(Log_Btn);
+                    console.log("✍️ Auto Login !");
+                }
+            }
+        }
+    }
+
     // === Main Automation Flow (Up to password only) ===
     (async () => {
         try {
@@ -116,6 +154,7 @@
             await new Promise(res => setTimeout(res, afterTypingDelay));
 
             // 4. Log: now solve CAPTCHA manually
+            solveCaptcha();
             console.log('✅ Username & password filled.\nNow click captcha solve button.');
 
         } catch (err) {
