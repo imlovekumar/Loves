@@ -128,10 +128,11 @@ function waitForCheckboxToBeChecked(el) {
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
+            await humanDelay();
             scrollToView(conf);
+            conf.focus();
             console.log("Plz Check Manually");
             await waitForCheckboxToBeChecked(conf);
-            // conf.focus();
             await humanDelay();
             // simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
