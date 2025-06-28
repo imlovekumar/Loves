@@ -109,6 +109,40 @@ function waitForCheckboxToBeChecked(el) {
     });
 }
 
+function waitForRadioToBeSelected(el) {
+    return new Promise((resolve) => {
+        if (!el) return resolve();
+
+        if (el.checked) return resolve();
+
+        const onChange = () => {
+            if (el.checked) {
+                cleanup();
+                resolve();
+            }
+        };
+
+        const observer = new MutationObserver(() => {
+            if (el.checked) {
+                cleanup();
+                resolve();
+            }
+        });
+
+        const cleanup = () => {
+            observer.disconnect();
+            el.removeEventListener('change', onChange);
+        };
+
+        observer.observe(el, {
+            attributes: true,
+            attributeFilter: ['checked'],
+        });
+
+        el.addEventListener('change', onChange);
+    });
+}
+
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -204,7 +238,7 @@ function waitForCheckboxToBeChecked(el) {
         {
             scrollToView(payOptions);
             console.log("Plz Select UPI");
-            await waitForCheckboxToBeChecked(payOptions);
+            await waitForRadioToBeSelected(payOptions);
         //     payOptions.focus();
             await humanDelay();
         //     simulateClick(payOptions);
