@@ -143,6 +143,8 @@
             const loginBtn = await waitForElement(loginButton, elementWait);
             await simulateClick(loginBtn);
 
+            document.querySelectorAll('img[src*="contents.irctc.co.in"]').forEach(el => el.remove());
+
             // 2. Type username
             const userEl = await waitForElement(username, elementWait);
             await simulateTyping(userEl, unameVal, config.typingOptions);
