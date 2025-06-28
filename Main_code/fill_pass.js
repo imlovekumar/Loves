@@ -82,15 +82,24 @@
     }
     
 function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
-  // Find all label elements
   const labels = document.querySelectorAll('label');
 
   labels.forEach(label => {
+    // Match label containing the target text
     if (label.textContent.trim() === labelText) {
-      // Wrap the text in a <span> with a blinking class
-      label.innerHTML = `<span class="blinking-highlight">${labelText}</span>`;
+      // Find the exact text node inside the label (non-input part)
+      for (const node of label.childNodes) {
+        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === labelText) {
+          const span = document.createElement('span');
+          span.className = 'blinking-highlight';
+          span.textContent = labelText;
 
-      // Inject CSS animation only once
+          label.replaceChild(span, node);
+          break;
+        }
+      }
+
+      // Inject CSS once
       if (!document.getElementById('blinking-style')) {
         const style = document.createElement('style');
         style.id = 'blinking-style';
@@ -105,6 +114,7 @@ function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
             padding: 2px 4px;
             border-radius: 4px;
             font-weight: bold;
+            margin-left: 5px;
           }
         `;
         document.head.appendChild(style);
@@ -139,6 +149,20 @@ function waitForCheckboxToBeChecked(el) {
     {
         const e = document.querySelector("app-passenger-input");
         if (!e) return alert("Not on the right page.");
+        
+        let conf = e.querySelector("input#confirmberths");
+        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
+        {
+            await humanDelay();
+            scrollToView(conf);
+            highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
+            conf.focus();
+            console.log("Plz Check Manually");
+            await waitForCheckboxToBeChecked(conf);
+            await humanDelay();
+            // simulateClick(conf);
+            console.log("✔ Only Confirmed Seat Checked !");
+        }
         
         for (let i = 1; i < user_data.passenger_details.length; i++) 
         {
@@ -194,19 +218,7 @@ function waitForCheckboxToBeChecked(el) {
         //     await humanDelay();
         // }
 
-        let conf = e.querySelector("input#confirmberths");
-        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
-        {
-            await humanDelay();
-            scrollToView(conf);
-            highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
-            conf.focus();
-            console.log("Plz Check Manually");
-            await waitForCheckboxToBeChecked(conf);
-            await humanDelay();
-            // simulateClick(conf);
-            console.log("✔ Only Confirmed Seat Checked !");
-        }
+        
         
         // const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
         // const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
@@ -222,8 +234,8 @@ function waitForCheckboxToBeChecked(el) {
         {
             scrollToView(payOptions);
             console.log("Plz Select UPI");
-            //highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
-            //payOptions.focus();
+            highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
+            payOptions.focus();
             //await humanDelay();
             //simulateClick(payOptions);
             //console.log("पे UPI Selected");            
