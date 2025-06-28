@@ -8,9 +8,9 @@
         console.log("✓ Passenger Filling Completed");
         if (user_data.other_preferences.psgManual) {
             console.log("PLz Manually submit !");
-            // btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
-            // scrollToView(btn);
-            // btn.focus();
+            btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
+            scrollToView(btn);
+            btn.focus();
         } else {
             var keyCounter = new Date().getTime();
             var t = setInterval(function() {
