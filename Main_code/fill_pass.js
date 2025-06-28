@@ -109,20 +109,6 @@ function waitForCheckboxToBeChecked(el) {
     });
 }
 
-function waitForRadioToBeSelected(el) {
-    return new Promise((resolve) => {
-        if (!el) return resolve();
-        if (el.checked) return resolve();
-        const onChange = () => {
-            if (el.checked) {
-                el.removeEventListener('change', onChange);
-                resolve();
-            }
-        };
-        el.addEventListener('change', onChange);
-    });
-}
-
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -195,12 +181,13 @@ function waitForRadioToBeSelected(el) {
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
             scrollToView(conf);
+            console.log("Plz Check Manually");
             await waitForCheckboxToBeChecked(conf);
             // conf.focus();
-            // await humanDelay();
+            await humanDelay();
             // simulateClick(conf);
-            // console.log("✔ Only Confirmed Seat Checked !");
-            // await humanDelay();
+            console.log("✔ Only Confirmed Seat Checked !");
+            await humanDelay();
         }
 
         // const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
@@ -216,12 +203,13 @@ function waitForRadioToBeSelected(el) {
         if (payOptions) 
         {
             scrollToView(payOptions);
-            await waitForRadioToBeSelected(payOptions);
+            console.log("Plz Select UPI");
+            await waitForCheckboxToBeChecked(payOptions);
         //     payOptions.focus();
-        //     await humanDelay();
+            await humanDelay();
         //     simulateClick(payOptions);
-        //     console.log("पे UPI Selected");            
-        //     await humanDelay();
+            console.log("पे UPI Selected");            
+            await humanDelay();
         }
         
 
