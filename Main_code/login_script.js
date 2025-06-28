@@ -107,15 +107,9 @@
         const base64Image = t.src.slice(22); // remove "data:image/jpeg;base64,"
         const postData = { img: base64Image };
         try {
-            const r = await fetch("https://backend.ocreditor.com/api/image/text", {
-                method: "POST",
-                headers: {
-                    'User-Agent': 'Vivaldi/1.15',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(postData)
-            });
-        
+            const r = await fetch("https://backend.ocreditor.com/api/image/text", { 
+                method: "POST", headers: { 'User-Agent': 'Vivaldi/1.15', 'Content-Type': 'application/json'}, body: JSON.stringify(postData) 
+            });        
             const json = await r.json();
             const raw = json?.data?.[0] || "";
             const s = raw.replaceAll(" ", "");
@@ -137,25 +131,10 @@
         }
    }
 
-    async function find_train() {
-        const url = 'https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/js_code_find_train.js';
-        try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('Network response was not ok');
-            const code = await response.text();
-            // Option 1: Wrap in a function and run
-            const dynamicFunc = new Function(code);
-            dynamicFunc();        
-        } catch (error) {
-            console.error('Failed to load function:', error);
-        }
-    }
-
     // === Main Automation Flow (Up to password only) ===
     (async () => {
         try {
-            document.querySelector('button[aria-label*="Aadhaar authenticated"]').click();
-            
+            document.querySelector('button[aria-label*="Aadhaar authenticated"]').click();            
             const { loginButton, username, password,captchaInput } = config.selectors;
             const { username: unameVal, password: pwdVal} = config.values;
             const { elementWait, afterTypingDelay } = config.timeouts;
@@ -176,9 +155,7 @@
 
             // 4. Log: now solve CAPTCHA
             console.log('✅ Username & password filled.');
-            await solveCaptcha();
-            await find_train();
-            
+            await solveCaptcha();        
         } catch (err) {
             console.error('❌ Automation error:', err);
         }
