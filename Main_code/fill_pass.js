@@ -150,20 +150,6 @@ function waitForCheckboxToBeChecked(el) {
         const e = document.querySelector("app-passenger-input");
         if (!e) return alert("Not on the right page.");
         
-        let conf = e.querySelector("input#confirmberths");
-        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
-        {
-            await humanDelay();
-            scrollToView(conf);
-            highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
-            conf.focus();
-            console.log("Plz Check Manually");
-            await waitForCheckboxToBeChecked(conf);
-            await humanDelay();
-            // simulateClick(conf);
-            console.log("✔ Only Confirmed Seat Checked !");
-        }
-        
         for (let i = 1; i < user_data.passenger_details.length; i++) 
         {
             await humanDelay(150, 400);  // slower, more human
@@ -217,8 +203,20 @@ function waitForCheckboxToBeChecked(el) {
         //     console.log("✔ Auto Upgradation Checked !");
         //     await humanDelay();
         // }
-
         
+        let conf = e.querySelector("input#confirmberths");
+        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
+        {
+            await humanDelay();
+            scrollToView(conf);
+            //highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
+            conf.focus();
+            console.log("Plz Check Manually");
+            await waitForCheckboxToBeChecked(conf);
+            await humanDelay();
+            // simulateClick(conf);
+            console.log("✔ Only Confirmed Seat Checked !");
+        }
         
         // const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
         // const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
@@ -234,7 +232,7 @@ function waitForCheckboxToBeChecked(el) {
         {
             scrollToView(payOptions);
             console.log("Plz Select UPI");
-            highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
+            //highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
             payOptions.focus();
             //await humanDelay();
             //simulateClick(payOptions);
