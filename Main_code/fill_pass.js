@@ -82,15 +82,25 @@
     }
     
 function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
-  // Find all label elements
   const labels = document.querySelectorAll('label');
 
   labels.forEach(label => {
-    if (label.textContent.trim() === labelText) {
-      // Wrap the text in a <span> with a blinking class
-      label.innerHTML = `<span class="blinking-highlight">${labelText}</span>`;
+    const text = label.textContent.trim();
+    if (text === labelText) {
+      // Find the input element inside the label
+      const input = label.querySelector('input');
 
-      // Inject CSS animation only once
+      // Preserve the input and only wrap the text part
+      const newSpan = document.createElement('span');
+      newSpan.className = 'blinking-highlight';
+      newSpan.textContent = labelText;
+
+      // Clear label and re-append input + highlighted span
+      label.innerHTML = '';
+      if (input) label.appendChild(input);
+      label.appendChild(newSpan);
+
+      // Inject CSS if not already added
       if (!document.getElementById('blinking-style')) {
         const style = document.createElement('style');
         style.id = 'blinking-style';
@@ -105,6 +115,7 @@ function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
             padding: 2px 4px;
             border-radius: 4px;
             font-weight: bold;
+            margin-left: 5px;
           }
         `;
         document.head.appendChild(style);
