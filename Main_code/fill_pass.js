@@ -172,7 +172,7 @@
             // simulateClick(conf);
             // console.log("✔ Only Confirmed Seat Checked !");
             // await humanDelay();
-        }
+        //}
 
         // const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
         // const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
