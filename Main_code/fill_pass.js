@@ -222,7 +222,7 @@ function waitForCheckboxToBeChecked(el) {
         {
             scrollToView(payOptions);
             console.log("Plz Select UPI");
-            highlightBlinkingLabel('hjjsjsj', 0.3);
+            highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
             //payOptions.focus();
             //await humanDelay();
             //simulateClick(payOptions);
