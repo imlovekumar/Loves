@@ -163,16 +163,16 @@
         //     await humanDelay();
         // }
 
-        // let conf = e.querySelector("input#confirmberths");
-        // if (conf && user_data.other_preferences.confirmberths !== conf.checked)
-        // {
-        //     scrollToView(conf);
+        let conf = e.querySelector("input#confirmberths");
+        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
+        {
+             scrollToView(conf);
             // conf.focus();
             // await humanDelay();
             // simulateClick(conf);
             // console.log("✔ Only Confirmed Seat Checked !");
             // await humanDelay();
-        //}
+        }
 
         // const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
         // const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
