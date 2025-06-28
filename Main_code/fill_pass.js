@@ -85,22 +85,21 @@ function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
   const labels = document.querySelectorAll('label');
 
   labels.forEach(label => {
-    const text = label.textContent.trim();
-    if (text === labelText) {
-      // Find the input element inside the label
-      const input = label.querySelector('input');
+    // Match label containing the target text
+    if (label.textContent.trim() === labelText) {
+      // Find the exact text node inside the label (non-input part)
+      for (const node of label.childNodes) {
+        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === labelText) {
+          const span = document.createElement('span');
+          span.className = 'blinking-highlight';
+          span.textContent = labelText;
 
-      // Preserve the input and only wrap the text part
-      const newSpan = document.createElement('span');
-      newSpan.className = 'blinking-highlight';
-      newSpan.textContent = labelText;
+          label.replaceChild(span, node);
+          break;
+        }
+      }
 
-      // Clear label and re-append input + highlighted span
-      label.innerHTML = '';
-      if (input) label.appendChild(input);
-      label.appendChild(newSpan);
-
-      // Inject CSS if not already added
+      // Inject CSS once
       if (!document.getElementById('blinking-style')) {
         const style = document.createElement('style');
         style.id = 'blinking-style';
