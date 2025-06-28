@@ -141,15 +141,15 @@
         console.log("👬🏾 All Passenger Detail Filled !");
 
 
-        // if (user_data.other_preferences.mobileNumber) 
-        // {
-        //     let m = e.querySelector("input#mobileNumber");
-        //     if (m) {
-        //         scrollToView(m);
-        //         await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
-        //         console.log("📞 Mobile Number Filled !");
-        //     }
-        // }
+        if (user_data.other_preferences.mobileNumber) 
+        {
+            let m = e.querySelector("input#mobileNumber");
+            if (m) {
+                scrollToView(m);
+                await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
+                console.log("📞 Mobile Number Filled !");
+            }
+        }
 
 
         // let upg = e.querySelector("input#autoUpgradation");
@@ -166,6 +166,8 @@
         let conf = e.querySelector("input#confirmberths");
         if (conf && user_data.other_preferences.confirmberths !== conf.checked)
         {
+            conf.style.border = "2px solid red";
+            conf.style.backgroundColor = "yellow";
             scrollToView(conf);
             // conf.focus();
             // await humanDelay();
