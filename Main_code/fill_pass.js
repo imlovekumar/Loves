@@ -138,7 +138,7 @@ function waitForCheckboxToBeChecked(el) {
 }
 
     function scrollToView(el) {
-        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function humanDelay(min = 100, max = 250) {
@@ -210,10 +210,11 @@ function waitForCheckboxToBeChecked(el) {
             await humanDelay();
             scrollToView(conf);
             highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
-            conf.focus();
+            highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
+            //conf.focus();
             console.log("Plz Check Manually");
             await waitForCheckboxToBeChecked(conf);
-            await humanDelay();
+            //await humanDelay();
             // simulateClick(conf);
             console.log("✔ Only Confirmed Seat Checked !");
         }
@@ -226,20 +227,19 @@ function waitForCheckboxToBeChecked(el) {
         //     console.log("📝 Travel Insurance YES !");            
         // }
         
-        const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
+        /*const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
         const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
         if (payOptions) 
         {
-            scrollToView(payOptions);
-            console.log("Plz Select UPI");
-            highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
-            payOptions.focus();
-            payOptions.click();
+            //scrollToView(payOptions);
+            //console.log("Plz Select UPI");
+            //highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
+            //payOptions.focus();
             //await humanDelay();
             //simulateClick(payOptions);
             //console.log("पे UPI Selected");            
             //await humanDelay();
-        }
+        }*/
         submitPassengerDetailsForm(e);
     } catch (e) { alert("Script error: " + e.message);}
 })();
