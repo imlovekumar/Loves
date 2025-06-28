@@ -109,39 +109,6 @@ function waitForCheckboxToBeChecked(el) {
     });
 }
 
-function waitForRadioToBeSelected(el) {
-    return new Promise((resolve) => {
-        if (!el) return resolve();
-
-        if (el.checked) return resolve();
-
-        const onChange = () => {
-            if (el.checked) {
-                cleanup();
-                resolve();
-            }
-        };
-
-        const observer = new MutationObserver(() => {
-            if (el.checked) {
-                cleanup();
-                resolve();
-            }
-        });
-
-        const cleanup = () => {
-            observer.disconnect();
-            el.removeEventListener('change', onChange);
-        };
-
-        observer.observe(el, {
-            attributes: true,
-            attributeFilter: ['checked'],
-        });
-
-        el.addEventListener('change', onChange);
-    });
-}
 
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -157,6 +124,20 @@ function waitForRadioToBeSelected(el) {
     {
         const e = document.querySelector("app-passenger-input");
         if (!e) return alert("Not on the right page.");
+        
+        let conf = e.querySelector("input#confirmberths");
+        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
+        {
+            scrollToView(conf);
+            console.log("Plz Check Manually");
+            await waitForCheckboxToBeChecked(conf);
+            // conf.focus();
+            await humanDelay();
+            // simulateClick(conf);
+            console.log("✔ Only Confirmed Seat Checked !");
+            await humanDelay();
+        }
+        
         for (let i = 1; i < user_data.passenger_details.length; i++) 
         {
             await humanDelay(150, 400);  // slower, more human
@@ -211,18 +192,7 @@ function waitForRadioToBeSelected(el) {
         //     await humanDelay();
         // }
 
-        let conf = e.querySelector("input#confirmberths");
-        if (conf && user_data.other_preferences.confirmberths !== conf.checked)
-        {
-            scrollToView(conf);
-            console.log("Plz Check Manually");
-            await waitForCheckboxToBeChecked(conf);
-            // conf.focus();
-            await humanDelay();
-            // simulateClick(conf);
-            console.log("✔ Only Confirmed Seat Checked !");
-            await humanDelay();
-        }
+        
 
         // const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
         // const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
