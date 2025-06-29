@@ -161,10 +161,10 @@ function waitForCheckboxToBeChecked(el) {
             let el = o[i];
             const pnameInput = el.querySelector("p-autocomplete input");
             if (pnameInput) 
-            {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name,100,300);}
+            {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);}
             const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
             if(pageInput)
-            {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age,100,400);}
+            {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);}
             el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
             el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
             el.querySelector("select[formcontrolname='passengerBerthChoice']").value = user_data.passenger_details[i].berth;
