@@ -147,11 +147,14 @@
             await simulateClick(loginBtn);
 
             const logads = document.querySelectorAll('img[src*="contents.irctc.co.in"]');
-            if (logads) logads.remove();
+            if (logads) {
+                logads.remove();
+            }
             const jal = document.querySelector("#google_ads_iframe_\\/37179215\\/GPT_IRCTC_LOGIN_CAPTCHA_300X250_0");
-            if (jal) jal.remove();
-
-
+            if (jal) {
+                jal.remove();
+            }
+            
             // 2. Type username
             const userEl = await waitForElement(username, elementWait);
             await simulateTyping(userEl, unameVal, config.typingOptions);
