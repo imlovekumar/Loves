@@ -122,45 +122,6 @@
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-   //  async function solveCaptcha() {
-   //      const t = document.querySelector(".captcha-img");
-   //      if(!t) {
-   //          return setTimeout(solveCaptcha(), 97); // Retry after 100ms
-   //      }
-   //      if (!t || !t.src || t.src.length < 23) {
-   //          console.log("❌ Captcha image not found or not loaded.");
-   //          return;
-   //      }
-   //      scrollToView(t);
-   //      console.log("🔍 Captcha Found!");
-   //      const base64Image = t.src.slice(22); // remove "data:image/jpeg;base64,"
-   //      const postData = { img: base64Image };
-   //      try {
-   //          const r = await fetch("https://backend.ocreditor.com/api/image/text", { 
-   //              method: "POST", headers: { 'User-Agent': 'Vivaldi/1.15', 'Content-Type': 'application/json'}, body: JSON.stringify(postData) 
-   //          });        
-   //          const json = await r.json();
-   //          const raw = json?.data?.[0] || "";
-   //          const s = raw.replaceAll(" ", "");
-   //          console.log("✅ Captcha Solved! (FREE)");
-   //          const i = document.querySelector("#captcha");
-   //          console.log("⌨️ Typing Captcha...");
-   //          await simulateTyping(i, s, config.typingOptions);
-   //          const Log_Btn = document.querySelector("#login_header_disable button[type='submit']");
-   //          if (!Log_Btn) {
-   //              console.log("❌ Login Button Not Found!");
-   //              console.log("✍️ Please click login manually.");
-   //          } else {
-   //              console.log("✔ Login Button Found!");
-   //              simulateClick(Log_Btn);
-   //              console.log("🚀 Auto Login Triggered!");
-   //              continueScript();
-   //          }
-   //      } catch (err) {
-   //          console.error("❌ Error solving captcha:", err.message);
-   //      }
-   // }
-
     // === Main Automation Flow (Up to password only) ===
     (async () => {
         try {
