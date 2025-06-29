@@ -92,6 +92,24 @@
         })();
     }
 
+    function continueScript() {
+        const selector = "body > app-root > app-home > div.header-fix > app-header > div.col-sm-12.h_container > div.text-center.h_main_div > div.row.col-sm-12.h_head1 > a.search_btn.loginText.ng-star-inserted";
+        const observer = new MutationObserver(() => {
+        const loginBtn = document.querySelector(selector);
+        if (!loginBtn) return;    
+        const text = loginBtn.innerText.trim().toUpperCase();    
+        if (text === "LOGOUT" && window.location.href.includes("train-search")) {
+            observer.disconnect(); // Stop observing after detecting logout
+            console.log("LOGOUT detected — proceeding to load journey details.");
+            alert("LOGOUT detected");
+        }
+      });    
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+    }
+
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -128,6 +146,7 @@
                 console.log("✔ Login Button Found!");
                 simulateClick(Log_Btn);
                 console.log("🚀 Auto Login Triggered!");
+                continueScript();
             }
         } catch (err) {
             console.error("❌ Error solving captcha:", err.message);
