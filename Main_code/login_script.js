@@ -98,6 +98,9 @@
 
     async function solveCaptcha() {
         const t = document.querySelector(".captcha-img");
+        if(!t) {
+            return setTimeout(solveCaptcha(), 97); // Retry after 100ms
+        }
         if (!t || !t.src || t.src.length < 23) {
             console.log("❌ Captcha image not found or not loaded.");
             return;
