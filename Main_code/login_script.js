@@ -92,6 +92,10 @@
         })();
     }
 
+    function search_train() {
+        __FIND_TRAIN__
+    }
+
     function continueScript() {
         const selector = "body > app-root > app-home > div.header-fix > app-header > div.col-sm-12.h_container > div.text-center.h_main_div > div.row.col-sm-12.h_head1 > a.search_btn.loginText.ng-star-inserted";
         const observer = new MutationObserver(() => {
@@ -101,7 +105,8 @@
         if (text === "LOGOUT" && window.location.href.includes("train-search")) {
             observer.disconnect(); // Stop observing after detecting logout
             console.log("✅ Login Successfully...");
-            alert("LOGOUT detected");
+            search_train();
+            //alert("LOGOUT detected");
         }
       });    
       observer.observe(document.body, {
