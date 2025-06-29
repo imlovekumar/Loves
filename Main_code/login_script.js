@@ -96,6 +96,10 @@
         __FIND_TRAIN__
     }
 
+    async function captcha_logic() {
+        __CAPTCHA__
+    }
+
     function continueScript() {
         const selector = "body > app-root > app-home > div.header-fix > app-header > div.col-sm-12.h_container > div.text-center.h_main_div > div.row.col-sm-12.h_head1 > a.search_btn.loginText.ng-star-inserted";
         const observer = new MutationObserver(() => {
@@ -186,7 +190,8 @@
 
             // 4. Log: now solve CAPTCHA
             console.log('✅ Username & password filled.');
-            await solveCaptcha();        
+            await captcha_logic();
+            continueScript();            
         } catch (err) {
             console.error('❌ Automation error:', err);
         }
