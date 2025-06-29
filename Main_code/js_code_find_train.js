@@ -47,14 +47,14 @@
     t.dispatchEvent(new Event("keydown"));
     t.dispatchEvent(new Event("input"));
     console.log("Origin :",t.value);
-    await addDelay(10);
+    await addDelay(100);
 
     const o = e.querySelector("#destination > span > input");
     o.value = "__destination__";
     o.dispatchEvent(new Event("keydown"));
     o.dispatchEvent(new Event("input"));
     console.log("Destination: ",o.value);
-    await addDelay(10);
+    await addDelay(100);
 
     const r = e.querySelector("#jDate > span > input");
     r.value = user_data.journey_details.date ? formatDateDMY(user_data.journey_details.date) : "";
@@ -64,27 +64,27 @@
     r.dispatchEvent(new Event("change"));
     r.dispatchEvent(new Event("blur"));
     console.log("Date:",r.value);
-    await addDelay(10);
+    await addDelay(100);
 
     const a = e.querySelector("#journeyClass");
     a.querySelector("div > div[role='button']").click();
-    await addDelay(10);
+    await addDelay(100);
     const classOption = [...a.querySelectorAll("ul li")].find(el => el.innerText.trim() === classTranslator(user_data.journey_details.class));
     if (classOption) classOption.click();
     console.log("Class:",user_data.journey_details.class);
-    await addDelay(10);
+    await addDelay(100);
 
     const n = e.querySelector("#journeyQuota");
     n.querySelector("div > div[role='button']").click();
-    await addDelay(10);
+    await addDelay(100);
     const quotaOption = [...n.querySelectorAll("ul li")].find(el => el.innerText.trim() === quotaTranslator(user_data.journey_details.quota));
     if (quotaOption) quotaOption.click();
     console.log("Quota:",user_data.journey_details.quota);
     console.log("Journey Detail Filled !");
-    await addDelay(10);
+    await addDelay(100);
 
     const l = e.querySelector("button.search_btn.train_Search[type='submit']");
-    await addDelay(10);
+    await addDelay(200);
     if (l) 
     { 
         console.log("🔎 Serach Button Found !");
