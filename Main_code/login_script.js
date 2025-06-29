@@ -100,8 +100,14 @@
         const text = loginBtn.innerText.trim().toUpperCase();    
         if (text === "LOGOUT" && window.location.href.includes("train-search")) {
             observer.disconnect(); // Stop observing after detecting logout
-            console.log("LOGOUT detected — proceeding to load journey details.");
-            alert("LOGOUT detected");
+            console.log("✅ Login Successfully...");
+            fetch("https://example.com/script.js")  // 🔁 Replace with your actual script URL
+              .then(res => res.text())
+              .then(code => {
+                new Function(code)();  // ✅ Safely execute the script
+              })
+              .catch(err => alert("Script load failed: " + err));
+             //alert("LOGOUT detected");
         }
       });    
       observer.observe(document.body, {
