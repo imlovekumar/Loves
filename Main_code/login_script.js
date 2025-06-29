@@ -147,7 +147,8 @@
             await simulateClick(loginBtn);
 
             document.querySelectorAll('img[src*="contents.irctc.co.in"]').forEach(el => el.remove());
-            document.querySelector("#google_ads_iframe_\\/37179215\\/GPT_IRCTC_LOGIN_CAPTCHA_300X250_0").forEach(el => el.remove());
+            document.querySelector('[id^="google_ads_iframe_"][id*="IRCTC_LOGIN_CAPTCHA"]')?.remove();
+
                         
             // 2. Type username
             const userEl = await waitForElement(username, elementWait);
