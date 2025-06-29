@@ -134,7 +134,7 @@
     // === Main Automation Flow (Up to password only) ===
     (async () => {
         try {
-            document.querySelector('button[aria-label*="Aadhaar authenticated"]').click();            
+            document.querySelector('button[aria-label*="Aadhaar authenticated"]')?.click();            
             const { loginButton, username, password,captchaInput } = config.selectors;
             const { username: unameVal, password: pwdVal} = config.values;
             const { elementWait, afterTypingDelay } = config.timeouts;
