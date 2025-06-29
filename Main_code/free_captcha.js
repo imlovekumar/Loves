@@ -93,7 +93,7 @@
             const json = await r.json();
             const raw = json.data[0];
             const s = raw.replaceAll(" ", "");
-            console.log("✅ Captcha Solved! (FREE)");
+            console.log("✔️ Captcha Solved! (FREE)");
             const i = document.querySelector("#captcha");
             if (i && s) 
             {   
@@ -103,7 +103,7 @@
                     {
                         const submit = document.querySelector("#review > div.col-lg-9.col-md-9.col-sm-12.remove-padding > form > div.form-group.col-xs-12.hidden-xs > div > button.btnDefault.train_Search");
                         if(submit){
-                            console.log("✔ Submit Button Found !");
+                            console.log("✔️ Submit Button Found !");
                             simulateClick(submit);
                             console.log("✍️ Auto Submit !");                            
                         }
@@ -113,7 +113,7 @@
                                 console.log("❌ Login Button Not Found !");
                                 console.log("✍️ Login Manually ! ");
                             }else {
-                            console.log("✔ Login Button Found !");
+                            console.log("✔️ Login Button Found !");
                             simulateClick(Log_Btn);
                             console.log("✍️ Auto Login !");
                             }
