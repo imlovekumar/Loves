@@ -101,13 +101,7 @@
         if (text === "LOGOUT" && window.location.href.includes("train-search")) {
             observer.disconnect(); // Stop observing after detecting logout
             console.log("✅ Login Successfully...");
-            fetch("https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/js_code_find_train.js")  // 🔁 Replace with your actual script URL
-              .then(res => res.text())
-              .then(code => {
-                new Function(code)();  // ✅ Safely execute the script
-              })
-              .catch(err => alert("Script load failed: " + err));
-             //alert("LOGOUT detected");
+            alert("LOGOUT detected");
         }
       });    
       observer.observe(document.body, {
