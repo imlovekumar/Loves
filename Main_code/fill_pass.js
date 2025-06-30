@@ -190,6 +190,12 @@ function waitForCheckboxToBeChecked(el) {
                 await waitForCheckboxToBeChecked(conf);
                 await humanDelay();
                 console.log("✔ Only Confirmed Seat Checked !");
+            }
+            const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
+            const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
+            if (payOptions) {
+                scrollToView(payOptions);
+                console.log("Plz Select UPI");
                 console.log("Wait Till 30 Sec to Pass !");
             }
         } else {
