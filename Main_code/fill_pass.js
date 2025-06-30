@@ -142,7 +142,7 @@ function waitForCheckboxToBeChecked(el) {
   const timerDiv = document.createElement('div');
   timerDiv.style.position = 'fixed';
   timerDiv.style.top = '10px';
-  timerDiv.style.right = '10px';
+  timerDiv.style.left = '10px';
   timerDiv.style.backgroundColor = 'black';
   timerDiv.style.color = 'lime';
   timerDiv.style.fontSize = '18px';
@@ -160,8 +160,21 @@ function waitForCheckboxToBeChecked(el) {
 
     if (remaining <= 0) {
       clearInterval(interval);
-      timerDiv.textContent = 'Ready';
-      timerDiv.style.backgroundColor = 'green';
+      timerDiv.remove();
+      
+      // Play a beep sound using Web Audio API
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(880, ctx.currentTime); // 880Hz = A5
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+
+      oscillator.start();
+      oscillator.stop(ctx.currentTime + 0.5); // play for 0.5 seconds
     }
   }, 1000);
 }
