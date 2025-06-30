@@ -125,6 +125,8 @@ function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
 function waitForCheckboxToBeChecked(el) {
     return new Promise((resolve) => {
         if (!el) return resolve();
+        scrollToView(el);
+        el.focus();
         if (el.checked) return resolve();
         const onChange = () => {
             if (el.checked) {
@@ -180,13 +182,14 @@ function waitForCheckboxToBeChecked(el) {
             };
             console.log("👬🏾 All Passenger Detail Filled !");
             
-            let upg = e.querySelector("input#autoUpgradation");
-            if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) {
+            let conf = e.querySelector("input#confirmberths");
+            if (conf && user_data.other_preferences.confirmberths !== conf.checked){
+                scrollToView(conf);
                 highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
-                scrollToView(upg);
-                await waitForCheckboxToBeChecked(upg);
-                console.log("✔ Auto Upgradation Checked !");
+                console.log("Plz Check Manually");
+                await waitForCheckboxToBeChecked(conf);
                 await humanDelay();
+                console.log("✔ Only Confirmed Seat Checked !");
                 console.log("Wait Till 30 Sec to Pass !");
             }
         } else {
