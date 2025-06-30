@@ -21,33 +21,70 @@
         __select_pay__
   }
 
+  // function createFloatingTimer() {
+  //     if (document.getElementById('floating-timer')) return;
+    
+  //     const timer = document.createElement('div');
+  //     timer.id = 'floating-timer';
+  //     timer.style.position = 'fixed';
+  //     timer.style.top = '20px';
+  //     timer.style.right = '20px';
+  //     timer.style.padding = '10px 15px';
+  //     timer.style.background = 'rgba(0,0,0,0.7)';
+  //     timer.style.color = '#fff';
+  //     timer.style.fontFamily = 'monospace';
+  //     timer.style.fontSize = '16px';
+  //     timer.style.borderRadius = '5px';
+  //     timer.style.zIndex = 99999;
+    
+  //     document.body.appendChild(timer);
+    
+  //     let seconds = 0;
+    
+  //     setInterval(() => {
+  //       seconds++;
+  //       const mins = Math.floor(seconds / 60);
+  //       const secs = seconds % 60;
+  //       timer.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  //     }, 1000);
+  //   }
+
   function createFloatingTimer() {
-      if (document.getElementById('floating-timer')) return;
-    
-      const timer = document.createElement('div');
-      timer.id = 'floating-timer';
-      timer.style.position = 'fixed';
-      timer.style.top = '20px';
-      timer.style.right = '20px';
-      timer.style.padding = '10px 15px';
-      timer.style.background = 'rgba(0,0,0,0.7)';
-      timer.style.color = '#fff';
-      timer.style.fontFamily = 'monospace';
-      timer.style.fontSize = '16px';
-      timer.style.borderRadius = '5px';
-      timer.style.zIndex = 99999;
-    
-      document.body.appendChild(timer);
-    
-      let seconds = 0;
-    
-      setInterval(() => {
-        seconds++;
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        timer.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-      }, 1000);
+  if (document.getElementById('floating-timer')) return;
+
+  const timer = document.createElement('div');
+  timer.id = 'floating-timer';
+  timer.style.position = 'fixed';
+  timer.style.top = '10px';
+  timer.style.right = '10px'; // changed to top-right
+  timer.style.backgroundColor = 'black';
+  timer.style.color = 'lime';
+  timer.style.fontSize = '18px';
+  timer.style.padding = '8px 12px';
+  timer.style.borderRadius = '8px';
+  timer.style.zIndex = '9999';
+  timer.style.fontFamily = 'monospace';
+  timer.textContent = `00:00`;
+  document.body.appendChild(timer);
+
+  let seconds = 0;
+
+  const interval = setInterval(() => {
+    seconds++;
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    timer.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }, 1000);
+
+  return {
+    stop: () => clearInterval(interval),
+    remove: () => {
+      clearInterval(interval);
+      timer.remove();
     }
+  };
+}
+
 
   function removeFloatingTimer() {
     const timer = document.getElementById('floating-timer');
