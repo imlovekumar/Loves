@@ -146,90 +146,94 @@ function waitForCheckboxToBeChecked(el) {
 
     try 
     {
-        const e = document.querySelector("app-passenger-input");
-        if (!e) return alert("Not on the right page.");
-        
-        for (let i = 1; i < user_data.passenger_details.length; i++) {
-            await humanDelay(150, 400);  // slower, more human
-            simulateClick(document.getElementsByClassName("prenext")[0]);
-            await humanDelay(150, 400);  // slower, more human
-            console.log("All",user_data.passenger_details.length,"Passenger Box Open");
-        }
-
-        const o = [...e.querySelectorAll("app-passenger")];
-        for (let i = 0; i < user_data.passenger_details.length; i++) {
-            let el = o[i];
-            const pnameInput = el.querySelector("p-autocomplete input");
-            if (pnameInput) 
-            {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);}
-            const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
-            if(pageInput)
-            {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);}
-            el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
-            el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
-            el.querySelector("select[formcontrolname='passengerBerthChoice']").value = user_data.passenger_details[i].berth;
-            el.querySelector("select[formcontrolname='passengerBerthChoice']").dispatchEvent(new Event("change"));
-            let food = el.querySelector("select[formcontrolname='passengerFoodChoice']");
-            if (food) 
-            {
-                food.value = user_data.passenger_details[i].food;
-                food.dispatchEvent(new Event("change"));
+        if (user_data.other_preferences.psgManual) {
+            console.log("PLz Fill Manually All Data !");
+        } else {
+            const e = document.querySelector("app-passenger-input");
+            if (!e) return alert("Not on the right page.");
+            
+            for (let i = 1; i < user_data.passenger_details.length; i++) {
+                await humanDelay(150, 400);  // slower, more human
+                simulateClick(document.getElementsByClassName("prenext")[0]);
+                await humanDelay(150, 400);  // slower, more human
+                console.log("All",user_data.passenger_details.length,"Passenger Box Open");
             }
-            await humanDelay();
-        };
-        console.log("👬🏾 All Passenger Detail Filled !");
-
-
-        if (user_data.other_preferences.mobileNumber) {
-            let m = e.querySelector("input#mobileNumber");
-            if (m) {
-                scrollToView(m);
-                await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
-                console.log("📞 Mobile Number Filled !");
+    
+            const o = [...e.querySelectorAll("app-passenger")];
+            for (let i = 0; i < user_data.passenger_details.length; i++) {
+                let el = o[i];
+                const pnameInput = el.querySelector("p-autocomplete input");
+                if (pnameInput) 
+                {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);}
+                const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
+                if(pageInput)
+                {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);}
+                el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
+                el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
+                el.querySelector("select[formcontrolname='passengerBerthChoice']").value = user_data.passenger_details[i].berth;
+                el.querySelector("select[formcontrolname='passengerBerthChoice']").dispatchEvent(new Event("change"));
+                let food = el.querySelector("select[formcontrolname='passengerFoodChoice']");
+                if (food) 
+                {
+                    food.value = user_data.passenger_details[i].food;
+                    food.dispatchEvent(new Event("change"));
+                }
+                await humanDelay();
+            };
+            console.log("👬🏾 All Passenger Detail Filled !");
+    
+    
+            if (user_data.other_preferences.mobileNumber) {
+                let m = e.querySelector("input#mobileNumber");
+                if (m) {
+                    scrollToView(m);
+                    await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
+                    console.log("📞 Mobile Number Filled !");
+                }
             }
+    
+    
+             let upg = e.querySelector("input#autoUpgradation");
+             if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) {
+                 scrollToView(upg);
+                 upg.focus();
+                 await humanDelay();
+                 simulateClick(upg);
+                 console.log("✔ Auto Upgradation Checked !");
+                 await humanDelay();
+             }
+            
+            let conf = e.querySelector("input#confirmberths");
+            if (conf && user_data.other_preferences.confirmberths !== conf.checked){
+                scrollToView(conf);
+                //highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
+                //console.log("Plz Check Manually");
+                //await waitForCheckboxToBeChecked(conf);
+                await humanDelay();
+                simulateClick(conf);
+                console.log("✔ Only Confirmed Seat Checked !");
+            }
+            
+            const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
+            const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
+            if (ins) { 
+                scrollToView(ins);
+                simulateClick(ins);
+                console.log("📝 Travel Insurance YES !");            
+            }
+            
+            const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
+            const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
+            if (payOptions) {
+                scrollToView(payOptions);
+                console.log("Plz Select UPI");
+                //highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
+                payOptions.focus();
+                await humanDelay();
+                simulateClick(payOptions);
+                console.log("पे UPI Selected");            
+            }
+            submitPassengerDetailsForm(e);
         }
-
-
-         let upg = e.querySelector("input#autoUpgradation");
-         if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) {
-             scrollToView(upg);
-             upg.focus();
-             await humanDelay();
-             simulateClick(upg);
-             console.log("✔ Auto Upgradation Checked !");
-             await humanDelay();
-         }
-        
-        let conf = e.querySelector("input#confirmberths");
-        if (conf && user_data.other_preferences.confirmberths !== conf.checked){
-            scrollToView(conf);
-            //highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
-            //console.log("Plz Check Manually");
-            //await waitForCheckboxToBeChecked(conf);
-            await humanDelay();
-            simulateClick(conf);
-            console.log("✔ Only Confirmed Seat Checked !");
-        }
-        
-        const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
-        const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
-        if (ins) { 
-            scrollToView(ins);
-            simulateClick(ins);
-            console.log("📝 Travel Insurance YES !");            
-        }
-        
-        const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
-        const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
-        if (payOptions) {
-            scrollToView(payOptions);
-            console.log("Plz Select UPI");
-            //highlightBlinkingLabel('Pay through BHIM/UPI', 0.3);
-            payOptions.focus();
-            await humanDelay();
-            simulateClick(payOptions);
-            console.log("पे UPI Selected");            
-        }
-        submitPassengerDetailsForm(e);
     } catch (e) { alert("Script error: " + e.message);}
 })();
