@@ -23,7 +23,7 @@
         //             console.log("✓ Auto Submitted");
         //         }
         //     }, 500);
-        // }
+        }
     }
 
     async function simulateMouseInteraction(element) {
