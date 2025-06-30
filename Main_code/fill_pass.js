@@ -231,14 +231,7 @@
                 await humanDelay();
             };
             console.log("👬🏾 All Passenger Detail Filled !");
-            if (user_data.other_preferences.mobileNumber) {
-                let m = e.querySelector("input#mobileNumber");
-                if (m) {
-                    scrollToView(m);
-                    await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
-                    console.log("📞 Mobile Number Filled !");
-                }
-            }            
+            
             let conf = e.querySelector("input#confirmberths");
             if (conf && user_data.other_preferences.confirmberths !== conf.checked){
                 scrollToView(conf);
