@@ -138,6 +138,34 @@ function waitForCheckboxToBeChecked(el) {
     });
 }
 
+    function startVisualTimer(durationMs) {
+  const timerDiv = document.createElement('div');
+  timerDiv.style.position = 'fixed';
+  timerDiv.style.top = '10px';
+  timerDiv.style.right = '10px';
+  timerDiv.style.backgroundColor = 'black';
+  timerDiv.style.color = 'lime';
+  timerDiv.style.fontSize = '18px';
+  timerDiv.style.padding = '8px 12px';
+  timerDiv.style.borderRadius = '8px';
+  timerDiv.style.zIndex = '9999';
+  timerDiv.style.fontFamily = 'monospace';
+  timerDiv.textContent = `${Math.ceil(durationMs / 1000)}s`;
+  document.body.appendChild(timerDiv);
+
+  const startTime = Date.now();
+  const interval = setInterval(() => {
+    const remaining = Math.max(0, durationMs - (Date.now() - startTime));
+    timerDiv.textContent = `${Math.ceil(remaining / 1000)}s`;
+
+    if (remaining <= 0) {
+      clearInterval(interval);
+      timerDiv.textContent = 'Ready';
+      timerDiv.style.backgroundColor = 'green';
+    }
+  }, 1000);
+}
+
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -149,6 +177,25 @@ function waitForCheckboxToBeChecked(el) {
     try 
     {
         if (user_data.other_preferences.psgManual) {
+            const delay = 30000; // 30 seconds
+            const startTime = Date.now();
+            
+            // Start the visual timer
+            startVisualTimer(delay);
+
+            const btnInterval = setInterval(() => {
+                const button = document.querySelector("#psgn-form > form > div > div.col-lg-9.col-md-9.col-sm-12.remove-padding > p-sidebar > div > div > div.pull-right > button");
+                if (button) {
+                    const elapsed = Date.now() - startTime;
+                    button.disabled = true;
+                
+                    if (elapsed >= delay) {
+                      button.disabled = false;
+                      clearInterval(btnInterval);
+                    }
+                }
+            }, 300);
+            
             const e = document.querySelector("app-passenger-input");
             if (!e) return alert("Not on the right page.");
             
