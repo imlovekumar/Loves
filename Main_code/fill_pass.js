@@ -1,9 +1,7 @@
 (async function() 
 {
-
     var user_data = _pax_data_;
     let keyCounter = 0x0;
-
     function submitPassengerDetailsForm(e) {
         console.log("✓ Passenger Filling Completed");
         if (user_data.other_preferences.psgManual) {
@@ -80,25 +78,19 @@
         })();
     }
     
-function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
-  const labels = document.querySelectorAll('label');
-
-  labels.forEach(label => {
-    // Match label containing the target text
-    if (label.textContent.trim() === labelText) {
-      // Find the exact text node inside the label (non-input part)
-      for (const node of label.childNodes) {
-        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === labelText) {
-          const span = document.createElement('span');
-          span.className = 'blinking-highlight';
-          span.textContent = labelText;
-
-          label.replaceChild(span, node);
-          break;
-        }
-      }
-
-      // Inject CSS once
+    function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
+      const labels = document.querySelectorAll('label');
+      labels.forEach(label => {
+        if (label.textContent.trim() === labelText) {
+          for (const node of label.childNodes) {
+            if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === labelText) {
+              const span = document.createElement('span');
+              span.className = 'blinking-highlight';
+              span.textContent = labelText;
+              label.replaceChild(span, node);
+              break;
+            }
+          }
       if (!document.getElementById('blinking-style')) {
         const style = document.createElement('style');
         style.id = 'blinking-style';
@@ -122,62 +114,62 @@ function highlightBlinkingLabel(labelText, blinkSpeed = 0.5) {
   });
 }
     
-function waitForCheckboxToBeChecked(el) {
-    return new Promise((resolve) => {
-        if (!el) return resolve();
-        scrollToView(el);
-        el.focus();
-        if (el.checked) return resolve();
-        const onChange = () => {
-            if (el.checked) {
-                el.removeEventListener('change', onChange);
-                resolve();
-            }
-        };
-        el.addEventListener('change', onChange);
-    });
-}
+    function waitForCheckboxToBeChecked(el) {
+        return new Promise((resolve) => {
+            if (!el) return resolve();
+            scrollToView(el);
+            el.focus();
+            if (el.checked) return resolve();
+            const onChange = () => {
+                if (el.checked) {
+                    el.removeEventListener('change', onChange);
+                    resolve();
+                }
+            };
+            el.addEventListener('change', onChange);
+        });
+    }
 
     function startVisualTimer(durationMs) {
-  const timerDiv = document.createElement('div');
-  timerDiv.style.position = 'fixed';
-  timerDiv.style.top = '10px';
-  timerDiv.style.left = '10px';
-  timerDiv.style.backgroundColor = 'black';
-  timerDiv.style.color = 'lime';
-  timerDiv.style.fontSize = '18px';
-  timerDiv.style.padding = '8px 12px';
-  timerDiv.style.borderRadius = '8px';
-  timerDiv.style.zIndex = '9999';
-  timerDiv.style.fontFamily = 'monospace';
-  timerDiv.textContent = `${Math.ceil(durationMs / 1000)}s`;
-  document.body.appendChild(timerDiv);
-
-  const startTime = Date.now();
-  const interval = setInterval(() => {
-    const remaining = Math.max(0, durationMs - (Date.now() - startTime));
-    timerDiv.textContent = `${Math.ceil(remaining / 1000)}s`;
-
-    if (remaining <= 0) {
-      clearInterval(interval);
-      timerDiv.remove();
-      
-      // Play a beep sound using Web Audio API
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = ctx.createOscillator();
-      const gainNode = ctx.createGain();
-
-      oscillator.type = 'sine';
-      oscillator.frequency.setValueAtTime(880, ctx.currentTime); // 880Hz = A5
-      oscillator.connect(gainNode);
-      gainNode.connect(ctx.destination);
-      gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
-
-      oscillator.start();
-      oscillator.stop(ctx.currentTime + 0.5); // play for 0.5 seconds
+      const timerDiv = document.createElement('div');
+      timerDiv.style.position = 'fixed';
+      timerDiv.style.top = '10px';
+      timerDiv.style.left = '10px';
+      timerDiv.style.backgroundColor = 'black';
+      timerDiv.style.color = 'lime';
+      timerDiv.style.fontSize = '18px';
+      timerDiv.style.padding = '8px 12px';
+      timerDiv.style.borderRadius = '8px';
+      timerDiv.style.zIndex = '9999';
+      timerDiv.style.fontFamily = 'monospace';
+      timerDiv.textContent = `${Math.ceil(durationMs / 1000)}s`;
+      document.body.appendChild(timerDiv);
+    
+      const startTime = Date.now();
+      const interval = setInterval(() => {
+        const remaining = Math.max(0, durationMs - (Date.now() - startTime));
+        timerDiv.textContent = `${Math.ceil(remaining / 1000)}s`;
+    
+        if (remaining <= 0) {
+          clearInterval(interval);
+          timerDiv.remove();
+            
+          // Play a beep sound using Web Audio API
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = ctx.createOscillator();
+          const gainNode = ctx.createGain();
+    
+          oscillator.type = 'sine';
+          oscillator.frequency.setValueAtTime(880, ctx.currentTime); // 880Hz = A5
+          oscillator.connect(gainNode);
+          gainNode.connect(ctx.destination);
+          gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+    
+          oscillator.start();
+          oscillator.stop(ctx.currentTime + 0.5); // play for 0.5 seconds
+        }
+      }, 1000);
     }
-  }, 1000);
-}
 
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -190,12 +182,10 @@ function waitForCheckboxToBeChecked(el) {
     try 
     {
         if (user_data.other_preferences.psgManual) {
+            
             const delay = 30000; // 30 seconds
             const startTime = Date.now();
-            
-            // Start the visual timer
             startVisualTimer(delay);
-
             const btnInterval = setInterval(() => {
                 const button = document.querySelector("#psgn-form > form > div > div.col-lg-9.col-md-9.col-sm-12.remove-padding > p-sidebar > div > div > div.pull-right > button");
                 if (button) {
@@ -241,7 +231,14 @@ function waitForCheckboxToBeChecked(el) {
                 await humanDelay();
             };
             console.log("👬🏾 All Passenger Detail Filled !");
-            
+            if (user_data.other_preferences.mobileNumber) {
+                let m = e.querySelector("input#mobileNumber");
+                if (m) {
+                    scrollToView(m);
+                    await typeTextHumanLike(m, user_data.other_preferences.mobileNumber);
+                    console.log("📞 Mobile Number Filled !");
+                }
+            }            
             let conf = e.querySelector("input#confirmberths");
             if (conf && user_data.other_preferences.confirmberths !== conf.checked){
                 scrollToView(conf);
@@ -256,7 +253,6 @@ function waitForCheckboxToBeChecked(el) {
             if (payOptions) {
                 scrollToView(payOptions);
                 console.log("Plz Select UPI");
-                console.log("Wait Till 30 Sec to Pass !");
             }
         } else {
             const e = document.querySelector("app-passenger-input");
