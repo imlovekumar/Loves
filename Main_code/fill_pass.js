@@ -12,16 +12,18 @@
             scrollToView(btn);
             btn.focus();
         } else {
-            var keyCounter = new Date().getTime();
-            var t = setInterval(function() {
-                var o = new Date().getTime();
-                if (o - keyCounter > 2000) {
-                    clearInterval(t);
-                    simulateClick(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
-                    console.log("✓ Auto Submitted");
-                }
-            }, 500);
-        }
+            btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
+            scrollToView(btn);
+        //     var keyCounter = new Date().getTime();
+        //     var t = setInterval(function() {
+        //         var o = new Date().getTime();
+        //         if (o - keyCounter > 2000) {
+        //             clearInterval(t);
+        //             simulateClick(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
+        //             console.log("✓ Auto Submitted");
+        //         }
+        //     }, 500);
+        // }
     }
 
     async function simulateMouseInteraction(element) {
