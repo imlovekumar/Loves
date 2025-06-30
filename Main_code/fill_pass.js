@@ -12,17 +12,15 @@
             scrollToView(btn);
             btn.focus();
         } else {
-            btn = e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")
-            scrollToView(btn);
-        //     var keyCounter = new Date().getTime();
-        //     var t = setInterval(function() {
-        //         var o = new Date().getTime();
-        //         if (o - keyCounter > 2000) {
-        //             clearInterval(t);
-        //             simulateClick(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
-        //             console.log("✓ Auto Submitted");
-        //         }
-        //     }, 500);
+            var keyCounter = new Date().getTime();
+            var t = setInterval(function() {
+                var o = new Date().getTime();
+                if (o - keyCounter > 2000) {
+                    clearInterval(t);
+                    simulateClick(e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']"));
+                    console.log("✓ Auto Submitted");
+                }
+            }, 500);
         }
     }
 
@@ -149,7 +147,48 @@ function waitForCheckboxToBeChecked(el) {
     try 
     {
         if (user_data.other_preferences.psgManual) {
-            console.log("PLz Fill Manually All Data !");
+            const e = document.querySelector("app-passenger-input");
+            if (!e) return alert("Not on the right page.");
+            
+            for (let i = 1; i < user_data.passenger_details.length; i++) {
+                await humanDelay(150, 400);  // slower, more human
+                simulateClick(document.getElementsByClassName("prenext")[0]);
+                await humanDelay(150, 400);  // slower, more human
+                console.log("All",user_data.passenger_details.length,"Passenger Box Open");
+            }
+    
+            const o = [...e.querySelectorAll("app-passenger")];
+            for (let i = 0; i < user_data.passenger_details.length; i++) {
+                let el = o[i];
+                const pnameInput = el.querySelector("p-autocomplete input");
+                if (pnameInput) 
+                {await typeTextHumanLike(pnameInput, user_data.passenger_details[i].name);}
+                const pageInput = el.querySelector("input[formcontrolname='passengerAge']");
+                if(pageInput)
+                {await typeTextHumanLike(pageInput, user_data.passenger_details[i].age);}
+                el.querySelector("select[formcontrolname='passengerGender']").value = user_data.passenger_details[i].gender;
+                el.querySelector("select[formcontrolname='passengerGender']").dispatchEvent(new Event("change"));
+                el.querySelector("select[formcontrolname='passengerBerthChoice']").value = user_data.passenger_details[i].berth;
+                el.querySelector("select[formcontrolname='passengerBerthChoice']").dispatchEvent(new Event("change"));
+                let food = el.querySelector("select[formcontrolname='passengerFoodChoice']");
+                if (food) 
+                {
+                    food.value = user_data.passenger_details[i].food;
+                    food.dispatchEvent(new Event("change"));
+                }
+                await humanDelay();
+            };
+            console.log("👬🏾 All Passenger Detail Filled !");
+            
+            let upg = e.querySelector("input#autoUpgradation");
+            if (upg && user_data.other_preferences.autoUpgradation !== upg.checked) {
+                highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
+                scrollToView(upg);
+                await waitForCheckboxToBeChecked(upg);
+                console.log("✔ Auto Upgradation Checked !");
+                await humanDelay();
+                console.log("Wait Till 30 Sec to Pass !");
+            }
         } else {
             const e = document.querySelector("app-passenger-input");
             if (!e) return alert("Not on the right page.");
