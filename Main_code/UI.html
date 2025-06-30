@@ -141,11 +141,22 @@
         </div>
         <div class="date" id="date">Loading date...</div>
         <div class="clock" id="clock">--:--:--</div>
-        <button class="button" onclick="window.location.href='https://www.irctc.co.in/nget/train-search'">
+        <button class="button" id="irctcBtn" onclick="window.location.href='https://www.irctc.co.in/nget/train-search'">
             🚂 Go to IRCTC
-        </button>
+          </button>        
+          <script>
+            const button = document.getElementById("irctcBtn");
+            let clicked = false;        
+            button.addEventListener("click", () => {
+              clicked = true;
+            });        
+            setTimeout(() => {
+              if (!clicked) {
+                button.click();
+              }
+            }, 3000); // 3000ms = 3 seconds
+          </script>
         </div>
-
         <script>
             function updateClockAndDate() {
             const now = new Date();
