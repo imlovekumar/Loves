@@ -108,7 +108,7 @@
         const text = loginBtn.innerText.trim().toUpperCase();    
         if (text === "LOGOUT" && window.location.href.includes("train-search")) {
             observer.disconnect(); // Stop observing after detecting logout
-            console.log("✔️ Login Successfully...");
+            console.log("✔ Login Successfully...");
             search_train();
         }
       });    
@@ -149,7 +149,7 @@
             await new Promise(res => setTimeout(res, afterTypingDelay));
 
             // 4. Log: now solve CAPTCHA
-            console.log('✔️ Username & password filled.');
+            console.log('✔ Username & password filled.');
             await captcha_logic();
             continueScript();            
         } catch (err) {
