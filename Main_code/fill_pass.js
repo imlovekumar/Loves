@@ -195,18 +195,17 @@
                     if (elapsed >= delay) {
                       button.disabled = false;
                     const style = document.createElement('style');
-style.innerHTML = `
-@keyframes blinkRedYellow {
-  0%   { background-color: red; }
-  50%  { background-color: yellow; }
-  100% { background-color: red; }
-}
-.blink-button {
-  animation: blinkRedYellow 1s infinite;
-}
-`;
-document.head.appendChild(style);
-button.classList.add('blink-button');
+                    style.innerHTML = `
+                     @keyframes blinkRedYellow {
+                        0%   { background-color: red; }
+                        50%  { background-color: yellow; }
+                        100% { background-color: red; }
+                     }
+                     .blink-button {
+                         animation: blinkRedYellow 0.3s infinite;
+                     }`;
+                     document.head.appendChild(style);
+                     button.classList.add('blink-button');
                       clearInterval(btnInterval);
                     }
                 }
