@@ -206,8 +206,10 @@
                      }`;
                      document.head.appendChild(style);
                      button.classList.add('blink-button');
-                      clearInterval(btnInterval);
-                    (() => { let clicked = false; if (button) { button.addEventListener('click', () => clicked = true); setTimeout(() => !clicked && button.click(), 4000); } })();
+                     clearInterval(btnInterval);
+                     if (["TQ", "PT"].includes(user_data.journey_details.class)) {
+                         (() => { let clicked = false; if (button) { button.addEventListener('click', () => clicked = true); setTimeout(() => !clicked && button.click(), 4000); } })();
+                    }
                     }
                 }
             }, 300);
