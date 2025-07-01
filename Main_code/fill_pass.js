@@ -277,7 +277,9 @@
                   }
                 scrollToView(payOptions);
                 console.log("Plz Select UPI");
-            }
+            } else {
+                scrollToView(button);
+                }
         } else {
             const e = document.querySelector("app-passenger-input");
             if (!e) return alert("Not on the right page.");
