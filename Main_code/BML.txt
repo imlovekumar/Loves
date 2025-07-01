@@ -1,4 +1,4 @@
-def open_BML(root,script_btn,info_label,restart_app):
+def open_BML(root,script_btn,restart_app()):
     global frame
     if frame is None:
         frame = tk.Frame(root, bg="#f0f0f0", bd=1, relief="solid")
@@ -125,7 +125,6 @@ def open_BML(root,script_btn,info_label,restart_app):
                 status_label.after(1000, restart_app)
 
             except Exception as e:
-                info_label.config(text="❌ Failed to load data", fg="red")
                 status_label.config(text=f"Error: {e}", fg="red")
         
         def browse_and_generate():
