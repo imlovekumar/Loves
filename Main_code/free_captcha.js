@@ -97,7 +97,7 @@
             const i = document.querySelector("#captcha");
             if (i && s) 
             {   
-                console.log("⌨️ Typing Captcha...");
+                console.log("⌨ Typing Captcha...");
                 await typeTextHumanLike(i, s);
                 setTimeout(() => 
                     {
