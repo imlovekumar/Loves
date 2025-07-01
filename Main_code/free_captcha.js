@@ -105,7 +105,7 @@
                         if(submit){
                             console.log("✔ Submit Button Found !");
                             simulateClick(submit);
-                            console.log("✍️ Auto Submit !");                            
+                            console.log("✍ Auto Submit !");                            
                         }
                         else {
                             const Log_Btn = document.querySelector("#login_header_disable > div > div > div.ng-tns-c19-13.ui-dialog-content.ui-widget-content > div.irmodal.ng-tns-c19-13 > div > div.login-bg.pull-left > div > div.modal-body > form > span > button");
