@@ -1,4 +1,4 @@
-def ticket_detail():
+def ticket_detail(open_btn):
             Ticket_dir = "./BML"
             Ticket_file = "Ticket_data.json"
             Ticket_path = os.path.join(Ticket_dir, Ticket_file)
