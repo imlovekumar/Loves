@@ -1,4 +1,4 @@
-def open_BML(root):
+def open_BML(root,script_btn):
     global frame
     if frame is None:
         frame = tk.Frame(root, bg="#f0f0f0", bd=1, relief="solid")
