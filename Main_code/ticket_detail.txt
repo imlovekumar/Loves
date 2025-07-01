@@ -1,1 +1,18 @@
-
+def ticket_detail():
+            Ticket_dir = "./BML"
+            Ticket_file = "Ticket_data.json"
+            Ticket_path = os.path.join(Ticket_dir, Ticket_file)
+            if os.path.exists(Ticket_path):
+                with open(Ticket_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                
+                train_no = data['journey_details']['train_no']
+                fromm = data['journey_details']['from']
+                to = data['journey_details']['destination']
+                classs = data['journey_details']['class']
+                quota = data['journey_details']['quota']
+                journey_date = data.get("journey_details", {}).get("date", "Unknown Date")
+                print(f" 🟢 Train : {train_no}\n    Date: {journey_date}\n    From: {fromm} | To: {to}\n    Class: {classs} | Quota: {quota}\n    Number of Pax: {len(data["passenger_details"])}\n    Mobile: {data['other_preferences']['mobileNumber']}")
+            else:
+                print("\n 🟢 No Loaded Ticket 🟢")
+                open_btn.config(state="disabled")
