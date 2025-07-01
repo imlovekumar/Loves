@@ -252,6 +252,33 @@
                 await humanDelay();
                 console.log("✔ Only Confirmed Seat Checked !");
             }
+            
+            const insVal = user_data.travel_preferences.travelInsuranceOpted === "yes" ? "true" : 'false';
+            const ins = [...e.querySelectorAll("p-radiobutton[formcontrolname='travelInsuranceOpted'] input")].find(q => q.value === insVal);
+            if (ins) { 
+                const style = document.createElement('style');
+                style.innerHTML = `
+                @keyframes blinkRedYellow {
+                  0%   { background-color: red; color: white; }
+                  50%  { background-color: yellow; color: black; }
+                  100% { background-color: red; color: white; }
+                }
+                .blink-label {
+                  animation: blinkRedYellow 0.3s infinite;
+                  padding: 4px;
+                  border-radius: 4px;
+                  display: inline-block;
+                }
+                `;
+                document.head.appendChild(style);
+                const inslabel = ins.closest('label');
+                  if (inslabel) {
+                    inslabel.classList.add('blink-label');
+                  }
+                scrollToView(ins);
+                console.log("📝 Travel Insurance !");            
+            }
+            
             const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
             const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
             if (payOptions) {
