@@ -248,7 +248,6 @@
             if (conf && user_data.other_preferences.confirmberths !== conf.checked){
                 scrollToView(conf);
                 highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
-                console.log("Plz Check Manually");
                 await waitForCheckboxToBeChecked(conf);
                 await humanDelay();
                 console.log("✔ Only Confirmed Seat Checked !");
@@ -277,9 +276,8 @@
                   }
                 scrollToView(payOptions);
                 console.log("Plz Select UPI");
-            } else {
-                console.log("Wait For CONTINUE To Blink");
-                }
+            }
+            console.log("Wait For CONTINUE To Blink");
         } else {
             const e = document.querySelector("app-passenger-input");
             if (!e) return alert("Not on the right page.");
