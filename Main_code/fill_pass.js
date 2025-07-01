@@ -278,7 +278,7 @@
                 scrollToView(payOptions);
                 console.log("Plz Select UPI");
             } else {
-                scrollToView(button);
+                console.log("Wait For CONTINUE To Blink");
                 }
         } else {
             const e = document.querySelector("app-passenger-input");
