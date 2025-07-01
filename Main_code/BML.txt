@@ -1,0 +1,152 @@
+def open_BML():
+    global frame
+    if frame is None:
+        frame = tk.Frame(root, bg="#f0f0f0", bd=1, relief="solid")
+        frame.place(relx=0.50, rely=0.695, anchor="center", width=280, height=171)
+
+        OUTPUT_DIR = "./BML"
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+        def js_escape(s):
+            return s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r")
+
+        def generate_bookmarklets(data_path):
+            try:
+                with open(data_path, "r", encoding="utf-8") as f:
+                    user_data = json.load(f)               
+                
+                TCuserid = js_escape(user_data["TCuserid"])
+                apikey = js_escape(user_data["apikey"])
+                free_cap = user_data.get("travel_preferences", {}).get("free_cap", False)
+
+                free = "https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/free_captcha.js"
+                TC =   "https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/captcha.js"
+
+                fetch_url = free if free_cap else TC
+
+                response = requests.get(fetch_url)
+                if response.status_code == 200:                       
+                    js_code_captcha = response.text
+                    js_code_captcha = js_code_captcha.replace("__userid__", TCuserid).replace("__apikey__", apikey)                         
+                else:
+                    raise Exception(f"Failed to fetch JS file: {response.status_code}")
+
+                inputs_code = [user_data["journey_details"]["from"], user_data["journey_details"]["destination"]]                       
+                response = requests.get("https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/Station.json")
+                if response.status_code == 200:                     
+                    stn_data = response.json()
+                else:
+                    raise Exception(f"Failed to fetch JS file: {response.status_code}")
+                results = {}
+                for code in inputs_code:
+                    found = next((f"{s.get('name')} - {s.get('code')}" for s in stn_data if s.get('code') == code), None)
+                    results[code] = found or f"No matching station found for code: {code}"
+
+                user_data_js = json.dumps(user_data, separators=(',', ':'))
+                origin = results.get(inputs_code[0])
+                destination = results.get(inputs_code[1])                                   
+                response = requests.get("https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/js_code_find_train.js")
+                if response.status_code == 200:                        
+                    js_code_find_train = response.text
+                    js_code_find_train = js_code_find_train.replace("__user_data_js__", user_data_js).replace("__origin__", origin).replace("__destination__", destination)                            
+                else:
+                    raise Exception(f"Failed to fetch JS file: {response.status_code}")
+
+
+                username = js_escape(user_data["username"])
+                password = js_escape(user_data["password"])            
+                response = requests.get("https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/login_script.js")
+                if response.status_code == 200:
+                    js_code_login = response.text
+                    js_code_login = js_code_login.replace("__USERNAME__", username).replace("__PASSWORD__", password).replace("__FIND_TRAIN__", js_code_find_train).replace("__CAPTCHA__", js_code_captcha)
+                else:
+                    raise Exception(f"Failed to fetch JS file: {response.status_code}")
+
+                train_no = user_data['journey_details']['train_no']
+                classs = user_data['journey_details']['class']
+                date = user_data['journey_details']['date']                                    
+                response = requests.get("https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/js_code_avail.js")
+                if response.status_code == 200:                        
+                    js_code_avail = response.text
+                    js_code_avail = js_code_avail.replace("_train_no_", train_no).replace("_classs_", classs).replace("_date_", date)                            
+                else:
+                    raise Exception(f"Failed to fetch JS file: {response.status_code}")
+
+                pax_data = json.dumps(user_data)                         
+                response = requests.get("https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/fill_pass.js")
+                if response.status_code == 200:
+                    fill_pass = response.text                
+                    fill_pass = fill_pass.replace("_pax_data_", pax_data)
+                else:
+                    raise Exception(f"Failed to fetch JS file: {response.status_code}")                
+                                
+                response = requests.get("https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/PayTM_Selector.js")
+                if response.status_code == 200:                        
+                    selectpay = response.text
+                else:
+                    raise Exception(f"Failed to fetch JS file: {response.status_code}")
+
+                upiid = user_data['UpiID']                                 
+                response = requests.get("https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/PayTM_Page.js")
+                if response.status_code == 200:
+                    autoupi = response.text                    
+                    autoupi = autoupi.replace("__your_UPI__", upiid)
+                else:
+                    raise Exception(f"Failed to fetch JS file: {response.status_code}")                
+                
+                response = requests.get("https://raw.githubusercontent.com/imlovekumar/Loves/refs/heads/main/Main_code/master_script.js")
+                if response.status_code == 200:
+                    print(" 🧲 Script File Fetched...")
+                    master_script = response.text                
+                    master_script =  master_script.replace("__train_list__", js_code_avail).replace("__psgninput__", fill_pass).replace("__final_captcha__", js_code_captcha).replace("__select_pay__", selectpay)
+                else:
+                    raise Exception(f"Failed to fetch JS file: {response.status_code}")
+
+                bm_data = {
+                    "Auto Login": ("auto_login.txt", "javascript:" + urllib.parse.quote(js_code_login.strip())),
+                    "Captcha": ("Captcha.txt", "javascript:" + urllib.parse.quote(js_code_captcha.strip())),
+                    "Find Train": ("Find_train.txt", "javascript:" + urllib.parse.quote(js_code_find_train.strip())),
+                    "Availability": ("Availability.txt", "javascript:" + urllib.parse.quote(js_code_avail.strip())),
+                    "Passenger Submit": ("Pax_submit.txt", "javascript:" + urllib.parse.quote(fill_pass.strip())),
+                    "Select PayTM_UPI" : ("sel_paytm.txt", "javascript:" + urllib.parse.quote(selectpay.strip())),
+                    "On_Paytm_UPI" : ("On_paytm_page.txt", "javascript:" + urllib.parse.quote(autoupi.strip())),
+                    "Auto_script" : ("master_script.txt", "" + urllib.parse.quote(master_script.strip())),
+                }
+
+                for name, (filename, text) in bm_data.items():
+                    with open(os.path.join(OUTPUT_DIR, filename), "w", encoding="utf-8") as f:
+                        f.write(text)
+
+                output_path = os.path.join(OUTPUT_DIR, "Ticket_data.json")
+                with open(output_path, "w", encoding="utf-8") as f:
+                    json.dump(user_data, f, indent=4, ensure_ascii=False)
+
+                status_label.config(text="Reservation Form Loaded ✅", fg="green")
+                status_label.after(1000, restart_app)
+
+            except Exception as e:
+                info_label.config(text="❌ Failed to load data", fg="red")
+                status_label.config(text=f"Error: {e}", fg="red")
+        
+        def browse_and_generate():
+            path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
+            if path:
+                generate_bookmarklets(path)
+
+        HEADER_FONT = ("Segoe UI", 14, "bold")
+        LABEL_FONT = ("Segoe UI", 10, "bold")
+        ENTRY_FONT = ("Courier New", 9)
+
+        tkk.Label(frame, text="----  Select Ticket  ----", font=HEADER_FONT, bg="#f0f0f0", fg="#222").pack(pady=(10, 5))
+
+        tkk.Button(frame, text="📂 Select Reservation Form",command=browse_and_generate,
+                bg="#4CAF50", fg="white", font=("Segoe UI", 9), relief="flat", padx=8, pady=4).pack(pady=(0, 5))
+
+        status_label = tkk.Label(frame, text="", fg="red", bg="#f0f0f0", font=("Segoe UI", 10, "bold"))
+        status_label.pack(fill="x", pady=(0, 15))
+
+        script_btn.config(bg="#D32F2F", fg="black")
+    else:
+        frame.destroy()
+        frame = None
+        script_btn.config(bg=default_bg, fg=default_fg)
