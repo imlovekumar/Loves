@@ -256,6 +256,25 @@
             const method = user_data.other_preferences.paymentmethod.includes("UPI") ? '2' : '1';
             const payOptions = [...e.querySelectorAll("p-radiobutton[name='paymentType'] input")].find(q => q.value === method);
             if (payOptions) {
+                const style = document.createElement('style');
+                style.innerHTML = `
+                @keyframes blinkRedYellow {
+                  0%   { background-color: red; color: white; }
+                  50%  { background-color: yellow; color: black; }
+                  100% { background-color: red; color: white; }
+                }
+                .blink-label {
+                  animation: blinkRedYellow 1s infinite;
+                  padding: 4px;
+                  border-radius: 4px;
+                  display: inline-block;
+                }
+                `;
+                document.head.appendChild(style);
+                const label = payOptions.closest('label');
+                  if (label) {
+                    label.classList.add('blink-label');
+                  }
                 scrollToView(payOptions);
                 console.log("Plz Select UPI");
             }
