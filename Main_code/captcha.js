@@ -105,17 +105,17 @@
                         if(submit){
                             console.log("✔ Submit Button Found !");
                             simulateClick(submit);
-                            console.log("✍️ Auto Submit !");                            
+                            console.log("✍ Auto Submit !");                            
                         }
                         else {
                             const Log_Btn = document.querySelector("#login_header_disable > div > div > div.ng-tns-c19-13.ui-dialog-content.ui-widget-content > div.irmodal.ng-tns-c19-13 > div > div.login-bg.pull-left > div > div.modal-body > form > span > button");
                             if(!Log_Btn) {
                                 console.log("❌ Login Button Not Found !");
-                                console.log("✍️ Login Manually ! ");
+                                console.log("✍ Login Manually ! ");
                             }else {
                             console.log("✔ Login Button Found !");
                             simulateClick(Log_Btn);
-                            console.log("✍️ Auto Login !");
+                            console.log("✍ Auto Login !");
                             }
                         }
                     }, 500)
