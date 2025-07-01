@@ -247,26 +247,7 @@
             let conf = e.querySelector("input#confirmberths");
             if (conf && user_data.other_preferences.confirmberths !== conf.checked){
                 scrollToView(conf);
-                const style = document.createElement('style');
-                style.innerHTML = `
-                @keyframes blinkRedYellow {
-                  0%   { background-color: red; color: white; }
-                  50%  { background-color: yellow; color: black; }
-                  100% { background-color: red; color: white; }
-                }
-                .blink-label {
-                  animation: blinkRedYellow 0.3s infinite;
-                  padding: 4px;
-                  border-radius: 4px;
-                  display: inline-block;
-                }
-                `;
-                document.head.appendChild(style);
-                const conflabel = conf.closest('label');
-                  if (conflabel) {
-                    label.classList.add('blink-label');
-                  }
-                //highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
+                highlightBlinkingLabel('Book only if confirm berths are allotted.', 0.3);
                 console.log("Plz Check Manually");
                 await waitForCheckboxToBeChecked(conf);
                 await humanDelay();
