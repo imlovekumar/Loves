@@ -156,10 +156,9 @@
     }
     
     #result-container {
-      display: none;
-    /*visibility: hidden;
-    /*opacity: 0;
-    /*transition: opacity 0.4s ease;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.4s ease;
     }
 
     .flip-button-container {
@@ -438,8 +437,8 @@
     const resultContainer = document.getElementById("result-container");
 
     // ✅ Show it without layout shift
-    resultContainer.style.dispaly = "block";
-    //resultContainer.style.opacity = "1";
+    resultContainer.style.visibility = "visible";
+    resultContainer.style.opacity = "1";
     loadingEl.style.display = "block";
     resultsEl.innerHTML = "";
 
@@ -478,7 +477,7 @@
             card.onclick = () => {
 
               document.getElementById("from").readOnly = true;
-              document.getElementById("flip").hidden = true;
+              document.getElementById("flip").disabled = true;
               document.getElementById("to").readOnly = true;
               document.getElementById("class").disabled = true;
               document.getElementById("quota").disabled = true;
