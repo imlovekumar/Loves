@@ -463,7 +463,7 @@
             card.className = "train-card";
             card.innerHTML = `
               <strong>${train.train_number} - ${train.train_name}</strong><br>
-              ${train.departure_station} (${train.departure_code}) → ${train.arrival_station} (${train.arrival_code})<br>
+              ${train.departure_code} → ${train.arrival_code}<br>
               Dep: ${train.departure_time} →  Arr: ${train.arrival_time}<br>
               Duration: ${train.travel_time} <br>
             `;
