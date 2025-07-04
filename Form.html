@@ -133,7 +133,7 @@
       display: flex;   
     }
 
-    .side-container {
+    #side-container {
       width: 100%;
       background: #fff;
       color: #1e3a8a;
@@ -141,6 +141,9 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       box-sizing: border-box;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
 
     
@@ -268,7 +271,7 @@
             </div>
       </div>
       <div class="side-wrapper">
-        <div class="side-container">
+        <div id="side-container">
         <fieldset>
   <legend>IRCTC Login</legend>
   <div class="login-row">
@@ -476,6 +479,8 @@
               document.getElementById("date").disabled = true;
               document.getElementById("search_button").disabled = true;
               document.getElementById("search_button").style.background = "#d1d5db";
+              document.getElementById("side-container").style.visibility = "visible";
+              document.getElementById("side-container").style.opacity = "1";
               // Make clicked card unclickable
               card.style.pointerEvents = "none";
               card.style.opacity = "0.8"; // Optional: make it look inactive
