@@ -461,27 +461,12 @@
               Duration: ${train.travel_time} <br>
             `;
             card.style.cursor = "pointer";
-            let lastClickedCard = null;
-
-document.querySelectorAll(".train-card").forEach(card => {
-  card.style.cursor = "pointer";
-
-  card.addEventListener("click", () => {
-    if (lastClickedCard === card) {
-      // If clicked again, show all cards
-      document.querySelectorAll(".train-card").forEach(c => {
-        c.style.display = "";
-      });
-      lastClickedCard = null;
-    } else {
-      // Hide all cards except the clicked one
-      document.querySelectorAll(".train-card").forEach(c => {
-        c.style.display = (c === card) ? "" : "none";
-      });
-      lastClickedCard = card;
-    }
-  });
-});
+            card.addEventListener("click", () => {
+              // Hide all cards except the one clicked
+              document.querySelectorAll(".train-card").forEach(c => {
+                if (c !== card) c.style.display = "none";
+              });
+            });
             card.onclick = () => {
 
               document.getElementById("from").readOnly = true;
@@ -492,9 +477,9 @@ document.querySelectorAll(".train-card").forEach(card => {
               document.getElementById("date").disabled = true;
               document.getElementById("search_button").disabled = true;
               // Make clicked card unclickable
-              //card.style.pointerEvents = "none";
-              //card.style.opacity = "0.8"; // Optional: make it look inactive
-              //card.style.cursor = "default";
+              card.style.pointerEvents = "none";
+              card.style.opacity = "0.8"; // Optional: make it look inactive
+              card.style.cursor = "default";
 
             };
             resultsEl.appendChild(card);
