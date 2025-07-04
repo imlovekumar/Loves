@@ -468,13 +468,14 @@
             });
             card.onclick = () => {
 
-              document.getElementById("from").readOnly = true;
+              document.getElementById("from").disabled = true;
               document.getElementById("flip").style.display = "none";
-              document.getElementById("to").readOnly = true;
+              document.getElementById("to").disabled = true;
               document.getElementById("class").disabled = true;
               document.getElementById("quota").disabled = true;
               document.getElementById("date").disabled = true;
               document.getElementById("search_button").disabled = true;
+              document.getElementById("search_button").style.background = "#d1d5db";
               // Make clicked card unclickable
               card.style.pointerEvents = "none";
               card.style.opacity = "0.8"; // Optional: make it look inactive
