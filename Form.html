@@ -490,9 +490,11 @@
       </select>
     </div>
     <div style="margin-top: 20px;">
-  <button onclick="togglePassengerRows()">Save</button>
+  <button id="toggle-btn" onclick="togglePassengerRows()">Save</button>
   <button onclick="saveAndDownloadPassengerJSON()">Save & Download as JSON</button>
 </div>
+
+<pre id="output"></pre>
 
 <pre id="output"></pre>
   </div>
@@ -509,26 +511,27 @@
 
 
   <script>
+
 let rowsHidden = false;
 
 function togglePassengerRows() {
+  const toggleBtn = document.getElementById('toggle-btn');
+
   for (let i = 1; i <= 6; i++) {
     const nameInput = document.getElementById(`name-${i}`);
     const row = document.getElementById(`row-${i}`);
 
     if (rowsHidden) {
-      // Restore all rows
-      row.style.display = "flex";
+      row.style.display = "flex"; // Restore
     } else {
-      // Hide rows where name is empty
       if (nameInput.value.trim() === "") {
-        row.style.display = "none";
+        row.style.display = "none"; // Hide unfilled
       }
     }
   }
 
-  // Toggle flag
   rowsHidden = !rowsHidden;
+  toggleBtn.textContent = rowsHidden ? "Restore" : "Save";
 }
 
 function getPassengerData() {
@@ -568,6 +571,7 @@ function saveAndDownloadPassengerJSON() {
   a.click();
   URL.revokeObjectURL(url);
 }
+
   function flipFromTo() {
     const fromInput = document.getElementById('from');
     const toInput = document.getElementById('to');
