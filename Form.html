@@ -328,7 +328,7 @@
     <div class="passenger-label">Passenger 1</div>
     <div class="row-group">
       <input type="text" id="passenger-name-1" name="passenger-name-1" placeholder="Name" maxlength="16">
-      <input type="number" id="age-1" name="age-1" placeholder="Age" min="0" max="125" oninput="limitInputLength(this, 3)">
+      <input type="number" id="age-1" name="age-1" maxlength="3" placeholder="Age" min="0">
     </div>
     <div class="row-group">
       <select id="passenger-gender-1" name="passenger-gender-1">
@@ -356,7 +356,7 @@
     <div class="passenger-label">Passenger 2</div>
     <div class="row-group">
       <input type="text" id="passenger-name-2" name="passenger-name-2" placeholder="Name" maxlength="16">
-      <input type="number" id="age-2" name="age-2" placeholder="Age" min="0" max="125">
+      <input type="number" id="age-2" name="age-2" placeholder="Age" maxlength="3" min="0" max="125">
     </div>
     <div class="row-group">
       <select id="passenger-gender-2" name="passenger-gender-2">
@@ -384,7 +384,7 @@
     <div class="passenger-label">Passenger 3</div>
     <div class="row-group">
       <input type="text" id="passenger-name-3" name="passenger-name-3" placeholder="Name" maxlength="16">
-      <input type="number" id="age-3" name="age-3" placeholder="Age" min="0" max="125">
+      <input type="number" id="age-3" name="age-3" placeholder="Age" maxlength="3" min="0" max="125">
     </div>
     <div class="row-group">
       <select id="passenger-gender-3" name="passenger-gender-3">
@@ -412,7 +412,7 @@
     <div class="passenger-label">Passenger 4</div>
     <div class="row-group">
       <input type="text" id="passenger-name-4" name="passenger-name-4" placeholder="Name" maxlength="16">
-      <input type="number" id="age-4" name="age-4" placeholder="Age" min="0" max="125">
+      <input type="number" id="age-4" name="age-4" placeholder="Age" maxlength="3" min="0" max="125">
     </div>
     <div class="row-group">
       <select id="passenger-gender-4" name="passenger-gender-4">
@@ -440,7 +440,7 @@
     <div class="passenger-label">Passenger 5</div>
     <div class="row-group">
       <input type="text" id="passenger-name-5" name="passenger-name-5" placeholder="Name" maxlength="16">
-      <input type="number" id="age-5" name="age-5" placeholder="Age" min="0" max="125">
+      <input type="number" id="age-5" name="age-5" placeholder="Age" maxlength="3" min="0" max="125">
     </div>
     <div class="row-group">
       <select id="passenger-gender-5" name="passenger-gender-5">
@@ -468,7 +468,7 @@
     <div class="passenger-label">Passenger 6</div>
     <div class="row-group">
       <input type="text" id="passenger-name-6" name="passenger-name-6" placeholder="Name" maxlength="16">
-      <input type="number" id="age-6" name="age-6" placeholder="Age" min="0" max="125">
+      <input type="number" id="age-6" name="age-6" placeholder="Age" maxlength="3" min="0" max="125">
     </div>
     <div class="row-group">
       <select id="passenger-gender-6" name="passenger-gender-6">
@@ -503,12 +503,6 @@
 
 
   <script>
-  
-  function limitInputLength(el, maxLength) {
-    if (el.value.length > maxLength) {
-      el.value = el.value.slice(0, maxLength);
-    }
-  }
 
   function flipFromTo() {
     const fromInput = document.getElementById('from');
