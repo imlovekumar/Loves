@@ -489,6 +489,8 @@
         <option value="D">No Food</option>
       </select>
     </div>
+    <button onclick="generatePassengerJSON()">Generate & Download JSON</button>
+<pre id="output"></pre>
   </div>
 </fieldset>
         <fieldset>
@@ -503,6 +505,45 @@
 
 
   <script>
+  
+function generatePassengerJSON() {
+  const passengers = [];
+
+  for (let i = 1; i <= 6; i++) {
+    const name = document.getElementById(`name-${i}`).value.trim();
+
+    if (name) {
+      const age = document.getElementById(`age-${i}`).value.trim();
+      const gender = document.getElementById(`gender-${i}`).value.trim();
+      const berth = document.getElementById(`berth-${i}`).value.trim();
+      const food = document.getElementById(`food-${i}`).value.trim();
+
+      passengers.push({
+        name: name,
+        age: age || "",
+        gender: gender || "",
+        berth: berth || "",
+        food: food || ""
+      });
+    }
+  }
+
+  const finalJSON = {
+    passenger_details: passengers
+  };
+
+  // Display on screen
+  document.getElementById('output').textContent = JSON.stringify(finalJSON, null, 2);
+
+  // Prepare download
+  const blob = new Blob([JSON.stringify(finalJSON, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'passenger_details.json';
+  a.click();
+  URL.revokeObjectURL(url); // Cleanup
+}
 
   function flipFromTo() {
     const fromInput = document.getElementById('from');
