@@ -328,7 +328,7 @@
     <div class="passenger-label">Passenger 1</div>
     <div class="row-group">
       <input type="text" id="passenger-name-1" name="passenger-name-1" placeholder="Name" maxlength="16">
-      <input type="number" id="age-1" name="age-1" placeholder="Age" min="0" max="125">
+      <input type="number" id="age-1" name="age-1" placeholder="Age" min="0" max="125" oninput="limitInputLength(this, 3)">
     </div>
     <div class="row-group">
       <select id="passenger-gender-1" name="passenger-gender-1">
