@@ -102,10 +102,11 @@
     
     @media (max-width: 768px) {
       .outer-wrapper {
-        padding: 10px;
-        flex-direction: column;
-        height : auto;
-      }
+      display: flex;
+      flex-direction: column; 
+      align-items: left;    
+      gap: 20px;      
+    }
     }
     
     .outer-wrapper {
@@ -266,7 +267,7 @@
                 <div id="train-results"></div>
             </div>
       </div>
-      <!--<div class="side-wrapper">
+      <div class="side-wrapper">
         <div class="side-container">
         <fieldset>
   <legend>IRCTC Login</legend>
@@ -289,7 +290,7 @@
           <legend>Travel Preferences</legend>
         </fieldset>
         </div>
-      </div>-->
+      </div>
     </div>
 
 
