@@ -280,9 +280,34 @@
   </div>
 </fieldset>
 
-        <fieldset>
-          <legend>Passengers Detail</legend>
-        </fieldset>
+<fieldset>
+  <legend>Passenger Details</legend>
+
+  <div class="form-row passenger-row">
+    <input type="text" id="passenger-name-1" name="passenger-name-1" placeholder="Name" maxlength="16" style="width: 20%;">
+    <input type="number" id="age-1" name="age-1" placeholder="Age" oninput="limitInputLength(this, 3)" style="width: 10%;">
+    
+    <select id="passenger-gender-1" name="passenger-gender-1" style="width: 15%;">
+      <option value="">Gender</option>
+      <option value="M">Male</option>
+      <option value="F">Female</option>
+    </select>
+    
+    <select id="passenger-berth-1" name="passenger-berth-1" style="width: 20%;">
+      <option value="">Berth</option>
+      <option>UB</option><option>LB</option><option>MB</option>
+      <option>SL</option><option>SU</option><option>WS</option>
+      <option>CB</option><option>CP</option><option>SM</option>
+    </select>
+    
+    <select id="passenger-food-1" name="passenger-food-1" style="width: 15%;">
+      <option value="">Food</option>
+      <option value="V">Veg</option>
+      <option value="N">Non-Veg</option>
+      <option value="D">No Food</option>
+    </select>
+  </div>
+</fieldset>
         <fieldset>
           <legend>Other Preferences</legend>
         </fieldset>
