@@ -210,6 +210,44 @@
   flex: 1; /* grow evenly */
 }
 
+fieldset {
+    padding: 15px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+
+  .passenger-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+  }
+
+  .row-group {
+    display: flex;
+    gap: 10px;
+  }
+
+  .row-group input,
+  .row-group select {
+    flex: 1;
+    padding: 5px;
+  }
+
+  .passenger-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
 
 
   </style>
@@ -466,6 +504,12 @@
 
 
   <script>
+  
+  function limitInputLength(el, maxLength) {
+    if (el.value.length > maxLength) {
+      el.value = el.value.slice(0, maxLength);
+    }
+  }
 
   function flipFromTo() {
     const fromInput = document.getElementById('from');
