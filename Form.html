@@ -512,7 +512,23 @@
 
 let rowsHidden = false;
 
+function hasAtLeastOnePassenger() {
+  for (let i = 1; i <= 6; i++) {
+    const row = document.getElementById(`row-${i}`);
+    const name = document.getElementById(`name-${i}`).value.trim();
+    if (row.style.display !== "none" && name !== "") {
+      return true;
+    }
+  }
+  return false;
+}
+
 function togglePassengerRows() {
+  if (!hasAtLeastOnePassenger()) {
+    alert("At least one passenger name is required.");
+    return;
+  }
+
   const toggleBtn = document.getElementById('toggle-btn');
 
   for (let i = 1; i <= 6; i++) {
@@ -520,10 +536,10 @@ function togglePassengerRows() {
     const row = document.getElementById(`row-${i}`);
 
     if (rowsHidden) {
-      row.style.display = "flex"; // Restore
+      row.style.display = "flex"; // Restore all
     } else {
       if (nameInput.value.trim() === "") {
-        row.style.display = "none"; // Hide unfilled
+        row.style.display = "none"; // Hide empty
       }
     }
   }
@@ -558,6 +574,11 @@ function getPassengerData() {
 }
 
 function saveAndDownloadPassengerJSON() {
+  if (!hasAtLeastOnePassenger()) {
+    alert("At least one passenger name is required.");
+    return;
+  }
+
   const data = getPassengerData();
   document.getElementById('output').textContent = JSON.stringify(data, null, 2);
 
