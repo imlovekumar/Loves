@@ -272,7 +272,24 @@
         <div id="side-container">
         <fieldset>
   <legend>IRCTC Login</legend>
-  <div class="login-row">
+    <style>
+    fieldset {
+      padding: 15px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+
+    .login-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid #eee;
+      margin-bottom: 15px;
+      background: #f9f9f9;
+    }
+    </style>
+  <div class="login-row" class ="login-box">
     <input type="text" placeholder="Username" />
     <input type="password" placeholder="Password" />
   </div>
