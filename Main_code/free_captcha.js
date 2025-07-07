@@ -144,7 +144,7 @@
             });
             const json = await r.json();
             const raw = json.data[0];
-            const s = raw.replaceAll(" ", "");
+            const s = "fgvdfgvdf";//raw.replaceAll(" ", "");
             console.log("✔ Captcha Solved! (FREE)");
             const i = document.querySelector("#captcha");
             if (i && s) 
