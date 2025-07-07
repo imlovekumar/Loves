@@ -69,59 +69,6 @@
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    function observeCaptchaErrorAndRetry(timeout = 15000) {
-  const loginContainer = document.querySelector("#login_header_disable");
-  const toastRoot = document.querySelector("body"); // Observe the entire body for toast injection
-
-  if (!loginContainer) {
-    console.error("Login container not found.");
-    return;
-  }
-
-  const observer = new MutationObserver((mutationsList) => {
-    for (const mutation of mutationsList) {
-      // Check login modal error
-      const loginError = document.querySelector("#login_header_disable .loginError");
-      if (loginError && loginError.textContent.includes("Invalid Captcha")) {
-        triggerRetry("Login Error");
-        return;
-      }
-
-      // Check toast content injected into body
-      const toastError = document.querySelector(".ui-toast-detail");
-      if (toastError && toastError.textContent.includes("Invalid Captcha")) {
-        triggerRetry("Toast Message");
-        return;
-      }
-    }
-  });
-
-  const triggerRetry = (source) => {
-    console.log(`❌ Invalid Captcha detected via ${source}. Retrying...`);
-    observer.disconnect();
-    clearTimeout(timeoutId);
-
-    setTimeout(async () => {
-      await solveCaptcha();
-      observeCaptchaErrorAndRetry(); // Re-attach after retry
-    }, 2000);
-  };
-
-  // Observe both the login modal and the body for dynamic toast injection
-  observer.observe(loginContainer, { childList: true, subtree: true });
-  observer.observe(toastRoot, { childList: true, subtree: true });
-
-  const timeoutId = setTimeout(() => {
-    observer.disconnect();
-    console.log("⏰ Timeout: No 'Invalid Captcha' message detected.");
-    // Optional: retry anyway
-    // solveCaptcha().then(() => observeCaptchaErrorAndRetry());
-  }, timeout);
-
-  console.log("✅ CAPTCHA error observer attached.");
-}
-
-
     async function solveCaptcha(e = 0) 
     {
         if (e >= 100) return;
@@ -145,7 +92,7 @@
             });
             const json = await r.json();
             const raw = json.data[0];
-            const s = "fgvdfgvdf";//raw.replaceAll(" ", "");
+            const s = raw.replaceAll(" ", "");
             console.log("✔ Captcha Solved! (FREE)");
             const i = document.querySelector("#captcha");
             if (i && s) 
@@ -158,7 +105,6 @@
                         if(submit){
                             console.log("✔ Submit Button Found !");
                             simulateClick(submit);
-                             observeCaptchaErrorAndRetry();
                             console.log("✍ Auto Submit !");                            
                         }
                         else {
@@ -169,7 +115,6 @@
                             }else {
                             console.log("✔ Login Button Found !");
                             simulateClick(Log_Btn);
-                            observeCaptchaErrorAndRetry();
                             console.log("✍ Auto Login !");
                             }
                         }
