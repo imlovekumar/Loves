@@ -68,6 +68,40 @@
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+    // Function to observe error messages
+function observeCaptchaErrorAndRetry() {
+  const targetNode = document.querySelector("#login_header_disable");
+
+  if (!targetNode) {
+    console.error("Login container not found!");
+    return;
+  }
+
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList' || mutation.type === 'subtree') {
+        const errorElem = document.querySelector("#login_header_disable .loginError");
+        if (errorElem && errorElem.textContent.includes("Invalid Captcha")) {
+          console.log("❌ Invalid Captcha detected. Retrying...");
+          observer.disconnect(); // Stop observing to prevent duplicate retries
+          setTimeout(() => {
+            solveCaptcha().then(() => {
+              observeCaptchaErrorAndRetry(); // Reattach observer after retry
+            });
+          }, 2000); // Wait a bit for new CAPTCHA to load
+          break;
+        }
+      }
+    }
+  });
+
+  observer.observe(targetNode, {
+    childList: true,
+    subtree: true,
+  });
+
+  console.log("✅ CAPTCHA error observer attached.");
+}
 
     async function solveCaptcha(e = 0) 
     {
@@ -92,7 +126,7 @@
             });
             const json = await r.json();
             const raw = json.data[0];
-            const s = raw.replaceAll(" ", "");
+            const s = "hhhhhh";//raw.replaceAll(" ", "");
             console.log("✔ Captcha Solved! (FREE)");
             const i = document.querySelector("#captcha");
             if (i && s) 
@@ -115,6 +149,7 @@
                             }else {
                             console.log("✔ Login Button Found !");
                             simulateClick(Log_Btn);
+                            observeCaptchaErrorAndRetry();
                             console.log("✍ Auto Login !");
                             }
                         }
