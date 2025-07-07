@@ -68,38 +68,58 @@
     function scrollToView(el) {
         if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-    // Function to observe error messages
-function observeCaptchaErrorAndRetry() {
-  const targetNode = document.querySelector("#login_header_disable");
 
-  if (!targetNode) {
-    console.error("Login container not found!");
-    return;
-  }
-
-  const observer = new MutationObserver((mutationsList) => {
-    for (const mutation of mutationsList) {
-      if (mutation.type === 'childList' || mutation.type === 'subtree') {
-        const errorElem = document.querySelector("#login_header_disable .loginError");
-        if (errorElem && errorElem.textContent.includes("Invalid Captcha")) {
-          console.log("❌ Invalid Captcha detected. Retrying...");
-          observer.disconnect(); // Stop observing to prevent duplicate retries
-          setTimeout(() => {
-            solveCaptcha().then(() => {
-              observeCaptchaErrorAndRetry(); // Reattach observer after retry
-            });
-          }, 2000); // Wait a bit for new CAPTCHA to load
-          break;
-        }
+    function observeCaptchaErrorAndRetry(timeout = 15000) {
+      const toastContainer = document.querySelector("p-toast");
+      const loginContainer = document.querySelector("#login_header_disable");
+    
+      if (!toastContainer && !loginContainer) {
+        console.error("Neither toast nor login container found.");
+        return;
       }
+    
+      const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+          // Check login error
+          const loginError = document.querySelector("#login_header_disable .loginError");
+          if (loginError && loginError.textContent.includes("Invalid Captcha")) {
+            triggerRetry("Login error");
+            return;
+          }
+    
+          // Check toast error (using partial match to avoid dynamic class names)
+          const toastError = document.querySelector("p-toast .ui-toast-detail");
+          if (toastError && toastError.textContent.includes("Invalid Captcha")) {
+            triggerRetry("Toast error");
+            return;
+          }
+        }
+      });
+    
+      const triggerRetry = (source) => {
+        console.log(`❌ Invalid Captcha detected from ${source}. Retrying...`);
+        observer.disconnect();
+        clearTimeout(timeoutId);
+    
+        setTimeout(async () => {
+          await solveCaptcha();
+          observeCaptchaErrorAndRetry(); // Re-attach after solving
+        }, 2000);
+      };
+    
+      if (loginContainer) observer.observe(loginContainer, { childList: true, subtree: true });
+      if (toastContainer) observer.observe(toastContainer, { childList: true, subtree: true });
+    
+      const timeoutId = setTimeout(() => {
+        observer.disconnect();
+        console.log("⏰ Timeout: No 'Invalid Captcha' message detected.");
+        // Optional: Retry anyway
+        // solveCaptcha().then(() => observeCaptchaErrorAndRetry());
+      }, timeout);
+    
+      console.log("✅ CAPTCHA error observer attached.");
     }
-  });
 
-  observer.observe(targetNode, {
-    childList: true,
-    subtree: true,
-  });
-}
 
     async function solveCaptcha(e = 0) 
     {
@@ -137,6 +157,7 @@ function observeCaptchaErrorAndRetry() {
                         if(submit){
                             console.log("✔ Submit Button Found !");
                             simulateClick(submit);
+                             observeCaptchaErrorAndRetry();
                             console.log("✍ Auto Submit !");                            
                         }
                         else {
