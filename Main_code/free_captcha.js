@@ -99,8 +99,6 @@ function observeCaptchaErrorAndRetry() {
     childList: true,
     subtree: true,
   });
-
-  console.log("✅ CAPTCHA error observer attached.");
 }
 
     async function solveCaptcha(e = 0) 
@@ -126,7 +124,7 @@ function observeCaptchaErrorAndRetry() {
             });
             const json = await r.json();
             const raw = json.data[0];
-            const s = "hhhhhh";//raw.replaceAll(" ", "");
+            const s = raw.replaceAll(" ", "");
             console.log("✔ Captcha Solved! (FREE)");
             const i = document.querySelector("#captcha");
             if (i && s) 
