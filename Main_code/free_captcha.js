@@ -70,55 +70,56 @@
     }
 
     function observeCaptchaErrorAndRetry(timeout = 15000) {
-      const toastContainer = document.querySelector("p-toast");
-      const loginContainer = document.querySelector("#login_header_disable");
-    
-      if (!toastContainer && !loginContainer) {
-        console.error("Neither toast nor login container found.");
+  const loginContainer = document.querySelector("#login_header_disable");
+  const toastRoot = document.querySelector("body"); // Observe the entire body for toast injection
+
+  if (!loginContainer) {
+    console.error("Login container not found.");
+    return;
+  }
+
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      // Check login modal error
+      const loginError = document.querySelector("#login_header_disable .loginError");
+      if (loginError && loginError.textContent.includes("Invalid Captcha")) {
+        triggerRetry("Login Error");
         return;
       }
-    
-      const observer = new MutationObserver((mutationsList) => {
-        for (const mutation of mutationsList) {
-          // Check login error
-          const loginError = document.querySelector("#login_header_disable .loginError");
-          if (loginError && loginError.textContent.includes("Invalid Captcha")) {
-            triggerRetry("Login error");
-            return;
-          }
-    
-          // Check toast error (using partial match to avoid dynamic class names)
-          const toastError = document.querySelector("p-toast .ui-toast-detail");
-          if (toastError && toastError.textContent.includes("Invalid Captcha")) {
-            triggerRetry("Toast error");
-            return;
-          }
-        }
-      });
-    
-      const triggerRetry = (source) => {
-        console.log(`❌ Invalid Captcha detected from ${source}. Retrying...`);
-        observer.disconnect();
-        clearTimeout(timeoutId);
-    
-        setTimeout(async () => {
-          await solveCaptcha();
-          observeCaptchaErrorAndRetry(); // Re-attach after solving
-        }, 2000);
-      };
-    
-      if (loginContainer) observer.observe(loginContainer, { childList: true, subtree: true });
-      if (toastContainer) observer.observe(toastContainer, { childList: true, subtree: true });
-    
-      const timeoutId = setTimeout(() => {
-        observer.disconnect();
-        console.log("⏰ Timeout: No 'Invalid Captcha' message detected.");
-        // Optional: Retry anyway
-        // solveCaptcha().then(() => observeCaptchaErrorAndRetry());
-      }, timeout);
-    
-      console.log("✅ CAPTCHA error observer attached.");
+
+      // Check toast content injected into body
+      const toastError = document.querySelector(".ui-toast-detail");
+      if (toastError && toastError.textContent.includes("Invalid Captcha")) {
+        triggerRetry("Toast Message");
+        return;
+      }
     }
+  });
+
+  const triggerRetry = (source) => {
+    console.log(`❌ Invalid Captcha detected via ${source}. Retrying...`);
+    observer.disconnect();
+    clearTimeout(timeoutId);
+
+    setTimeout(async () => {
+      await solveCaptcha();
+      observeCaptchaErrorAndRetry(); // Re-attach after retry
+    }, 2000);
+  };
+
+  // Observe both the login modal and the body for dynamic toast injection
+  observer.observe(loginContainer, { childList: true, subtree: true });
+  observer.observe(toastRoot, { childList: true, subtree: true });
+
+  const timeoutId = setTimeout(() => {
+    observer.disconnect();
+    console.log("⏰ Timeout: No 'Invalid Captcha' message detected.");
+    // Optional: retry anyway
+    // solveCaptcha().then(() => observeCaptchaErrorAndRetry());
+  }, timeout);
+
+  console.log("✅ CAPTCHA error observer attached.");
+}
 
 
     async function solveCaptcha(e = 0) 
