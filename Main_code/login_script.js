@@ -96,6 +96,29 @@
         __FIND_TRAIN__
     }
 
+    function launchCelebration() {
+  // Load confetti script if not already loaded
+  if (typeof confetti === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js';
+    script.onload = () => {
+      confetti({
+        particleCount: 200,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    };
+    document.body.appendChild(script);
+  } else {
+    confetti({
+      particleCount: 200,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  }
+}
+
+
     async function captcha_logic() {
         __CAPTCHA__
     }
@@ -109,6 +132,7 @@
         if (text === "LOGOUT" && window.location.href.includes("train-search")) {
             observer.disconnect(); // Stop observing after detecting logout
             console.log("✔ Login Successfully...");
+            launchCelebration();
             search_train();
         }
       });    
