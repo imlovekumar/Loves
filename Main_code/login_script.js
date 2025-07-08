@@ -131,7 +131,8 @@
         const text = loginBtn.innerText.trim().toUpperCase();    
         if (text === "LOGOUT" && window.location.href.includes("train-search")) {
             observer.disconnect(); // Stop observing after detecting logout
-            console.log("✔ Login Successfully...");
+            const now = new Date();
+            console.log("✔ Login Successfully...",now.toLocaleTimeString());
             launchCelebration();
             search_train();
         }
