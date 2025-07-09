@@ -128,7 +128,8 @@
                 setTimeout(() => {
                 console.log("going to click  on Book button");                                         
                 simulateClick(bookButton);
-                console.log("Clicked on Book button");
+                const now = new Date();
+                console.log("Clicked on Book button",now.toLocaleTimeString());
                 observer.disconnect();
                 bookingInProgress = false;
                 }, Math.floor(Math.random() * 30) + 90);
