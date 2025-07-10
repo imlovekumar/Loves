@@ -183,7 +183,7 @@
     {
         if (user_data.other_preferences.psgManual) {
             
-            const delay = 30000; // 30 seconds
+            const delay = 25000; // 25 seconds
             const startTime = Date.now();
             startVisualTimer(delay);
             const btnInterval = setInterval(() => {
