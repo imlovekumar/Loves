@@ -12,7 +12,7 @@ def ticket_detail(open_btn):
                 classs = data['journey_details']['class']
                 quota = data['journey_details']['quota']
                 journey_date = data.get("journey_details", {}).get("date", "Unknown Date")
-                print(f" 🟢 Train : {train_no}\n    Date: {journey_date}\n    From: {fromm} | To: {to}\n    Class: {classs} | Quota: {quota}\n    Number of Pax: {len(data["passenger_details"])}\n    Mobile: {data['other_preferences']['mobileNumber']}")
+                print(f" 🟢 {train_no} | {journey_date} | {fromm} -> {to}\n    {classs} | {quota} | Pax: {len(data["passenger_details"])}\n    Mobile: {data['other_preferences']['mobileNumber']}")
             else:
                 print("\n 🟢 No Loaded Ticket 🟢")
                 open_btn.config(state="disabled")
