@@ -47,7 +47,7 @@
 
     /* Popup Player */
     #playerModal {
-      display: none;
+      display: none; /* hidden by default to prevent black screen */
       position: fixed;
       z-index: 1000;
       left: 0; top: 0;
@@ -219,14 +219,18 @@
       const modal = document.getElementById("playerModal");
       const content = document.getElementById("playerContent");
 
+      // clear previous content
+      content.innerHTML = "";
+
       if (url.includes("youtube.com") || url.includes("youtu.be")) {
         const videoId = extractYouTubeID(url);
+        if (!videoId) return alert("Invalid YouTube URL");
         content.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
       } else {
         content.innerHTML = `<video id="videoPlayer" controls autoplay src="${url}"></video>`;
       }
 
-      modal.style.display = "flex";
+      modal.style.display = "flex"; // show modal only now
     }
 
     function extractYouTubeID(url) {
@@ -238,8 +242,8 @@
     document.getElementById("closeBtn").onclick = () => {
       const modal = document.getElementById("playerModal");
       const content = document.getElementById("playerContent");
-      content.innerHTML = "";
-      modal.style.display = "none";
+      content.innerHTML = ""; // remove video/iframe
+      modal.style.display = "none"; // hide modal
     };
 
     loadRepo();
