@@ -22,7 +22,17 @@
     .folder { font-weight: bold; font-size: 18px; }
     .subfolder { margin-left: 20px; font-weight: 600; font-size: 16px; }
     .file { margin-left: 0; margin-top: 0; font-size: 14px; color: #444; }
-    .content { display: none; margin-top: 0; }
+
+    /* Smooth expand/collapse */
+    .content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .content.show {
+      max-height: 1000px; /* large enough for content */
+    }
+
     .channel-card {
       background: #e9f5ff;
       padding: 12px;
@@ -116,70 +126,64 @@
 
           subCard.addEventListener("click", async (e) => {
             e.stopPropagation();
-            if (fileDiv.style.display === "none" || fileDiv.style.display === "") {
-              if (fileDiv.innerText === "Loading...") {
-                const file = structure[main][sub];
-                const contentRes = await fetch(file.download_url);
-                const content = await contentRes.json();
+            if (fileDiv.innerText === "Loading...") {
+              const file = structure[main][sub];
+              const contentRes = await fetch(file.download_url);
+              const content = await contentRes.json();
 
-                fileDiv.innerHTML = "";
-                if (Array.isArray(content)) {
-                  content.forEach(item => {
-                    const chCard = document.createElement("div");
-                    chCard.className = "channel-card";
+              fileDiv.innerHTML = "";
+              if (Array.isArray(content)) {
+                content.forEach(item => {
+                  const chCard = document.createElement("div");
+                  chCard.className = "channel-card";
 
-                    const isYouTube = item.m3u8.includes("youtube.com") || item.m3u8.includes("youtu.be");
+                  const isYouTube = item.m3u8.includes("youtube.com") || item.m3u8.includes("youtu.be");
 
-                    chCard.innerHTML = `
-                      <div class="channel-name">${item.name}</div>
-                      <button class="btn play-btn">
-                        ${isYouTube ? '▶️ <span style="color:#fff; font-weight:bold;">YouTube</span>' : '▶ Play'}
-                      </button>
-                      <button class="btn copy-btn">📋 Copy Link</button>
-                      <div class="video-wrapper"></div>
-                    `;
+                  chCard.innerHTML = `
+                    <div class="channel-name">${item.name}</div>
+                    <button class="btn play-btn">
+                      ${isYouTube ? '▶️ <span style="color:#fff; font-weight:bold;">YouTube</span>' : '▶ Play'}
+                    </button>
+                    <button class="btn copy-btn">📋 Copy Link</button>
+                    <div class="video-wrapper"></div>
+                  `;
 
-                    const playBtn = chCard.querySelector(".play-btn");
-                    const videoWrapper = chCard.querySelector(".video-wrapper");
-                    if (isYouTube) playBtn.style.background = "#FF0000";
+                  const playBtn = chCard.querySelector(".play-btn");
+                  const videoWrapper = chCard.querySelector(".video-wrapper");
+                  if (isYouTube) playBtn.style.background = "#FF0000";
 
-                    // Only one video/iframe plays at a time
-                    playBtn.addEventListener("click", (e) => {
-                      e.stopPropagation();
+                  // Only one video/iframe plays at a time
+                  playBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
 
-                      // Close all other video wrappers
-                      document.querySelectorAll(".video-wrapper").forEach(vw => {
-                        if (vw !== videoWrapper) vw.innerHTML = "";
-                      });
+                    document.querySelectorAll(".video-wrapper").forEach(vw => {
+                      if (vw !== videoWrapper) vw.innerHTML = "";
+                    });
 
-                      // Toggle current video
-                      if (videoWrapper.innerHTML.trim() === "") {
-                        if (isYouTube) {
-                          const videoId = extractYouTubeID(item.m3u8);
-                          videoWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
-                        } else {
-                          videoWrapper.innerHTML = `<video controls autoplay src="${item.m3u8}"></video>`;
-                        }
+                    if (videoWrapper.innerHTML.trim() === "") {
+                      if (isYouTube) {
+                        const videoId = extractYouTubeID(item.m3u8);
+                        videoWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
                       } else {
-                        videoWrapper.innerHTML = "";
+                        videoWrapper.innerHTML = `<video controls autoplay src="${item.m3u8}"></video>`;
                       }
-                    });
-
-                    chCard.querySelector(".copy-btn").addEventListener("click", (e) => {
-                      e.stopPropagation();
-                      navigator.clipboard.writeText(item.m3u8).then(() => {
-                        alert("Link copied to clipboard!");
-                      });
-                    });
-
-                    fileDiv.appendChild(chCard);
+                    } else {
+                      videoWrapper.innerHTML = "";
+                    }
                   });
-                }
+
+                  chCard.querySelector(".copy-btn").addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    navigator.clipboard.writeText(item.m3u8).then(() => {
+                      alert("Link copied to clipboard!");
+                    });
+                  });
+
+                  fileDiv.appendChild(chCard);
+                });
               }
-              fileDiv.style.display = "block";
-            } else {
-              fileDiv.style.display = "none";
             }
+            fileDiv.classList.toggle("show"); // smooth expand/collapse
           });
 
           subCard.appendChild(fileDiv);
@@ -187,8 +191,7 @@
         }
 
         mainCard.addEventListener("click", () => {
-          subContainer.style.display =
-            subContainer.style.display === "block" ? "none" : "block";
+          subContainer.classList.toggle("show"); // smooth expand/collapse
         });
 
         mainCard.appendChild(subContainer);
