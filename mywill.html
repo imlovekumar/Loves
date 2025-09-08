@@ -23,14 +23,8 @@
     .subfolder { margin-left: 20px; font-weight: 600; font-size: 16px; }
     .file { margin-left: 0; margin-top: 0; font-size: 14px; color: #444; }
 
-    /* Smooth expand/collapse */
     .content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-    .content.show {
-      max-height: 1000px; /* large enough for content */
+      display: none; /* hide by default */
     }
 
     .channel-card {
@@ -155,7 +149,6 @@
                   // Only one video/iframe plays at a time
                   playBtn.addEventListener("click", (e) => {
                     e.stopPropagation();
-
                     document.querySelectorAll(".video-wrapper").forEach(vw => {
                       if (vw !== videoWrapper) vw.innerHTML = "";
                     });
@@ -183,7 +176,8 @@
                 });
               }
             }
-            fileDiv.classList.toggle("show"); // smooth expand/collapse
+            // Instant toggle
+            fileDiv.style.display = fileDiv.style.display === "block" ? "none" : "block";
           });
 
           subCard.appendChild(fileDiv);
@@ -191,7 +185,8 @@
         }
 
         mainCard.addEventListener("click", () => {
-          subContainer.classList.toggle("show"); // smooth expand/collapse
+          // Instant toggle
+          subContainer.style.display = subContainer.style.display === "block" ? "none" : "block";
         });
 
         mainCard.appendChild(subContainer);
