@@ -23,9 +23,7 @@
     .subfolder { margin-left: 20px; font-weight: 600; font-size: 16px; }
     .file { margin-left: 0; margin-top: 0; font-size: 14px; color: #444; }
 
-    .content {
-      display: none; /* hide by default */
-    }
+    .content { display: none; }
 
     .channel-card {
       background: #e9f5ff;
@@ -101,6 +99,8 @@
         }
       }
 
+      const mainCards = []; // keep track of all main folders
+
       for (let main in structure) {
         const mainCard = document.createElement("div");
         mainCard.className = "card folder";
@@ -120,6 +120,12 @@
 
           subCard.addEventListener("click", async (e) => {
             e.stopPropagation();
+
+            // Collapse other subfolders in the same main folder
+            subContainer.querySelectorAll(".content.file").forEach(f => {
+              if (f !== fileDiv) f.style.display = "none";
+            });
+
             if (fileDiv.innerText === "Loading...") {
               const file = structure[main][sub];
               const contentRes = await fetch(file.download_url);
@@ -146,7 +152,7 @@
                   const videoWrapper = chCard.querySelector(".video-wrapper");
                   if (isYouTube) playBtn.style.background = "#FF0000";
 
-                  // Only one video/iframe plays at a time
+                  // Only one video plays at a time
                   playBtn.addEventListener("click", (e) => {
                     e.stopPropagation();
                     document.querySelectorAll(".video-wrapper").forEach(vw => {
@@ -176,7 +182,8 @@
                 });
               }
             }
-            // Instant toggle
+
+            // Toggle clicked subfolder
             fileDiv.style.display = fileDiv.style.display === "block" ? "none" : "block";
           });
 
@@ -185,12 +192,17 @@
         }
 
         mainCard.addEventListener("click", () => {
-          // Instant toggle
+          // Collapse other main folders
+          mainCards.forEach(mc => {
+            if (mc !== mainCard) mc.querySelector(".content").style.display = "none";
+          });
+          // Toggle clicked main folder
           subContainer.style.display = subContainer.style.display === "block" ? "none" : "block";
         });
 
         mainCard.appendChild(subContainer);
         document.getElementById("files").appendChild(mainCard);
+        mainCards.push(mainCard);
       }
     }
 
