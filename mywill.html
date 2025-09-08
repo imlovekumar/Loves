@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Will Courses</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; }
+    .card {
+      background: #fff;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .card:hover { background: #f9f9ff; }
+    .folder { font-weight: bold; font-size: 16px; }
+    .subfolder { margin-left: 20px; font-weight: 600; }
+    .file { 
+      margin-left: 0;   /* flush under subfolder */
+      margin-top: 0;    
+      font-size: 14px; 
+      color: #444; 
+    }
+    .content { display: none; margin-top: 0; }
+    .channel-card {
+      background: #e9f5ff;
+      padding: 10px;
+      margin: 6px 0 6px 12px; /* slight indent for hierarchy */
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .channel-name { font-weight: bold; margin-bottom: 6px; }
+    .btn {
+      display: inline-block;
+      margin-right: 6px;
+      margin-top: 4px;
+      padding: 6px 10px;
+      font-size: 12px;
+      background: #0078d7;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .btn:hover { opacity: 0.85; }
+    /* Popup Player */
+    #playerModal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      align-items: center;
+      justify-content: center;
+    }
+    #playerBox {
+      background: #000;
+      padding: 10px;
+      border-radius: 6px;
+      width: 80%;
+      max-width: 800px;
+      text-align: center;
+    }
+    #playerBox video, #playerBox iframe {
+      width: 100%;
+      height: 450px;
+      border: none;
+    }
+    #closeBtn {
+      color: #fff;
+      float: right;
+      cursor: pointer;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h2>My Will Courses</h2>
+  <div id="files"></div>
+
+  <!-- Video Player Modal -->
+  <div id="playerModal">
+    <div id="playerBox">
+      <span id="closeBtn">✖</span>
+      <div id="playerContent"></div>
+    </div>
+  </div>
+
+  <script>
+    const owner = "imlovekumar";
+    const repo = "My_Will";
+    const branch = "main";
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents`;
+
+    async function fetchFiles(path = "") {
+      const res = await fetch(`${apiUrl}/${path}?ref=${branch}`);
+      return res.json();
+    }
+
+    async function loadRepo() {
+      const data = await fetchFiles();
+      const structure = {};
+
+      // build mainfolder → subfolder → files mapping
+      for (let file of data) {
+        if (file.type === "file" && file.name.endsWith(".json")) {
+          const parts = file.name.replace(".json", "").split("_");
+          if (parts.length >= 2) {
+            const main = parts[0];
+            const sub = parts.slice(1).join("_");
+            if (!structure[main]) structure[main] = {};
+            structure[main][sub] = file;
+          }
+        }
+      }
+
+      // render main folders
+      for (let main in structure) {
+        const mainCard = document.createElement("div");
+        mainCard.className = "card folder";
+        mainCard.innerText = main;
+
+        const subContainer = document.createElement("div");
+        subContainer.className = "content";
+
+        // render subfolders
+        for (let sub in structure[main]) {
+          const subCard = document.createElement("div");
+          subCard.className = "card subfolder";
+          subCard.innerText = sub;
+
+          const fileDiv = document.createElement("div");
+          fileDiv.className = "content file";
+          fileDiv.innerText = "Loading...";
+
+          subCard.addEventListener("click", async (e) => {
+            e.stopPropagation();
+            if (fileDiv.style.display === "none" || fileDiv.style.display === "") {
+              if (fileDiv.innerText === "Loading...") {
+                const file = structure[main][sub];
+                const contentRes = await fetch(file.download_url);
+                const content = await contentRes.json();
+
+                fileDiv.innerHTML = "";
+                if (Array.isArray(content)) {
+                  content.forEach(item => {
+                    const chCard = document.createElement("div");
+                    chCard.className = "channel-card";
+                    chCard.innerHTML = `
+                      <div class="channel-name">${item.name}</div>
+                      <button class="btn play-btn">▶ Play</button>
+                      <button class="btn copy-btn">📋 Copy Link</button>
+                    `;
+
+                    const isYouTube = item.m3u8.includes("youtube.com") || item.m3u8.includes("youtu.be");
+
+                    // Play button
+                    const playBtn = chCard.querySelector(".play-btn");
+                    if (isYouTube) playBtn.style.background = "#FF0000"; // YouTube red
+                    playBtn.addEventListener("click", (e) => {
+                      e.stopPropagation();
+                      openPlayer(item.m3u8);
+                    });
+
+                    // Copy button
+                    chCard.querySelector(".copy-btn").addEventListener("click", (e) => {
+                      e.stopPropagation();
+                      navigator.clipboard.writeText(item.m3u8).then(() => {
+                        alert("Link copied to clipboard!");
+                      });
+                    });
+
+                    fileDiv.appendChild(chCard);
+                  });
+                }
+              }
+              fileDiv.style.display = "block";
+            } else {
+              fileDiv.style.display = "none";
+            }
+          });
+
+          subCard.appendChild(fileDiv);
+          subContainer.appendChild(subCard);
+        }
+
+        mainCard.addEventListener("click", () => {
+          subContainer.style.display =
+            subContainer.style.display === "block" ? "none" : "block";
+        });
+
+        mainCard.appendChild(subContainer);
+        document.getElementById("files").appendChild(mainCard);
+      }
+    }
+
+    // Player logic
+    function openPlayer(url) {
+      const modal = document.getElementById("playerModal");
+      const content = document.getElementById("playerContent");
+
+      if (url.includes("youtube.com") || url.includes("youtu.be")) {
+        const videoId = extractYouTubeID(url);
+        content.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
+      } else {
+        content.innerHTML = `<video id="videoPlayer" controls autoplay src="${url}"></video>`;
+      }
+
+      modal.style.display = "flex";
+    }
+
+    function extractYouTubeID(url) {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    document.getElementById("closeBtn").onclick = () => {
+      const modal = document.getElementById("playerModal");
+      const content = document.getElementById("playerContent");
+      content.innerHTML = "";
+      modal.style.display = "none";
+    };
+
+    loadRepo();
+  </script>
+</body>
+</html>
