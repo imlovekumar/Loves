@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Will Courses</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background: #f4f4f9; }
+h2 { text-align: center; margin-bottom: 15px; }
+
+.card { background: #fff; padding: 16px; margin: 10px 0; border-radius: 8px; box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; word-wrap: break-word; }
+.card:hover { background: #f9f9ff; }
+
+.folder { font-weight: bold; font-size: 18px; }
+.subfolder { margin-left: 20px; font-weight: 600; font-size: 16px; }
+.file { margin-left: 0; margin-top: 0; font-size: 14px; color: #444; }
+
+.content { display: none; }
+
+.channel-card, .note-card {
+  background: #e9f5ff;
+  padding: 12px;
+  margin: 8px 0 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.channel-name, .note-name { font-weight: bold; margin-bottom: 8px; font-size: 14px; }
+.btn { display: inline-block; margin-right: 6px; margin-top: 4px; padding: 8px 12px; font-size: 14px; background: #0078d7; color: #fff; border: none; border-radius: 4px; cursor: pointer; text-decoration:none; }
+.btn:hover { opacity: 0.85; text-decoration:none; }
+
+.video-wrapper { margin-top: 8px; width: 100%; }
+.video-wrapper video, .video-wrapper iframe { width: 100%; max-height: 250px; }
+
+.tabs { display:flex; margin-bottom:8px; }
+.tab { padding:8px 12px; cursor:pointer; border-radius:4px 4px 0 0; margin-right:4px; background:#ccc; font-weight:bold; }
+.tab.active { background:#0078d7; color:#fff; }
+.tab-content { border:1px solid #ccc; padding:8px; border-radius:0 4px 4px 4px; }
+
+.active-folder { border: 2px solid #0078d7; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+<h2>My Will Courses</h2>
+<div id="files"></div>
+
+<script>
+const owner = "imlovekumar";
+const repo = "My_Will";
+const branch = "main";
+const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents`;
+
+async function fetchFiles(path=""){ const res = await fetch(`${apiUrl}/${path}?ref=${branch}`); return res.json(); }
+
+function extractYouTubeID(url){
+  const regExp=/^.*(?:youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
+  const match=url.match(regExp);
+  return(match && match[1] && match[1].length===11)?match[1]:null;
+}
+
+async function loadRepo(){
+  const data=await fetchFiles();
+  const structure={};
+  for(let file of data){
+    if(file.type==="file" && file.name.endsWith(".json")){
+      const parts=file.name.replace(".json","").split("_");
+      if(parts.length>=2){
+        const main=parts[0];
+        const sub=parts.slice(1).join("_");
+        if(!structure[main]) structure[main]={};
+        structure[main][sub]=file;
+      }
+    }
+  }
+
+  const mainCards=[];
+  for(let main in structure){
+    const mainCard=document.createElement("div");
+    mainCard.className="card folder"; mainCard.textContent=main;
+
+    const subContainer=document.createElement("div"); subContainer.className="content";
+
+    for(let sub in structure[main]){
+      const subCard=document.createElement("div"); subCard.className="card subfolder"; subCard.textContent=sub;
+      const fileDiv=document.createElement("div"); fileDiv.className="content file"; fileDiv.textContent="Loading...";
+
+      subCard.addEventListener("click",async e=>{
+        e.stopPropagation();
+
+        subContainer.querySelectorAll(".content.file").forEach(f=>{ if(f!==fileDiv) f.style.display="none"; });
+
+        if(fileDiv.textContent==="Loading..."){
+          const file=structure[main][sub];
+          const contentRes=await fetch(file.download_url);
+          const content=await contentRes.json();
+
+          const videos=content.filter(i=>!i.m3u8.toLowerCase().endsWith(".pdf"));
+          const pdfs=content.filter(i=>i.m3u8.toLowerCase().endsWith(".pdf"));
+
+          fileDiv.innerHTML="";
+
+          // Tabs
+          const tabsDiv=document.createElement("div"); tabsDiv.className="tabs";
+          const classTab=document.createElement("div"); classTab.className="tab active"; classTab.textContent="Class";
+          const notesTab=document.createElement("div"); notesTab.className="tab"; notesTab.textContent="Notes";
+          tabsDiv.appendChild(classTab); tabsDiv.appendChild(notesTab);
+
+          const tabContentDiv=document.createElement("div"); tabContentDiv.className="tab-content";
+          fileDiv.appendChild(tabsDiv); fileDiv.appendChild(tabContentDiv);
+
+          function showTab(type){
+            tabContentDiv.innerHTML="";
+            if(type==="Class"){
+              if(videos.length){
+                videos.forEach(item=>{
+                  const chCard=document.createElement("div"); chCard.className="channel-card";
+                  const isYouTube=/youtube\.com|youtu\.be/.test(item.m3u8);
+                  chCard.innerHTML=`<div class="channel-name">${item.name}</div>
+                    <button class="btn play-btn">${isYouTube?'▶️ YouTube':'▶ Play'}</button>
+                    <button class="btn copy-btn">📋 Copy Link</button>
+                    <div class="video-wrapper"></div>`;
+                  const playBtn=chCard.querySelector(".play-btn");
+                  const videoWrapper=chCard.querySelector(".video-wrapper");
+                  if(isYouTube) playBtn.style.background="#FF0000";
+
+                  playBtn.addEventListener("click",ev=>{
+                    ev.stopPropagation();
+                    document.querySelectorAll(".video-wrapper").forEach(vw=>{if(vw!==videoWrapper) vw.innerHTML="";});
+                    document.querySelectorAll('.folder,.subfolder').forEach(el=>el.classList.remove('active-folder'));
+                    mainCard.classList.add('active-folder'); subCard.classList.add('active-folder');
+
+                    if(videoWrapper.innerHTML.trim()===""){
+                      if(isYouTube){
+                        const videoId=extractYouTubeID(item.m3u8);
+                        videoWrapper.innerHTML=`<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
+                      } else {
+                        const v=document.createElement("video");
+                        v.setAttribute("controls",""); v.setAttribute("playsinline",""); v.setAttribute("webkit-playsinline","");
+                        v.crossOrigin="anonymous"; videoWrapper.innerHTML=""; videoWrapper.appendChild(v);
+                        if(v.canPlayType('application/vnd.apple.mpegurl')){ v.src=item.m3u8; v.addEventListener('loadedmetadata',()=>v.play().catch(()=>{}),{once:true}); v.play().catch(()=>{}); }
+                        else if(window.Hls && Hls.isSupported()){ const hls=new Hls({enableWorker:true}); hls.loadSource(item.m3u8); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play().catch(()=>{})); }
+                        else videoWrapper.innerHTML=`<div>Your browser cannot play HLS. <a href="${item.m3u8}" target="_blank">Open stream</a></div>`;
+                      }
+                    } else videoWrapper.innerHTML="";
+                  });
+
+                  // Copy Link for videos only
+                  chCard.querySelector(".copy-btn").addEventListener("click", ev => {
+                    ev.stopPropagation();
+                    const link = item.m3u8 ? item.m3u8 : '';
+                    if(!link) return;
+                    navigator.clipboard.writeText(link).then(()=>{ alert("Link copied to clipboard!"); })
+                      .catch(()=>{ alert("Failed to copy link. Please copy manually."); });
+                  });
+
+                  tabContentDiv.appendChild(chCard);
+                });
+              } else tabContentDiv.innerHTML="No Class Available";
+            } else {
+              if(pdfs.length){
+                pdfs.forEach(note=>{
+                  const noteCard=document.createElement("div"); noteCard.className="note-card";
+                  noteCard.innerHTML=`<div class="note-name">${note.name}</div>
+                    <a href="${note.m3u8}" class="btn" target="_blank">View</a>
+                    <a href="${note.m3u8}" class="btn" download>Download</a>`;
+                  tabContentDiv.appendChild(noteCard);
+                });
+              } else tabContentDiv.innerHTML="No Notes Available";
+            }
+          }
+
+          showTab("Class");
+
+          classTab.addEventListener("click",(e)=>{ 
+            e.stopPropagation();
+            classTab.classList.add("active"); notesTab.classList.remove("active"); showTab("Class"); 
+          });
+
+          notesTab.addEventListener("click",(e)=>{ 
+            e.stopPropagation();
+            notesTab.classList.add("active"); classTab.classList.remove("active"); showTab("Notes"); 
+          });
+        }
+
+        fileDiv.style.display=fileDiv.style.display==="block"?"none":"block";
+      });
+
+      subCard.appendChild(fileDiv);
+      subContainer.appendChild(subCard);
+    }
+
+    mainCard.addEventListener("click",()=>{
+      mainCards.forEach(mc=>{ if(mc!==mainCard){ const c=mc.querySelector(".content"); if(c) c.style.display="none"; }});
+      subContainer.style.display=subContainer.style.display==="block"?"none":"block";
+    });
+
+    mainCard.appendChild(subContainer);
+    document.getElementById("files").appendChild(mainCard);
+    mainCards.push(mainCard);
+  }
+}
+
+document.addEventListener("click",e=>{ if(e.target.closest(".video-wrapper")) e.stopPropagation(); },true);
+
+loadRepo();
+</script>
+</body>
+</html>
