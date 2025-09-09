@@ -12,15 +12,19 @@ h2 { text-align: center; margin-bottom: 15px; }
 .card:hover { background: #f9f9ff; }
 
 .folder { font-weight: bold; font-size: 18px; }
-.subfolder { margin-left: 20px; font-weight: 600; font-size: 16px; }
+.subfolder { margin-left: 8px; font-weight: 600; font-size: 16px; }
 .file { margin-left: 0; margin-top: 0; font-size: 14px; color: #444; }
 
+.folder, .subfolder {
+  border: 1px solid #ccc; /* default border color */
+  border-radius: 6px;
+  }
 .content { display: none; }
 
 .channel-card, .note-card {
   background: #e9f5ff;
   padding: 12px;
-  margin: 8px 0 8px 12px;
+  margin: 4px 4px 4px 4px;
   border-radius: 6px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
@@ -34,9 +38,8 @@ h2 { text-align: center; margin-bottom: 15px; }
 .tabs { display:flex; margin-top:8px;margin-bottom:8px; }
 .tab { padding:8px 12px; cursor:pointer; border-radius:4px 4px 0 0; margin-right:4px; background:#ccc; font-weight:bold; }
 .tab.active { background:#0078d7; color:#fff; }
-.tab-content { border:1px solid #ccc; padding:8px; border-radius:0 4px 4px 4px; }
+.tab-content { border:.5px solid #ccc; padding:4px; border-radius:0 4px 4px 4px; }
 
-.active-folder { border: 2px solid #0078d7; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
@@ -116,7 +119,7 @@ async function loadRepo(){
                   const chCard=document.createElement("div"); chCard.className="channel-card";
                   const isYouTube=/youtube\.com|youtu\.be/.test(item.m3u8);
                   chCard.innerHTML=`<div class="channel-name">${item.name}</div>
-                    <button class="btn play-btn">${isYouTube?'▶️ YouTube':'▶ Play'}</button>
+                    <button class="btn play-btn">${isYouTube?'▶ Play':'▶ Play'}</button>
                     <button class="btn copy-btn">📋 Copy Link</button>
                     <div class="video-wrapper"></div>`;
                   const playBtn=chCard.querySelector(".play-btn");
@@ -126,9 +129,12 @@ async function loadRepo(){
                   playBtn.addEventListener("click",ev=>{
                     ev.stopPropagation();
                     document.querySelectorAll(".video-wrapper").forEach(vw=>{if(vw!==videoWrapper) vw.innerHTML="";});
-                    document.querySelectorAll('.folder,.subfolder').forEach(el=>el.classList.remove('active-folder'));
-                    mainCard.classList.add('active-folder'); subCard.classList.add('active-folder');
+                    // Reset all folder/subfolder borders to default
+document.querySelectorAll('.folder,.subfolder').forEach(el => el.style.borderColor = '#ccc');
 
+// Highlight current folder/subfolder
+mainCard.style.borderColor = 'red';
+subCard.style.borderColor = 'red';
                     if(videoWrapper.innerHTML.trim()===""){
                       if(isYouTube){
                         const videoId=extractYouTubeID(item.m3u8);
@@ -206,3 +212,4 @@ loadRepo();
 </script>
 </body>
 </html>
+
