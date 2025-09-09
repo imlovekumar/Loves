@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Will Courses</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background: #f4f4f9; }
@@ -19,6 +19,7 @@
       word-wrap: break-word;
     }
     .card:hover { background: #f9f9ff; }
+
     .folder { font-weight: bold; font-size: 18px; }
     .subfolder { margin-left: 20px; font-weight: 600; font-size: 16px; }
     .file { margin-left: 0; margin-top: 0; font-size: 14px; color: #444; }
@@ -28,7 +29,7 @@
     .channel-card {
       background: #e9f5ff;
       padding: 12px;
-      margin: 8px 0 8px 12px; 
+      margin: 8px 0 8px 12px;
       border-radius: 6px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
@@ -59,7 +60,6 @@
       .channel-card { margin-left: 5px; padding: 10px; }
       .btn { padding: 10px 14px; font-size: 13px; }
     }
-
     @media (max-width: 480px) {
       .folder, .subfolder { font-size: 15px; }
       .channel-card { margin-left: 3px; padding: 8px; }
@@ -67,6 +67,9 @@
       .video-wrapper video, .video-wrapper iframe { max-height: 180px; }
     }
   </style>
+
+  <!-- HLS.js for desktop browsers without native HLS -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
   <h2>My Will Courses</h2>
@@ -87,6 +90,7 @@
       const data = await fetchFiles();
       const structure = {};
 
+      // Build structure: mainFolder_subFolder.json -> structure[main][sub]
       for (let file of data) {
         if (file.type === "file" && file.name.endsWith(".json")) {
           const parts = file.name.replace(".json", "").split("_");
@@ -99,12 +103,12 @@
         }
       }
 
-      const mainCards = []; // keep track of all main folders
+      const mainCards = [];
 
       for (let main in structure) {
         const mainCard = document.createElement("div");
         mainCard.className = "card folder";
-        mainCard.innerText = main;
+        mainCard.textContent = main;
 
         const subContainer = document.createElement("div");
         subContainer.className = "content";
@@ -112,21 +116,21 @@
         for (let sub in structure[main]) {
           const subCard = document.createElement("div");
           subCard.className = "card subfolder";
-          subCard.innerText = sub;
+          subCard.textContent = sub;
 
           const fileDiv = document.createElement("div");
           fileDiv.className = "content file";
-          fileDiv.innerText = "Loading...";
+          fileDiv.textContent = "Loading...";
 
           subCard.addEventListener("click", async (e) => {
             e.stopPropagation();
 
-            // Collapse other subfolders in the same main folder
+            // Collapse other subfolders under same main
             subContainer.querySelectorAll(".content.file").forEach(f => {
               if (f !== fileDiv) f.style.display = "none";
             });
 
-            if (fileDiv.innerText === "Loading...") {
+            if (fileDiv.textContent === "Loading...") {
               const file = structure[main][sub];
               const contentRes = await fetch(file.download_url);
               const content = await contentRes.json();
@@ -137,12 +141,12 @@
                   const chCard = document.createElement("div");
                   chCard.className = "channel-card";
 
-                  const isYouTube = item.m3u8.includes("youtube.com") || item.m3u8.includes("youtu.be");
+                  const isYouTube = /youtube\.com|youtu\.be/.test(item.m3u8);
 
                   chCard.innerHTML = `
                     <div class="channel-name">${item.name}</div>
                     <button class="btn play-btn">
-                      ${isYouTube ? '▶️ <span style="color:#fff; font-weight:bold;">YouTube</span>' : '▶ Play'}
+                      ${isYouTube ? '▶️ <span style="color:#fff;font-weight:bold;">YouTube</span>' : '▶ Play'}
                     </button>
                     <button class="btn copy-btn">📋 Copy Link</button>
                     <div class="video-wrapper"></div>
@@ -152,9 +156,11 @@
                   const videoWrapper = chCard.querySelector(".video-wrapper");
                   if (isYouTube) playBtn.style.background = "#FF0000";
 
-                  // Only one video plays at a time
-                  playBtn.addEventListener("click", (e) => {
-                    e.stopPropagation();
+                  // Play handler
+                  playBtn.addEventListener("click", (ev) => {
+                    ev.stopPropagation();
+
+                    // Close all other players
                     document.querySelectorAll(".video-wrapper").forEach(vw => {
                       if (vw !== videoWrapper) vw.innerHTML = "";
                     });
@@ -162,20 +168,53 @@
                     if (videoWrapper.innerHTML.trim() === "") {
                       if (isYouTube) {
                         const videoId = extractYouTubeID(item.m3u8);
-                        videoWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
+                        videoWrapper.innerHTML =
+                          `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
                       } else {
-                        videoWrapper.innerHTML = `<video controls autoplay src="${item.m3u8}"></video>`;
+                        // Prefer native HLS (mobile/Safari) first, then hls.js
+                        const v = document.createElement("video");
+                        v.setAttribute("controls", "");
+                        v.setAttribute("playsinline", "");           // iOS inline
+                        v.setAttribute("webkit-playsinline", "");    // older iOS
+                        v.crossOrigin = "anonymous";
+                        videoWrapper.innerHTML = "";
+                        videoWrapper.appendChild(v);
+
+                        // Native HLS?
+                        if (v.canPlayType('application/vnd.apple.mpegurl')) {
+                          v.src = item.m3u8;
+                          // Try to start after metadata (user already clicked)
+                          const tryPlay = () => v.play().catch(() => {});
+                          v.addEventListener('loadedmetadata', tryPlay, { once: true });
+                          // Fallback: try immediate play
+                          tryPlay();
+                        } else if (window.Hls && Hls.isSupported()) {
+                          const hls = new Hls({ enableWorker: true });
+                          hls.loadSource(item.m3u8);
+                          hls.attachMedia(v);
+                          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                            v.play().catch(() => {}); // user gesture exists
+                          });
+                          // Optional: handle errors gracefully
+                          hls.on(Hls.Events.ERROR, (event, data) => {
+                            if (data.fatal) {
+                              videoWrapper.innerHTML = "Cannot play this stream on this device.";
+                            }
+                          });
+                        } else {
+                          videoWrapper.innerHTML =
+                            `<div>Your browser cannot play HLS. <a href="${item.m3u8}" target="_blank" rel="noopener">Open stream</a></div>`;
+                        }
                       }
                     } else {
                       videoWrapper.innerHTML = "";
                     }
                   });
 
-                  chCard.querySelector(".copy-btn").addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    navigator.clipboard.writeText(item.m3u8).then(() => {
-                    
-                    });
+                  // Copy silently (no alert)
+                  chCard.querySelector(".copy-btn").addEventListener("click", (ev) => {
+                    ev.stopPropagation();
+                    navigator.clipboard.writeText(item.m3u8);
                   });
 
                   fileDiv.appendChild(chCard);
@@ -183,7 +222,7 @@
               }
             }
 
-            // Toggle clicked subfolder
+            // Toggle clicked subfolder content
             fileDiv.style.display = fileDiv.style.display === "block" ? "none" : "block";
           });
 
@@ -191,12 +230,11 @@
           subContainer.appendChild(subCard);
         }
 
+        // Only one main folder open at a time
         mainCard.addEventListener("click", () => {
-          // Collapse other main folders
           mainCards.forEach(mc => {
             if (mc !== mainCard) mc.querySelector(".content").style.display = "none";
           });
-          // Toggle clicked main folder
           subContainer.style.display = subContainer.style.display === "block" ? "none" : "block";
         });
 
@@ -207,9 +245,9 @@
     }
 
     function extractYouTubeID(url) {
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
+      const regExp = /^.*(?:youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
       const match = url.match(regExp);
-      return (match && match[2].length === 11) ? match[2] : null;
+      return (match && match[1] && match[1].length === 11) ? match[1] : null;
     }
 
     loadRepo();
