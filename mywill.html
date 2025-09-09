@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Will Courses</title>
+
+  <!-- HLS.js for desktop browsers without native HLS -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background: #f4f4f9; }
     h2 { text-align: center; margin-bottom: 15px; }
@@ -67,9 +71,6 @@
       .video-wrapper video, .video-wrapper iframe { max-height: 180px; }
     }
   </style>
-
-  <!-- HLS.js for desktop browsers without native HLS -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
   <h2>My Will Courses</h2>
@@ -83,17 +84,35 @@
 
     async function fetchFiles(path = "") {
       const res = await fetch(`${apiUrl}/${path}?ref=${branch}`);
+      if (!res.ok) throw new Error('Failed to fetch repository contents');
       return res.json();
+    }
+
+    // stop and remove all players (used when switching/closing folders)
+    function stopAndRemoveAllPlayers(root = document) {
+      // pause native video elements
+      root.querySelectorAll("video").forEach(v => {
+        try { v.pause(); } catch(e) {}
+      });
+      // remove any iframe/video markup inside wrappers
+      root.querySelectorAll(".video-wrapper").forEach(vw => vw.innerHTML = "");
+    }
+
+    function extractYouTubeID(url) {
+      const regExp = /^.*(?:youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[1] && match[1].length === 11) ? match[1] : null;
     }
 
     async function loadRepo() {
       const data = await fetchFiles();
       const structure = {};
 
-      // Build structure: mainFolder_subFolder.json -> structure[main][sub]
+      // Build structure: mainFolder_subFolder.json -> structure[main][sub] = file
       for (let file of data) {
         if (file.type === "file" && file.name.endsWith(".json")) {
-          const parts = file.name.replace(".json", "").split("_");
+          const base = file.name.replace(".json", "");
+          const parts = base.split("_");
           if (parts.length >= 2) {
             const main = parts[0];
             const sub = parts.slice(1).join("_");
@@ -125,12 +144,19 @@
           subCard.addEventListener("click", async (e) => {
             e.stopPropagation();
 
-            // Collapse other subfolders under same main
+            // Collapse other subfolders under same main AND remove their players
             subContainer.querySelectorAll(".content.file").forEach(f => {
-              if (f !== fileDiv) f.style.display = "none";
+              if (f !== fileDiv) {
+                f.style.display = "none";
+                // clear players inside collapsed subfolders
+                f.querySelectorAll(".video-wrapper").forEach(vw => vw.innerHTML = "");
+                // reset text so it can be lazy-loaded again if desired
+                if (f.innerHTML.trim() === "") f.textContent = "Loading...";
+              }
             });
 
             if (fileDiv.textContent === "Loading...") {
+              // first time load for this subfolder: fetch the JSON file content
               const file = structure[main][sub];
               const contentRes = await fetch(file.download_url);
               const content = await contentRes.json();
@@ -156,11 +182,10 @@
                   const videoWrapper = chCard.querySelector(".video-wrapper");
                   if (isYouTube) playBtn.style.background = "#FF0000";
 
-                  // Play handler
                   playBtn.addEventListener("click", (ev) => {
                     ev.stopPropagation();
 
-                    // Close all other players
+                    // Close all other players and remove them
                     document.querySelectorAll(".video-wrapper").forEach(vw => {
                       if (vw !== videoWrapper) vw.innerHTML = "";
                     });
@@ -171,7 +196,7 @@
                         videoWrapper.innerHTML =
                           `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
                       } else {
-                        // Prefer native HLS (mobile/Safari) first, then hls.js
+                        // Create video element
                         const v = document.createElement("video");
                         v.setAttribute("controls", "");
                         v.setAttribute("playsinline", "");           // iOS inline
@@ -180,33 +205,33 @@
                         videoWrapper.innerHTML = "";
                         videoWrapper.appendChild(v);
 
-                        // Native HLS?
+                        // Prefer native HLS (mobile Safari / some Android) first
                         if (v.canPlayType('application/vnd.apple.mpegurl')) {
                           v.src = item.m3u8;
-                          // Try to start after metadata (user already clicked)
-                          const tryPlay = () => v.play().catch(() => {});
-                          v.addEventListener('loadedmetadata', tryPlay, { once: true });
-                          // Fallback: try immediate play
-                          tryPlay();
+                          // play after metadata to be safe
+                          v.addEventListener('loadedmetadata', () => v.play().catch(()=>{}), { once: true });
+                          // try immediate play (user gesture exists)
+                          v.play().catch(()=>{});
                         } else if (window.Hls && Hls.isSupported()) {
                           const hls = new Hls({ enableWorker: true });
                           hls.loadSource(item.m3u8);
                           hls.attachMedia(v);
-                          hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                            v.play().catch(() => {}); // user gesture exists
-                          });
-                          // Optional: handle errors gracefully
+                          hls.on(Hls.Events.MANIFEST_PARSED, () => v.play().catch(()=>{}));
+                          // optional: handle fatal errors
                           hls.on(Hls.Events.ERROR, (event, data) => {
                             if (data.fatal) {
                               videoWrapper.innerHTML = "Cannot play this stream on this device.";
+                              try { hls.destroy(); } catch(e){}
                             }
                           });
                         } else {
+                          // no HLS support
                           videoWrapper.innerHTML =
                             `<div>Your browser cannot play HLS. <a href="${item.m3u8}" target="_blank" rel="noopener">Open stream</a></div>`;
                         }
                       }
                     } else {
+                      // close current player
                       videoWrapper.innerHTML = "";
                     }
                   });
@@ -214,28 +239,49 @@
                   // Copy silently (no alert)
                   chCard.querySelector(".copy-btn").addEventListener("click", (ev) => {
                     ev.stopPropagation();
-                    navigator.clipboard.writeText(item.m3u8);
+                    navigator.clipboard.writeText(item.m3u8).catch(()=>{});
                   });
 
                   fileDiv.appendChild(chCard);
                 });
+              } else {
+                fileDiv.textContent = "Invalid JSON format";
               }
             }
 
-            // Toggle clicked subfolder content
-            fileDiv.style.display = fileDiv.style.display === "block" ? "none" : "block";
+            // Toggle clicked subfolder content; if closing, remove players inside
+            if (fileDiv.style.display === "block") {
+              fileDiv.querySelectorAll(".video-wrapper").forEach(vw => vw.innerHTML = "");
+              fileDiv.style.display = "none";
+            } else {
+              fileDiv.style.display = "block";
+            }
           });
 
           subCard.appendChild(fileDiv);
           subContainer.appendChild(subCard);
         }
 
-        // Only one main folder open at a time
+        // Main folder toggle: ensure only one main open at a time and clear players in collapsed mains
         mainCard.addEventListener("click", () => {
           mainCards.forEach(mc => {
-            if (mc !== mainCard) mc.querySelector(".content").style.display = "none";
+            if (mc !== mainCard) {
+              const c = mc.querySelector(".content");
+              if (c) {
+                c.style.display = "none";
+                // remove any players inside other mains
+                c.querySelectorAll(".video-wrapper").forEach(vw => vw.innerHTML = "");
+              }
+            }
           });
-          subContainer.style.display = subContainer.style.display === "block" ? "none" : "block";
+
+          if (subContainer.style.display === "block") {
+            // closing main -> clear players inside this main
+            subContainer.querySelectorAll(".video-wrapper").forEach(vw => vw.innerHTML = "");
+            subContainer.style.display = "none";
+          } else {
+            subContainer.style.display = "block";
+          }
         });
 
         mainCard.appendChild(subContainer);
@@ -244,13 +290,11 @@
       }
     }
 
-    function extractYouTubeID(url) {
-      const regExp = /^.*(?:youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
-      const match = url.match(regExp);
-      return (match && match[1] && match[1].length === 11) ? match[1] : null;
-    }
-
-    loadRepo();
+    // start
+    loadRepo().catch(err => {
+      console.error(err);
+      document.getElementById('files').textContent = 'Failed to load repository contents.';
+    });
   </script>
 </body>
 </html>
