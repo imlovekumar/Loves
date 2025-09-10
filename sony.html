@@ -76,25 +76,24 @@ function extractYouTubeID(url){
   return(match && match[1] && match[1].length===11)?match[1]:null;
 }
 // Resolve redirected or HTML-wrapper m3u8
+// Only parse if response looks like HTML, otherwise let video/Hls handle redirect
 async function resolveM3U8(url) {
   try {
     const res = await fetch(url, { redirect: "follow" });
     const text = await res.text();
 
-    // If it's already a valid m3u8 playlist
-    if (text.startsWith("#EXTM3U")) {
-      return url;
+    // If it's HTML instead of playlist
+    if (!text.startsWith("#EXTM3U")) {
+      const match = text.match(/href="([^"]+\.m3u8[^"]*)"/i);
+      if (match) {
+        return match[1].replace(/&amp;/g, "&");
+      }
     }
 
-    // If it's an HTML page with <a href="...m3u8">
-    const match = text.match(/href="([^"]+\.m3u8[^"]*)"/i);
-    if (match) {
-      return match[1].replace(/&amp;/g, "&");
-    }
-
-    return url; // fallback
+    // Just return original if redirect works or it's a valid playlist
+    return url;
   } catch (e) {
-    console.error("Failed to resolve m3u8:", e);
+    console.warn("resolveM3U8 failed, using raw:", url, e);
     return url;
   }
 }
@@ -182,7 +181,6 @@ subCard.style.borderColor = 'red';
   v.setAttribute("controls",""); v.setAttribute("playsinline",""); v.setAttribute("webkit-playsinline","");
   v.crossOrigin="anonymous"; videoWrapper.innerHTML=""; videoWrapper.appendChild(v);
 
-  // 🔥 resolve final playable URL
   resolveM3U8(item.m3u8).then(finalUrl => {
     if(v.canPlayType('application/vnd.apple.mpegurl')){
       v.src=finalUrl;
