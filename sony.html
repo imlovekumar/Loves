@@ -177,24 +177,26 @@ subCard.style.borderColor = 'red';
                         const videoId=extractYouTubeID(item.m3u8);
                         videoWrapper.innerHTML=`<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
                       } else {
-  const v=document.createElement("video");
-  v.setAttribute("controls",""); v.setAttribute("playsinline",""); v.setAttribute("webkit-playsinline","");
-  v.crossOrigin="anonymous"; videoWrapper.innerHTML=""; videoWrapper.appendChild(v);
+  const v = document.createElement("video");
+  v.setAttribute("controls", "");
+  v.setAttribute("playsinline", "");
+  v.setAttribute("webkit-playsinline", "");
+  v.crossOrigin = "anonymous";
+  videoWrapper.innerHTML = "";
+  videoWrapper.appendChild(v);
 
-  resolveM3U8(item.m3u8).then(finalUrl => {
-    if(v.canPlayType('application/vnd.apple.mpegurl')){
-      v.src=finalUrl;
-      v.addEventListener('loadedmetadata',()=>v.play().catch(()=>{}),{once:true});
-      v.play().catch(()=>{});
-    }
-    else if(window.Hls && Hls.isSupported()){
-      const hls=new Hls({enableWorker:true});
-      hls.loadSource(finalUrl);
-      hls.attachMedia(v);
-      hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play().catch(()=>{}));
-    }
-    else videoWrapper.innerHTML=`<div>Your browser cannot play HLS. <a href="${finalUrl}" target="_blank">Open stream</a></div>`;
-  });
+  if (v.canPlayType("application/vnd.apple.mpegurl")) {
+    v.src = item.m3u8; // let browser handle 302
+    v.addEventListener("loadedmetadata", () => v.play().catch(() => {}), { once: true });
+    v.play().catch(() => {});
+  } else if (window.Hls && Hls.isSupported()) {
+    const hls = new Hls({ enableWorker: true });
+    hls.loadSource(item.m3u8); // let Hls.js follow 302
+    hls.attachMedia(v);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => v.play().catch(() => {}));
+  } else {
+    videoWrapper.innerHTML = `<div>Your browser cannot play HLS. <a href="${item.m3u8}" target="_blank">Open stream</a></div>`;
+  }
 }
                     } else videoWrapper.innerHTML="";
                   });
