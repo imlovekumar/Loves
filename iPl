@@ -35,17 +35,58 @@ https://backend.urtractorparts.us/livestream2/index.m3u8
 https://live.aoneroom.com/moviebox/wefeed05.m3u8?auth_key=1744615696-0-0-e15b10662e3a00ed562396542d1c89ef
 
 #EXTINF:-1 tvg-id="2938" tvg-name="STAR 4K UHD hevc*" group-title="4K",STAR 4K UHD hevc*
-http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=b73b06743336a51f417655249a3fcdbaf933ee0a4a0cf0b5d5fd9096485d9d1c3c360b0fe76017a1e113eafff15599211f0e758e898aa28c35598e91ae4cde3db9dbcf747d-aa455aebc040f2c1b2a060715739b56a
+http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=6e9d8a7bb3682346690b84dd17d5383dbc61ce2e20cc6909c4cb836da5da0c38538150175bc6bf5f4a27000260d9b753804a345e53041f7e1288d681b166372ee5fecd821c-3252fd3e3b1b18ba25c193a570c76d0c
 #EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=4ef27fdf7178027d990459d192d1337ed286b3904445d96a1d12adaf7e4d12ffe0b72b062eb47cb3300028e6416345ef2bb7211071c7014b031479a94ca366483e7e550b5d-1f1e19d5cb1183d461ac5809e8bd48c1
+http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=d9a493624ea2960760b615a6e94a9620c5113592ee1e2c0c92fc64f2d322b8a052096ad48bbd09ef4881eb736a9540130c3826ccc6859902523b58fb7b9710ba6e4e23d1d4-2ba69df36eeabe2002ec7465adfe5a9a
 
 #EXTINF:-1 tvg-id="284" tvg-name="NATIONAL GEOGRAPHIC HD" group-title="Knowledge",NATIONAL GEOGRAPHIC HD
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c06482f7a19e80ea3bbae7553d0f52363a8fcaabc/index.m3u8?token=4b93ff60edc876e184696d29ba663c375c431cf859babbf42d0f1d5ab6e2386ba919ad067bd8bdd370d3b47e3bf778cafcc89b3e212a7a26f87bcc046978bb9afcf45f5db8-c1d42e5fdbd5a00f27d39a105f2241b4
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c06482f7a19e80ea3bbae7553d0f52363a8fcaabc/index.m3u8?token=560c92710dea295e9bada58a2205a7636a9445470fe03fcad2796780203650501d1ee8d0a737a72eaa4671d5c595418a964fcb73838dc7d4050a1688dd29918b95fc20e6f1-75709ac28110243b6bea810002d6fca3
 #EXTINF:-1 tvg-id="285" tvg-name="NAT GEO WILD HD." group-title="Knowledge",NAT GEO WILD HD.
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c065e277117fb06adb2a56d49d58b/index.m3u8?token=d6dc52bfcbc4b714aeca55732b7361723306422c61f4e28c623c72ab150c45faf3e3c72a4f384ac1a9fb6e65f90b6b69be554d397930e26b2d0669cb6ca0c1de2e42ea8344-0371d099fb66f13726cf95daa405b3a9
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c065e277117fb06adb2a56d49d58b/index.m3u8?token=ebb0adaa6ab3887bfd63c9b594143bf488b8a2ce51f904d0ace5bdf3f161e0647b15e436f4a00460299d339b191b347fab2b8904f005031676bc392d0178c200ca347b529b-ef9bdff175d48297eb4b938319bf6a4e
 #EXTINF:-1 tvg-id="287" tvg-name="DISCOVERY ID INDIA 4K*" group-title="Knowledge",DISCOVERY ID INDIA 4K*
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bbb4a47755ceed2f/index.m3u8?token=8b041a08556570a2b3385e7efa9eedca63d4b333d5298ec88817a1a63786e9978dbddb8b035193b925478d378d7c9a3e996c23ac8cbcada07c018607745a88b2c77b73d9ec-720a8627b59e8be8ae9b13f6d913953a
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bbb4a47755ceed2f/index.m3u8?token=7b7aed6f2a18cebffb0a5d8c63573676f3113d5a77c31ee2b52971f40a57ddf39cd0e592e093ca03f5f061393da0b809de12b1b4bd4db32f2d04db9c6092b7da26f7d0e893-bd2de1683b5d6a6c5b8e1e93b380707a
 #EXTINF:-1 tvg-id="289" tvg-name="SONY BBC EARTH HD*" group-title="Knowledge",SONY BBC EARTH HD*
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d221c583f761ae70ea1bfb36649ceed2f00/index.m3u8?token=18b899d0296b9614647934c5cec2a44c9a51f2dc86f920905a5b4a3f5260a059c148a8fdf8f61d0703cbd7f307ed2cf53bc8bd112184e4f1ab17211eae798f825da984a8c9-53bc0d4f293f829a0e881632c160cee7
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d221c583f761ae70ea1bfb36649ceed2f00/index.m3u8?token=cc6f8a022eeeb175e877220a178c7d2486498e88fc5d53a5ec907baac8424b4f609df8934f8db0ee6b39c62bd3b4060f8671de52700e1d968bb0d5590aa84c72c8634437a0-8a821888c7de3106f4f23f0bf92fc3bb
 #EXTINF:-1 tvg-id="291" tvg-name="BHARAT MATA MANDIR HD" group-title="Knowledge",BHARAT MATA MANDIR HD
-http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cd2661c4676ab61932c06403f7919ea15adaccf/index.m3u8?token=a4999e51578dea4d0f89ad1334b98d5694aa3139b4350a8915dd027d85e9750bd0cd0aa5cd0c31d7c0947ea947b093d316f630059a1f59b3eb88324a55c30b567635d0e5fc-94e44d7b388e04ee9d032ce2e8ee5018
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cd2661c4676ab61932c06403f7919ea15adaccf/index.m3u8?token=3d62d863588d97b36ee3ba257d8d1b989abfa8a631b6ee57283509e3ab807a1a816360f016ff8856b0f1bd2bf9935314c82cc4d976ba3ed0db850530850c8169caa251c312-589613120af212a6bf872dd4d8955a64
+#EXTINF:-1 tvg-id="1000009248" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY%20SAB%20HD_WHITE.png" group-title="SonyLiv", Sony SAB HD
+https://dai.google.com/ssai/event/UI4QFJ_uRk6aLxIcADqa_A/master.m3u8
+#EXTINF:-1 tvg-id="1000009273" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY%20PAL.png" group-title="SonyLiv", Sony PAL
+https://dai.google.com/ssai/event/rPzF28qORbKZkhci_04fdQ/master.m3u8
+#EXTINF:-1 tvg-id="1000001971" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY%20YAY.png" group-title="SonyLiv", Sony YAY
+https://dai.google.com/ssai/event/40H5HfwWTZadFGYkBTqagg/master.m3u8
+#EXTINF:-1 tvg-id="1000009252" tvg-logo="https://sonypicturesnetworks.com/images/logos/SBBCE_LOGO_NEW_PNG.png" group-title="SonyLiv", Sony BBC Earth HD
+https://dai.google.com/ssai/event/V73ovbgASP-xGvQQOukwTQ/master.m3u8
+#EXTINF:-1 tvg-id="1000009258" tvg-logo="https://sonypicturesnetworks.com/images/logos/PIX%20HD_WHITE.png" group-title="SonyLiv", Sony PIX HD
+https://dai.google.com/ssai/event/8FR5Q-WfRWCkbMq_GxZ77w/master.m3u8
+#EXTINF:-1 tvg-id="1000009253" tvg-logo="https://sonypicturesnetworks.com/images/logos/Sony_WAH.png" group-title="SonyLiv", Sony WAH
+https://dai.google.com/ssai/event/H_ZvXWqHRGKpHcdDE5RcDA/master.m3u8
+#EXTINF:-1 tvg-id="1000009249" tvg-logo="https://sonypicturesnetworks.com/images/logos/Sony_MAX.png" group-title="SonyLiv", Sony MAX
+https://dai.google.com/ssai/event/oJ-TGgVFSgSMBUoTkauvFQ/master.m3u8
+#EXTINF:-1 tvg-id="1000009247" tvg-logo="https://sonypicturesnetworks.com/images/logos/Sony_MAX-HD_WHITE.png" group-title="SonyLiv", Sony MAX HD
+https://dai.google.com/ssai/event/Qyqz40bSQriqSuAC7R8_Fw/master.m3u8
+#EXTINF:-1 tvg-id="1000044878" tvg-logo="https://sonypicturesnetworks.com/images/logos/Sony_MAX2.png" group-title="SonyLiv", Sony MAX2
+https://dai.google.com/ssai/event/4Jcu195QTpCNBXGnpw2I6g/master.m3u8
+#EXTINF:-1 tvg-id="1000009280" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen1_SD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 1
+https://dai.google.com/ssai/event/4_pnLi2QTe6bRGvvahRbfg/master.m3u8
+#EXTINF:-1 tvg-id="1000009279" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen2_SD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 2
+https://dai.google.com/ssai/event/nspQRqO5RmC06VmlPrTwkQ/master.m3u8
+#EXTINF:-1 tvg-id="1000009283" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen3_SD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 3
+https://dai.google.com/ssai/event/9kocjiLUSf-erlSrv3d4Mw/master.m3u8
+#EXTINF:-1 tvg-id="1000119187" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen4_SD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 4
+https://dai.google.com/ssai/event/hInaEKUJSziZAGv9boOdjg/master.m3u8
+#EXTINF:-1 tvg-id="1000009281" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen5_SD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 5
+https://dai.google.com/ssai/event/S-q8I27RRzmkb-OIdoaiAw/master.m3u8
+#EXTINF:-1 tvg-id="1000009276" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen1_HD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 1 HD
+https://dai.google.com/ssai/event/yeYP86THQ4yl7US8Zx5eug/master.m3u8
+#EXTINF:-1 tvg-id="1000009277" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen2_HD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 2 HD
+https://dai.google.com/ssai/event/Syu8F41-R1y_JmQ7x0oNxQ/master.m3u8
+#EXTINF:-1 tvg-id="1000009278" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen3_HD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 3 HD
+https://dai.google.com/ssai/event/nmQFuHURTYGQBNdUG-2Qdw/master.m3u8
+#EXTINF:-1 tvg-id="1000119186" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen4_HD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 4 HD
+https://dai.google.com/ssai/event/x4LxWUcVSIiDaq1VCM7DSA/master.m3u8
+#EXTINF:-1 tvg-id="1000009275" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen5_HD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 5 HD
+https://dai.google.com/ssai/event/DD7fA-HgSUaLyZp9AjRYxQ/master.m3u8
+#EXTINF:-1 tvg-id="1000009444" tvg-logo="https://sonypicturesnetworks.com/images/logos/SONY_SportsTen5_HD_Logo_CLR.png" group-title="SonyLiv", Sony TEN 3 Only HD
+https://tataplay.slivcdn.com/hls/live/2020591/TEN3HD/master_3500.m3u8
+
