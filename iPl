@@ -1,4 +1,59 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="156018" group-title="Infotainment" tvg-logo="http://103.176.90.92/picons/156018.png",HISTORY TV 18 HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156018&extension=ts&play_token=fFiBibMWac
+#EXTINF:-1 tvg-id="155989" group-title="Infotainment" tvg-logo="http://103.176.90.92/picons/155989.png",NAT GEO WILD FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155989&extension=ts&play_token=PmcvaZGuk5
+#EXTINF:-1 tvg-id="156011" group-title="Infotainment" tvg-logo="http://103.176.90.92/picons/156011.png",NAT GEO FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156011&extension=ts&play_token=dDTyY4zBoM
+#EXTINF:-1 tvg-id="280754" group-title="Infotainment" tvg-logo="http://103.176.90.92/picons/280754.png",DISCOVERY FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=280754&extension=ts&play_token=lf7YszvCWY
+#EXTINF:-1 tvg-id="156006" group-title="Infotainment" tvg-logo="http://103.176.90.92/picons/156006.png",DISCOVERY JEET HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156006&extension=ts&play_token=xlMazdYPfu
+#EXTINF:-1 tvg-id="155999" group-title="Infotainment" tvg-logo="http://103.176.90.92/picons/155999.png",DISCOVERY WORLD HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155999&extension=ts&play_token=vxrHnhhtJA
+#EXTINF:-1 tvg-id="156012" group-title="Infotainment" tvg-logo="http://103.176.90.92/picons/156012.png",BBC EARTH HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156012&extension=ts&play_token=9tyqUGj5Cz
+#EXTINF:-1 tvg-id="156168" group-title="Infotainment" tvg-logo="http://103.176.90.92/picons/156168.png",ANIMAL PLANET HD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=156168&extension=ts&play_token=MhY7N6bJ1W
+#EXTINF:-1 tvg-id="1118064" group-title="Infotainment" tvg-logo="http://103.176.90.92/picons/1118064.png",BBC EARTH FHD
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1118064&extension=ts&play_token=Lxps6dkPXf
+#EXTINF:-1 tvg-id="1057243" group-title="Sports" tvg-logo="http://103.176.90.92/picons/1057243.png",Star Sports Khel
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1057243&extension=ts&play_token=n0McxTSQ52
+#EXTINF:-1 tvg-id="1698894" group-title="Sports" tvg-logo="http://103.176.90.92/picons/1698894.png",Star Sports 2 HD Hindi
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1698894&extension=ts&play_token=DRB8UaQKHK
+#EXTINF:-1 tvg-id="1114581" group-title="Sports" tvg-logo="http://103.176.90.92/picons/1114581.png",SKY SPORTS CRICKET
+http://magonlyx.abcott.me/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1458675&extension=ts&play_token=0RLxBURRix
+#EXTINF:-1 tvg-id="155968" group-title="Sports" tvg-logo="http://103.176.90.92/picons/155968.png",STAR SPORTS 1 HD ENG
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=155968&extension=ts&play_token=Kdd1cnjdxe
+#EXTINF:-1 tvg-id="282674" group-title="Sports" tvg-logo="http://103.176.90.92/picons/282674.png",STAR SPORTS 1 HD HINDI
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=282674&extension=ts&play_token=ebA8t0hE1m
+#EXTINF:-1 tvg-id="1114581" group-title="Sports" tvg-logo="http://103.176.90.92/picons/1114581.png",STAR SPORTS 2 FHD Eng
+http://magonlyx.abcott.me:80/play/live.php?mac=00:1A:79:8F:AF:E3&stream=1114581&extension=ts&play_token=1IVpLFHpCq
+#EXTINF:-1 tvg-id="111" group-title="Sports" tvg-logo="http://103.176.90.92/picons/111.png",CricFlix 1
+https://backend.urtractorparts.us/livestream2/index.m3u8
+#EXTINF:-1 tvg-id="111" group-title="Sports" tvg-logo="http://103.176.90.92/picons/111.png",CricFlix 2
+https://live.aoneroom.com/moviebox/wefeed05.m3u8?auth_key=1744615696-0-0-e15b10662e3a00ed562396542d1c89ef
+
+#EXTINF:-1 tvg-id="2938" tvg-name="STAR 4K UHD hevc*" group-title="4K",STAR 4K UHD hevc*
+http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=8e6f83b90ad316057cb26bfefdccbed66e0d0a8df12f7e0fde6931d33f6871f996a080e26205175483b600713f561dc9826d5869e275915d119250c0e9af00b3c7076c9e12-e2a477d335807021b4cb0b38d581d7b1
+#EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
+http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=f76813fc41e36afbb0ba3112a447f5b06221c10441837717376ff6cfa2f0ab97eeb68d12ede5475374372d5e530e38cb4fdc3ec1421e8fa0095cf9dd91482f54d1713604ae-3cc15bd8e5c8ec192c1135d2dd3c130b
+
+#EXTINF:-1 tvg-id="284" tvg-name="NATIONAL GEOGRAPHIC HD" group-title="Knowledge",NATIONAL GEOGRAPHIC HD
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c06482f7a19e80ea3bbae7553d0f52363a8fcaabc/index.m3u8?token=560c92710dea295e9bada58a2205a7636a9445470fe03fcad2796780203650501d1ee8d0a737a72eaa4671d5c595418a964fcb73838dc7d4050a1688dd29918b95fc20e6f1-75709ac28110243b6bea810002d6fca3
+#EXTINF:-1 tvg-id="285" tvg-name="NAT GEO WILD HD." group-title="Knowledge",NAT GEO WILD HD.
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b861902c065e277117fb06adb2a56d49d58b/index.m3u8?token=ebb0adaa6ab3887bfd63c9b594143bf488b8a2ce51f904d0ace5bdf3f161e0647b15e436f4a00460299d339b191b347fab2b8904f005031676bc392d0178c200ca347b529b-ef9bdff175d48297eb4b938319bf6a4e
+#EXTINF:-1 tvg-id="287" tvg-name="DISCOVERY ID INDIA 4K*" group-title="Knowledge",DISCOVERY ID INDIA 4K*
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8619a2401422f621df608bbb4a47755ceed2f/index.m3u8?token=7b7aed6f2a18cebffb0a5d8c63573676f3113d5a77c31ee2b52971f40a57ddf39cd0e592e093ca03f5f061393da0b809de12b1b4bd4db32f2d04db9c6092b7da26f7d0e893-bd2de1683b5d6a6c5b8e1e93b380707a
+#EXTINF:-1 tvg-id="289" tvg-name="SONY BBC EARTH HD*" group-title="Knowledge",SONY BBC EARTH HD*
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cc27a025b65b8618d221c583f761ae70ea1bfb36649ceed2f00/index.m3u8?token=cc6f8a022eeeb175e877220a178c7d2486498e88fc5d53a5ec907baac8424b4f609df8934f8db0ee6b39c62bd3b4060f8671de52700e1d968bb0d5590aa84c72c8634437a0-8a821888c7de3106f4f23f0bf92fc3bb
+#EXTINF:-1 tvg-id="291" tvg-name="BHARAT MATA MANDIR HD" group-title="Knowledge",BHARAT MATA MANDIR HD
+http://hin1.packetcdn.me:8972/8be1228d28529b5fbbb8bc3a2cd2661c4676ab61932c06403f7919ea15adaccf/index.m3u8?token=3d62d863588d97b36ee3ba257d8d1b989abfa8a631b6ee57283509e3ab807a1a816360f016ff8856b0f1bd2bf9935314c82cc4d976ba3ed0db850530850c8169caa251c312-589613120af212a6bf872dd4d8955a64
 #EXTINF:-1 tvg-id="1000009444" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sony_LIV_Sports.png" group-title="SonyLiv", Sony TEN 3 Only HD
 https://dish.slivcdn.com/hls/live/2020591-b/TEN3HD/hdntl=exp=1750582085~acl=%2F*~id=9e40d10a-ddc8-413e-8bad-fc250d39a4c7~data=hdntl~hmac=8a461045379b43fb696b19ba5f49f38d5017755a198550f54e5d47ecd4b974ae/master_3500.m3u8
 #EXTINF:-1 tvg-id="1000009444" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sony_LIV_Sports.png" group-title="SonyLiv", HD Only
 https://dish.slivcdn.com/hls/live/2020591/TEN3HD/master_3500.m3u8
+#EXTINF:-1 tvg-id="1000009444" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sony_LIV_Sports.png" group-title="SonyLiv", FanCode 2
+https://sparkling-cherry-399b.mominulislamm3u8.workers.dev/hls/mominRocks_join@live_cricket_24.m3u8
+#EXTINF:-1 tvg-id="1000009444" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sony_LIV_Sports.png" group-title="SonyLiv", Love HD
+https://dai.google.com/ssai/event/WuMNGfdPRoW2_F3QZUXNRw/master.m3u8
