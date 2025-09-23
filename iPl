@@ -1,18 +1,18 @@
 
 
 #EXTINF:-1 tvg-id="2938" tvg-name="STAR 4K UHD hevc*" group-title="4K",STAR 4K UHD hevc*
-http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=dfbf560642560019e84bbea6d6a8e000d580e39fa93688c0436a270dd04f71ce8b0e584ad78331376dbdd17536067905836494e3a65ebe92ef3b69bbf49ca71cc73bada4e396-acf0dcd6a6604ee32f28ebe91d9a53d1
+http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=3788b13a7d682d1415069fe3368516927bfadc868ef3ee1cbc94785a82207ebaf0298c2c63a98c19c16ec3050c97d9da66ba428fddcbc3ba083000382520f05a1ff158b11340-724c11876d26f9b92ece0c30c54fc88c
 #EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=bfc08bb48e5577b4c3cb5bd0cbf9b115b275afeed467b8ed44ca8c29ae1a6b5c3593673f72daf6ee379b5bbd749a592d0a0866c4941b57bbbf5814b01b598464a199ad0f5433-e3c49cf3e6c51ec22b292d038512e550
+http://ipl.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=68759b216d5f81a4888c1a169dc77b51367d9826b1a76e6e8001a27a4e0495d73654ebff458d9da706e5b0ac60fd0e37012c5609f573c5da2296f2899b2a0d8d1d14b3564e5d-45aebdfb4da7c0eacfb4345b4cdf55e9
 #EXTINF:-1 tvg-id="2948" tvg-name="FANCODE LIVE 4K" group-title="4K",FANCODE LIVE 4K
-http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd66f135778bb7b/index.m3u8?token=de10f874dce545410afbd1467eb7593bb179bae1b30070db578ab3b82c9d7932d5a9dfa880f4c16cbf8b95a389d8b9f18e2ac887cd02397885d9f6169f47ae162da0957516e9-b342ecc0e271913e80aeda355f0a58d1
+http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cd66f135778bb7b/index.m3u8?token=cf80cb2c0805d9fd27e6712c52c4e77be6e67f5af9268f11afa47914d6ce6de3aaf57e93fd76b425edcaf99ba6254f9fbfa6f38eec73462f4f139978b273d93fa10b1f5ee05f-8aa4a84de53bda197a4116f12355a0cb
 #EXTINF:-1 tvg-id="2942" tvg-name="ASIA CUP 2025 4K hin" group-title="4K",ASIA CUP 2025 4K hin
-http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc361134d68ab7b9032615e267c1c/index.m3u8?token=be36722d1b7995d15adb55e2d8a9233e2aaff9cb0f8c263b4bd94f2525556a8c6249b12429bb3406a9b0437199ebe87ec95a7f0596a6669086a3256c930f290c34094f3def32-0411a2b5125b4aad817789f021fce344
+http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cc361134d68ab7b9032615e267c1c/index.m3u8?token=41c50e81d4917d90c3caa9b3d6bb0cd63f8dde77f14233f5553182767e5d01cdc41800ad06dea25784c6946fabdcf7d94fb71157300c9743cde1a5b775c74ab5a0b450c3e974-5e4e79a0814b2d9fa6c1b9c52191029d
 
 #EXTINF:-1 tvg-id="1000009444" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sony_LIV_Sports.png" group-title="SonyLiv", Sony TEN 3 Only HD
-https://dish.slivcdn.com/hls/live/2020591-b/TEN3HD/hdntl=exp=1750582085~acl=%2F*~id=9e40d10a-ddc8-413e-8bad-fc250d39a4c7~data=hdntl~hmac=8a461045379b43fb696b19ba5f49f38d5017755a198550f54e5d47ecd4b974ae/master_3500.m3u8
+https://liveakdai.slivcdn.com/hls/live/2119921/cricacc12309/HIN/std_lrh-800300010.m3u8?hdnea=exp=1758678999~acl=/*~id=36740322909918532225854808260337~hmac=f0a50ab3b2409810acc28a47fbd4100e65ae2e9775c3781485a81646d6046015
 #EXTINF:-1 tvg-id="1000009444" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sony_LIV_Sports.png" group-title="SonyLiv", HD Only
-https://dish.slivcdn.com/hls/live/2020591/TEN3HD/master_3500.m3u8
+https://liveakdai.slivcdn.com/hls/live/2119921/cricacc12309/HIN/std_lrh-800300010.m3u8
 #EXTINF:-1 tvg-id="1000009444" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sony_LIV_Sports.png" group-title="SonyLiv", FanCode 2
 https://sparkling-cherry-399b.mominulislamm3u8.workers.dev/hls/mominRocks_join@live_cricket_24.m3u8
 #EXTINF:-1 tvg-id="1000009444" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sony_LIV_Sports.png" group-title="SonyLiv", Love HD
