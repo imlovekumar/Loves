@@ -12,3 +12,6 @@ https://allinonereborn.xyz/opplextv-web1/live.php?id=167572
 https://allinonereborn.xyz/opplextv-web1/live.php?id=206285
 #EXTINF:-1 tvg-id="1000009444" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sony_LIV_Sports.png" group-title="SonyLiv", Star Sports HD
 https://allinonereborn.xyz/opplextv-web1/live.php?id=167574
+
+#EXTINF:-1 tvg-id="1000009444" tvg-logo="https://www.sonypicturesnetworks.com/images/logos/SONY_SportsTen3_HD_Logo_CLR.png" group-title="SonyLiv", Sony 3 HD 2
+https://dishmt.slivcdn.com/hls/live/2020591/TEN3HD/master.m3u8?hdnea=exp=1759073428~acl=/*~id=95389100435144822442746250215133~hmac=3c7d9553ee6ca7159b14158a6addf24d7c0c2d3ca451e15b06dd4841c7f0d70d
