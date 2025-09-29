@@ -93,6 +93,10 @@ https://public.kliv.fun/zs500/Sony/stream.php?id=23
 #EXTINF:-1 tvg-id="IN1600009NL" tvg-name="IN1600009NL" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN1600009NL_20240912T093622SQUARE.png" group-title="Infotainment" , History TV18 HD
 https://jmp2.uk/stvp-IN1600009NL
 
+#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN300000210_20241113T015626SQUARE.png" group-title="Infotainment" , Travelxp HD
+https://jmp2.uk/stvp-IN300000210
+
+
 
 
 
