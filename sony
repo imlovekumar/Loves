@@ -92,3 +92,15 @@ https://public.kliv.fun/zs500/Sony/stream.php?id=23
 
 #EXTINF:-1 tvg-id="IN1600009NL" tvg-name="IN1600009NL" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN1600009NL_20240912T093622SQUARE.png" group-title="Infotainment" , HISTORY TV18 - Hindi
 https://jmp2.uk/stvp-IN1600009NL
+
+#EXTINF:-1 tvg-id="11657" tvg-logo="http://234981.cc/stalker_portal/misc/logos/320/11573.jpg" group-title="Infotainment",NAT GEO HINDI 4K
+https://kliv.fun/Mac26s/play.php?id=11657
+
+#EXTINF:-1 tvg-id="1052" tvg-logo="http://234981.cc/stalker_portal/misc/logos/320/969.png" group-title="Infotainment",NAT GEO WILD HINDI HD
+https://kliv.fun/Mac26s/play.php?id=1052
+
+
+
+
+
+
