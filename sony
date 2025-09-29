@@ -90,3 +90,5 @@ https://public.kliv.fun/zs500/Sony/stream.php?id=22
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
 https://public.kliv.fun/zs500/Sony/stream.php?id=23
 
+#EXTINF:-1 tvg-id="IN1600009NL" tvg-name="IN1600009NL" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN1600009NL_20240912T093622SQUARE.png" group-title="Infotainment" , HISTORY TV18 - Hindi
+https://jmp2.uk/stvp-IN1600009NL
