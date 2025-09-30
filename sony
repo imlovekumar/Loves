@@ -112,6 +112,9 @@ https://allinonereborn.xyz/opplextv-web1/live.php?id=206282
 #EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN1300001NN_20240731T012436SQUARE.png" group-title="Sports" , Cricket Gold
 https://jmp2.uk/stvp-IN1300001NN
 
+#EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://www.lyngsat.com/logo/tv/ss/star-sports-2-hk-in.png" group-title="Sports" , Star Sports HD
+https://allinonereborn.xyz/opplextv-web1/live.php?id=109987
+
 #EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/US3300010F5_20250401T004845SQUARE.png" group-title="Infotainment" , Ancient Aliens
 https://jmp2.uk/stvp-US3300010F5
 
