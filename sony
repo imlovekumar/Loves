@@ -106,6 +106,9 @@ https://allinonereborn.xyz/opplextv-web1/live.php?id=206286
 #EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/2019_Discovery_logo.svg/2560px-2019_Discovery_logo.svg.png" group-title="Infotainment" , Discovery HD
 https://allinonereborn.xyz/opplextv-web1/live.php?id=206292
 
+#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Animal_Planet_logo.svg/797px-Animal_Planet_logo.svg.png" group-title="Infotainment" , Animal Planet HD
+https://allinonereborn.xyz/opplextv-web1/live.php?id=206282
+
 #EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN1300001NN_20240731T012436SQUARE.png" group-title="Sports" , Cricket Gold
 https://jmp2.uk/stvp-IN1300001NN
 
