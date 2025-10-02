@@ -148,7 +148,7 @@ def update_github_file(token, owner, repo, file_path, new_content, commit_messag
 # --- Main Flow ---
 def main():
     try:
-        group_input = "2938:4K,1314:4K,2942:4K,2941:4K"
+        group_input = "2938:4K,1314:4K,2942:4K,2940:4K"
         #group_input = input("Enter Channel Number and Group Title (e.g., 101:sports,102:news): ").strip()
         channel_groups = {}
         for pair in group_input.split(","):
