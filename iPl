@@ -1,13 +1,45 @@
+#EXTINF:-1 tvg-id="IN1600009NL" tvg-name="IN1600009NL" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN1600009NL_20240912T093622SQUARE.png" group-title="Infotainment" , History TV18 HD
+https://jmp2.uk/stvp-IN1600009NL
 
+#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN300000210_20241113T015626SQUARE.png" group-title="Infotainment" , Travelxp HD
+https://jmp2.uk/stvp-IN300000210
+
+
+#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/National_Geographic_HD.png" group-title="Infotainment" , Nat Geographic HD
+https://allinonereborn.xyz/airteltv-web/live.php?id=276971
+
+#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/National_Geographic_Wild_logo.svg/1200px-National_Geographic_Wild_logo.svg.png" group-title="Infotainment" , Nat Geo Wild HD
+https://allinonereborn.xyz/airteltv-web/live.php?id=276970
+
+#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/2019_Discovery_logo.svg/2560px-2019_Discovery_logo.svg.png" group-title="Infotainment" , Discovery HD
+https://allinonereborn.xyz/opplextv-web1/live.php?id=206292
+
+#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Animal_Planet_logo.svg/797px-Animal_Planet_logo.svg.png" group-title="Infotainment" , Animal Planet HD
+https://allinonereborn.xyz/opplextv-web1/live.php?id=206282
+
+#EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN1300001NN_20240731T012436SQUARE.png" group-title="Sports" , Cricket Gold
+https://jmp2.uk/stvp-IN1300001NN
+
+#EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://www.lyngsat.com/logo/tv/ss/star-sports-2-hk-in.png" group-title="Sports" , Star Sports HD
+https://allinonereborn.xyz/opplextv-web1/live.php?id=109987
+
+#EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/US3300010F5_20250401T004845SQUARE.png" group-title="Infotainment" , Ancient Aliens
+https://jmp2.uk/stvp-US3300010F5
+
+#EXTINF:-1 tvg-id="IN3000010V5" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN3000010V5_20250811T033509SQUARE.png" group-title="Kids", Mr. Bean
+https://jmp2.uk/stvp-IN3000010V5
+
+#EXTINF:-1 tvg-id="IN25000020M" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN25000020M_20241024T054036SQUARE.png" group-title="Kids", The Jungle Book
+https://jmp2.uk/stvp-IN25000020M
 
 #EXTINF:-1 tvg-id="2938" tvg-name="STAR 4K UHD hevc*" group-title="4K",STAR 4K UHD hevc*
-http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=8962927bd2b19e77e760bca7e491a445571901ff9c15d56e274cd1ab6c57aab0021ea159fe90358980847e35c82cac0e85481803f2071935ee8e5aea299c2757feeb5f835cf8-d4e8bf736fd592875a8100d473d1f8cf
+http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=7309a4d8f0b87c0771f05317e2e269f3a468f8a309623f1a6c8827e7356bc07a5c1ba884b7f2c46e8a3421d4efccb87e98f2a80cca3e8930faefd40ecd6a2fb85d3b9886299e-efa19ba6858c05f2d8e8f49bea87c9ee
 #EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
-http://ipl.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=72eab74fdf92cf8c95692afdcb383f60ba5c9f964aebed3b842c28a62f1b77e884cde82cb385882acd44a6f3ff6ea678fe9addc4282fdeebd82e76f793dde0f561f62eaccd9f-066ecb2b1de04d8829d1d67809f4e084
+http://ipl.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=6e0b3a7a34d10351cf100234dfb7a27e012c4b5b7637089facfb115be7887b8bf0a530477f9b655006c5420530e67785861f903944d80baae3b283a5c862893d33ffa161b7bc-d2aafe0b2d82bf48cfbdac89b8701a54
 #EXTINF:-1 tvg-id="2942" tvg-name="STAR SPORTS 1 HINDI 4K" group-title="4K",STAR SPORTS 1 HINDI 4K
-http://ipl.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0507ec18aaa1a07b53c5e027/index.m3u8?token=a26b0ffc451f47ac72b3e6e052d61aa3b83c2809e898b26c07da036a12954a8248f9caa9b3770f18c8e81511034d10e47dd4ce4c482b7300e9059313f530dd7fd68b1c75a773-e921233f033e9178febcb396ec2d7d9d
+http://ipl.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0507ec18aaa1a07b53c5e027/index.m3u8?token=1c0cf54d4bcf9428f4f9fb2793e101fbec320b6235f64b359585ecdfc40c58d7d918707fdf38ff7e2c39fc6fb3fe1522ae91771919b97fc63e148c1030eb08ea0afb881d38f2-ddfbf5c6cd417c909b9fd627c10f6ea4
 #EXTINF:-1 tvg-id="2953" tvg-name="FANCODE LIVE 4K" group-title="4K",FANCODE LIVE 4K
-http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cd66f135778bb7b/index.m3u8?token=eb9afbfbc2585e8c924e24a2a1efaa6bd81bc7e79c300077fb7c8d8bf2346b48955237c745230b066bf4681bc4d4e4df61993be10a79e8147e097079f840c9c9d034e68be63b-f3ffd14076779bda071ae6d10ad34e18
+http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cd66f135778bb7b/index.m3u8?token=c74c4c60ba14f180ef7ac938068631af3f58214e648ba5e876800ca632a2760afc998e9304a83d0f1e562bb6b03fb3cde880fa287d494c77550bc9ef0e9cd87a349625864c12-93bf2ab07322fbf3203834834944408b
 
 #EXTINF:-1 tvg-id="1" tvg-name="SET HD" tvg-language="Hindi" tvg-logo="https://www.sonypicturesnetworks.com/images/logos/SET-LOGO-HD.png" group-title="SONYLI√" group-logo="https://www.sonypicturesnetworks.com/images/logos/Sony_LIV.png", SET HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
@@ -101,39 +133,6 @@ https://public.kliv.fun/zs500/Sony/stream.php?id=22
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
 https://public.kliv.fun/zs500/Sony/stream.php?id=23
 
-#EXTINF:-1 tvg-id="IN1600009NL" tvg-name="IN1600009NL" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN1600009NL_20240912T093622SQUARE.png" group-title="Infotainment" , History TV18 HD
-https://jmp2.uk/stvp-IN1600009NL
-
-#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN300000210_20241113T015626SQUARE.png" group-title="Infotainment" , Travelxp HD
-https://jmp2.uk/stvp-IN300000210
-
-
-#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/National_Geographic_HD.png" group-title="Infotainment" , Nat Geographic HD
-https://allinonereborn.xyz/airteltv-web/live.php?id=276971
-
-#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/National_Geographic_Wild_logo.svg/1200px-National_Geographic_Wild_logo.svg.png" group-title="Infotainment" , Nat Geo Wild HD
-https://allinonereborn.xyz/airteltv-web/live.php?id=276970
-
-#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/2019_Discovery_logo.svg/2560px-2019_Discovery_logo.svg.png" group-title="Infotainment" , Discovery HD
-https://allinonereborn.xyz/opplextv-web1/live.php?id=206292
-
-#EXTINF:-1 tvg-id="IN300000210" tvg-name="IN300000210" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Animal_Planet_logo.svg/797px-Animal_Planet_logo.svg.png" group-title="Infotainment" , Animal Planet HD
-https://allinonereborn.xyz/opplextv-web1/live.php?id=206282
-
-#EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN1300001NN_20240731T012436SQUARE.png" group-title="Sports" , Cricket Gold
-https://jmp2.uk/stvp-IN1300001NN
-
-#EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://www.lyngsat.com/logo/tv/ss/star-sports-2-hk-in.png" group-title="Sports" , Star Sports HD
-https://allinonereborn.xyz/opplextv-web1/live.php?id=109987
-
-#EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/US3300010F5_20250401T004845SQUARE.png" group-title="Infotainment" , Ancient Aliens
-https://jmp2.uk/stvp-US3300010F5
-
-#EXTINF:-1 tvg-id="IN3000010V5" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN3000010V5_20250811T033509SQUARE.png" group-title="Kids", Mr. Bean
-https://jmp2.uk/stvp-IN3000010V5
-
-#EXTINF:-1 tvg-id="IN25000020M" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN25000020M_20241024T054036SQUARE.png" group-title="Kids", The Jungle Book
-https://jmp2.uk/stvp-IN25000020M
 
 
 
