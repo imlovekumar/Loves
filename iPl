@@ -1,11 +1,13 @@
 
 
 #EXTINF:-1 tvg-id="2938" tvg-name="STAR 4K UHD hevc*" group-title="4K",STAR 4K UHD hevc*
-http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=ec126727741dd859aa0f0066de03fdb5d77b1e5235ba107f4c904a51dc1831db9c4e626d58278c085d69154532057b7b617dab544d797287c657bd8e44959b941f9c267c79-0ea8f3b73e72fbab306e66be791e26b7
+http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=8962927bd2b19e77e760bca7e491a445571901ff9c15d56e274cd1ab6c57aab0021ea159fe90358980847e35c82cac0e85481803f2071935ee8e5aea299c2757feeb5f835cf8-d4e8bf736fd592875a8100d473d1f8cf
 #EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=8d074cda9554b15ca2d76cb1cf40a540a4ec17a4ce1abdd91b7877a2e51bcc913c65adf3d11a503ffa74e14c0d7cb94dc2347972d4dc605614f617400ff4d8560f6cfb0424-6e2cd1e05d45045404d04c99c1b1de77
+http://ipl.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=72eab74fdf92cf8c95692afdcb383f60ba5c9f964aebed3b842c28a62f1b77e884cde82cb385882acd44a6f3ff6ea678fe9addc4282fdeebd82e76f793dde0f561f62eaccd9f-066ecb2b1de04d8829d1d67809f4e084
 #EXTINF:-1 tvg-id="2942" tvg-name="STAR SPORTS 1 HINDI 4K" group-title="4K",STAR SPORTS 1 HINDI 4K
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0507ec18aaa1a07b53c5e027/index.m3u8?token=d369fb917f9e760cbda1aca9df192972090813e49969addb72d992251d0ec3238b8c7dce74d6979244211592c88c01e8dad622f4c23e66228988dcf76f2a0a677bb928dd55-a6d4742fa9082f760bfcea03edfe2f0b
+http://ipl.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0507ec18aaa1a07b53c5e027/index.m3u8?token=a26b0ffc451f47ac72b3e6e052d61aa3b83c2809e898b26c07da036a12954a8248f9caa9b3770f18c8e81511034d10e47dd4ce4c482b7300e9059313f530dd7fd68b1c75a773-e921233f033e9178febcb396ec2d7d9d
+#EXTINF:-1 tvg-id="2953" tvg-name="FANCODE LIVE 4K" group-title="4K",FANCODE LIVE 4K
+http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cd66f135778bb7b/index.m3u8?token=eb9afbfbc2585e8c924e24a2a1efaa6bd81bc7e79c300077fb7c8d8bf2346b48955237c745230b066bf4681bc4d4e4df61993be10a79e8147e097079f840c9c9d034e68be63b-f3ffd14076779bda071ae6d10ad34e18
 
 #EXTINF:-1 tvg-id="1" tvg-name="SET HD" tvg-language="Hindi" tvg-logo="https://www.sonypicturesnetworks.com/images/logos/SET-LOGO-HD.png" group-title="SONYLI√" group-logo="https://www.sonypicturesnetworks.com/images/logos/Sony_LIV.png", SET HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
