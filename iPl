@@ -129,6 +129,12 @@ https://allinonereborn.xyz/opplextv-web1/live.php?id=109987
 #EXTINF:-1 tvg-id="IN1300001NN" tvg-name="IN1300001NN" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/US3300010F5_20250401T004845SQUARE.png" group-title="Infotainment" , Ancient Aliens
 https://jmp2.uk/stvp-US3300010F5
 
+#EXTINF:-1 tvg-id="IN3000010V5" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN3000010V5_20250811T033509SQUARE.png" group-title="Kids", Mr. Bean
+https://jmp2.uk/stvp-IN3000010V5
+
+#EXTINF:-1 tvg-id="IN25000020M" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/IN25000020M_20241024T054036SQUARE.png" group-title="Kids", The Jungle Book
+https://jmp2.uk/stvp-IN25000020M
+
 
 
 
