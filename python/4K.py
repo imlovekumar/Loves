@@ -79,6 +79,7 @@ def find_channel_by_number(token, user_input_number):
     response.raise_for_status()
     js = response.json().get("js", {})
     channels = js.get("data", [])
+    print(channels)
     for channel in channels:
         if channel.get("number") == str(user_input_number):
             return {
