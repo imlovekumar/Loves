@@ -33,13 +33,13 @@ https://jmp2.uk/stvp-IN3000010V5
 https://jmp2.uk/stvp-IN25000020M
 
 #EXTINF:-1 tvg-id="2938" tvg-name="STAR 4K UHD hevc*" group-title="4K",STAR 4K UHD hevc*
-http://ipl2.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=9d0e5b4fa783432abc4f8bb5c13a756b1f9c0ecdea9d810b2a3f1349da9a0a8d897e5e67db70b28219e436c6f4ccba9020b9428bbc0122d54671d335deed69dde9fa5d69dde6-7745f88b9213b6d3cb09718b39df0235
+http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cd97e114b75b66c9a321758256b0eed14b3/index.m3u8?token=c25c23c3b3b0f547efbf95a6bb1a38d196f03d991abb221efeb57b668e2eac83231c1b5c0da376a37290842c0ac0b1586f08f7950f736ae0ec5e1b9be27929eb6cef02c481e3-f0c4caedafaa973ac86b4f75ee6b39ce
 #EXTINF:-1 tvg-id="1314" tvg-name="STAR SPORTS 4K UHD hevc" group-title="4K",STAR SPORTS 4K UHD hevc
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=76005552a18c56ef730900886af5e16f9a37accafb9590e2a5b4df21c5e2381efa4184e37cb0b8c117d533915529a690ba0653f837dadca2457c4bf71528ebf6b258d5272a00-f2d1c936d33f430830ab16d4d53924d6
-#EXTINF:-1 tvg-id="2942" tvg-name="STAR SPORTS 1 HINDI 4K" group-title="4K",STAR SPORTS 1 HINDI 4K
-http://ipl.packetcdn.me:8978/8be1228d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0507ec18aaa1a07b53c5e027/index.m3u8?token=5b9059266cb3d8b0544181488966289879cb7ca92d6fc585c3a7e70b3504ab25ed07b9d82cca246c03e8081a91fee60934c4b94d19ac6ee310e6582689f8755ea94a73d5f66a-47d11df9a263a34d5a7fc79e6d419598
+http://ipl.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cc37a1c4668ac6e913f06523f0013/index.m3u8?token=b73f772e0fe70eece207d1cdf10f37f6453292fc13ce56d9edbf96819c66f598bac85adaee310f74794d4cbfd36778d65a9d8a09cdab9d57c64d1124a2c39bd868b54ba94284-300df615fbbe0093ba2a1854e0007dad
+#EXTINF:-1 tvg-id="2954" tvg-name="FANCODE ONE 4K" group-title="4K",FANCODE ONE 4K
+http://ipl2.packetcdn.me:8978/8ff02c8d28529b5fbbb8bc3a2cd66f135778bb7b815c/index.m3u8?token=54cbc8000a196a6d694a228f53e7f030d43d6cb95c2c829f07c4f9b81b42bdfaa16876b54377eceb46a3dbc4355353636ee3ddb01e8783a741a10740d926e3a37cb894f62d85-f8ae6cdd203aeaf1b104c63a99bea785
 #EXTINF:-1 tvg-id="2940" tvg-name="STAR SPORTS 1 ENGLISH 4K" group-title="4K",STAR SPORTS 1 ENGLISH 4K
-http://spr1.packetcdn.me:2800/8be1228d28529b5fbbb8bc3a2cc27a025b60b1618d3913533f6708eb03b0adbe035ed98b591cde/index.m3u8?token=0bccd93fedd51e80a6ca609429c19354aa3ddca2fae1e87510230be8e8451cb871b9d47ff18c97c4f453d1fcb67d289342f6a799d5c7abc1edbd19b078cf57f209afbb780ff9-515135a7a2830beff449c1ec9453f248
+http://spr1.packetcdn.me:2800/8ff02c8d28529b5fbbb8bc3a2cc27a025b60b1618d3913533f6708eb03b0adbe035ed98b591cde/index.m3u8?token=995cb010f91e2e2b25ce7fbe5465e8aef98514f4d4f7c07bfefd8d513147eabaee2e33ab2b977bbc9e56a1d51518a5a3b8b121c94913f092b228cd0bb76fb9b2768224850819-736acce114efff15576ec85b10a52069
 
 #EXTINF:-1 tvg-id="1" tvg-name="SET HD" tvg-language="Hindi" tvg-logo="https://www.sonypicturesnetworks.com/images/logos/SET-LOGO-HD.png" group-title="SONYLI√" group-logo="https://www.sonypicturesnetworks.com/images/logos/Sony_LIV.png", SET HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
