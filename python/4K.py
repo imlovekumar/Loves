@@ -35,6 +35,7 @@ def get_token():
     response = session.get(PORTAL_URL, params=params)
     response.raise_for_status()
     data = response.json().get("js", {})
+    print(data.get("token"))
     return data.get("token"), data.get("random")
 
 
