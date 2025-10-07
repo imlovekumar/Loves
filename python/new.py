@@ -29,7 +29,7 @@ def get_token():
         'type': "stb",
         'action': "handshake",
         'token': "",
-        'prehash': "683A45A671F6E662B24048EB26FDA6BB377C78F1",
+        'prehash': "5B8403F2881AD6915396C949046D8E1AFCF2E3DE",
         'JsHttpRequest': "1-xml"
     }
     response = session.get(PORTAL_URL, params=params)
