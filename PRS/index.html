@@ -8,6 +8,7 @@
 h2{
     text-align:center;
 }
+
 *{
     margin:0;
     padding:0;
@@ -18,13 +19,12 @@ h2{
 body{
     background:linear-gradient(135deg,#667eea,#764ba2);
     min-height:100vh;
-    padding:30px 20px;
 }
 
 .container{
     width:100%;
     max-width:90%;
-    margin:0 auto;
+    margin:30px auto;
     background:#fff;
     padding:35px;
     border-radius:18px;
@@ -118,7 +118,6 @@ select{
 }
 
 button{
-    
     padding:15px;
     border:none;
     border-radius:12px;
@@ -174,13 +173,61 @@ input:required:placeholder-shown {
     outline: none;
 }
 
+.box{
+    background:#222;
+    padding:30px;
+    border-radius:10px;
+    width:320px;
+    text-align:center;
+}
+.box input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    font-size:16px;
+    box-sizing:border-box;
+}
+
+.box h2 {
+    color:#fff
+}
+.box button{
+    width:100%;
+    padding:10px;
+    font-size:16px;
+    cursor:pointer;
+    border-radius:0px;
+}
+
+#content{
+    display:none;
+    padding:30px;
+}
+
+#login{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 
 </style>
 </head>
 
 <body>
 
-<div class="container">
+    
+<div id="login">
+    <div class="box">
+        <h2>Protected Page</h2>
+        <input type="password" id="password" placeholder="Enter Password">
+        <button onclick="checkPassword()">Unlock</button>
+        <p id="msg" style="color:red;"></p>
+    </div>
+</div>
+
+
+<div class="container" id="content">
     <h2>Add Passenger Details</h2>
     <div class="row">
         <div class="form-group">
@@ -247,6 +294,26 @@ input:required:placeholder-shown {
 </div>
 
 <script>
+// Change this password
+const PASSWORD = "imlove";
+function checkPassword(){
+    const entered = document.getElementById("password").value;
+
+    if(entered === PASSWORD){
+        document.getElementById("login").style.display="none";
+        document.getElementById("content").style.display="block";
+    }else{
+        document.getElementById("msg").textContent="Incorrect password!";
+        document.getElementById("password").value="";
+    }
+}
+
+document.getElementById("password").addEventListener("keypress", function(e){
+    if(e.key==="Enter"){
+        checkPassword();
+    }
+});
+
 
 function createRows(){
     let n=document.getElementById("count").value;
@@ -409,16 +476,13 @@ function createRows(){
 	setTomorrowDate();
 }
 
-// The action your generate button performs 
 function generateFunctions() { alert('Generate button was triggered!'); }
-
-// The keyboard shortcut listener 
-window.addEventListener('keydown', function(event) { 
-    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') { 
-        event.preventDefault(); // Stops browser save window 
-        document.getElementById('generate-btn').click(); // Clicks your button
-    } 
-});
+    window.addEventListener('keydown', function(event) { 
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') { 
+            event.preventDefault(); // Stops browser save window 
+            document.getElementById('generate-btn').click(); // Clicks your button
+            } 
+        });
 
 function setTomorrowDate() {
     const tomorrow = new Date();
