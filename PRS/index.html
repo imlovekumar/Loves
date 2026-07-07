@@ -21,6 +21,19 @@ body{
     min-height:100vh;
 }
 
+.top-banner {
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+ .top-banner h1 {
+    margin: 0;
+    font-size: 2rem;
+    letter-spacing: 1px;
+ }
+
 .container{
     width:100%;
     max-width:90%;
@@ -205,7 +218,7 @@ input:required:placeholder-shown {
 }
 
 #login{
-    height:100vh;
+    margin-top: 100px;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -216,6 +229,9 @@ input:required:placeholder-shown {
 
 <body>
 
+<header class="top-banner">
+        <h1>Add Passenger Details</h1>
+</header>
     
 <div id="login">
     <div class="box">
@@ -233,7 +249,6 @@ input:required:placeholder-shown {
 
 
 <div class="container" id="content">
-    <h2>Add Passenger Details</h2>
     <div class="row">
         <div class="form-group">
         <label><b>Form No.</b></label>
@@ -479,6 +494,7 @@ function createRows(){
     
     `;
 	setTomorrowDate();
+    document.getElementById("trainNumber").focus();
 }
 
 function generateFunctions() { alert('Generate button was triggered!'); }
