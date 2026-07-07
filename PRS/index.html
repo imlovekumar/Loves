@@ -220,7 +220,12 @@ input:required:placeholder-shown {
 <div id="login">
     <div class="box">
         <h2>Protected Page</h2>
-        <input type="password" id="password" placeholder="Enter Password">
+        <input 
+            type="password" 
+            id="password" 
+            placeholder="Enter Password" 
+            oninput="this.value = this.value.toUpperCase()"
+            >
         <button onclick="checkPassword()">Unlock</button>
         <p id="msg" style="color:red;"></p>
     </div>
@@ -590,7 +595,7 @@ if (!/^\d{10}$/.test(mobile)) {
     for(let i=0;i<names.length;i++){
 
        	text+=`    {\n`;
-		text+=`        name: "${names[i].value}", gender: "${genders[i].value}", age: "${ages[i].value}"\n`;
+		text+=`        name: "${names[i].value}", gender: "${genders[i].value}", age: "${ages[i].value}", berth: "${berth[i].value}"\n`;
 		text+=`    }`;
 
         if(i!=names.length-1)
