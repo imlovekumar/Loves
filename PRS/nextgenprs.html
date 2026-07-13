@@ -48,7 +48,6 @@
         place-items: center;
         grid-template-columns: 1fr 1fr 1fr;
         background-color: #f3eef4;
-
     }
 
     /* Journey Info Grid Bar */
@@ -310,6 +309,7 @@
         max-width: 1200px;
         background-color: #f9f9f9;
         margin-top: 15px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
     summary {
@@ -842,7 +842,144 @@
         text+=`const mobileNumber = "${mobile}";\n`;
         text+=`const PaymentMode = "${payment}";`;
         text+="\n\n";
-        const afterText = `YOUR ending TEXT HERE`;
+        const afterText = 
+        `
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function setAngularValue(element, value) {
+            if (!element) return;
+                const setter = Object.getOwnPropertyDescriptor(
+                HTMLInputElement.prototype,
+                "value").set;
+
+            setter.call(element, value);
+            element.dispatchEvent(new Event("input", {
+                bubbles: true
+            }));
+            element.dispatchEvent(new Event("change", {
+                bubbles: true
+            }));
+        }
+
+        async function selectMatOption(placeholder, optionText, index = 0) {
+            const selects = [...document.querySelectorAll('mat-select')]
+                .filter(el => el.getAttribute("placeholder") === placeholder);
+            if (!selects[index]) return;
+            selects[index].click();
+
+            while (true) {
+                const option = [...document.querySelectorAll(".mat-option-text")]
+                    .find(el => el.textContent.trim() == optionText);
+                if (option) {
+                    option.click();
+                    await sleep(200);
+                    return;
+                }
+                await sleep(50);
+            }
+        }
+
+        async function selectTrain(optionText) {
+            const option = [...document.querySelectorAll(".mat-option-text")]
+                .find(el => el.textContent.trim().startsWith(optionText));
+            if (option) {
+                option.click();
+                await sleep(200);
+                return;
+            }
+            await sleep(50);
+        }
+
+        async function fillTrain(TrainNo) {
+            const tNO = document.querySelector('input[name="inputTrainNo"]');
+            if (tNO) {
+                setAngularValue(tNO, TrainNo);
+                tNO.click();
+                await selectTrain(TrainNo);
+            }
+        }
+
+        async function fillDate(JDate) {
+            const date = document.querySelector('input[name="journeyDate"]');
+            if (date) {
+                setAngularValue(date, JDate);
+            }
+        }
+
+        async function Class(coach) {
+            const desti = document.querySelector('input[data-placeholder="Journey To"]');
+            desti.value = '';
+            while (!desti.value.trim()) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            await selectMatOption("Class", coach);
+        }
+
+        async function nofPsng(passengers) {
+            const nofPsng = document.querySelector('input[data-placeholder="No. of Passengers"]');
+            setAngularValue(nofPsng, passengers.length);
+            nofPsng.dispatchEvent(new Event("blur", {bubbles: true}));
+        }
+	
+	    async function waitSource(from) {
+            const source = document.querySelector('input[data-placeholder="Journey From"]');
+            setAngularValue(source, from);
+            source.click();
+            await selectTrain(from);
+        }
+
+        async function waitDesti(to) {
+            const desti = document.querySelector('input[data-placeholder="Journey To"]');
+            while (!desti.value.trim()) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            setAngularValue(desti, to);
+            desti.click();
+            await selectTrain(to);
+        }
+
+        async function execute() {
+            const nameInputs = document.querySelectorAll('input[formcontrolname="psgnName"]');
+            if (nameInputs.length === 0) {
+                await fillTrain(TrainNo);
+                await fillDate(JDate);
+                await nofPsng(passengers);
+                await Class(coach);
+                await waitSource(from);
+                await waitDesti(to);
+            }
+        }
+
+        async function psngForm(passengers, mobileNumber, PaymentMode) {
+            const nameInputs = document.querySelectorAll('input[formcontrolname="psgnName"]');
+            const ageInputs = document.querySelectorAll('input[formcontrolname="psgnAge"]');
+            passengers.forEach((p, i) => {
+                if (nameInputs[i])
+                    setAngularValue(nameInputs[i], p.name.toUpperCase());
+
+                if (ageInputs[i])
+                    setAngularValue(ageInputs[i], p.age);
+            });
+
+            const mobileInput = document.querySelector('input[formcontrolname="mobileNumber"]');
+            if (mobileInput) {
+                setAngularValue(mobileInput, mobileNumber)
+            }
+
+            for (let i = 0; i < passengers.length; i++) {
+                await selectMatOption("Gender", passengers[i].gender, i);
+            }
+            await selectMatOption("PAYMENT TYPE", PaymentMode);
+        }
+
+        await execute();
+        await psngForm(passengers, mobileNumber, PaymentMode);
+
+        })();
+        `;
+        
         text += afterText;
 
         let bookmarkName = document.getElementById("bookmarkName").value.trim();
