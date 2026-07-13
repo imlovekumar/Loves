@@ -35,6 +35,9 @@
 
     /* Top Header Title */
     .main-header {
+        display: flex;
+        flex-direction: row;
+        position: relative;
         background-color: #f3eef4;
         padding: 8px 16px;
         color: #0f1c5d;
@@ -427,7 +430,7 @@
         margin-bottom:25px;
         font-weight:600;
     }
-    
+
     /* ===========================
     INPUT PASSWORD
     =========================== */
@@ -447,7 +450,7 @@
     BUTTON
     =========================== */
 
-    button{
+    #login-btn{
         width:100%;
         height:48px;
         border:none;
@@ -460,7 +463,7 @@
         transition:.25s;
     }
 
-    button:hover{
+    #login-btn:hover{
         transform:translateY(-2px);
         box-shadow:0 10px 25px rgba(0,120,255,.35);
     }
@@ -489,11 +492,36 @@
         80%{transform:translateX(4px);}
         100%{transform:none;}
     }
+
+    body.unlocked .logout-btn{
+        display:block;
+    }
+
+    .logout-btn{
+        display:none;    
+        margin-left:auto;
+        background:none;
+        border:none;
+        padding:0;
+        color: black;
+        font-size:15px;
+        font-weight:600;
+        cursor:pointer;
+        text-decoration:none;
+        transition:.2s;   
+    }
+
+    .logout-btn:hover{
+        transform:translateY(-2px);
+        box-shadow:0 12px 25px rgba(255,0,0,.35);
+    }
 </style>
 </head>
 <body class="locked">
     <div class="booking-container" id="page">
-        <div class="main-header">KONDAPURAM BOOKING FORM</div>
+        <div class="main-header">KONDAPURAM BOOKING FORM
+            <button class="logout-btn" onclick="logout()">🔒︎</button>
+        </div>
         <div class="jour-container">
             <div class="left">Journey Details</div>
             <div class="right">
@@ -706,25 +734,25 @@
         </div>
     </details>
 
-<!-- ===========================
-PASSWORD POPUP
-=========================== -->
+    <!-- ===========================
+    PASSWORD POPUP
+    =========================== -->
 
-<div id="overlay">
-    <div class="lock-box" id="box">
-        <div class="lock-icon">🔒</div>
-            <h2>Protected Page</h2>
-            <input
-                type="password"
-                id="password"
-                placeholder="Password"
-                autocomplete="off">
+    <div id="overlay">
+        <div class="lock-box" id="box">
+            <div class="lock-icon">🔒</div>
+                <h2>Protected Page</h2>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    autocomplete="off">
 
-            <button id="login-btn" onclick="unlock()">Unlock</button>
+                <button id="login-btn" onclick="unlock()">Unlock</button>
 
-        <div id="error"></div>
+            <div id="error"></div>
+        </div>
     </div>
-</div>
 
 <script>
     
@@ -733,8 +761,8 @@ PASSWORD POPUP
     const input=document.getElementById("password");
     input.focus();
 
-    //const login_btn=document.getElementById("login-btn");
-    //login_btn.click();
+    const login_btn=document.getElementById("login-btn");
+    login_btn.click();
 
     input.addEventListener("keydown",e=>{
         if(e.key==="Enter") 
@@ -756,6 +784,20 @@ PASSWORD POPUP
             box.classList.add("shake");
             input.select();
         }
+    }
+
+    function logout(){
+        document.body.classList.remove("unlocked");
+        document.body.classList.add("locked");
+
+        const input = document.getElementById("password");
+
+        input.value = "";
+        setTimeout(() => {
+            input.focus();
+        }, 350);   // Match your overlay transition duration
+
+        document.getElementById("error").innerText = "";
     }
 
 
