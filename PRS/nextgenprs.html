@@ -99,6 +99,13 @@
     }
 
     .input-label-top {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        padding: 3px;
+        place-items: center;
+        height: 16px;
+
         font-size: 10px;
         color: #718096;
         margin-bottom: 1px;
@@ -807,7 +814,7 @@
     const brdStnInput = document.getElementById("brdStn");
     const quotaToggle = document.getElementById("quotaToggle");
     const quotaInput = document.getElementById("quota");
-
+    
     quotaToggle.addEventListener("change", () => {
         if (quotaToggle.checked) {
             quotaInput.disabled = false;
@@ -834,6 +841,25 @@
             brdStnInput.disabled = true;
         }
     });
+
+    function toggleFood(toggle) {
+        const checked = toggle.checked;
+
+        // Check/Uncheck every toggle
+        document.querySelectorAll(".food-toggle").forEach(cb => {
+            cb.checked = checked;
+        });
+
+        // Enable/Disable every food select
+        document.querySelectorAll(".food").forEach(select => {
+            select.disabled = !checked;
+
+            // Reset if disabled
+            if (!checked) {
+                select.selectedIndex = 0;
+            }
+        });
+    }
 
     // Save previous value when dropdown gains focus
     document.addEventListener("focusin", function (e) {
@@ -927,8 +953,23 @@
                             </select>
                         </div>
                         <div class="input-group">
-                            <span class="input-label-top">Country</span>
-                            <input type="text" class="form-control" placeholder="India" disabled>
+                            <span class="input-label-top">
+                                <label class="switch">
+                                    <input
+                                        type="checkbox"
+                                        class="food-toggle"
+                                        onchange="toggleFood(this)">
+                                    <span class="slider"></span>
+                                </label>Food Option
+                            </span>
+                            <select class="form-control food" disabled>
+                                <option>D- Denied</option>
+                                <option>V- Veg</option>
+                                <option>NV- Non Veg</option>
+                                <option>JN- Jain Meal</option>
+                                <option>VD- Diabetic Veg</option>
+                                <option>ND- Diabetic Non Veg</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -989,6 +1030,7 @@
         let genders=document.querySelectorAll(".gender");
         let ages=document.querySelectorAll(".age");
         let berth=document.querySelectorAll(".berth");
+        let food = document.querySelectorAll(".food");
         let payment=document.getElementById("payment").value;
         let mobile=document.getElementById("mobile").value;
         // Validate passenger details
@@ -1074,6 +1116,12 @@
         for(let i=0;i<names.length;i++){
             text+=`    {\n`;
             text+=`        name: "${names[i].value}", gender: "${genders[i].value}", age: "${ages[i].value}", berth: "${berth[i].value}"\n`;
+
+            // Print food only if enabled
+            if (!food[i].disabled) {
+                text += `, food: "${food[i].value}"`;
+            }
+
             text+=`    }`;
             if(i!=names.length-1)
                 text+=",";
@@ -1187,15 +1235,12 @@
         }
 
         async function execute() {
-            const nameInputs = document.querySelectorAll('input[formcontrolname="psgnName"]');
-            if (nameInputs.length === 0) {
-                await fillTrain(TrainNo);
-                await fillDate(JDate);
-                await nofPsng(passengers);
-                await Class(coach);
-                await waitSource(from);
-                await waitDesti(to);
-            }
+            await fillTrain(TrainNo);
+            await fillDate(JDate);
+            await nofPsng(passengers);
+            await Class(coach);
+            await waitSource(from);
+            await waitDesti(to);
         }
 
         async function psngForm(passengers, mobileNumber, PaymentMode) {
@@ -1217,11 +1262,73 @@
             for (let i = 0; i < passengers.length; i++) {
                 await selectMatOption("Gender", passengers[i].gender, i);
             }
+            
+            //if ("food" in passengers[0]) {
+            //    for (let i = 0; i < passengers.length; i++) {
+            //        await selectMatOption("Food Choice", passengers[i].food, i);
+            //    }
+            //}
+
             await selectMatOption("PAYMENT TYPE", PaymentMode);
+        }
+
+        async function checkAvailabilityAndClickNext() {
+
+            function clickNext() {
+                const btn = document.querySelector('button[type="submit"].mat-raised-button.mat-accent');
+
+                if (btn) {
+                    btn.click();
+                    return;
+                }
+                const next = [...document.querySelectorAll("span.mat-button-wrapper")]
+                    .find(el => el.textContent.trim() === "Next");
+
+                next?.closest("button")?.click();
+            }
+
+            function processStatus() {
+                const status = [...document.querySelectorAll("span")]
+                    .find(el => el.textContent.includes("AVAILABILITY STATUS"));
+
+                if (!status) return null; // Not loaded yet
+
+                const text = status.textContent.toUpperCase();
+                if (/\bAVAILABLE\b/i.test(text)) {
+                    clickNext();
+                    return true;
+                }
+
+                console.log("Not Available");
+                return false;
+            }
+
+            const result = processStatus();
+            if (result !== null) 
+                return result;
+
+            return new Promise(resolve => {
+
+                const observer = new MutationObserver(() => {
+                    const result = processStatus();
+                    if (result !== null) {
+                        observer.disconnect();
+                        resolve(result);
+                    }
+                });
+
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                    characterData: true
+                });
+
+            });
         }
 
         await execute();
         await psngForm(passengers, mobileNumber, PaymentMode);
+        await checkAvailabilityAndClickNext();
 
         })();
         `;
