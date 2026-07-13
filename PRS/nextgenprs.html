@@ -357,7 +357,6 @@
 <body>
     <div class="booking-container">
         <div class="main-header">KONDAPURAM BOOKING FORM</div>
-
         <div class="jour-container">
             <div class="left">Journey Details</div>
             <div class="right">
@@ -365,11 +364,7 @@
                     <div class="info-block">
                         <span class="info-label">Form No.</span>
                         <div class="input-group">
-                            <select
-                                class="form-control"
-                                id="bookmarkName"
-                                onchange="updateButtonText()"
-                            >
+                            <select class="form-control" id="bookmarkName" onchange="updateButtonText()">
                                 <option>Form 1</option>
                                 <option>Form 2</option>
                                 <option>Form 3</option>
@@ -394,13 +389,13 @@
                                 maxlength="5"
                                 pattern="[0-9]{5}"
                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0, 5)"
-                                required
-                            />
+                                required/>
                         </div>
                     </div>
                     <div class="info-block">
                         <span class="info-label">Date of Journey</span>
-                        <div class="input-group">
+                        <div class="mobile-input">
+                            <span style="border-bottom: 1px solid #a0aec0;">🗓</span>
                             <input
                                 type="text"
                                 id="date"
@@ -408,8 +403,7 @@
                                 placeholder="Journey Date"
                                 maxlength="10"
                                 oninput="formatDate(this)"
-                                required
-                            />
+                                required/>
                         </div>
                     </div>
                     <div class="info-block">
@@ -422,11 +416,10 @@
                                 placeholder="KDP"
                                 maxlength="6"
                                 oninput="
-                        this.value=this.value.replace(/[^A-Za-z]/g,'');
-                        this.value = this.value.toUpperCase();
-                        document.getElementById('brdStn').value = this.value;"
-                                required
-                            />
+                                    this.value=this.value.replace(/[^A-Za-z]/g,'');
+                                    this.value = this.value.toUpperCase();
+                                    document.getElementById('brdStn').value = this.value;"
+                                required/>
                         </div>
                     </div>
                     <div class="info-block">
@@ -439,10 +432,9 @@
                                 id="destination"
                                 maxlength="6"
                                 oninput="
-                        this.value=this.value.replace(/[^A-Za-z]/g,'');
-                            this.value = this.value.toUpperCase();"
-                                required
-                            />
+                                    this.value=this.value.replace(/[^A-Za-z]/g,'');
+                                    this.value = this.value.toUpperCase();"
+                                required/>
                         </div>
                     </div>
                 </div>
@@ -463,15 +455,14 @@
                         <span class="info-label">
                             <label class="switch">
                                 <input type="checkbox" id="quotaToggle" />
-                                <span class="slider"></span> </label
-                            >Quota
+                                <span class="slider"></span>
+                            </label>Quota
                         </span>
                         <div class="input-group">
                             <select
                                 id="quota"
                                 class="form-control"
-                                disabled
-                            >
+                                disabled>
                                 <option>Tatkal</option>
                                 <option>General</option>
                                 <option>Premium Tatkal</option>
@@ -481,11 +472,7 @@
                     <div class="info-block">
                         <span class="info-label">No. of Passenger</span>
                         <div class="input-group">
-                            <select
-                                id="count"
-                                onchange="createPassRows()"
-                                class="form-control"
-                            >
+                            <select id="count" onchange="createPassRows()" class="form-control">
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -498,9 +485,11 @@
                     <div class="info-block">
                         <span class="info-label">
                             <label class="switch">
-                                <input type="checkbox" id="brdStnToggle" />
-                                <span class="slider"></span> </label
-                            >Boarding Station
+                                <input 
+                                    type="checkbox"
+                                    id="brdStnToggle"/>
+                                <span class="slider"></span>
+                            </label>Boarding Station
                         </span>
                         <div class="input-group">
                             <input
@@ -508,8 +497,7 @@
                                 class="form-control"
                                 id="brdStn"
                                 placeholder="Boarding Station"
-                                disabled
-                            />
+                                disabled/>
                         </div>
                     </div>
                 </div>
@@ -534,17 +522,14 @@
                     <div class="info-block">
                         <span class="info-label">10 Digit Mobile</span>
                         <div class="mobile-input">
-                            <span style="border-bottom: 1px solid #a0aec0;"
-                                >📱</span
-                            >
+                            <span style="border-bottom: 1px solid #a0aec0;">☎</span>
                             <input
                                 type="number"
                                 id="mobile"
                                 class="form-control"
                                 maxlength="10"
                                 placeholder="Mobile Number"
-                                oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)"
-                            />
+                                oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)"/>
                         </div>
                     </div>
                     <div class="info-block">
@@ -553,10 +538,9 @@
                                 <label class="switch">
                                     <input
                                         type="checkbox"
-                                        id="coachToggle"
-                                    />
-                                    <span class="slider"></span> </label
-                                >Coach no
+                                        id="coachToggle"/>
+                                    <span class="slider"></span>
+                                </label>Coach no
                             </span>
                             <input
                                 type="text"
@@ -564,8 +548,7 @@
                                 class="form-control"
                                 maxlength="4"
                                 placeholder="Coach No."
-                                disabled
-                            />
+                                disabled/>
                         </div>
                     </div>
                 </div>
