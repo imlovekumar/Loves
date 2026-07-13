@@ -605,6 +605,26 @@
         }
     });
 
+    // Save previous value when dropdown gains focus
+    document.addEventListener("focusin", function (e) {
+        if (e.target.classList.contains("berth")) {
+            e.target.dataset.previous = e.target.value;
+        }
+    });
+
+    // Prevent selecting more than 2 Lower Berths
+    document.addEventListener("change", function (e) {
+        if (!e.target.classList.contains("berth")) return;
+
+        const berths = [...document.querySelectorAll("#passArea .berth")];
+        const lbCount = berths.filter(s => s.value === "Lower (LB)").length;
+
+        if (lbCount > 2) {
+            alert("You can select a maximum of 2 Lower Berths.");
+            e.target.value = e.target.dataset.previous || "No Preference";
+        }
+    });
+
     document.addEventListener("DOMContentLoaded", function() {
         createPassRows();
         setTomorrowDate();
@@ -686,6 +706,20 @@
             `);
         }
         div.innerHTML = htmlRows.join('');
+
+        // Auto-select berth preferences
+        const berthOrder = [
+            "Lower (LB)",
+            "Lower (LB)",
+            "Side Lower (SL)",
+            "Side Upper (SU)",
+            "Upper (UB)",
+            "Middle (MB)"
+        ];
+
+        document.querySelectorAll("#passArea .berth").forEach((select, index) => {
+            select.value = berthOrder[index] || "Middle (MB)";
+        });
     }
 
     function setTomorrowDate() {
@@ -983,9 +1017,6 @@
         const output = document.getElementById("output");
         const outputBox = document.getElementById("outputBox");
         const bookmarkLink = document.getElementById("bookmarkLink");
-
-        document.getElementById("count").selectedIndex = 0;
-        createPassRows();
         
         document.querySelectorAll("input").forEach(input => {
         if (input.type === "checkbox" || input.type === "radio") {
@@ -999,6 +1030,8 @@
         document.querySelectorAll("textarea").forEach(textarea => {
         textarea.value = "";
         });
+
+        createPassRows();
         setTomorrowDate();
         
         output.value = "";
