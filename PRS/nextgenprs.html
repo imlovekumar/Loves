@@ -170,6 +170,13 @@
         align-items: stretch;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
+	
+	.duty-pass-row{
+    		grid-column:1/-1;
+    		grid-template-columns:repeat(4,1fr);
+    		gap:10px;
+    		display:none;
+	}
 
     .passenger-index {
         background-color: #ffffff;
@@ -522,6 +529,8 @@
         transform:translateY(-2px);
         box-shadow:0 12px 25px rgba(255,0,0,.35);
     }
+	
+	
 </style>
 </head>
 <body class="locked">
@@ -638,6 +647,7 @@
                                 <option>Tatkal</option>
                                 <option>General</option>
                                 <option>Premium Tatkal</option>
+								<option>Duty Pass</option>
                             </select>
                         </div>
                     </div>
@@ -880,6 +890,14 @@
             e.target.value = e.target.dataset.previous || "No Preference";
         }
     });
+	
+	const quota = document.getElementById("quota");
+	function toggleDutyPassRows() {
+    		document.querySelectorAll(".duty-pass-row").forEach(row => {
+        		row.style.display = (quota.value === "Duty Pass") ? "grid" : "none";
+    		});
+	}
+	quota.addEventListener("change", toggleDutyPassRows);
 
     document.addEventListener("DOMContentLoaded", function() {
         createPassRows();
@@ -971,6 +989,36 @@
                                 <option>ND- Diabetic Non Veg</option>
                             </select>
                         </div>
+						<div class="duty-pass-row">
+    							<div class="input-group">
+        							<span class="input-label-top">Concession</span>
+        							<input 
+									type="text" 
+									class="form-control concession" 
+									placeholder="Concession Code">
+    							</div>
+							<div class="input-group">
+        							<span class="input-label-top">OTP</span>
+        							<input 
+									type="text" 
+									class="form-control otp" 
+									placeholder="OTP">
+    							</div>
+							<div class="input-group">
+        							<span class="input-label-top">UPN</span>
+        							<input 
+									type="text" 
+									class="form-control upn" 
+									placeholder="UPN">
+    							</div>
+							<div class="input-group">
+        							<span class="input-label-top">Type</span>
+        							<select class="form-control type">
+                                		<option>Main</option>
+                                		<option>Escort</option>
+                                </select>
+    							</div>
+						</div>
                     </div>
                 </div>
             `);
@@ -990,6 +1038,8 @@
         document.querySelectorAll("#passArea .berth").forEach((select, index) => {
             select.value = berthOrder[index] || "Middle (MB)";
         });
+		
+		toggleDutyPassRows();
     }
 
     function setTomorrowDate() {
