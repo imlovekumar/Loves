@@ -993,27 +993,30 @@
     							<div class="input-group">
         							<span class="input-label-top">Concession</span>
         							<input 
-									type="text" 
-									class="form-control concession" 
-									placeholder="Concession Code">
+                                        type="text" 
+                                        class="form-control concession" 
+                                        placeholder="Concession Code"
+                                        required>
     							</div>
 							<div class="input-group">
         							<span class="input-label-top">OTP</span>
         							<input 
-									type="text" 
-									class="form-control otp" 
-									placeholder="OTP">
+                                        type="text" 
+                                        class="form-control otp" 
+                                        placeholder="OTP"
+                                        required>
     							</div>
 							<div class="input-group">
         							<span class="input-label-top">UPN</span>
         							<input 
-									type="text" 
-									class="form-control upn" 
-									placeholder="UPN">
+                                        type="text" 
+                                        class="form-control upn" 
+                                        placeholder="UPN"
+                                        required>
     							</div>
 							<div class="input-group">
         							<span class="input-label-top">Type</span>
-        							<select class="form-control type">
+        							<select class="form-control type" required>
                                 		<option>Main</option>
                                 		<option>Escort</option>
                                 </select>
@@ -1076,11 +1079,16 @@
         let source=document.getElementById("source").value;
         let destination=document.getElementById("destination").value;
         let doj=document.getElementById("date").value;
+        let quota=document.getElementById("quota").value;
         let names=document.querySelectorAll(".name");
         let genders=document.querySelectorAll(".gender");
         let ages=document.querySelectorAll(".age");
         let berth=document.querySelectorAll(".berth");
         let food = document.querySelectorAll(".food");
+        let concession=document.querySelectorAll(".concession");
+        let otp=document.querySelectorAll(".otp");
+        let upn=document.querySelectorAll(".upn");
+        let type=document.querySelectorAll(".type");
         let payment=document.getElementById("payment").value;
         let mobile=document.getElementById("mobile").value;
         // Validate passenger details
@@ -1123,6 +1131,10 @@
 
             let name = names[i].value.trim();
             let age = ages[i].value.trim();
+            let concessionValue = concession[i].value.trim();
+            let otpValue = otp[i].value.trim();
+            let upnValue = upn[i].value.trim();
+
             if (name === "") {
                 alert("Please enter Name for Passenger " + (i + 1));
                 names[i].focus();
@@ -1153,6 +1165,24 @@
                 ages[i].focus();
                 return;
             }
+
+            if (quota === "Duty Pass") {
+                if (concessionValue === "") {
+                    alert("Please enter Concession Code for Passenger " + (i + 1));
+                    concession[i].focus();
+                    return;
+                }
+                if (otpValue === "") {
+                    alert("Please enter OTP for Passenger " + (i + 1));
+                    otp[i].focus();
+                    return;
+                }
+                if (upnValue === "") {
+                    alert("Please enter UPN for Passenger " + (i + 1));
+                    upn[i].focus();
+                    return;
+                }
+            }
         }
 
 
@@ -1165,11 +1195,19 @@
         let text="javascript: ( async function () {\n const passengers = [\n";
         for(let i=0;i<names.length;i++){
             text+=`    {\n`;
-            text+=`        name: "${names[i].value}", gender: "${genders[i].value}", age: "${ages[i].value}", berth: "${berth[i].value}"\n`;
+            text+=`         name: "${names[i].value}",\n         gender: "${genders[i].value}",\n         age: "${ages[i].value}",\n       berth: "${berth[i].value}"\n`;
 
             // Print food only if enabled
             if (!food[i].disabled) {
                 text += `, food: "${food[i].value}"`;
+            }
+
+            // Print only if quota is Duty Pass
+            if (quota === "Duty Pass") {
+                text += `, concession: "${concession[i].value}"\n`;
+                text += `, otp: "${otp[i].value}"\n     `;
+                text += `, upn: "${upn[i].value}"\n     `;
+                text += `, type: "${type[i].value}"     `;
             }
 
             text+=`    }`;
@@ -1183,6 +1221,7 @@
         text+=`const from = "${source}";\n`;
         text+=`const to = "${destination}";\n`;
         text+=`const coach = "${coach}";\n`;
+        text+=`const quota = "${quota}";\n`;
         text+=`const mobileNumber = "${mobile}";\n`;
         text+=`const PaymentMode = "${payment}";`;
         text+="\n\n";
@@ -1260,7 +1299,7 @@
             }
             await selectMatOption("Class", coach);
         }
-
+        
         async function nofPsng(passengers) {
             const nofPsng = document.querySelector('input[data-placeholder="No. of Passengers"]');
             setAngularValue(nofPsng, passengers.length);
@@ -1289,6 +1328,7 @@
             await fillDate(JDate);
             await nofPsng(passengers);
             await Class(coach);
+            await selectMatOption("Quota", quota);
             await waitSource(from);
             await waitDesti(to);
         }
@@ -1313,11 +1353,34 @@
                 await selectMatOption("Gender", passengers[i].gender, i);
             }
             
-            //if ("food" in passengers[0]) {
-            //    for (let i = 0; i < passengers.length; i++) {
-            //        await selectMatOption("Food Choice", passengers[i].food, i);
-            //    }
-            //}
+            if ("food" in passengers[0]) {
+                for (let i = 0; i < passengers.length; i++) {
+                    await selectMatOption("Food Choice", passengers[i].food, i);
+                }
+            }
+
+            if(quota === "Duty Pass") {
+                const concessionInputs = document.querySelectorAll('input[formcontrolname="concessionCode"]');
+                const otpInputs = document.querySelectorAll('input[formcontrolname="otp"]');
+                const upnInputs = document.querySelectorAll('input[formcontrolname="upn"]');
+                const typeSelects = document.querySelectorAll('mat-select[formcontrolname="type"]');
+
+                for (let i = 0; i < passengers.length; i++) {
+                    if (concessionInputs[i])
+                        setAngularValue(concessionInputs[i], passengers[i].concession);
+
+                    if (otpInputs[i])
+                        setAngularValue(otpInputs[i], passengers[i].otp);
+
+                    if (upnInputs[i])
+                        setAngularValue(upnInputs[i], passengers[i].upn);
+
+                    if (typeSelects[i]) {
+                        typeSelects[i].click();
+                        await selectMatOption("Type", passengers[i].type, i);
+                    }
+                }
+            }
 
             await selectMatOption("PAYMENT TYPE", PaymentMode);
         }
