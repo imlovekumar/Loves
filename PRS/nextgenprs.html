@@ -1363,7 +1363,6 @@
                 const concessionInputs = document.querySelectorAll('input[formcontrolname="concessionCode"]');
                 const otpInputs = document.querySelectorAll('input[formcontrolname="otp"]');
                 const upnInputs = document.querySelectorAll('input[formcontrolname="upn"]');
-                const typeSelects = document.querySelectorAll('mat-select[formcontrolname="type"]');
 
                 for (let i = 0; i < passengers.length; i++) {
                     if (concessionInputs[i])
@@ -1376,7 +1375,6 @@
                         setAngularValue(upnInputs[i], passengers[i].upn);
 
                     if (typeSelects[i]) {
-                        typeSelects[i].click();
                         await selectMatOption("Type", passengers[i].type, i);
                     }
                 }
