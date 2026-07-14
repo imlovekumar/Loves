@@ -1328,7 +1328,9 @@
             await fillDate(JDate);
             await nofPsng(passengers);
             await Class(coach);
-            await selectMatOption("Quota", quota);
+            if(quota === "Duty Pass") {
+            		await selectMatOption("Quota", quota);
+			}
             await waitSource(from);
             await waitDesti(to);
         }
