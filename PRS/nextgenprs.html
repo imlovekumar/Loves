@@ -995,6 +995,20 @@ function setTomorrowDate()  {
       month: '2-digit',
       day: '2-digit'
   });
+  const time = parseInt(
+    tomorrow.toLocaleTimeString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }).replace(':', ''),10
+  );
+  const coach = document.getElementById("coach");
+    if (time >= 900 && time < 1000)
+        coach.value = "3A - THIRD AC";
+    else if (time >= 1015 && time < 1100)
+        coach.value = "SL - SLEEPER";
+
   const [day,month,year]=ist.split("/");
   const formattedDate = `${day}.${month}.${year}`;
   
