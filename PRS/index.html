@@ -1,677 +1,1710 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Passenger Generator</title>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280">
+  <title>Tatkal Booking Interface</title>
+  <link rel="icon" type="image/x-icon" href="https://client.prs/assets/images/logos/indian_railways_logo.png">
+  <style>
+    /* offline fonts setup */
+    @font-face {
+      font-display: swap; 
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 400;
+      src: url('fonts/plus-jakarta-sans-v12-latin-regular.woff2') format('woff2'); 
+    }
+    @font-face {
+      font-display: swap; 
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 500;
+      src: url('fonts/plus-jakarta-sans-v12-latin-500.woff2') format('woff2'); 
+    }
+    @font-face {
+      font-display: swap; 
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 600;
+      src: url('fonts/plus-jakarta-sans-v12-latin-600.woff2') format('woff2'); 
+    }
+    @font-face {
+      font-display: swap; 
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 700;
+      src: url('fonts/plus-jakarta-sans-v12-latin-700.woff2') format('woff2'); 
+    }
+    @font-face {
+      font-display: swap; 
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 800;
+      src: url('fonts/plus-jakarta-sans-v12-latin-800.woff2') format('woff2'); 
+    }
 
-h2{
-    text-align:center;
-}
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      --card-bg: rgba(255, 255, 255, 0.82);
+      --card-border: rgba(255, 255, 255, 0.5);
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --accent: #06b6d4;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Segoe UI,Arial,sans-serif;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
 
-body{
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    min-height:100vh;
-}
+    body {
+	  background: linear-gradient(to right,#BADAE8,beige);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+    }
 
-.top-banner {
-    color: #ffffff;
-    padding: 20px 0;
-    text-align: center;
-    width: 100%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
- .top-banner h1 {
-    margin: 0;
-    font-size: 2rem;
-    letter-spacing: 1px;
- }
+    .booking-container {
+      width: 100%;
+      max-width: 960px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--glass-shadow);
+      transition: filter 0.3s ease;
+    }
 
-.container{
-    width:100%;
-    max-width:90%;
-    margin:30px auto;
-    background:#fff;
-    padding:35px;
-    border-radius:18px;
-    box-shadow:0 20px 40px rgba(0,0,0,.2);
-}
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+	  background: linear-gradient(90deg, #1e1b4b, #4f46e5, #6366f1, #06b6d4);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
 
-.container h2{
-    text-align:center;
-    margin-bottom:30px;
-    color:#333;
-}
+    .main-header span {
+      background: linear-gradient(to right, #BADAE8, beige);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
 
-.form-group{
-    margin-bottom:20px;
-}
+    .jour-container {
+      display: flex;
+      width: 100%;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+      position: relative;
+    }
 
-.form-group label{
-    display:block;
-    margin-bottom:8px;
-    color:#555;
-    font-size:15px;
-    font-weight:600;
-}
+    .left {
+      padding: 16px 12px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #312e81;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      text-align: center;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: rgba(238, 242, 255, 0.6);
+      border-right: 1px solid #e0e7ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+	}
 
-.form-group input,
-.form-group select{
-    width:100%;
-    padding:10px 10px;
-    border:2px solid #ddd;
-    border-radius:12px;
-    outline:none;
-    font-size:15px;
-    background:#fafafa;
-    transition:.3s;
-}
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 16px;
+      background: #ffffff;
+    }
 
-#trainNumber{
-    width:15ch !important;
-}
-#date {
-    width:20ch !important;
-} 
-#source {
-    width:20ch !important;
-} 
-#destination {
-    width:20ch !important;
-}
-#payment {
-    width:29ch !important;
-}
-#mobile{
-	width: 27ch;
-}
-#bookmarkName{
-    width:15ch !important;
-}
-#coach{
-     width:25ch !important;
-}
-.name{
-     width:29ch !important;
-}
-.age{
-     width:12ch !important;
-}
+    .journey-info-bar, .journey-info-bar2, .extras-info-bar {
+      display: grid;
+      gap: 14px;
+    }
 
-.form-group input:hover,
-.form-group select:hover{
-    border-color:#8b5cf6;
-}
+    .journey-info-bar {
+      grid-template-columns: 0.8fr repeat(4, 1fr);
+    }
 
-.form-group input:focus,
-.form-group select:focus{
-    border-color:#6c63ff;
-    background:#fff;
-    box-shadow:0 0 0 4px rgba(108,99,255,.15);
-}
+    .journey-info-bar2 {
+      grid-template-columns: repeat(4, 1fr);
+    }
 
-.form-group input::placeholder{
-    color:#999;
-}
+    .extras-info-bar {
+      grid-template-columns: 1fr 1.2fr 1fr;
+    }
 
-select{
-    appearance:none;
-    cursor:pointer;
-    background-repeat:no-repeat;
-    background-position:right 15px center;
-    background-size:15px;
-    padding-right:45px;
-}
+    .info-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
 
-button{
-    padding:15px;
-    border:none;
-    border-radius:12px;
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    color:#fff;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.3s;
-}
+    .info-label {
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+      color: #475569;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      min-height: 20px;
+    }
 
-button:hover{
-    transform:translateY(-2px);
-    box-shadow:0 12px 25px rgba(102,126,234,.35);
-}
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+	  gap: 6px;
+    }
 
-button:active{
-    transform:scale(.98);
-}
+    .form-control {
+      width: 100%;
+      height: 38px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: #f8fafc;
+      padding: 0 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0f172a;
+      outline: none;
+      transition: all 0.2s ease;
+    }
 
-.row{
-    display:flex;
-    gap:10px;
-    align-items:flex-end;
-    margin:8px 0;
-	margin-bottom: 10px;
-}
+    .form-control:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
 
-.row .form-group{
-    margin-bottom:0;
-}
+    .form-control:disabled {
+      background: #e2e8f0;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
 
-textarea{
-    width:100%;
-    height:260px;
-    margin-top:15px;
-    font-family:Consolas;
-    font-size:15px;
-}
+    select.form-control {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2064748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 14px;
+      padding-right: 28px;
+    }
 
-.passenger-card{
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:12px;
-    padding:5px 10px;
-	margin-bottom: 10px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
+    /* Modern Switch */
+    .switch {
+      position: relative;
+      width: 30px;
+      height: 16px;
+      margin-right: 6px;
+      display: inline-block;
+    }
 
-input:required:placeholder-shown {
-    border: 2px solid red;
-    border-radius: 8px;
-    outline: none;
-}
+    .switch input {
+      display: none;
+    }
 
-.box{
-    background:#222;
-    padding:30px;
-    border-radius:10px;
-    width:320px;
-    text-align:center;
-}
-.box input{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-    font-size:16px;
-    box-sizing:border-box;
-}
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #cbd5e1;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.25s;
+    }
 
-.box h2 {
-    color:#fff
-}
-.box button{
-    width:100%;
-    padding:10px;
-    font-size:16px;
-    cursor:pointer;
-    border-radius:0px;
-}
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      left: 2px;
+      top: 2px;
+      background: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      transition: 0.25s;
+    }
 
-#content{
-    display:none;
-    padding:30px;
-}
+    .switch input:checked + .slider {
+      background: var(--primary);
+    }
 
-#login{
-    margin-top: 100px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
+    .switch input:checked + .slider::before {
+      transform: translateX(14px);
+    }
 
-</style>
-</head>
+    /* Passenger Section */
+    .passenger-section {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #f8fafc;
+    }
 
-<body>
+    .passenger-row {
+      display: flex;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-<header class="top-banner">
-        <h1>Add Passenger Details</h1>
-</header>
+    .passenger-row:hover {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    }
+
+    .passenger-index {
+      background: var(--primary-light);
+      border-right: 1px solid #c7d2fe;
+      padding: 12px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      text-align: center;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .passenger-inputs {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1.5fr) minmax(0, 1.2fr) minmax(0, 2fr) minmax(0, 2fr);
+      gap: 12px;
+      padding: 14px;
+      width: 100%;
+      align-items: center;
+    }
+
+    .duty-pass-row {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      display: none;
+      padding-top: 8px;
+      border-top: 1px dashed #e2e8f0;
+    }
+
+    /* Button Area */
+    .button-Area {
+      padding: 20px 150px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      background: #f1f5f9;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .modern-btn {
+      width: 100%;
+      height: 44px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    }
+
+    .modern-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+    }
+
+    .modern-btn:active {
+      transform: translateY(0);
+    }
+
+    #bookmarkLink {
+		display: none !important;
+      width: 100%;
+      height: 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      border: 2px dashed #6366f1;
+      background: #e0e7ff;
+      color: #3730a3;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+	  cursor: default;
+    }
+	
+	  #bookmarkLink[draggable="true"] {
+	    border: none; /* Removes the dashed border */
+      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      cursor: grab; /* Better UX for draggable items than standard 'pointer' */
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    }
+
+    #bookmarkLink[draggable="true"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+    }
+
+    #bookmarkLink[draggable="true"]:active {
+      cursor: grabbing; /* Changes the cursor when actively clicking/dragging */
+    }
+
+    /* Lock Overlay */
+    #page {
+      transition: filter 0.3s ease;
+    }
+
+    body.locked #page {
+      filter: blur(8px);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      transition: opacity 0.35s ease;
+    }
+
+    body.unlocked #overlay {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .lock-box {
+      width: 380px;
+      padding: 36px 28px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: var(--glass-shadow);
+      text-align: center;
+      animation: popup 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes popup {
+      from {
+        transform: translateY(20px) scale(0.95);
+        opacity: 0;
+      }
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+
+    .lock-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      color: #0f172a;
+      margin-bottom: 20px;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    #password {
+      width: 100%;
+      height: 48px;
+      border: 1px solid var(--border-color);
+      outline: none;
+      border-radius: 10px;
+      padding: 0 16px;
+      font-size: 15px;
+      background: #f8fafc;
+      margin-bottom: 16px;
+      transition: all 0.2s ease;
+    }
+
+    #password:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    #login-btn {
+      width: 100%;
+      height: 48px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    #login-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+    }
+
+    #error {
+      margin-top: 12px;
+      color: #ef4444;
+      font-size: 13px;
+      font-weight: 600;
+      min-height: 18px;
+    }
+
+    .shake {
+      animation: shake 0.35s ease;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translateX(-4px); }
+      20%, 80% { transform: translateX(4px); }
+      30%, 50%, 70% { transform: translateX(-6px); }
+      40%, 60% { transform: translateX(6px); }
+    }
+
+    .logout-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    body.unlocked .logout-btn {
+      display: block;
+    }
+
+    #saveDialog {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      background: rgba(15, 23, 42, .55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow-y: auto;
+    }
+
+    #saveDialog.show {
+      display: flex;
+    }
+
+    .save-dialog-box {
+      position: relative;
+      width: 390px;
+      max-width: 100%;
+      padding: 0;
+      background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow:
+        0 20px 50px rgba(15, 23, 42, .28),
+        0 5px 15px rgba(15, 23, 42, .12);
+      animation: savePopup .25s ease-out;
+    }
+
+    @keyframes savePopup {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
     
-<div id="login">
-    <div class="box">
-        <h2>Protected Page</h2>
-        <input 
-            type="password" 
-            id="password" 
-            placeholder="Enter Password" 
-            oninput="this.value = this.value.toUpperCase()"
-            >
-        <button onclick="checkPassword()">Unlock</button>
-        <p id="msg" style="color:red;"></p>
-    </div>
-</div>
+    .save-dialog-box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background:
+        linear-gradient(
+          90deg,
+          #4f46e5,
+          #6366f1,
+          #06b6d4
+        );
+    }
+  
+    .save-dialog-title {
+      padding:
+        18px
+        18px
+        8px;
+      text-align: center;
+      color: #0f172a;
+      font-size: 16px;
+      font-weight: 800;
+    }
 
+    .save-dialog-title::before {
+      content: "\2713";
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin:
+        0 auto
+        6px;
+      border-radius: 50%;
+      background:
+        linear-gradient(
+          135deg,
+          #4f46e5,
+          #06b6d4
+        );
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    
+    .save-details {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin:
+        2px 20px
+        12px;
+      padding: 0;
+      background: transparent;
+      border: none;
+    }
 
-<div class="container" id="content">
-    <div class="row">
-        <div class="form-group">
-        <label><b>Form No.</b></label>
-            <select id="bookmarkName" >
-                <option>Form 1</option>
-                <option>Form 2</option>
-                <option>Form 3</option>
-                <option>Form 4</option>
-                <option>Form 5</option>
-                <option>Form 6</option>
-                <option>Form 7</option>
-                <option>Form 8</option>
-                <option>Form 9</option>
-                <option>Form 10</option>
+    .save-detail {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 0;
+      border: none;
+      min-height: 18px;
+    }
+
+    .save-detail-label {
+      flex: 0 0 75px;
+      color: #64748b;
+      font-size: 8px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .55px;
+      text-align: right;
+    }
+    
+    .save-detail-value {
+      flex: 1;
+      min-width: 0;
+      color: #0f172a;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.35;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    .save-detail.full {
+      display: block;
+      margin-top: 5px;
+      padding-top: 7px;
+      border-top:
+        1px solid
+        #e2e8f0;
+    }
+
+    .save-detail.full
+    .save-detail-label {
+      display: block;
+      margin-bottom: 3px;
+      text-align: left;
+      color: #475569;
+      font-size: 8px;
+    }
+
+    .save-detail.full
+    .save-detail-value {
+      display: block;
+      width: 100%;
+    }
+
+    .save-detail.full
+    .save-detail-value > div {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 0;
+      border: none;
+      color: #334155;
+      font-size: 10.5px;
+      line-height: 1.3;
+    }
+
+    .save-dialog-buttons {
+      display: grid;
+      grid-template-columns:
+        1fr 1fr;
+      grid-template-rows:
+        38px 38px;
+      gap: 7px;
+      padding:
+        10px 14px 14px;
+      background: #f8fafc;
+      border-top:
+        1px solid
+        #f1f5f9;
+    }
+
+    .save-dialog-btn {
+      height: 38px;
+      border: none;
+      border-radius: 8px;
+      font-family:
+        'Plus Jakarta Sans',
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        background .18s ease;
+    }
+
+    .save-dialog-btn:hover {
+      transform:
+        translateY(-1px);
+    }
+
+    .save-dialog-btn:active {
+      transform:
+        translateY(0);
+    }
+    
+    .save-bookmark-btn {
+      grid-column:
+        1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #ffffff;
+      background:
+        linear-gradient(
+          135deg,
+          #4f46e5,
+          #3730a3
+        );
+      box-shadow:
+        0 3px 9px
+        rgba(79,70,229,.22);
+    }
+
+    .save-bookmark-btn:hover {
+      box-shadow:
+        0 5px 13px
+        rgba(79,70,229,.32);
+    }
+
+    .save-new-btn {
+      color: #0e7490;
+      background: #ecfeff;
+      border:
+        1px solid
+        #a5f3fc;
+    }
+    
+    .save-new-btn:hover {
+      background: #cffafe;
+    }
+  
+    .save-edit-btn {
+      color: #475569;
+      background: #ffffff;
+      border:
+        1px solid
+        #cbd5e1;
+    }
+
+    .save-edit-btn:hover {
+      background: #f8fafc;
+      border-color:
+        #94a3b8;
+    }
+
+    .journey-day {
+      margin-left: 5px;
+      color: #6366f1;
+      font-size: 10px;
+      font-weight: 800;
+    }
+	.train-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .train-display {
+      font-size: 10px;
+      color: #64748b;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body class="locked">
+<div class="booking-container" id="page">
+  <div class="main-header">
+    <span>Kondapuram Booking Form</span>
+    <button class="logout-btn" onclick="logout()">&#x1F512; Lock</button>
+  </div>
+  <div class="jour-container">
+    <div class="left">Journey Details</div>
+    <div class="right">
+      <div class="journey-info-bar">
+        <div class="info-block">
+          <span class="info-label">Form No.</span>
+          <div class="input-group">        
+            <select class="form-control" id="bookmarkName" onchange="updateButtonText()">
+              <option>Form 1</option>
+              <option>Form 2</option>
+              <option>Form 3</option>
+              <option>Form 4</option>
+              <option>Form 5</option>
+              <option>Form 6</option>
+              <option>Form 7</option>
+              <option>Form 8</option>
+              <option>Form 9</option>
+              <option>Form 10</option>
             </select>
+          </div>
         </div>
-
-        <div class="form-group">
-        <label><b>Class</b></label>
-        <select id="coach" >
-            <option>3A - THIRD AC</option>
-            <option>SL - SLEEPER</option>
-            <option>2A - SECOND AC</option>
-            <option>1A - FIRST AC</option>
-        </select>
+        <div class="info-block">
+		  <div class="train-title">
+            <span class="info-label">Train No.</span>
+            <span id="trainDisplay" class="train-display"></span>
+          </div>
+		  <div class="input-group">
+              <input
+                class="form-control"
+                type="number"
+                id="trainNumber"
+                placeholder="Train No"
+                maxlength="5"
+                pattern="[0-9]{5}"
+                oninput="this.value = this.value.replace(/\D/g, '').slice(0, 5)"
+                required>
+          </div>
+		</div>
+        <div class="info-block">
+          <span class="info-label">Date of Journey</span>
+          <div class="input-group">
+          <input
+                type="text"
+                id="date"
+                class="form-control"
+                placeholder="Journey Date"
+                maxlength="10"
+                oninput="formatDate(this)"
+                required>
+         </div>
+        </div>  
+        <div class="info-block">
+		  <div class="train-title">
+            <span class="info-label">From</span>
+            <span id="fromDisplay" class="train-display"></span>
+          </div>
+          <div class="input-group">
+            <input 
+              class="form-control"
+              type="text"
+              id="source"
+              placeholder="Source Code"
+              maxlength="6"
+              oninput="
+                      this.value = this.value.replace(/[^A-Za-z]/g,'');
+                      this.value = this.value.toUpperCase();
+                      document.getElementById('brdStn').value = this.value;"
+              required>
+          </div>
+        </div> 
+        <div class="info-block">
+	      <div class="train-title">
+            <span class="info-label">To</span>
+            <span id="toDisplay" class="train-display"></span>
+          </div>
+          <div class="input-group">
+            <input 
+	          class="form-control"
+              type="text"
+              id="destination"
+              placeholder="Destination Code"
+              maxlength="6"
+              oninput="
+                      this.value = this.value.replace(/[^A-Za-z]/g,'');
+                      this.value = this.value.toUpperCase();"
+              required>
+          </div>
         </div>
-
-        <div class="form-group">
-            <label><b>No. Of Passenger</b></label>
-            <select id="count" onchange="createRows()">
-                <option value="">Select</option>
+      </div>
+      <div class="journey-info-bar2">
+        <div class="info-block">
+          <span class="info-label">Journey Class</span>
+            <div class="input-group"> 
+              <select class="form-control" id="coach">
+                <option>SL - SLEEPER</option>          
+                <option>3A - THIRD AC</option>
+                <option>3E - THIRD AC ECONOMY</option>
+                <option>2A - SECOND AC</option> 
+                <option>1A - FIRST AC</option>
+              </select>
+            </div>
+         </div>
+         
+         <div class="info-block">
+          <span class="info-label">No. of Passenger</span>
+            <div class="input-group"> 
+              <select class="form-control" id="count" onchange="createPassRows()">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
                 <option>4</option>
                 <option>5</option>
                 <option>6</option>
-            </select>
-        </div>
-		
-		<a id="bookmarkLink"
-            href="#"
-            draggable="true"
-            style="
-            display:none;
-            padding:8px 14px;
-            background:#1976d2;
-            color:#fff;
-            text-decoration:none;
-            border-radius:12px;
-            font-weight:bold;
-            white-space:nowrap;">
-        </a>
-	</div>
+              </select>
+            </div>
+          </div>
+          <div class="info-block">
+           <span class="info-label">
+              <label class="switch">
+                <input type="checkbox" id="quotaToggle">
+                <span class="slider"></span>
+              </label>Quota
+            </span>
+            <div class="input-group"> 
+              <select id="quota" class="form-control" disabled>
+                <option>TQ - TATKAL</option>
+                <option>PT - PREMIUM TATKAL</option>
+                <option>GN - GENERAL</option>
+                <option>DP - DUTY PASS</option>
+              </select>
+            </div>
+         </div>
+          <div class="info-block">
+            <span class="info-label">
+              <label class="switch">
+                <input type="checkbox" id="brdStnToggle">
+                <span class="slider"></span>
+              </label>Boarding Station
+            </span>
+              <div class="input-group"> 
+                <input class="form-control"
+                  type="text"
+                  id="brdStn"
+                  placeholder="Boarding Station"
+                  disabled>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
 
-    <div id="formArea"></div>
-	
-    <textarea
-        id="output"
-        placeholder="Generated text will appear here"
-        style="display:none; width:100%; height:260px; margin-top:15px; font-family:Consolas; font-size:15px;">
-    </textarea>
+  <div id="passArea" class="passenger-section"></div>
+
+  <div class="jour-container">
+    <div class="left">Extras</div>
+    <div class="right">
+      <div class="extras-info-bar">
+        
+        <div class="info-block">
+            <span class="info-label">10 Digit Mobile</span>
+            <div class="mobile-input">
+              <input
+                type="number"
+                class="form-control"
+                id="mobile"
+                placeholder="Mobile Number"
+                maxlength="10"
+                oninput="this.value = this.value.replace(/\D/g,'').slice(0, 10)">
+            </div>
+        </div>
+		<div class="info-block">
+          <span class="info-label">Payment Mode</span>
+           <div class="input-group">
+            <select class="form-control" id="payment">
+              <option>Cash</option>
+              <option>UPI/BHIM QR</option>
+            </select>
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="input-group">
+            <span class="info-label">
+              <label class="switch">
+                <input type="checkbox" id="coachToggle">
+                <span class="slider"></span>
+              </label>Coach No
+            </span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="wagon"
+                  placeholder="Coach No."
+                  maxlength="4"
+                disabled>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="buttonArea" class="button-Area">
+    <button class="modern-btn" onclick="generate()">Generate</button>
+    <button class="modern-btn" onclick="clearAll()">Reset</button>
+    <a id="bookmarkLink" href="#" draggable="false"></a>
+  </div>
 </div>
 
-<script>
-// Change this password
-const PASSWORD = "PRSKDP";
-function checkPassword(){
-    const entered = document.getElementById("password").value;
+<!-- Save Confirmation Dialog -->
+<div id="saveDialog">
+  <div class="save-dialog-box">
+    <div class="save-dialog-title">Booking Form Generated !</div>
+    <div class="save-details" id="saveDetails"></div>
+    <div class="save-dialog-buttons">
+  		<a id="dialogBookmarkLink"
+     		class="save-dialog-btn save-bookmark-btn"
+     		href="#"
+     		draggable="false"
+     		style="display:flex;align-items:center;justify-content:center;text-decoration:none;">
+    			&#x1F516; Bookmark
+  		</a>
+  		<button class="save-dialog-btn save-new-btn" onclick="newFormFromDialog()">&#xFF0B; New Form</button>
+  		<button class="save-dialog-btn save-edit-btn"onclick="closeSaveDialog()">&#x270E; Edit</button>
+  	</div>
+  </div>
+</div>
 
-    if(entered === PASSWORD){
-        document.getElementById("login").style.display="none";
-        document.getElementById("content").style.display="block";
-    }else{
-        document.getElementById("msg").textContent="Incorrect password!";
-        document.getElementById("password").value="";
-    }
+<div id="overlay">
+  <div class="lock-box" id="box">
+    <div class="lock-icon">&#128274;</div>
+      <h2>Protected Page</h2>
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        autocomplete="off">
+
+      <button id="login-btn" onclick="unlock()">Unlock</button>
+    <div id="error"></div>
+  </div>
+</div>
+
+<script src="stations.js"></script>
+<script src="trains.js"></script>
+<script>
+const PASSWORD = "";
+const passInput = document.getElementById("password");
+passInput.focus();
+
+const autologin = document.getElementById("login-btn");
+autologin.click();
+
+passInput.addEventListener("keydown", e => e.key === "Enter" && unlock());
+
+function unlock() {
+  if (passInput.value === PASSWORD) {
+    document.body.classList.replace("locked", "unlocked");
+    document.getElementById("trainNumber").focus();
+  } else {
+    document.getElementById("error").innerText = "Incorrect Password";
+    const box = document.getElementById("box");
+    box.classList.remove("shake");
+    void box.offsetWidth; // Trigger reflow
+    box.classList.add("shake");
+    passInput.select();
+  }
 }
 
-document.getElementById("password").addEventListener("keypress", function(e){
-    if(e.key==="Enter"){
-        checkPassword();
+function logout() {
+  clearAll();
+  document.body.classList.replace("unlocked", "locked");
+  passInput.value = "";
+  setTimeout(() => passInput.focus(), 350);
+  document.getElementById("error").innerText = "";
+}
+
+document.addEventListener("keydown", function (event) {
+    if (event.altKey && event.key === "Enter") {
+        event.preventDefault();
+        generate();
     }
 });
 
+const trainInput = document.getElementById("trainNumber");
+const trainDisplay = document.getElementById("trainDisplay");
 
-function createRows(){
-    let n=document.getElementById("count").value;
-    let div=document.getElementById("formArea");
-	div.innerHTML="";
-    if(n=="") return;
-	div.innerHTML+=`
-	<div class="passenger-card">
-        <div class="row">        
-            <div class="form-group">
-                <label>Train Number</label>
-                <input 
-                    type="number"
-                    id="trainNumber" 
-                    placeholder="Train No."
-                    maxlength="5"
-                    pattern="[0-9]{5}"
-                    oninput="this.value = this.value.replace(/\D/g, '').slice(0, 5)"
-                    required>
-            </div>
-			
-			
-            <div class="form-group">
-                <label>Journey Date</label>
-                <input 
-                    type="date"
-                    id="date"
-                    placeholder="Date of Journey"
-                    maxlength="10"
-                    inputmode="numeric"
-                    required>		    
-            </div>
-        
-            <div class="form-group">
-                <label>From Station</label>
-                <input 
-                    type="text" 
-                    placeholder="Enter station"
-                    id="source"
-                    maxlength="6"
-                    oninput="
-                            this.value=this.value.replace(/[^A-Za-z]/g,'');
-                            this.value = this.value.toUpperCase();
-                            "
-                    required>
-            </div>
+trainInput.addEventListener("blur", function () {
+    const number = this.value.trim();
+    // Clear name if input is empty
+    if (!number) {
+        trainDisplay.textContent = "";
+        return;
+    }
+    // Search train
+    const train = trainsData
+        .flatMap(group => group.trains)
+        .find(t => t.number === number);
 
-            <div class="form-group">
-                <label>To Station</label>
-                <input 
-                    type="text"
-                    placeholder="Enter station"
-                    id="destination"
-                    maxlength="6"
-                    oninput="
-                            this.value=this.value.replace(/[^A-Za-z]/g,'');
-                            this.value = this.value.toUpperCase();
-                            "
-                    required>
-            </div>
-		</div>
-	</div>	
-		
-	`;
-	
-	div.innerHTML +=`
-	<div class="passenger-card">
-	<label>Passenger Details</label>
-    	<div id="passengers"></div>
-	</div>
-	`;
-	const pcard = document.getElementById("passengers");
+    // Display only train name
+    trainDisplay.textContent = train ? train.name : "";
+});
 
-    for (let i = 1; i <= n; i++) {
-    pcard.innerHTML += `
-       
-        <div class="row">
-            
-            <div class="form-group">
-                <input
-                    type="text"
-                    class="name"
-                    placeholder="Passenger ${i} Name"
-                    minlength="3"
-                    maxlength="16"
-                    required
-                    oninput="
-                            this.value=this.value.replace(/[^A-Za-z ]/g,'');
-                            this.value = this.value.toUpperCase();
-                            ">
-            </div>
+const fromInput = document.getElementById("source");
+const fromDisplay = document.getElementById("fromDisplay");
 
-            <div class="form-group">
-                <select class="gender">
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>Transgender</option>
-                </select>
-            </div>
+fromInput.addEventListener("blur", function () {
+    const code = this.value.trim();
+    if (!code) {
+        fromDisplay.textContent = "";
+        return;
+    }
+    const station = stationsData[0].find(
+        s => s.code.toUpperCase() === code.toUpperCase()
+    );
+    fromDisplay.textContent = station ? station.name : "";
+});
 
-            <div class="form-group">
-                <input
-                    type="number"
-                    class="age"
-                    placeholder="Age"
-                    min="1"
-                    max="125"
-                    required
-                    oninput="
-                        if(this.value>125)this.value=125;
-                        if(this.value<1 && this.value!='')this.value=1;">
-            </div>
+const toInput = document.getElementById("destination");
+const toDisplay = document.getElementById("toDisplay");
 
-            <div class="form-group">
-                <select class="berth">
-                    <option>No Preference</option>
-                    <option>Lower (LB)</option>
-                    <option>Middle (MB)</option>
-                    <option>Upper (UB)</option>
-                    <option>Side Lower (SL)</option>
-                    <option>Side Upper (SU)</option>
-                </select>
-            </div>
+toInput.addEventListener("blur", function () {
+    const code = this.value.trim();
+    if (!code) {
+        toDisplay.textContent = "";
+        return;
+    }
+    const station = stationsData[0].find(
+        s => s.code.toUpperCase() === code.toUpperCase()
+    );
+    toDisplay.textContent = station ? station.name : "";
+});
 
-        </div>
-    `;}
+// Reusable toggle handler
+const toggleState = (toggleId, inputId, clearOnDisable = true) => {
+  const toggle = document.getElementById(toggleId);
+  const input = document.getElementById(inputId);
+  if (!toggle || !input) return;
+  toggle.addEventListener("change", () => {
+    input.disabled = !toggle.checked;
+    if (!toggle.checked && clearOnDisable) input.value = "";
+  });
+};
 
-    div.innerHTML+=`
-	<div class="passenger-card">
-        <div class="row">
-            <div class="form-group">
-			<label>Payment Mode</label>
-                <select id="payment">
-                    <option>Cash</option>
-                    <option>UPI/BHIM QR</option>
-                </select>
-            </div>
+toggleState("quotaToggle", "quota", false);
+toggleState("coachToggle", "wagon");
+toggleState("brdStnToggle", "brdStn");
 
-            <div class="form-group">
-			<label>Mobile Number</label>
-                <input
-                    class="mobile"
-                    id="mobile"
-                    type="number"
-                    maxlength="10"
-                    placeholder="Mobile Number"
-                    required
-                    oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)">
-            </div>
-    		</div>
-        </div>
-	`;
-	div.innerHTML+=`
-        <button id="generate-btn" onclick="generate()">Generate</button>
-        <button onclick="copyText()">Copy</button>
-        <button onclick="clearAll()">Clear</button>
-        
-    
-    `;
-	setTomorrowDate();
-    document.getElementById("trainNumber").focus();
+function toggleFood(toggle) {
+  const checked = toggle.checked;
+  document.querySelectorAll(".food-toggle").forEach(cb => cb.checked = checked);
+  document.querySelectorAll(".food").forEach(select => {
+    select.disabled = !checked;
+    if (!checked) select.selectedIndex = 0;
+  });
 }
 
-function generateFunctions() { alert('Generate button was triggered!'); }
-    window.addEventListener('keydown', function(event) { 
-        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') { 
-            event.preventDefault(); // Stops browser save window 
-            document.getElementById('generate-btn').click(); // Clicks your button
-            } 
-        });
+// Berth Preference Logic
+document.addEventListener("focusin", e => {
+  if (e.target.classList.contains("berth")) e.target.dataset.previous = e.target.value;
+});
+
+document.addEventListener("change", e => {
+  if (!e.target.classList.contains("berth")) return;
+  const lbCount = [...document.querySelectorAll("#passArea .berth")].filter(s => s.value === "Lower (LB)").length;
+  if (lbCount > 2) e.target.value = e.target.dataset.previous || "No Preference";
+});
+
+const quotaSelect = document.getElementById("quota");
+const toggleDutyPassRows = () => {
+  const display = quotaSelect.value === "DP - DUTY PASS" ? "grid" : "none";
+  document.querySelectorAll(".duty-pass-row").forEach(row => row.style.display = display);
+};
+quotaSelect.addEventListener("change", toggleDutyPassRows);
+
+document.addEventListener("DOMContentLoaded", () => {
+  createPassRows();
+  setTomorrowDate();
+  updateButtonText();
+});
+
+function updateButtonText() {
+  const select = document.getElementById("bookmarkName");
+  document.getElementById("bookmarkLink").textContent = select.options[select.selectedIndex].text;
+}
+
+function createPassRows() {
+  const n = parseInt(document.getElementById("count").value);
+  const div = document.getElementById("passArea");
+  div.innerHTML = "";
+  if (isNaN(n) || n < 1) return;
+
+  const htmlRows = Array.from({ length: n }, (_, i) => `
+    <div class="passenger-row">
+      <div class="passenger-index">Psgn #0${i + 1}</div>
+      <div class="passenger-inputs">
+        <div class="input-group">
+          <span class="info-label">Passenger Name</span>
+          <input type="text" class="form-control name-input name" placeholder="Name" minlength="3" maxlength="16"
+            oninput="this.value = this.value.replace(/[^A-Za-z ]/g,'').toUpperCase().replace(/ {2,}/g, ' ');" required>
+        </div>
+        <div class="input-group">
+          <span class="info-label">Gender</span>
+          <select class="form-control gender"><option>Male</option><option>Female</option></select>
+        </div>
+        <div class="input-group">
+          <span class="info-label">Age</span>
+          <input type="number" class="form-control age" placeholder="Age" min="1" max="125" required
+            oninput="if(this.value > 125) this.value=125; if(this.value < 1 && this.value !== '') this.value=1;">
+        </div>
+        <div class="input-group">
+          <span class="info-label">Berth Preference</span>
+          <select class="form-control berth">
+            <option>No Preference</option><option>Lower (LB)</option><option>Middle (MB)</option>
+            <option>Upper (UB)</option><option>Side Lower (SL)</option><option>Side Upper (SU)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <span class="info-label">
+            <label class="switch"><input type="checkbox" class="food-toggle" onchange="toggleFood(this)"><span class="slider"></span></label>Food
+          </span>
+          <select class="form-control food" disabled>
+            <option>D- Denied</option><option>V- Veg</option><option>NV- Non Veg</option>
+            <option>JN- Jain Meal</option><option>VD- Diabetic Veg</option><option>ND- Diabetic Non Veg</option>
+          </select>
+        </div>
+        <div class="duty-pass-row">
+          <div class="input-group"><span class="info-label">Concession</span><input type="text" class="form-control concession" placeholder="Concession Code" required></div>
+          <div class="input-group"><span class="info-label">OTP</span><input type="text" class="form-control otp" placeholder="OTP Code" required></div>
+          <div class="input-group"><span class="info-label">UPN Code</span><input type="text" class="form-control upn" placeholder="UPN Code" required></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  div.innerHTML = htmlRows;
+
+  const berthOrder = ["Lower (LB)", "Lower (LB)", "Side Lower (SL)", "Side Upper (SU)", "Upper (UB)", "Upper (UB)"];
+  document.querySelectorAll("#passArea .berth").forEach((select, index) => {
+    select.value = berthOrder[index] || "No Preference";
+  });
+
+  toggleDutyPassRows();
+}
 
 function setTomorrowDate() {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    document.getElementById('date').valueAsDate = tomorrow;
+  const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+  const [day, month, year] = tomorrow.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).split("/");
+
+  const time = parseInt(tomorrow.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: false }).replace(':', ''), 10);
+  const coach = document.getElementById("coach");
+  
+  if (time >= 900 && time < 1000) coach.value = "3A - THIRD AC";
+  else if (time >= 1015 && time < 1100) coach.value = "SL - SLEEPER";
+
+  document.getElementById("date").value = `${day}.${month}.${year}`;
 }
 
-function generate(){
-	
-	let coach=document.getElementById("coach").value;
-	let train=document.getElementById("trainNumber").value;
-    let source=document.getElementById("source").value;
-    let destination=document.getElementById("destination").value;
-    let doj=document.getElementById("date").value;
-
-    const originalDate = doj;
-    const [year, month, day] = originalDate.split("-");
-    const formattedDate = `${day}.${month}.${year}`;
-
-    let names=document.querySelectorAll(".name");
-    let genders=document.querySelectorAll(".gender");
-    let ages=document.querySelectorAll(".age");
-    let berth=document.querySelectorAll(".berth");
-    let payment=document.getElementById("payment").value;
-    let mobile=document.getElementById("mobile").value;
-	// Validate passenger details
-	
-	if (train === "") {
-        alert("Please enter the Train Number");        
-        document.getElementById("trainNumber").focus();
-        return;
-    }
-
-    if (!/^\d{5}$/.test(train)) {
-        alert("Train Number must be exactly 5 digits.");
-        document.getElementById("train").focus();
-        return;
-    }
-
-	if (doj === "") {
-        alert("Please enter Date Of Journey");
-        document.getElementById("date").focus();
-        return;
-    }
-	if (source === "") {
-        alert("Please enter Source Station");
-        document.getElementById("source").focus();
-        return;
-    }
-	if (destination === "") {
-        alert("Please enter Destination Station");
-        document.getElementById("destination").focus();
-        return;
-    }
-
-	for (let i = 0; i < names.length; i++) {
-
-    		let name = names[i].value.trim();
-    		let age = ages[i].value.trim();
-    		if (name === "") {
-        		alert("Please enter Name for Passenger " + (i + 1));
-        		names[i].focus();
-        		return;
-    		}
-
-    if (name.length < 3 || name.length > 16) {
-        alert("Passenger " + (i + 1) + " name must be between 3 and 16 characters.");
-        names[i].focus();
-        return;
-    }
-	
-	if (!/^[A-Za-z ]+$/.test(name)) {
-    		alert("Passenger " + (i + 1) + " name can contain only alphabets.");
-    		names[i].focus();
-    		return;
-	}
-
-    if (age === "") {
-        alert("Please enter Age for Passenger " + (i + 1));
-        ages[i].focus();
-        return;
-    }
-	
-	let ageValue = parseInt(age);
-	if (isNaN(ageValue) || ageValue < 1 || ageValue > 125) {
-    		alert("Passenger " + (i + 1) + " age must be between 1 and 125.");
-    		ages[i].focus();
-    		return;
-	}
+function getDayName(dateString) {
+  const [day, month, year] = dateString.split(".").map(Number);
+  const date = new Date(year, month - 1, day);
+  return date.toLocaleDateString("en-IN", {
+    weekday: "long"
+  });
 }
 
-if (mobile === "") {
-    alert("Please enter Mobile Number.");
-    document.getElementById("mobile").focus();
+function formatDate(input) {
+  let v = input.value.replace(/\D/g, "").substring(0, 8);
+  let formatted = v.length > 0 ? v.substring(0, 2) : "";
+  if (v.length > 2) formatted += "." + v.substring(2, 4);
+  if (v.length > 4) formatted += "." + v.substring(4, 8);
+  input.value = formatted;
+}
+
+
+function closeSaveDialog() {
+  document.getElementById("saveDialog").classList.remove("show");
+}
+
+function newFormFromDialog() {
+  closeSaveDialog();
+  clearAll();
+}
+
+function showSaveDialog(fromFull, toFull, trainFull) {
+
+  const getVal = id => document.getElementById(id).value.trim();
+  const train = getVal("trainNumber");
+  const date = getVal("date");
+  const source = getVal("source");
+  const destination = getVal("destination");
+  const coach = getVal("coach");
+  const quota = getVal("quota");
+  const payment = getVal("payment");
+  const mobile = getVal("mobile");
+  const form = getVal("bookmarkName");
+  const passengers = [...document.querySelectorAll(".passenger-row")];
+
+  let passengerHTML = `
+
+    <div class="save-detail full">
+      <span class="save-detail-label">Train</span>
+      <span class="save-detail-value">${trainFull}</span>
+    </div>
+
+    <div class="save-detail">
+      <span class="save-detail-label">From</span>
+      <span class="save-detail-value">${fromFull}</span>
+    </div>
+    
+    <div class="save-detail">
+      <span class="save-detail-label">To</span>
+      <span class="save-detail-value">${toFull}</span>
+    </div>
+
+    <div class="save-detail">
+      <span class="save-detail-label">Journey Date</span>
+	    <span class="save-detail-value">${date}
+  		  <small class="journey-day">${getDayName(date)}</small>
+	    </span>
+    </div>    
+
+    <div class="save-detail">
+      <span class="save-detail-label">Class</span>
+      <span class="save-detail-value">${coach}</span>
+    </div>
+	
+	<div class="save-detail">
+        <span class="save-detail-label">Mobile</span>
+        <span class="save-detail-value">${mobile}</span>
+    </div>
+
+   <div class="save-detail full">
+    <span class="save-detail-label">Passenger Details</span>
+    <span class="save-detail-value">
+      ${passengers.map((row, i) => {
+        const name = row.querySelector(".name")?.value.trim() || "";
+        const gender = row.querySelector(".gender")?.value || "";
+        const age = row.querySelector(".age")?.value || "";
+        return `
+          <div style="
+            display:grid;
+            grid-template-columns:1fr .5fr .5fr;
+            gap:8px;
+            padding:7px 0;
+            border-bottom:${i < passengers.length - 1 ? "1px solid #e2e8f0" : "none"};
+          ">
+            <span>${i + 1}. ${name}</span>
+            <span>${gender}</span>
+            <span>${age} Y</span>
+          </div>
+        `;
+      }).join("")}
+    </span>
+  </div>
+  `;
+
+  document.getElementById("saveDetails").innerHTML = passengerHTML;
+
+  /* Use exactly the same generated bookmarklet */
+  const mainLink = document.getElementById("bookmarkLink");
+  const dialogLink = document.getElementById("dialogBookmarkLink");
+
+  dialogLink.href = mainLink.href;
+  dialogLink.textContent = mainLink.textContent;
+
+  dialogLink.setAttribute("draggable", "true");
+  document.getElementById("saveDialog").classList.add("show");
+}
+
+function getTrainName(trainNo) {
+    try {
+        const trains = trainsData[0]?.trains || [];
+        const train =trains.find
+			(t => String(t.number).trim() === String(trainNo).trim());
+        return train
+            ? `${train.number} - ${train.name}` : trainNo;
+    } catch (error) {
+        console.error("Train database error:",error);
+        return trainNo;
+    }
+}
+
+function getStationName(code) {
+    try {
+        const stations = stationsData[0] || [];
+        const station = stations.find
+			( s => String(s.code).trim().toUpperCase() === String(code).trim().toUpperCase());
+        return station
+            ? `${station.code} - ${station.name}` : code;
+    } catch (error) {
+        console.error("Station database error:", error );
+        return code;
+    }
+}
+
+function generate() {
+  const getVal = id => document.getElementById(id).value.trim();
+  const getEl = id => document.getElementById(id);
+  
+  const train = getVal("trainNumber"), doj = getVal("date"), source = getVal("source");
+  const destination = getVal("destination"), coach = getVal("coach"), quota = getVal("quota");
+  const payment = getVal("payment"), mobile = getVal("mobile");
+
+  // Basic Validations
+  if (!/^\d{5}$/.test(train)) return getEl("trainNumber").focus();
+  if (!doj) return getEl("date").focus();
+  if (!source) return getEl("source").focus();
+  if (!destination || source === destination) return getEl("destination").focus();
+  if (mobile && !/^\d{10}$/.test(mobile)) return getEl("mobile").focus();
+
+  // Elements mapping
+  const names = document.querySelectorAll(".name"), genders = document.querySelectorAll(".gender");
+  const ages = document.querySelectorAll(".age"), berths = document.querySelectorAll(".berth");
+  const foods = document.querySelectorAll(".food"), concessions = document.querySelectorAll(".concession");
+  const otps = document.querySelectorAll(".otp"), upns = document.querySelectorAll(".upn");
+
+  const passengerData = [];
+
+  for (let i = 0; i < names.length; i++) {
+    const name = names[i].value.trim(), age = parseInt(ages[i].value.trim());
+
+    if (!name || name.length < 3 || name.length > 16 || !/^[A-Za-z ]+$/.test(name)) return names[i].focus();
+    if (isNaN(age) || age < 1 || age > 125) return ages[i].focus();
+
+    let pObj = `  { name: "${name}", gender: "${genders[i].value}", age: "${age}", berth: "${berths[i].value}"`;
+    if (!foods[i].disabled) pObj += `, food: "${foods[i].value}"`;
+    if (quota === "DP - DUTY PASS") pObj += `, concession: "${concessions[i].value}", otp: "${otps[i].value}", upn: "${upns[i].value}"`;
+    pObj += ` }`;
+    
+    passengerData.push(pObj);
+  }
+
+  const bookmarkName = getVal("bookmarkName");
+  if (!bookmarkName) return getEl("bookmarkName").focus();
+
+  const generatedScript = `javascript:(async function(){
+const passengers = [
+${passengerData.join(',\n')}
+];
+
+const TrainNo = "${train}";
+const JDate = "${doj}";
+const from = "${source}";
+const to = "${destination}";
+const coach = "${coach}";
+const quota = "${quota}";
+const mobileNumber = "${mobile}";
+const PaymentMode = "${payment}";
+
+function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+function setAngularValue(element, value) {
+  if (!element) return;
+  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+  setter.call(element, value);
+  element.dispatchEvent(new Event("input", { bubbles: true }));
+  element.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+async function selectMatOption(placeholder, optionText, index = 0, fallback = null) {
+  const selects = [...document.querySelectorAll('mat-select')].filter(el => el.getAttribute("placeholder") === placeholder);
+  if (!selects[index]) return;
+  selects[index].click();
+
+  while (true) {
+    const options = [...document.querySelectorAll(".mat-option-text")];
+    let option = options.find(el => el.textContent.trim() == optionText) || 
+                 (fallback ? options.find(el => el.textContent.trim() == fallback) : null);
+    if (option) {
+      option.click();
+      await sleep(200);
+      return;
+    }
+    await sleep(50);
+  }
+}
+
+async function selectTrain(optionText) {
+  const option = [...document.querySelectorAll(".mat-option-text")].find(el => el.textContent.trim().startsWith(optionText));
+  if (option) {
+    option.click();
+    await sleep(200);
     return;
+  }
+  await sleep(50);
 }
 
-if (!/^\d{10}$/.test(mobile)) {
-    alert("Mobile Number must be exactly 10 digits.");
-    document.getElementById("mobile").focus();
-    return;
+async function fillTrain(TrainNo) {
+  const tNO = document.querySelector('input[name="inputTrainNo"]');
+  if (tNO) {
+    setAngularValue(tNO, TrainNo);
+    tNO.click();
+    await selectTrain(TrainNo);
+  }
 }
+
+async function fillDate(JDate) {
+  const date = document.querySelector('input[name="journeyDate"]');
+  if (date) setAngularValue(date, JDate);
+}
+
+async function nofPsng(passengers) {
+  const input = document.querySelector('input[data-placeholder="No. of Passengers"]') || document.querySelector('input[data-placeholder="No of Adults"]');
+  if (!input) return;
+  setAngularValue(input, passengers.length);
+  input.dispatchEvent(new Event("blur", { bubbles: true }));
+}
+
+async function waitAndSetLocation(placeholderList, val) {
+  const input = document.querySelector(\`input[data-placeholder="\${placeholderList[0]}"]\`) || 
+                document.querySelector(\`input[data-placeholder="\${placeholderList[1]}"]\`);
+  if (!input) return;
+  while (!input.value.trim()) await sleep(100);
+  setAngularValue(input, val);
+  input.click();
+  await selectTrain(val);
+}
+
+async function Class(coach) {
+  const desti = document.querySelector('input[data-placeholder="Journey To"]') || document.querySelector('input[data-placeholder="Destination"]');
+  if (!desti) return;
+  while (!desti.value.trim()) await sleep(100);
+  await selectMatOption("Class", coach);
+}
+
+async function execute() {
+  await fillTrain(TrainNo);
+  await fillDate(JDate);
+  await nofPsng(passengers);
+  await Class(coach);
+  await waitAndSetLocation(["Journey From", "Source"], from);
+  await waitAndSetLocation(["Journey To", "Destination"], to);
+  if (quota === "DP - DUTY PASS") await selectMatOption("Quota", quota);
+}
+
+async function psngForm(passengers, mobileNumber, PaymentMode) {
+  const nameInputs = document.querySelectorAll('input[formcontrolname="psgnName"]');
+  const ageInputs = document.querySelectorAll('input[formcontrolname="psgnAge"]');
+
+  passengers.forEach((p, i) => {
+    if (nameInputs[i]) setAngularValue(nameInputs[i], p.name.toUpperCase());
+    if (ageInputs[i]) setAngularValue(ageInputs[i], p.age);
+  });
+
+  const mobileInput = document.querySelector('input[formcontrolname="mobileNumber"]');
+  if (mobileInput) setAngularValue(mobileInput, mobileNumber);
+
+  for (let i = 0; i < passengers.length; i++) await selectMatOption("Gender", passengers[i].gender, i);
+  for (let i = 0; i < passengers.length; i++) await selectMatOption("Berth Preference", passengers[i].berth, i, "No Preference");
+  
+  if ("food" in passengers[0]) {
+    for (let i = 0; i < passengers.length; i++) await selectMatOption("Food", passengers[i].food, i);
+  }
+
+  await selectMatOption("PAYMENT TYPE", PaymentMode);
+}
+
+async function checkAvailabilityAndClickNext() {
+  const btn = document.querySelector('button[type="submit"].mat-raised-button.mat-accent');
+  if (btn) btn.click();
+  else {
+    const next = [...document.querySelectorAll('span.mat-button-wrapper')].find(el => el.textContent.trim() === 'Next');
+    if (next) next.closest('button').click();
+  }
+
+  document.getElementById('availability-box')?.remove();
+  const box = document.createElement('div');
+  box.id = 'availability-box';
+  Object.assign(box.style, {
+    position: 'fixed', top: '20px', right: '20px', zIndex: '999999', background: '#1f2937', color: '#fff',
+    padding: '16px 22px', borderRadius: '12px', font: '600 16px Arial, sans-serif', boxShadow: '0 8px 24px rgba(0,0,0,.3)',
+    minWidth: '320px', maxWidth: '500px', lineHeight: '1.5', transition: 'opacity .4s', opacity: '1'
+  });
+  box.textContent = '&#x1F504; Fetching Availability...';
+  document.body.appendChild(box);
+
+  while (true) {
+    const status = [...document.querySelectorAll('span.text-success')].find(el => el.textContent.includes('AVAILABILITY STATUS'));
+    if (status) {
+      box.textContent = '&#x1F4CB; ' + status.textContent.trim();
+      setTimeout(() => { box.style.opacity = '0'; setTimeout(() => box.remove(), 400); }, 5000);
+      return status.textContent.trim();
+    }
+    await sleep(200);
+  }
+}
+
+async function runPrs() {
+  if (window.location.href === "https://client.prs/enquiries/train/fare") {
+    await fillTrain(TrainNo);
+    await fillDate(JDate);
+    await nofPsng(passengers);
+    await waitAndSetLocation(["Journey From", "Source"], from);
+    await waitAndSetLocation(["Journey To", "Destination"], to);
+    await selectMatOption("Quota", quota === "TQ - TATKAL" ? "Tatkal" : "Normal");
+    await selectMatOption("Class", coach);
+    const fareBtn = [...document.querySelectorAll("span")].find(el => el.textContent.trim() === "Get Fare")?.closest("button");
+    if (fareBtn) fareBtn.click();
+  } else {
+    await execute();
+    await psngForm(passengers, mobileNumber, PaymentMode);
+    await checkAvailabilityAndClickNext();
+  }
+}
+
+await runPrs();
+})();`;
+
+  const link = getEl("bookmarkLink");
+  link.href = generatedScript;
+  link.setAttribute('draggable', 'true');
  
-	let text="javascript: ( async function () {\n const passengers = [\n";
-    for(let i=0;i<names.length;i++){
+  const fromFull = getStationName(source);
+  const toFull = getStationName(destination);
+  const trainFull = getTrainName(train);
 
-       	text+=`    {\n`;
-		text+=`        name: "${names[i].value}", gender: "${genders[i].value}", age: "${ages[i].value}", berth: "${berth[i].value}"\n`;
-		text+=`    }`;
+  showSaveDialog(fromFull, toFull, trainFull);
 
-        if(i!=names.length-1)
-            text+=",";
-
-        text+="\n";
-    }
-
-    text+=`];\n`;
-
-	text+=`const TrainNo = "${train}";\n`;
-	text+=`const JDate = "${formattedDate}";\n`;
-    text+=`const from = "${source}";\n`;
-    text+=`const to = "${destination}";\n`;
-    text+=`const coach = "${coach}";\n`;
-    text+=`const mobileNumber = "${mobile}";\n`;
-    text+=`const PaymentMode = "${payment}";`;
-	text+="\n\n";
-	const afterText = `YOUR ending TEXT HERE`;
-	text += afterText;
-	
-	let bookmarkName = document.getElementById("bookmarkName").value.trim();
-	if (bookmarkName === "") {
-    		alert("Please enter Bookmark Name.");
-    		document.getElementById("bookmarkName").focus();
-    		return;
-	}
-	let link = document.getElementById("bookmarkLink");
-	link.href = text;
-	link.textContent = "📑 " + bookmarkName;
-	link.style.display = "inline-block";
-
-    document.getElementById("output").value=text;
-	document.getElementById("output").style.display = "block";
 }
 
+function checkFormFilled() {
+  // Check Train, Date, Source, Destination
+  if (!/^\d{5}$/.test(document.getElementById("trainNumber").value)) return false;
+  if (document.getElementById("date").value === "") return false;
+  if (document.getElementById("source").value === "") return false;
+  if (document.getElementById("destination").value === "") return false;
 
-function copyText(){
+  // Check all Passengers
+  let names = document.querySelectorAll(".name");
+  let ages = document.querySelectorAll(".age");
+  if (names.length === 0) return false;
 
-    let txt=document.getElementById("output");
-    txt.select();
-    txt.setSelectionRange(0,99999);
-    navigator.clipboard.writeText(txt.value);
-    alert("Copied to Clipboard");
+  for (let i = 0; i < names.length; i++) {
+    let name = names[i].value.trim();
+    if (name === "" || name.length < 3 || !/^[A-Za-z ]+$/.test(name)) return false;
+    
+    let ageValue = parseInt(ages[i].value);
+    if (isNaN(ageValue) || ageValue < 1 || ageValue > 125) return false;
+  }
+  
+  // If it passes all checks, it's filled!
+  return true;
 }
-
 function clearAll() {
-    const output = document.getElementById("output");
-    const bookmarkLink = document.getElementById("bookmarkLink");
+  // 1. Determine if we should jump to the next form BEFORE clearing
+  const isFilled = checkFormFilled(); 
+  const formSelect = document.getElementById("bookmarkName");
+  let targetIndex = formSelect.selectedIndex;
+  
+  if (isFilled && targetIndex < formSelect.options.length - 1) {
+    targetIndex++;
+  }
 
-    document.getElementById("count").selectedIndex = 0;
-    document.getElementById("formArea").innerHTML = "";
+  // 2. Clear inputs
+  document.querySelectorAll("input").forEach(input => {
+    if (input.type === "checkbox" || input.type === "radio") input.checked = input.defaultChecked;
+    else input.value = "";
+  });
 
-    output.value = "";
-    output.style.display = "none";
+  trainDisplay.textContent = "";
+  fromDisplay.textContent = "";
+  toDisplay.textContent = "";
 
-    bookmarkLink.style.display = "none";
-    bookmarkLink.href = "#";
+  // 3. Clear selects, but EXCLUDE the bookmarkName dropdown
+  document.querySelectorAll("select").forEach(select => {
+    if (select.id !== "bookmarkName") select.selectedIndex = 0;
+  });
+  
+  document.querySelectorAll("textarea").forEach(textarea => textarea.value = "");
+
+  ["brdStn", "wagon", "quota"].forEach(id => document.getElementById(id).disabled = true);
+
+  createPassRows();
+  setTomorrowDate();
+
+  const link = document.getElementById("bookmarkLink");
+  link.href = "#";
+  link.setAttribute('draggable', 'false');
+  
+  // 4. Apply the correct Form No index and update the button text
+  formSelect.selectedIndex = targetIndex;
+  updateButtonText();
 }
-
 </script>
 </body>
 </html>
