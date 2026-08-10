@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1280">
+    <title>IR Booking Form</title>
+    <link rel="icon" type="image/x-icon" href="images/railway-logo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="locked">
+    <div class="railway-label">
+        <div class="railway-title">INDIAN RAILWAY</div>
+        <div class="railway-line"></div>
+        <div class="railway-subtitle">
+            <span>SOUTH COAST RAILWAY</span>
+            <img src="images/railway-logo.png" alt="Railway Logo">
+            <span>GUNTAKAL DIVISION</span>
+        </div>
+    </div>
+    <div class="booking-container" id="page">
+        <div class="main-header">
+            <span>Kondapuram  •  कोंडापुरम  •  కొండాపురం</span>
+			<div class="header-clock">
+        		<div id="currentTime">00:00:00</div>
+        		<div id="currentDate">00.00.0000</div>
+    		</div>
+        </div>
+        <div class="jour-container">
+            <div class="left">Journey Details</div>
+            <div class="right">
+                <div class="journey-info-bar">
+                    <div class="info-block">
+                        <span class="info-label">Form No.</span>
+                        <div class="input-group">
+                            <select class="form-control" id="bookmarkName" onchange="updateButtonText()">
+                                <option>Form 1</option>
+                                <option>Form 2</option>
+                                <option>Form 3</option>
+                                <option>Form 4</option>
+                                <option>Form 5</option>
+                                <option>Form 6</option>
+                                <option>Form 7</option>
+                                <option>Form 8</option>
+                                <option>Form 9</option>
+                                <option>Form 10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-block">
+                        <div class="train-title">
+                            <span class="info-label">Train No.</span>
+                            <span id="trainDisplay" class="train-display"></span>
+                        </div>
+                        <div class="input-group">
+                            <input class="form-control" type="text" inputmode="numeric" id="trainNumber" placeholder="Train No" maxlength="5" pattern="[0-9]{5}" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 5)" required>
+                        </div>
+                    </div>
+                    <div class="info-block">
+                        <div class="train-title">
+                            <span class="info-label">Date</span>
+                            <span id="dateDisplay" class="train-display"></span>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="date" class="form-control" placeholder="Journey Date" maxlength="10" oninput="formatDate(this)" required>
+                        </div>
+                    </div>
+                    <div class="info-block">
+                        <div class="train-title">
+                            <span class="info-label">From</span>
+                            <span id="fromDisplay" class="train-display"></span>
+                        </div>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="source" placeholder="Source Code" oninput="
+                      this.value = this.value.replace(/[^A-Za-z]/g,'');
+                      this.value = this.value.toUpperCase();
+                      document.getElementById('brdStn').value = this.value;" required>
+                        </div>
+                    </div>
+                    <div class="info-block">
+                        <div class="train-title">
+                            <span class="info-label">To</span>
+                            <span id="toDisplay" class="train-display"></span>
+                        </div>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="destination" placeholder="Destination Code" oninput="
+                      this.value = this.value.replace(/[^A-Za-z]/g,'');
+                      this.value = this.value.toUpperCase();" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="journey-info-bar2">
+                    <div class="info-block">
+                        <span class="info-label">Class
+							<span class="class-indicators">
+                                <span class="class-indicator" data-class="SL">SL</span>
+                                <span class="class-indicator" data-class="3A">3A</span>
+                                <span class="class-indicator" data-class="3E">3E</span>
+                                <span class="class-indicator" data-class="2A">2A</span>
+                                <span class="class-indicator" data-class="1A">1A</span>
+                                <span class="class-indicator" data-class="2S">2S</span>
+                            </span>
+						</span>
+                        <div class="input-group">
+                            <select class="form-control" id="coach">
+                                <option>SL - SLEEPER</option>
+                                <option>3A - THIRD AC</option>
+                                <option>3E - THIRD AC ECONOMY</option>
+                                <option>2A - SECOND AC</option>
+                                <option>1A - FIRST AC</option>
+							    <option>2S - SECOND SEATING</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="info-block">
+                        <span class="info-label">No. of Passenger</span>
+                        <div class="input-group">
+                            <select class="form-control" id="count" onchange="createPassRows()">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">
+                            <label class="switch">
+                                <input type="checkbox" id="quotaToggle">
+                                <span class="slider"></span>
+                            </label>Quota
+                        </span>
+                        <div class="input-group">
+                            <select id="quota" class="form-control" disabled>
+                                <option>TQ - TATKAL</option>
+                                <option>PT - PREMIUM TATKAL</option>
+                                <option>GN - GENERAL</option>
+                                <option>DP - DUTY PASS</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">
+                            <label class="switch">
+                                <input type="checkbox" id="brdStnToggle">
+                                <span class="slider"></span>
+                            </label>Boarding Station
+                        </span>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="brdStn" placeholder="Boarding Station" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="passArea" class="passenger-section"></div>
+
+        <div class="jour-container">
+            <div class="left">Extras</div>
+            <div class="right">
+                <div class="extras-info-bar">
+
+                    <div class="info-block">
+                        <span class="info-label">10 Digit Mobile</span>
+                        <div class="mobile-input">
+                            <input type="number" class="form-control" id="mobile" placeholder="Mobile Number" maxlength="10" oninput="this.value = this.value.replace(/\D/g,'').slice(0, 10)">
+                        </div>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Payment Mode</span>
+                        <div class="input-group">
+                            <select class="form-control" id="payment">
+                                <option>Cash</option>
+                                <option>UPI/BHIM QR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-block">
+                        <div class="input-group">
+                            <span class="info-label">
+                                <label class="switch">
+                                    <input type="checkbox" id="coachToggle">
+                                    <span class="slider"></span>
+                                </label>Coach No
+                            </span>
+                            <input type="text" class="form-control" id="wagon" placeholder="Coach No." maxlength="4" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="buttonArea" class="button-Area">
+            <button class="modern-btn" onclick="generate()">Generate</button>
+            <button class="modern-btn" onclick="clearAll()">Reset</button>
+            <a id="bookmarkLink" href="#" draggable="false"></a>
+        </div>
+    </div>
+
+    <!-- Save Confirmation Dialog -->
+    <div id="saveDialog">
+        <div class="save-dialog-box">
+            <div class="save-dialog-title">Booking Form Generated !</div>
+            <div class="save-details" id="saveDetails"></div>
+            <div class="save-dialog-buttons">
+                <a id="dialogBookmarkLink" class="save-dialog-btn save-bookmark-btn" href="#" draggable="false" style="display:flex;align-items:center;justify-content:center;text-decoration:none;">
+                    &#x1F516; Bookmark
+                </a>
+                <button class="save-dialog-btn save-new-btn" onclick="newFormFromDialog()">&#xFF0B; New Form</button>
+                <button class="save-dialog-btn save-edit-btn" onclick="closeSaveDialog()">&#x270E; Edit</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="overlay">
+        <div class="lock-box" id="box">
+            <div class="lock-icon">
+                <img src="images/railway-logo.png" alt="Railway Logo">
+            </div>
+            <h2>INDIAN RAILWAYS</h2>
+            <input type="password" id="password" placeholder="Password" autocomplete="off">
+            <button id="login-btn" onclick="unlock()">Unlock</button>
+            <div id="error"></div>
+        </div>
+    </div>
+
+    <script src="js/stations.js"></script>
+    <script src="js/train_routes.js"></script>
+
+    <script>
+        const PASSWORD = "";
+        const passInput = document.getElementById("password");
+        passInput.focus();
+
+        const autologin = document.getElementById("login-btn");
+        autologin.click();
+
+        passInput.addEventListener("keydown", e => e.key === "Enter" && unlock());
+
+        function unlock() {
+            if (passInput.value === PASSWORD) {
+                document.body.classList.replace("locked", "unlocked");
+                document.getElementById("trainNumber").focus();
+            } else {
+                document.getElementById("error").innerText = "Incorrect Password";
+                const box = document.getElementById("box");
+                box.classList.remove("shake");
+                void box.offsetWidth; // Trigger reflow
+                box.classList.add("shake");
+                passInput.select();
+            }
+        }
+
+        function logout() {
+            clearAll();
+            document.body.classList.replace("unlocked", "locked");
+            passInput.value = "";
+            setTimeout(() => passInput.focus(), 350);
+            document.getElementById("error").innerText = "";
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.altKey && event.key === "Enter") {
+                event.preventDefault();
+                generate();
+            }
+        });
+
+        // Reusable toggle handler
+        const toggleState = (toggleId, inputId, clearOnDisable = true) => {
+            const toggle = document.getElementById(toggleId);
+            const input = document.getElementById(inputId);
+            if (!toggle || !input) return;
+            toggle.addEventListener("change", () => {
+                input.disabled = !toggle.checked;
+                if (!toggle.checked && clearOnDisable) input.value = "";
+            });
+        };
+
+        toggleState("quotaToggle", "quota", false);
+        toggleState("coachToggle", "wagon");
+        toggleState("brdStnToggle", "brdStn");
+
+        function toggleFood(toggle) {
+            const checked = toggle.checked;
+            document.querySelectorAll(".food-toggle").forEach(cb => cb.checked = checked);
+            document.querySelectorAll(".food").forEach(select => {
+                select.disabled = !checked;
+                if (!checked) select.selectedIndex = 0;
+            });
+        }
+
+        // Berth Preference Logic
+        document.addEventListener("focusin", e => {
+            if (e.target.classList.contains("berth")) e.target.dataset.previous = e.target.value;
+        });
+
+        document.addEventListener("change", e => {
+            if (!e.target.classList.contains("berth")) return;
+            const lbCount = [...document.querySelectorAll("#passArea .berth")].filter(s => s.value === "Lower (LB)").length;
+            if (lbCount > 2) e.target.value = e.target.dataset.previous || "No Preference";
+        });
+
+        const quotaSelect = document.getElementById("quota");
+        const toggleDutyPassRows = () => {
+            const display = quotaSelect.value === "DP - DUTY PASS" ? "grid" : "none";
+            document.querySelectorAll(".duty-pass-row").forEach(row => row.style.display = display);
+        };
+        quotaSelect.addEventListener("change", toggleDutyPassRows);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            createPassRows();
+            setTomorrowDate();
+            updateButtonText();
+        });
+
+        function updateButtonText() {
+            const select = document.getElementById("bookmarkName");
+            document.getElementById("bookmarkLink").textContent = select.options[select.selectedIndex].text;
+        }
+
+        function createPassRows() {
+            const n = parseInt(document.getElementById("count").value);
+            const div = document.getElementById("passArea");
+            div.innerHTML = "";
+            if (isNaN(n) || n < 1) return;
+
+            const htmlRows = Array.from({
+                length: n
+            }, (_, i) => `
+    <div class="passenger-row">
+      <div class="passenger-index">Psgn #0${i + 1}</div>
+      <div class="passenger-inputs">
+        <div class="input-group">
+          <span class="info-label">Passenger Name</span>
+          <input type="text" class="form-control name-input name" placeholder="Name" minlength="3" maxlength="16"
+            oninput="this.value = this.value.replace(/[^A-Za-z ]/g,'').toUpperCase().replace(/ {2,}/g, ' ');" required>
+        </div>
+        <div class="input-group">
+          <span class="info-label">Gender</span>
+          <select class="form-control gender"><option>Male</option><option>Female</option></select>
+        </div>
+        <div class="input-group">
+          <span class="info-label">Age</span>
+          <input type="number" class="form-control age" placeholder="Age" min="1" max="125" required
+            oninput="if(this.value > 125) this.value=125; if(this.value < 1 && this.value !== '') this.value=1;">
+        </div>
+        <div class="input-group">
+          <span class="info-label">Berth Preference</span>
+          <select class="form-control berth">
+            <option>No Preference</option><option>Lower (LB)</option><option>Middle (MB)</option>
+            <option>Upper (UB)</option><option>Side Lower (SL)</option><option>Side Upper (SU)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <span class="info-label">
+            <label class="switch"><input type="checkbox" class="food-toggle" onchange="toggleFood(this)"><span class="slider"></span></label>Food
+          </span>
+          <select class="form-control food" disabled>
+            <option>D- Denied</option><option>V- Veg</option><option>NV- Non Veg</option>
+            <option>JN- Jain Meal</option><option>VD- Diabetic Veg</option><option>ND- Diabetic Non Veg</option>
+          </select>
+        </div>
+        <div class="duty-pass-row">
+          <div class="input-group"><span class="info-label">Concession</span><input type="text" class="form-control concession" placeholder="Concession Code" required></div>
+          <div class="input-group"><span class="info-label">OTP</span><input type="text" class="form-control otp" placeholder="OTP Code" required></div>
+          <div class="input-group"><span class="info-label">UPN Code</span><input type="text" class="form-control upn" placeholder="UPN Code" required></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+            div.innerHTML = htmlRows;
+
+            const berthOrder = ["Lower (LB)", "Lower (LB)", "Side Lower (SL)", "Side Upper (SU)", "Upper (UB)", "Upper (UB)"];
+            document.querySelectorAll("#passArea .berth").forEach((select, index) => {
+                select.value = berthOrder[index] || "No Preference";
+            });
+
+            toggleDutyPassRows();
+        }
+
+        const journeyDate = document.getElementById("date");
+        const dateDisplay = document.getElementById("dateDisplay");
+
+        journeyDate.addEventListener("input", function () {
+            const value = this.value.trim();
+
+            // Hide day while typing
+            dateDisplay.textContent = "";
+
+            // Show day immediately after 10 digits/characters
+            if (value.length === 10) {
+                dateDisplay.textContent = getDayName(value);
+            }
+        });
+  
+        journeyDate.addEventListener("focus", function () {
+          this.select();
+        });
+
+        journeyDate.addEventListener("blur", function () {
+            let value = this.value.trim();
+            const now = new Date();
+            const [day, currentMonth, currentYear] = now.toLocaleDateString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).split("/");
+
+            // Only day: DD
+            if (/^\d{1,2}$/.test(value)) {
+                const day = value.padStart(2, "0");
+                this.value = `${day}.${currentMonth}.${currentYear}`;
+            }
+
+            // Day + month: DD.MM
+            else if (/^\d{1,2}\.\d{1,2}$/.test(value)) {
+                let [day, month] = value.split(".");
+                day = day.padStart(2, "0");
+                month = month.padStart(2, "0");
+                this.value = `${day}.${month}.${currentYear}`;
+            }
+        
+            // Day + month + incomplete year: DD.MM.Y / YY / YYY
+            else if (/^\d{2}\.\d{2}\.\d{1,3}$/.test(value)) {
+                let [day, month, year] = value.split(".");
+                year = currentYear.toString();
+                this.value = `${day}.${month}.${year}`;
+            }
+
+            // Update day name
+            if (/^\d{2}\.\d{2}\.\d{4}$/.test(this.value)) {
+                dateDisplay.textContent = getDayName(this.value);
+            } else {
+                dateDisplay.textContent = "";
+            }
+        });
+
+        function setTomorrowDate() {
+            const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+            const [day, month, year] = tomorrow.toLocaleDateString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).split("/");
+
+            document.getElementById("dateDisplay").textContent = getDayName(`${day}.${month}.${year}`);
+
+            const time = parseInt(tomorrow.toLocaleTimeString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }).replace(':', ''), 10);
+            const coach = document.getElementById("coach");
+
+            if (time >= 900 && time < 1000) coach.value = "3A - THIRD AC";
+            else if (time >= 1015 && time < 1100) coach.value = "SL - SLEEPER";
+
+            document.getElementById("date").value = `${day}.${month}.${year}`;
+        }
+
+        function getDayName(dateString) {
+            const [day, month, year] = dateString.split(".").map(Number);
+            const date = new Date(year, month - 1, day);
+            return date.toLocaleDateString("en-IN", {
+                weekday: "long"
+            });
+        }
+
+        function formatDate(input) {
+            let v = input.value.replace(/\D/g, "").substring(0, 8);
+            let formatted = v.length > 0 ? v.substring(0, 2) : "";
+            if (v.length > 2) formatted += "." + v.substring(2, 4);
+            if (v.length > 4) formatted += "." + v.substring(4, 8);
+            input.value = formatted;
+        }
+		
+		function updateClassIndicator() {
+    			const coach = document.getElementById("coach");
+    			const selectedClass = coach.value.substring(0, 2).trim();
+    			document.querySelectorAll(".class-indicator").forEach(indicator => {
+        			indicator.classList.toggle(
+            			"active",
+            			indicator.dataset.class === selectedClass
+        			);
+    			});
+		}
+		document.getElementById("coach").addEventListener("change", updateClassIndicator);
+		// Set initial selected class
+		updateClassIndicator();
+		
+		function updateClock() {
+            const now = new Date();
+
+            const time = now.toLocaleTimeString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+
+            const date = now.toLocaleDateString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }).replace(/\//g, '.');
+
+            const day = now.toLocaleDateString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                weekday: 'long'
+            });
+
+            document.getElementById('currentTime').textContent = time;
+            document.getElementById('currentDate').textContent = `${day} • ${date}`;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        function closeSaveDialog() {
+            document.getElementById("saveDialog").classList.remove("show");
+        }
+
+        function newFormFromDialog() {
+            closeSaveDialog();
+            clearAll();
+        }
+
+        function showSaveDialog(fromFull, toFull, trainFull) {
+
+            const getVal = id => document.getElementById(id).value.trim();
+            const train = getVal("trainNumber");
+            const date = getVal("date");
+            const source = getVal("source");
+            const destination = getVal("destination");
+            const coach = getVal("coach");
+            const quota = getVal("quota");
+            const payment = getVal("payment");
+            const mobile = getVal("mobile");
+            const form = getVal("bookmarkName");
+            const passengers = [...document.querySelectorAll(".passenger-row")];
+
+            let passengerHTML = `
+
+    <div class="save-detail full">
+      <span class="save-detail-label">Train</span>
+      <span class="save-detail-value">${trainFull}</span>
+    </div>
+
+    <div class="save-detail">
+      <span class="save-detail-label">From</span>
+      <span class="save-detail-value">${fromFull}</span>
+    </div>
+    
+    <div class="save-detail">
+      <span class="save-detail-label">To</span>
+      <span class="save-detail-value">${toFull}</span>
+    </div>
+
+    <div class="save-detail">
+      <span class="save-detail-label">Journey Date</span>
+	    <span class="save-detail-value">${date}
+  		  <small class="journey-day">${getDayName(date)}</small>
+	    </span>
+    </div>    
+
+    <div class="save-detail">
+      <span class="save-detail-label">Class</span>
+      <span class="save-detail-value">${coach}</span>
+    </div>
+	
+	<div class="save-detail">
+        <span class="save-detail-label">Mobile</span>
+        <span class="save-detail-value">${mobile}</span>
+    </div>
+
+   <div class="save-detail full">
+    <span class="save-detail-label">Passenger Details</span>
+    <span class="save-detail-value">
+      ${passengers.map((row, i) => {
+        const name = row.querySelector(".name")?.value.trim() || "";
+        const gender = row.querySelector(".gender")?.value || "";
+        const age = row.querySelector(".age")?.value || "";
+        return `
+          <div style="
+            display:grid;
+            grid-template-columns:1fr .5fr .5fr;
+            gap:8px;
+            padding:7px 0;
+            border-bottom:${i < passengers.length - 1 ? "1px solid #e2e8f0" : "none"};
+          ">
+            <span>${i + 1}. ${name}</span>
+            <span>${gender}</span>
+            <span>${age} Y</span>
+          </div>
+        `;
+      }).join("")}
+    </span>
+  </div>
+  `;
+
+            document.getElementById("saveDetails").innerHTML = passengerHTML;
+
+            /* Use exactly the same generated bookmarklet */
+            const mainLink = document.getElementById("bookmarkLink");
+            const dialogLink = document.getElementById("dialogBookmarkLink");
+
+            dialogLink.href = mainLink.href;
+            dialogLink.textContent = mainLink.textContent;
+
+            dialogLink.setAttribute("draggable", "true");
+            document.getElementById("saveDialog").classList.add("show");
+        }
+
+        function getTrainName(trainNo) {
+          try {
+              const train = trainRoutes[String(trainNo).trim()];
+              return train
+                 ? `${trainNo} - ${train.name}`
+                 : trainNo;
+         } catch (error) {
+              console.error("Train database error:", error);
+              return trainNo;
+         }
+        }
+
+        function getStationName(code) {
+            try {
+                const stations = stationsData[0] || [];
+                const station = stations.find(s => String(s.code).trim().toUpperCase() === String(code).trim().toUpperCase());
+                return station ?
+                    `${station.code} - ${station.name}` : code;
+            } catch (error) {
+                console.error("Station database error:", error);
+                return code;
+            }
+        }
+
+        function generate() {
+            const getVal = id => document.getElementById(id).value.trim();
+            const getEl = id => document.getElementById(id);
+
+            const train = getVal("trainNumber"),
+                doj = getVal("date"),
+                source = getVal("source");
+            const destination = getVal("destination"),
+                coach = getVal("coach"),
+                quota = getVal("quota");
+            const payment = getVal("payment"),
+                mobile = getVal("mobile");
+
+            // Basic Validations
+            if (!/^\d{5}$/.test(train)) return getEl("trainNumber").focus();
+            if (!doj) return getEl("date").focus();
+            if (!source) return getEl("source").focus();
+            if (!destination || source === destination) return getEl("destination").focus();
+            if (mobile && !/^\d{10}$/.test(mobile)) return getEl("mobile").focus();
+
+            // Elements mapping
+            const names = document.querySelectorAll(".name"),
+                genders = document.querySelectorAll(".gender");
+            const ages = document.querySelectorAll(".age"),
+                berths = document.querySelectorAll(".berth");
+            const foods = document.querySelectorAll(".food"),
+                concessions = document.querySelectorAll(".concession");
+            const otps = document.querySelectorAll(".otp"),
+                upns = document.querySelectorAll(".upn");
+
+            const passengerData = [];
+
+            for (let i = 0; i < names.length; i++) {
+                const name = names[i].value.trim(),
+                    age = parseInt(ages[i].value.trim());
+
+                if (!name || name.length < 3 || name.length > 16 || !/^[A-Za-z ]+$/.test(name)) return names[i].focus();
+                if (isNaN(age) || age < 1 || age > 125) return ages[i].focus();
+
+                let pObj = `  { name: "${name}", gender: "${genders[i].value}", age: "${age}", berth: "${berths[i].value}"`;
+                if (!foods[i].disabled) pObj += `, food: "${foods[i].value}"`;
+                if (quota === "DP - DUTY PASS") pObj += `, concession: "${concessions[i].value}", otp: "${otps[i].value}", upn: "${upns[i].value}"`;
+                pObj += ` }`;
+
+                passengerData.push(pObj);
+            }
+
+            const bookmarkName = getVal("bookmarkName");
+            if (!bookmarkName) return getEl("bookmarkName").focus();
+
+            const generatedScript = `javascript:(async function(){
+const passengers = [
+${passengerData.join(',\n')}
+];
+
+const TrainNo = "${train}";
+const JDate = "${doj}";
+const from = "${source}";
+const to = "${destination}";
+const coach = "${coach}";
+const quota = "${quota}";
+const mobileNumber = "${mobile}";
+const PaymentMode = "${payment}";
+
+function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+function setAngularValue(element, value) {
+  if (!element) return;
+  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+  setter.call(element, value);
+  element.dispatchEvent(new Event("input", { bubbles: true }));
+  element.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+async function selectMatOption(placeholder, optionText, index = 0, fallback = null) {
+  const selects = [...document.querySelectorAll('mat-select')].filter(el => el.getAttribute("placeholder") === placeholder);
+  if (!selects[index]) return;
+  selects[index].click();
+
+  while (true) {
+    const options = [...document.querySelectorAll(".mat-option-text")];
+    let option = options.find(el => el.textContent.trim() == optionText) || 
+                 (fallback ? options.find(el => el.textContent.trim() == fallback) : null);
+    if (option) {
+      option.click();
+      await sleep(200);
+      return;
+    }
+    await sleep(50);
+  }
+}
+
+async function selectTrain(optionText) {
+  const option = [...document.querySelectorAll(".mat-option-text")].find(el => el.textContent.trim().startsWith(optionText));
+  if (option) {
+    option.click();
+    await sleep(200);
+    return;
+  }
+  await sleep(50);
+}
+
+async function fillTrain(TrainNo) {
+  const tNO = document.querySelector('input[name="inputTrainNo"]');
+  if (tNO) {
+    setAngularValue(tNO, TrainNo);
+    tNO.click();
+    await selectTrain(TrainNo);
+  }
+}
+
+async function fillDate(JDate) {
+  const date = document.querySelector('input[name="journeyDate"]');
+  if (date) setAngularValue(date, JDate);
+}
+
+async function nofPsng(passengers) {
+  const input = document.querySelector('input[data-placeholder="No. of Passengers"]') || document.querySelector('input[data-placeholder="No of Adults"]');
+  if (!input) return;
+  setAngularValue(input, passengers.length);
+  input.dispatchEvent(new Event("blur", { bubbles: true }));
+}
+
+async function waitAndSetLocation(placeholderList, val) {
+  const input = document.querySelector(\`input[data-placeholder="\${placeholderList[0]}"]\`) || 
+                document.querySelector(\`input[data-placeholder="\${placeholderList[1]}"]\`);
+  if (!input) return;
+  while (!input.value.trim()) await sleep(100);
+  setAngularValue(input, val);
+  input.click();
+  await selectTrain(val);
+}
+
+async function Class(coach) {
+  const desti = document.querySelector('input[data-placeholder="Journey To"]') || document.querySelector('input[data-placeholder="Destination"]');
+  if (!desti) return;
+  while (!desti.value.trim()) await sleep(100);
+  await selectMatOption("Class", coach);
+}
+
+async function execute() {
+  await fillTrain(TrainNo);
+  await fillDate(JDate);
+  await nofPsng(passengers);
+  await Class(coach);
+  await waitAndSetLocation(["Journey From", "Source"], from);
+  await waitAndSetLocation(["Journey To", "Destination"], to);
+  if (quota === "DP - DUTY PASS") await selectMatOption("Quota", quota);
+}
+
+async function psngForm(passengers, mobileNumber, PaymentMode) {
+  const nameInputs = document.querySelectorAll('input[formcontrolname="psgnName"]');
+  const ageInputs = document.querySelectorAll('input[formcontrolname="psgnAge"]');
+
+  passengers.forEach((p, i) => {
+    if (nameInputs[i]) setAngularValue(nameInputs[i], p.name.toUpperCase());
+    if (ageInputs[i]) setAngularValue(ageInputs[i], p.age);
+  });
+
+  const mobileInput = document.querySelector('input[formcontrolname="mobileNumber"]');
+  if (mobileInput) setAngularValue(mobileInput, mobileNumber);
+
+  for (let i = 0; i < passengers.length; i++) await selectMatOption("Gender", passengers[i].gender, i);
+  for (let i = 0; i < passengers.length; i++) await selectMatOption("Berth Preference", passengers[i].berth, i, "No Preference");
+  
+  if ("food" in passengers[0]) {
+    for (let i = 0; i < passengers.length; i++) await selectMatOption("Food", passengers[i].food, i);
+  }
+
+  await selectMatOption("PAYMENT TYPE", PaymentMode);
+}
+
+async function checkAvailabilityAndClickNext() {
+  const btn = document.querySelector('button[type="submit"].mat-raised-button.mat-accent');
+  if (btn) btn.click();
+  else {
+    const next = [...document.querySelectorAll('span.mat-button-wrapper')].find(el => el.textContent.trim() === 'Next');
+    if (next) next.closest('button').click();
+  }
+
+  document.getElementById('availability-box')?.remove();
+  const box = document.createElement('div');
+  box.id = 'availability-box';
+  Object.assign(box.style, {
+    position: 'fixed', top: '20px', right: '20px', zIndex: '999999', background: '#1f2937', color: '#fff',
+    padding: '16px 22px', borderRadius: '12px', font: '600 16px Arial, sans-serif', boxShadow: '0 8px 24px rgba(0,0,0,.3)',
+    minWidth: '320px', maxWidth: '500px', lineHeight: '1.5', transition: 'opacity .4s', opacity: '1'
+  });
+  box.textContent = '&#x1F504; Fetching Availability...';
+  document.body.appendChild(box);
+
+  while (true) {
+    const status = [...document.querySelectorAll('span.text-success')].find(el => el.textContent.includes('AVAILABILITY STATUS'));
+    if (status) {
+      box.textContent = '&#x1F4CB; ' + status.textContent.trim();
+      setTimeout(() => { box.style.opacity = '0'; setTimeout(() => box.remove(), 400); }, 5000);
+      return status.textContent.trim();
+    }
+    await sleep(200);
+  }
+}
+
+async function runPrs() {
+  if (window.location.href === "https://client.prs/enquiries/train/fare") {
+    await fillTrain(TrainNo);
+    await fillDate(JDate);
+    await nofPsng(passengers);
+    await waitAndSetLocation(["Journey From", "Source"], from);
+    await waitAndSetLocation(["Journey To", "Destination"], to);
+    await selectMatOption("Quota", quota === "TQ - TATKAL" ? "Tatkal" : "Normal");
+    await selectMatOption("Class", coach);
+    const fareBtn = [...document.querySelectorAll("span")].find(el => el.textContent.trim() === "Get Fare")?.closest("button");
+    if (fareBtn) fareBtn.click();
+  } else {
+    await execute();
+    await psngForm(passengers, mobileNumber, PaymentMode);
+    await checkAvailabilityAndClickNext();
+  }
+}
+
+await runPrs();
+})();`;
+
+            const link = getEl("bookmarkLink");
+            link.href = generatedScript;
+            link.setAttribute('draggable', 'true');
+
+            const fromFull = getStationName(source);
+            const toFull = getStationName(destination);
+            const trainFull = getTrainName(train);
+
+            showSaveDialog(fromFull, toFull, trainFull);
+
+        }
+
+        function checkFormFilled() {
+            // Check Train, Date, Source, Destination
+            if (!/^\d{5}$/.test(document.getElementById("trainNumber").value)) return false;
+            if (document.getElementById("date").value === "") return false;
+            if (document.getElementById("source").value === "") return false;
+            if (document.getElementById("destination").value === "") return false;
+
+            // Check all Passengers
+            let names = document.querySelectorAll(".name");
+            let ages = document.querySelectorAll(".age");
+            if (names.length === 0) return false;
+
+            for (let i = 0; i < names.length; i++) {
+                let name = names[i].value.trim();
+                if (name === "" || name.length < 3 || !/^[A-Za-z ]+$/.test(name)) return false;
+
+                let ageValue = parseInt(ages[i].value);
+                if (isNaN(ageValue) || ageValue < 1 || ageValue > 125) return false;
+            }
+
+            // If it passes all checks, it's filled!
+            return true;
+        }
+
+        function clearAll() {
+            // 1. Determine if we should jump to the next form BEFORE clearing
+            const isFilled = checkFormFilled();
+            const formSelect = document.getElementById("bookmarkName");
+            let targetIndex = formSelect.selectedIndex;
+
+            if (isFilled && targetIndex < formSelect.options.length - 1) {
+                targetIndex++;
+            }
+
+            // 2. Clear inputs
+            document.querySelectorAll("input").forEach(input => {
+                if (input.type === "checkbox" || input.type === "radio") input.checked = input.defaultChecked;
+                else input.value = "";
+            });
+
+            trainDisplay.textContent = "";
+            fromDisplay.textContent = "";
+            toDisplay.textContent = "";
+
+            // 3. Clear selects, but EXCLUDE the bookmarkName dropdown
+            document.querySelectorAll("select").forEach(select => {
+                if (select.id !== "bookmarkName") select.selectedIndex = 0;
+            });
+
+            document.querySelectorAll("textarea").forEach(textarea => textarea.value = "");
+
+            ["brdStn", "wagon", "quota"].forEach(id => document.getElementById(id).disabled = true);
+
+            createPassRows();
+            setTomorrowDate();
+
+            const link = document.getElementById("bookmarkLink");
+            link.href = "#";
+            link.setAttribute('draggable', 'false');
+
+            // 4. Apply the correct Form No index and update the button text
+            formSelect.selectedIndex = targetIndex;
+            updateButtonText();
+        }
+    </script>
+    <script src="js/autocomplete.js"></script>
+</body>
+
+</html>
