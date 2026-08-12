@@ -131,6 +131,12 @@
                                 <input type="checkbox" id="quotaToggle">
                                 <span class="slider"></span>
                             </label>Quota
+							<span class="quota-indicators">
+                                <span class="quota-indicator" data-quota="TQ">TQ</span>
+                                <span class="quota-indicator" data-quota="PT">PT</span>
+                                <span class="quota-indicator" data-quota="GN">GN</span>
+                                <span class="quota-indicator" data-quota="DP">DP</span>
+                            </span>
                         </span>
                         <div class="input-group">
                             <select id="quota" class="form-control" disabled>
@@ -146,7 +152,7 @@
                             <label class="switch">
                                 <input type="checkbox" id="brdStnToggle">
                                 <span class="slider"></span>
-                            </label>Boarding Station
+                            </label>Boarding
                         </span>
                         <div class="input-group">
                             <input class="form-control" type="text" id="brdStn" placeholder="Boarding Station" disabled>
@@ -162,13 +168,15 @@
             <div class="left">Extras</div>
             <div class="right">
                 <div class="extras-info-bar">
+                 
+					<div class="info-block">
+    						<span class="info-label">10 Digit Mobile</span>
+    						<div class="mobile-input">
+        						<span class="country-code">+91</span>
+        						<input type="tel" class="form-control" id="mobile" placeholder="Mobile Number" maxlength="10" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)">
+    						</div>
+					</div>
 
-                    <div class="info-block">
-                        <span class="info-label">10 Digit Mobile</span>
-                        <div class="mobile-input">
-                            <input type="number" class="form-control" id="mobile" placeholder="Mobile Number" maxlength="10" oninput="this.value = this.value.replace(/\D/g,'').slice(0, 10)">
-                        </div>
-                    </div>
                     <div class="info-block">
                         <span class="info-label">Payment Mode</span>
                         <div class="input-group">
@@ -196,9 +204,24 @@
         <div id="buttonArea" class="button-Area">
             <button class="modern-btn" onclick="generate()">Generate</button>
             <button class="modern-btn" onclick="clearAll()">Reset</button>
+			<button class="modern-btn" onclick="openImportBox()">Import</button>
             <a id="bookmarkLink" href="#" draggable="false"></a>
         </div>
     </div>
+	
+	<div id="importOverlay" class="import-overlay">
+        <div class="import-box">
+            <textarea
+                id="bookmarkletInput"
+                placeholder="Paste bookmarklet here..."
+                spellcheck="false">
+            </textarea>
+            <div class="import-actions">
+                <button type="button" class="import-next-btn" onclick="importBookmarklet()">Next</button>
+                <button type="button" class="import-close-btn" onclick="closeImportBox()">Close</button>
+            </div>
+        </div>
+	</div>
 
     <!-- Save Confirmation Dialog -->
     <div id="saveDialog">
@@ -321,6 +344,28 @@
             const select = document.getElementById("bookmarkName");
             document.getElementById("bookmarkLink").textContent = select.options[select.selectedIndex].text;
         }
+		
+        function openImportBox() {
+            const overlay = document.getElementById("importOverlay");
+            const input = document.getElementById("bookmarkletInput");
+
+            overlay.style.display = "flex";
+
+            // Make sure old text/selection doesn't affect placeholder
+            input.value = "";
+            input.scrollTop = 0;
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    input.focus();
+                });
+            });
+        }
+		
+		function closeImportBox() {
+            document.getElementById("importOverlay").style.display = "none";
+            document.getElementById("bookmarkletInput").value = "";
+      }
 
         function createPassRows() {
             const n = parseInt(document.getElementById("count").value);
@@ -496,6 +541,20 @@
 		// Set initial selected class
 		updateClassIndicator();
 		
+		function updateQuotaIndicator() {
+    			const quota = document.getElementById("quota");
+    			const selectedQuota = quota.value.substring(0, 2).trim();
+    			document.querySelectorAll(".quota-indicator").forEach(indicator => {
+        			indicator.classList.toggle(
+            			"active",
+            			indicator.dataset.quota === selectedQuota
+        			);
+    			});
+		}
+		document.getElementById("quota").addEventListener("change", updateQuotaIndicator);
+		// Set initial selected class
+		updateQuotaIndicator();
+		
 		function updateClock() {
             const now = new Date();
 
@@ -645,241 +704,6 @@
             }
         }
 
-        function generate() {
-            const getVal = id => document.getElementById(id).value.trim();
-            const getEl = id => document.getElementById(id);
-
-            const train = getVal("trainNumber"),
-                doj = getVal("date"),
-                source = getVal("source");
-            const destination = getVal("destination"),
-                coach = getVal("coach"),
-                quota = getVal("quota");
-            const payment = getVal("payment"),
-                mobile = getVal("mobile");
-
-            // Basic Validations
-            if (!/^\d{5}$/.test(train)) return getEl("trainNumber").focus();
-            if (!doj) return getEl("date").focus();
-            if (!source) return getEl("source").focus();
-            if (!destination || source === destination) return getEl("destination").focus();
-            if (mobile && !/^\d{10}$/.test(mobile)) return getEl("mobile").focus();
-
-            // Elements mapping
-            const names = document.querySelectorAll(".name"),
-                genders = document.querySelectorAll(".gender");
-            const ages = document.querySelectorAll(".age"),
-                berths = document.querySelectorAll(".berth");
-            const foods = document.querySelectorAll(".food"),
-                concessions = document.querySelectorAll(".concession");
-            const otps = document.querySelectorAll(".otp"),
-                upns = document.querySelectorAll(".upn");
-
-            const passengerData = [];
-
-            for (let i = 0; i < names.length; i++) {
-                const name = names[i].value.trim(),
-                    age = parseInt(ages[i].value.trim());
-
-                if (!name || name.length < 3 || name.length > 16 || !/^[A-Za-z ]+$/.test(name)) return names[i].focus();
-                if (isNaN(age) || age < 1 || age > 125) return ages[i].focus();
-
-                let pObj = `  { name: "${name}", gender: "${genders[i].value}", age: "${age}", berth: "${berths[i].value}"`;
-                if (!foods[i].disabled) pObj += `, food: "${foods[i].value}"`;
-                if (quota === "DP - DUTY PASS") pObj += `, concession: "${concessions[i].value}", otp: "${otps[i].value}", upn: "${upns[i].value}"`;
-                pObj += ` }`;
-
-                passengerData.push(pObj);
-            }
-
-            const bookmarkName = getVal("bookmarkName");
-            if (!bookmarkName) return getEl("bookmarkName").focus();
-
-            const generatedScript = `javascript:(async function(){
-const passengers = [
-${passengerData.join(',\n')}
-];
-
-const TrainNo = "${train}";
-const JDate = "${doj}";
-const from = "${source}";
-const to = "${destination}";
-const coach = "${coach}";
-const quota = "${quota}";
-const mobileNumber = "${mobile}";
-const PaymentMode = "${payment}";
-
-function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-
-function setAngularValue(element, value) {
-  if (!element) return;
-  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
-  setter.call(element, value);
-  element.dispatchEvent(new Event("input", { bubbles: true }));
-  element.dispatchEvent(new Event("change", { bubbles: true }));
-}
-
-async function selectMatOption(placeholder, optionText, index = 0, fallback = null) {
-  const selects = [...document.querySelectorAll('mat-select')].filter(el => el.getAttribute("placeholder") === placeholder);
-  if (!selects[index]) return;
-  selects[index].click();
-
-  while (true) {
-    const options = [...document.querySelectorAll(".mat-option-text")];
-    let option = options.find(el => el.textContent.trim() == optionText) || 
-                 (fallback ? options.find(el => el.textContent.trim() == fallback) : null);
-    if (option) {
-      option.click();
-      await sleep(200);
-      return;
-    }
-    await sleep(50);
-  }
-}
-
-async function selectTrain(optionText) {
-  const option = [...document.querySelectorAll(".mat-option-text")].find(el => el.textContent.trim().startsWith(optionText));
-  if (option) {
-    option.click();
-    await sleep(200);
-    return;
-  }
-  await sleep(50);
-}
-
-async function fillTrain(TrainNo) {
-  const tNO = document.querySelector('input[name="inputTrainNo"]');
-  if (tNO) {
-    setAngularValue(tNO, TrainNo);
-    tNO.click();
-    await selectTrain(TrainNo);
-  }
-}
-
-async function fillDate(JDate) {
-  const date = document.querySelector('input[name="journeyDate"]');
-  if (date) setAngularValue(date, JDate);
-}
-
-async function nofPsng(passengers) {
-  const input = document.querySelector('input[data-placeholder="No. of Passengers"]') || document.querySelector('input[data-placeholder="No of Adults"]');
-  if (!input) return;
-  setAngularValue(input, passengers.length);
-  input.dispatchEvent(new Event("blur", { bubbles: true }));
-}
-
-async function waitAndSetLocation(placeholderList, val) {
-  const input = document.querySelector(\`input[data-placeholder="\${placeholderList[0]}"]\`) || 
-                document.querySelector(\`input[data-placeholder="\${placeholderList[1]}"]\`);
-  if (!input) return;
-  while (!input.value.trim()) await sleep(100);
-  setAngularValue(input, val);
-  input.click();
-  await selectTrain(val);
-}
-
-async function Class(coach) {
-  const desti = document.querySelector('input[data-placeholder="Journey To"]') || document.querySelector('input[data-placeholder="Destination"]');
-  if (!desti) return;
-  while (!desti.value.trim()) await sleep(100);
-  await selectMatOption("Class", coach);
-}
-
-async function execute() {
-  await fillTrain(TrainNo);
-  await fillDate(JDate);
-  await nofPsng(passengers);
-  await Class(coach);
-  await waitAndSetLocation(["Journey From", "Source"], from);
-  await waitAndSetLocation(["Journey To", "Destination"], to);
-  if (quota === "DP - DUTY PASS") await selectMatOption("Quota", quota);
-}
-
-async function psngForm(passengers, mobileNumber, PaymentMode) {
-  const nameInputs = document.querySelectorAll('input[formcontrolname="psgnName"]');
-  const ageInputs = document.querySelectorAll('input[formcontrolname="psgnAge"]');
-
-  passengers.forEach((p, i) => {
-    if (nameInputs[i]) setAngularValue(nameInputs[i], p.name.toUpperCase());
-    if (ageInputs[i]) setAngularValue(ageInputs[i], p.age);
-  });
-
-  const mobileInput = document.querySelector('input[formcontrolname="mobileNumber"]');
-  if (mobileInput) setAngularValue(mobileInput, mobileNumber);
-
-  for (let i = 0; i < passengers.length; i++) await selectMatOption("Gender", passengers[i].gender, i);
-  for (let i = 0; i < passengers.length; i++) await selectMatOption("Berth Preference", passengers[i].berth, i, "No Preference");
-  
-  if ("food" in passengers[0]) {
-    for (let i = 0; i < passengers.length; i++) await selectMatOption("Food", passengers[i].food, i);
-  }
-
-  await selectMatOption("PAYMENT TYPE", PaymentMode);
-}
-
-async function checkAvailabilityAndClickNext() {
-  const btn = document.querySelector('button[type="submit"].mat-raised-button.mat-accent');
-  if (btn) btn.click();
-  else {
-    const next = [...document.querySelectorAll('span.mat-button-wrapper')].find(el => el.textContent.trim() === 'Next');
-    if (next) next.closest('button').click();
-  }
-
-  document.getElementById('availability-box')?.remove();
-  const box = document.createElement('div');
-  box.id = 'availability-box';
-  Object.assign(box.style, {
-    position: 'fixed', top: '20px', right: '20px', zIndex: '999999', background: '#1f2937', color: '#fff',
-    padding: '16px 22px', borderRadius: '12px', font: '600 16px Arial, sans-serif', boxShadow: '0 8px 24px rgba(0,0,0,.3)',
-    minWidth: '320px', maxWidth: '500px', lineHeight: '1.5', transition: 'opacity .4s', opacity: '1'
-  });
-  box.textContent = '&#x1F504; Fetching Availability...';
-  document.body.appendChild(box);
-
-  while (true) {
-    const status = [...document.querySelectorAll('span.text-success')].find(el => el.textContent.includes('AVAILABILITY STATUS'));
-    if (status) {
-      box.textContent = '&#x1F4CB; ' + status.textContent.trim();
-      setTimeout(() => { box.style.opacity = '0'; setTimeout(() => box.remove(), 400); }, 5000);
-      return status.textContent.trim();
-    }
-    await sleep(200);
-  }
-}
-
-async function runPrs() {
-  if (window.location.href === "https://client.prs/enquiries/train/fare") {
-    await fillTrain(TrainNo);
-    await fillDate(JDate);
-    await nofPsng(passengers);
-    await waitAndSetLocation(["Journey From", "Source"], from);
-    await waitAndSetLocation(["Journey To", "Destination"], to);
-    await selectMatOption("Quota", quota === "TQ - TATKAL" ? "Tatkal" : "Normal");
-    await selectMatOption("Class", coach);
-    const fareBtn = [...document.querySelectorAll("span")].find(el => el.textContent.trim() === "Get Fare")?.closest("button");
-    if (fareBtn) fareBtn.click();
-  } else {
-    await execute();
-    await psngForm(passengers, mobileNumber, PaymentMode);
-    await checkAvailabilityAndClickNext();
-  }
-}
-
-await runPrs();
-})();`;
-
-            const link = getEl("bookmarkLink");
-            link.href = generatedScript;
-            link.setAttribute('draggable', 'true');
-
-            const fromFull = getStationName(source);
-            const toFull = getStationName(destination);
-            const trainFull = getTrainName(train);
-
-            showSaveDialog(fromFull, toFull, trainFull);
-
-        }
-
         function checkFormFilled() {
             // Check Train, Date, Source, Destination
             if (!/^\d{5}$/.test(document.getElementById("trainNumber").value)) return false;
@@ -945,7 +769,9 @@ await runPrs();
             updateButtonText();
         }
     </script>
+	<script src="js/logic.js"></script>
     <script src="js/autocomplete.js"></script>
+    <script src="js/import.js"></script>
 </body>
 
 </html>
