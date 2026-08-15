@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Railway Muster Generator</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #173f5f;
+    --primary2: #20639b;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+    --text: #172033;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, #dbeafe, transparent 35%),
+        linear-gradient(135deg, #f8fafc, #e2e8f0);
+    color: var(--text);
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.app-header {
+    background: linear-gradient(135deg, #173f5f, #20639b);
+    color: white;
+    padding: 18px 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.15);
+}
+
+.header-inner {
+    max-width: 1500px;
+    margin: auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.header-title {
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.header-subtitle {
+    font-size: 12px;
+    opacity: .8;
+    margin-top: 4px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+button {
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.btn {
+    padding: 9px 14px;
+    border-radius: 8px;
+
+    font-weight: 700;
+    font-size: 12px;
+
+    transition: .15s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-light {
+    background: white;
+    color: var(--primary);
+}
+
+.btn-blue {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-green {
+    background: #059669;
+    color: white;
+}
+
+.btn-red {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-gray {
+    background: #64748b;
+    color: white;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.container {
+    max-width: 1500px;
+    margin: 25px auto;
+    padding: 0 18px;
+}
+
+
+/* =========================================
+   SETTINGS
+========================================= */
+
+.settings {
+    background: rgba(255,255,255,.92);
+
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+
+    padding: 20px;
+
+    box-shadow: 0 10px 30px rgba(15,23,42,.08);
+
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 15px;
+    font-weight: 800;
+
+    margin-bottom: 14px;
+
+    color: var(--primary);
+}
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.2fr
+        1fr
+        1fr
+        1fr
+        1fr;
+
+    gap: 12px;
+}
+
+.field label {
+    display: block;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    margin-bottom: 5px;
+
+    color: #475569;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    height: 38px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    padding: 0 10px;
+
+    background: #f8fafc;
+
+    outline: none;
+
+    font-size: 13px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: #2563eb;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px rgba(37,99,235,.1);
+}
+
+.status-help {
+    margin-top: 12px;
+
+    font-size: 11px;
+
+    color: #64748b;
+}
+
+
+/* =========================================
+   TOOLBAR
+========================================= */
+
+.staff-toolbar {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 18px 0 10px;
+
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.staff-toolbar-left {
+    display: flex;
+
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+
+/* =========================================
+   PRINT TITLE
+========================================= */
+
+.print-title {
+    text-align: center;
+
+    font-weight: 800;
+    font-size: 15px;
+
+    margin-bottom: 2px;
+}
+
+.print-period {
+    text-align: center;
+
+    font-weight: 700;
+    font-size: 13px;
+
+    margin-bottom: 12px;
+}
+
+
+/* =========================================
+   ⭐ TABLE SCROLL CONTAINER
+========================================= */
+
+.table-wrapper {
+    width: 100%;
+    max-width: 100%;
+
+    display: block;
+
+    /* ONLY THE TABLE SCROLLS */
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    -webkit-overflow-scrolling: touch;
+
+    background: white;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+
+    box-shadow:
+        0 8px 25px rgba(15,23,42,.08);
+}
+
+
+/* =========================================
+   ⭐ TABLE
+========================================= */
+
+#musterTable {
+    border-collapse: collapse;
+
+    /* VERY IMPORTANT */
+    width: max-content;
+    min-width: max-content;
+
+    table-layout: auto;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   TABLE CELLS
+========================================= */
+
+#musterTable th,
+#musterTable td {
+    border: 1px solid #cbd5e1;
+
+    padding: 0;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    /* NO STICKY COLUMNS */
+    position: static;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+#musterTable thead th {
+    background: #e8eef5;
+
+    color: #172033;
+
+    height: 31px;
+
+    font-weight: 800;
+
+    position: static;
+}
+
+
+/* =========================================
+   EMPLOYEE COLUMNS
+========================================= */
+
+#musterTable .col-sno {
+    width: 42px;
+    min-width: 42px;
+}
+
+#musterTable .col-pe {
+    width: 115px;
+    min-width: 115px;
+}
+
+#musterTable .col-name {
+    width: 155px;
+    min-width: 155px;
+}
+
+#musterTable .col-desig {
+    width: 85px;
+    min-width: 85px;
+}
+
+#musterTable .col-station {
+    width: 70px;
+    min-width: 70px;
+}
+
+
+/* =========================================
+   DATE COLUMNS
+========================================= */
+
+#musterTable .day-head {
+    width: 38px;
+    min-width: 38px;
+    max-width: 38px;
+}
+
+#musterTable .day-cell {
+    width: 38px;
+    min-width: 38px;
+    max-width: 38px;
+}
+
+.day-head small {
+    display: block;
+
+    font-size: 8px;
+
+    color: #64748b;
+
+    font-weight: 500;
+}
+
+
+/* =========================================
+   EMPLOYEE INPUT
+========================================= */
+
+.employee-input {
+    width: 100%;
+    height: 32px;
+
+    border: 0;
+    outline: none;
+
+    background: transparent;
+
+    padding: 0 5px;
+
+    font-size: 11px;
+
+    text-align: center;
+}
+
+.employee-input.name {
+    text-align: left;
+}
+
+.employee-input:focus {
+    background: #eff6ff;
+
+    box-shadow:
+        inset 0 0 0 2px #3b82f6;
+}
+
+
+/* =========================================
+   DAILY STATUS
+========================================= */
+
+.day-select {
+    width: 100%;
+    height: 31px;
+
+    border: 0;
+    outline: none;
+
+    background: transparent;
+
+    text-align: center;
+    text-align-last: center;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    padding: 0;
+}
+
+.day-select:focus {
+    box-shadow:
+        inset 0 0 0 2px #2563eb;
+}
+
+
+/* =========================================
+   STATUS COLORS
+========================================= */
+
+.status-P {
+    color: #15803d;
+}
+
+.status-R {
+    color: #b45309;
+}
+
+.status-CR {
+    color: #dc2626;
+}
+
+.status-CL {
+    color: #7c3aed;
+}
+
+.status-LAP {
+    color: #0369a1;
+}
+
+.status-E {
+    color: #be123c;
+}
+
+
+/* =========================================
+   BOTTOM BOXES
+========================================= */
+
+.bottom-section {
+    margin-top: 20px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+.box {
+    background: white;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+
+    padding: 14px;
+}
+
+.box-title {
+    font-size: 12px;
+    font-weight: 800;
+
+    margin-bottom: 8px;
+}
+
+.box textarea {
+    width: 100%;
+
+    min-height: 90px;
+
+    resize: vertical;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+
+    padding: 9px;
+
+    font-family: Arial;
+    font-size: 12px;
+
+    outline: none;
+}
+
+.box textarea:focus {
+    border-color: #2563eb;
+}
+
+
+/* =========================================
+   MOBILE / PORTRAIT
+========================================= */
+
+@media (max-width: 800px) {
+
+    .app-header {
+        padding: 15px;
+    }
+
+    .header-inner {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+	.form-grid .department-field {
+    grid-column: 1 / -1;
+}
+
+    .bottom-section {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* TABLE */
+
+    .table-wrapper {
+        width: 100%;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        touch-action: pan-x;
+    }
+
+    #musterTable {
+        width: max-content !important;
+        min-width: max-content !important;
+    }
+
+    #musterTable .day-head,
+    #musterTable .day-cell {
+        width: 38px;
+        min-width: 38px;
+        max-width: 38px;
+    }
+
+    .employee-input {
+        height: 32px;
+        font-size: 10px;
+    }
+
+    .day-select {
+        height: 31px;
+        font-size: 9px;
+    }
+}
+
+
+/* =========================================
+   PRINT
+========================================= */
+
+@media print {
+
+    @page {
+        size: A4 landscape;
+        margin: 5mm;
+    }
+
+    html,
+    body {
+        overflow: visible;
+    }
+
+    .app-header,
+    .settings,
+    .staff-toolbar,
+    .status-help,
+    .no-print {
+        display: none !important;
+    }
+
+    .container {
+        max-width: none;
+
+        margin: 0;
+
+        padding: 0;
+    }
+
+    .table-wrapper {
+        width: 100%;
+
+        overflow: visible !important;
+
+        border: 0;
+
+        box-shadow: none;
+
+        border-radius: 0;
+    }
+
+    #musterTable {
+        width: 100% !important;
+        min-width: 0 !important;
+
+        table-layout: auto;
+
+        font-size: 7px;
+    }
+
+    #musterTable th,
+    #musterTable td {
+        position: static !important;
+    }
+
+    #musterTable thead th {
+        position: static !important;
+
+        height: 18px;
+
+        font-size: 7px;
+    }
+
+    #musterTable .day-head,
+    #musterTable .day-cell {
+        width: auto;
+        min-width: 0;
+        max-width: none;
+    }
+
+    .employee-input {
+        height: 17px;
+
+        font-size: 7px;
+
+        padding: 0 2px;
+    }
+
+    .day-select {
+        height: 17px;
+
+        font-size: 7px;
+
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    .day-head small {
+        display: none;
+    }
+
+    .bottom-section {
+        display: block;
+
+        margin-top: 8px;
+    }
+
+    .box {
+        border: 0;
+
+        padding: 2px;
+    }
+
+    .box textarea {
+        border: 0;
+
+        min-height: auto;
+
+        padding: 0;
+
+        font-size: 7px;
+
+        resize: none;
+    }
+
+    .box-title {
+        font-size: 8px;
+    }
+
+    .print-title {
+        font-size: 10px;
+    }
+
+    .print-period {
+        font-size: 9px;
+
+        margin-bottom: 5px;
+    }
+}
+
+/* =========================================
+   ATTENDANCE POPUP
+========================================= */
+
+.attendance-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, .55);
+
+    backdrop-filter: blur(5px);
+
+    z-index: 9999;
+}
+
+.attendance-modal {
+    width: min(700px, 100%);
+    max-height: 90vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background: white;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.25);
+
+    overflow: hidden;
+}
+
+
+/* Header */
+
+.attendance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #173f5f,
+            #20639b
+        );
+
+    color: white;
+}
+
+.attendance-title {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.attendance-employee {
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    opacity: .85;
+}
+
+.attendance-close {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.15);
+
+    color: white;
+
+    font-size: 25px;
+
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.attendance-close:hover {
+    background: rgba(255,255,255,.25);
+}
+
+
+/* Information */
+
+.attendance-info {
+    display: flex;
+
+    gap: 25px;
+
+    padding: 12px 20px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    background: #f8fafc;
+
+    font-size: 12px;
+
+    color: #475569;
+}
+
+
+/* Table scroll */
+
+.attendance-table-wrapper {
+    overflow-y: auto;
+
+    max-height: calc(90vh - 145px);
+}
+
+
+/* Attendance table */
+
+.attendance-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 12px;
+}
+
+.attendance-table th {
+    position: sticky;
+    top: 0;
+
+    background: #e8eef5;
+
+    color: #172033;
+
+    padding: 10px;
+
+    border-bottom: 1px solid #cbd5e1;
+
+    z-index: 2;
+}
+
+.attendance-table td {
+    padding: 8px 10px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    text-align: center;
+}
+
+.attendance-table tr:hover td {
+    background: #f8fafc;
+}
+
+
+/* Date */
+
+.attendance-date {
+    font-weight: 700;
+}
+
+
+/* Attendance dropdown */
+
+.attendance-select {
+    width: 110px;
+    height: 32px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 7px;
+
+    background: white;
+
+    padding: 0 8px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+.attendance-select:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37,99,235,.1);
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .attendance-overlay {
+        padding: 10px;
+    }
+
+    .attendance-modal {
+        max-height: 94vh;
+
+        border-radius: 14px;
+    }
+
+    .attendance-table {
+        font-size: 11px;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        padding: 8px 6px;
+    }
+
+    .attendance-select {
+        width: 95px;
+    }
+}
+
+.employee-name-button {
+    width: 100%;
+    height: 32px;
+
+    border: 0;
+    background: transparent;
+
+    padding: 0 5px;
+
+    text-align: left;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+
+    color: #20639b;
+
+    cursor: pointer;
+}
+
+.employee-name-button:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+/* =========================================
+   ATTENDANCE REMARK
+========================================= */
+
+.attendance-remark {
+    padding: 12px 20px 16px;
+
+    border-top: 1px solid #e2e8f0;
+
+    background: #ffffff;
+}
+
+.attendance-remark label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    color: #475569;
+}
+
+.attendance-remark textarea {
+    width: 100%;
+
+    min-height: 65px;
+
+    resize: vertical;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+
+    background: #f8fafc;
+
+    padding: 9px 10px;
+
+    font-family: inherit;
+    font-size: 12px;
+
+    outline: none;
+}
+
+.attendance-remark textarea:focus {
+    border-color: #2563eb;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px rgba(37,99,235,.1);
+}
+
+.attendance-remark textarea::placeholder {
+    color: #94a3b8;
+}
+</style>
+
+</head>
+<body>
+
+<header class="app-header no-print">
+    <div class="header-inner">
+
+        <div>
+            <div class="header-title">
+                🚆 Railway Muster Generator
+            </div>
+            <div class="header-subtitle">
+                Create monthly staff muster quickly • Offline • Excel-friendly
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button class="btn btn-green" onclick="exportCSV()">📊 Excel / CSV</button>
+            <button class="btn btn-blue" onclick="window.print()">🖨 Print Muster</button>
+        </div>
+
+    </div>
+</header>
+
+
+<main class="container">
+
+    <!-- SETTINGS -->
+
+    <section class="settings no-print">
+
+        <div class="section-title">
+            Muster Details
+        </div>
+
+        <div class="form-grid">
+
+            <div class="field">
+                <label>Depot</label>
+                <input id="depot" value="SMR/KDP">
+            </div>
+
+            <div class="field">
+                <label>BU</label>
+                <input id="bu" value="3705667">
+            </div>
+			
+			<div class="field department-field">
+    <label>Department</label>
+    <input id="department" value="OPERATING">
+</div>
+
+            
+
+			<div class="field">
+    <label>Muster Period</label>
+    <select id="musterPeriod" onchange="changeMusterPeriod()">
+        <option value="1-2">January - February</option>
+        <option value="2-3">February - March</option>
+        <option value="3-4">March - April</option>
+        <option value="4-5">April - May</option>
+        <option value="5-6">May - June</option>
+        <option value="6-7">June - July</option>
+        <option value="7-8" selected>July - August</option>
+        <option value="8-9">August - September</option>
+        <option value="9-10">September - October</option>
+        <option value="10-11">October - November</option>
+        <option value="11-12">November - December</option>
+        <option value="12-1">December - January</option>
+    </select>
+</div>
+
+<div class="field">
+    <label>Muster Year</label>
+    <select id="musterYear" onchange="changeMusterPeriod()">
+        <option value="2025">2025</option>
+        <option value="2026" selected>2026</option>
+        <option value="2027">2027</option>
+        <option value="2028">2028</option>
+        <option value="2029">2029</option>
+        <option value="2030">2030</option>
+    </select>
+</div>
+
+        </div>
+
+        <div class="status-help">
+            Daily status: <b>P</b> = Present,
+            <b>R</b> = Rest,
+            <b>CR</b> = Casual Rest,
+            <b>CL</b> = Casual Leave,
+            <b>LAP</b> = Leave,
+            <b>E</b> = Other.
+            You can add your own codes below in the JavaScript.
+        </div>
+
+    </section>
+
+
+    <!-- PRINT TITLE -->
+
+    <section id="printHeading">
+
+        <div class="print-title">
+            MUSTER OF DEPOT :
+            <span id="printDepot">SMR/KDP</span>,
+            BU :
+            <span id="printBU">3705667</span>,
+            DEPARTMENT :
+            <span id="printDepartment">OPERATING</span>.
+        </div>
+
+        <div class="print-period">
+            For Period
+            <span id="printStart">11-07-2026</span>
+            to
+            <span id="printEnd">10-08-2026</span>
+        </div>
+
+    </section>
+
+
+    <!-- STAFF TOOLBAR -->
+
+    <div class="staff-toolbar no-print">
+
+        <div class="staff-toolbar-left">
+
+       
+
+            <button class="btn btn-green" onclick="fillAllP()">
+                ✓ Fill All P
+            </button>
+
+        </div>
+
+        <div>
+            
+        </div>
+
+    </div>
+
+
+    <!-- MAIN TABLE -->
+
+    <div class="table-wrapper">
+
+        <table id="musterTable">
+
+            <thead>
+                <tr id="tableHead">
+
+                    <th class="fixed col-sno">
+                        SNo.
+                    </th>
+
+                    <th class="fixed col-pe">
+                        PF Number
+                    </th>
+
+                    <th class="fixed col-name">
+                        Name
+                    </th>
+
+                    <th class="fixed col-desig">
+                        Designation
+                    </th>
+
+                    <th class="fixed col-station">
+                        Station
+                    </th>
+
+                </tr>
+            </thead>
+
+            <tbody id="staffBody"></tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- BOTTOM -->
+
+    <div class="bottom-section">
+
+        <div class="box">
+
+            <div class="box-title">
+                Remarks
+            </div>
+<textarea
+    id="remarks"
+	placeholder="Enter remarks..."
+    oninput="updateEmployeeRemarksFromMain()"
+></textarea>
+ 
+        </div>
+
+
+       
+
+    </div>
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+const STATUS_OPTIONS = [
+    "P",
+    "R",
+    "CR",
+    "CL",
+    "LAP",
+    "E"
+];
+
+
+/*
+    Initial employees from the sample image.
+    Delete/change these as required.
+*/
+
+let employees = [
+
+    {
+        pe: "24505541967",
+        name: "C Guruprasad",
+        desig: "SMR",
+        station: "KDP",
+        days: []
+    },
+
+    {
+        pe: "24129802911",
+        name: "Loveleen kumar",
+        desig: "Dy SM",
+        station: "KDP",
+        days: []
+    },
+
+    {
+        pe: "24129802896",
+        name: "Pankaj Kumar Meena",
+        desig: "Dy SM",
+        station: "KDP",
+        days: []
+    },
+
+    {
+        pe: "24129802920",
+        name: "Sanjiv Kumar Singh",
+        desig: "RG SM",
+        station: "KDP",
+        days: []
+    },
+
+    {
+        pe: "24529803490",
+        name: "Anil Yadav",
+        desig: "LR SM",
+        station: "KDP",
+        days: []
+    },
+
+    {
+        pe: "24505543289",
+        name: "Y Nageshwara Rao",
+        desig: "CCTS",
+        station: "KDP",
+        days: []
+    },
+
+    {
+        pe: "2451110205",
+        name: "S Jagadeesh",
+        desig: "PMAN",
+        station: "KDP",
+        days: []
+    },
+
+    {
+        pe: "24529801904",
+        name: "K Nagendra",
+        desig: "PMAN",
+        station: "KDP",
+        days: []
+    },
+
+    {
+        pe: "24529803583",
+        name: "Abhdesh Kumar",
+        desig: "PMAN",
+        station: "KDP",
+        days: []
+    },
+
+    {
+        pe: "24529805663",
+        name: "Praphul Kumar Choubey",
+        desig: "PMAN",
+        station: "KDP",
+        days: []
+    }
+
+];
+
+
+let dates = [];
+
+
+/* =========================================================
+   DATE FUNCTIONS
+========================================================= */
+
+function formatDate(date) {
+
+    let d = String(date.getDate()).padStart(2, "0");
+    let m = String(date.getMonth() + 1).padStart(2, "0");
+    let y = date.getFullYear();
+
+    return `${d}-${m}-${y}`;
+}
+
+function changeMusterPeriod() {
+
+    const period =
+        document.getElementById("musterPeriod").value;
+
+    const year =
+        Number(document.getElementById("musterYear").value);
+
+    const [startMonth, endMonth] =
+        period.split("-").map(Number);
+
+    let startYear = year;
+    let endYear = year;
+
+    // December → January of next year
+    if (startMonth === 12) {
+        endYear++;
+    }
+
+    // Start = 11th
+    const start = new Date(
+        startYear,
+        startMonth - 1,
+        11
+    );
+
+    // End = 10th of next month
+    const end = new Date(
+        endYear,
+        endMonth - 1,
+        10
+    );
+
+    // Generate all dates
+    dates = [];
+
+    let current = new Date(start);
+
+    while (current <= end) {
+
+        dates.push(new Date(current));
+
+        current.setDate(
+            current.getDate() + 1
+        );
+    }
+
+    // Update print period
+    document.getElementById("printStart").textContent =
+        formatDate(start);
+
+    document.getElementById("printEnd").textContent =
+        formatDate(end);
+
+    // Rebuild table
+    renderTable();
+
+    
+}
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
+
+function buildHeader() {
+
+    let head = document.getElementById("tableHead");
+
+    head.innerHTML = `
+        <th class="fixed col-sno">SNo.</th>
+        <th class="fixed col-pe">PF Number</th>
+        <th class="fixed col-name">Name</th>
+        <th class="fixed col-desig">Design.</th>
+        <th class="fixed col-station">Station</th>
+    `;
+
+    dates.forEach((date, index) => {
+
+        let day = date.getDate();
+
+        let month = date.toLocaleString("en-IN", {
+            month: "short"
+        });
+
+        let weekday = date.toLocaleString("en-IN", {
+            weekday: "short"
+        });
+
+        head.innerHTML += `
+            <th class="day-head">
+                ${day}
+                <small>${weekday}</small>
+            </th>
+        `;
+
+    });
+
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+function renderTable() {
+
+    buildHeader();
+
+    let body = document.getElementById("staffBody");
+
+    body.innerHTML = "";
+
+    employees.forEach((emp, employeeIndex) => {
+
+        if (!emp.days) emp.days = [];
+
+        while (emp.days.length < dates.length) {
+            emp.days.push("P");
+        }
+		
+		if (emp.days.length > dates.length) {
+    emp.days = emp.days.slice(0, dates.length);
+}
+
+        let tr = document.createElement("tr");
+        tr.className = "employee-row";
+
+        tr.innerHTML = `
+
+            <td class="fixed col-sno">
+                ${employeeIndex + 1}
+            </td>
+
+            <td class="fixed col-pe">
+                <input
+                    class="employee-input"
+                    value="${escapeHTML(emp.pe)}"
+                    onchange="updateEmployee(${employeeIndex}, 'pe', this.value)"
+                >
+            </td>
+
+           <td class="fixed col-name">
+
+    <button
+        type="button"
+        class="employee-name-button"
+        onclick="openAttendance(${employeeIndex})"
+        title="Edit attendance"
+    >
+        ${escapeHTML(emp.name || "Unnamed Employee")}
+    </button>
+
+</td>
+
+            <td class="fixed col-desig">
+                <input
+                    class="employee-input"
+                    value="${escapeHTML(emp.desig)}"
+                    onchange="updateEmployee(${employeeIndex}, 'desig', this.value)"
+                >
+            </td>
+
+            <td class="fixed col-station">
+                <input
+                    class="employee-input"
+                    value="${escapeHTML(emp.station)}"
+                    onchange="updateEmployee(${employeeIndex}, 'station', this.value)"
+                >
+            </td>
+
+        `;
+
+
+        dates.forEach((date, dayIndex) => {
+
+            let value = emp.days[dayIndex] || "P";
+
+            let options = STATUS_OPTIONS.map(status => {
+
+                return `
+                    <option value="${status}"
+                        ${status === value ? "selected" : ""}>
+                        ${status}
+                    </option>
+                `;
+
+            }).join("");
+
+
+            tr.innerHTML += `
+
+                <td class="day-cell">
+    ${emp.days && emp.days[dayIndex]
+        ? emp.days[dayIndex]
+        : ""}
+</td>
+
+            `;
+
+        });
+
+
+        body.appendChild(tr);
+
+    });
+
+    updatePrintHeader();
+}
+
+
+/* =========================================================
+   UPDATE
+========================================================= */
+
+function updateEmployee(index, field, value) {
+
+    employees[index][field] = value;
+
+    updatePrintHeader();
+
+    
+}
+
+
+function updateDay(select) {
+
+    let row = Number(select.dataset.row);
+    let day = Number(select.dataset.day);
+
+    employees[row].days[day] = select.value;
+
+    select.className =
+        "day-select status-" + select.value;
+
+    
+
+}
+
+/* =========================================================
+   FILL ALL P
+========================================================= */
+
+function fillAllP() {
+
+    employees.forEach(emp => {
+
+        emp.days = Array(dates.length).fill("P");
+
+    });
+
+    renderTable();
+
+    
+}
+
+/* =========================================================
+   PRINT HEADER
+========================================================= */
+
+function updatePrintHeader() {
+
+    document.getElementById("printDepot").textContent =
+        document.getElementById("depot").value;
+
+    document.getElementById("printBU").textContent =
+        document.getElementById("bu").value;
+
+    document.getElementById("printDepartment").textContent =
+        document.getElementById("department").value;
+
+}
+
+/* =========================================================
+   CSV EXPORT
+========================================================= */
+
+function exportCSV() {
+
+    let rows = [];
+
+    // Header
+    let header = [
+        "SNo",
+        "PF Number",
+        "Name",
+        "Designation",
+        "Station"
+    ];
+
+    // Add the automatically generated muster dates
+    dates.forEach(date => {
+        header.push(formatDate(date));
+    });
+
+    rows.push(header);
+
+
+    // Employee data
+    employees.forEach((emp, index) => {
+
+        let row = [
+            index + 1,
+            emp.pe || "",
+            emp.name || "",
+            emp.desig || "",
+            emp.station || ""
+        ];
+
+        dates.forEach((date, dayIndex) => {
+
+            row.push(
+                emp.days && emp.days[dayIndex]
+                    ? emp.days[dayIndex]
+                    : ""
+            );
+
+        });
+
+        rows.push(row);
+
+    });
+
+
+    // Convert to CSV
+    let csv = rows.map(row => {
+
+        return row.map(value => {
+
+            value = String(value ?? "");
+
+            return `"${value.replace(/"/g, '""')}"`;
+
+        }).join(",");
+
+    }).join("\n");
+
+
+    // Create file
+    let blob = new Blob(
+        ["\ufeff" + csv],
+        {
+            type: "text/csv;charset=utf-8;"
+        }
+    );
+
+
+    let url = URL.createObjectURL(blob);
+
+    let a = document.createElement("a");
+
+    a.href = url;
+
+    // Use Muster Period + Year for filename
+    const period =
+        document.getElementById("musterPeriod")
+            .selectedOptions[0].textContent;
+
+    const year =
+        document.getElementById("musterYear").value;
+
+    a.download =
+        `Muster_${period.replace(/\s+/g, "-")}_${year}.csv`;
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   SETTINGS CHANGE EVENTS
+========================================================= */
+
+[
+    "depot",
+    "bu",
+    "department",
+    "remarks"
+].forEach(id => {
+
+    document.getElementById(id)
+        .addEventListener("input", () => {
+
+            updatePrintHeader();
+            
+
+        });
+
+});
+
+/* =========================================
+   ATTENDANCE EDITOR
+========================================= */
+
+let currentAttendanceEmployee = null;
+
+
+function openAttendance(employeeIndex) {
+
+    currentAttendanceEmployee = employeeIndex;
+
+    const employee = employees[employeeIndex];
+	document.getElementById("attendanceRemark").value =
+    employee.remark || "";
+
+    const overlay =
+        document.getElementById("attendanceOverlay");
+
+    const employeeName =
+        document.getElementById("attendanceEmployee");
+
+    const period =
+        document.getElementById("attendancePeriod");
+
+    const body =
+        document.getElementById("attendanceBody");
+
+
+    employeeName.textContent =
+        `${employee.name || "Unnamed Employee"} • ${employee.pe || ""}`;
+
+
+    const periodText =
+        document.getElementById("musterPeriod")
+            .selectedOptions[0].textContent
+        + " "
+        + document.getElementById("musterYear").value;
+
+    period.textContent = periodText;
+
+
+    body.innerHTML = "";
+
+
+    dates.forEach((date, dayIndex) => {
+
+        const value =
+            employee.days &&
+            employee.days[dayIndex]
+                ? employee.days[dayIndex]
+                : "P";
+
+
+        const tr =
+            document.createElement("tr");
+
+
+        const options =
+            STATUS_OPTIONS.map(status => {
+
+                return `
+                    <option value="${status}"
+                        ${status === value ? "selected" : ""}>
+                        ${status}
+                    </option>
+                `;
+
+            }).join("");
+
+
+        tr.innerHTML = `
+
+            <td>${dayIndex + 1}</td>
+
+            <td class="attendance-date">
+                ${formatDate(date)}
+            </td>
+
+            <td>
+                ${date.toLocaleDateString(
+                    "en-IN",
+                    { weekday: "long" }
+                )}
+            </td>
+
+            <td>
+
+                <select
+                    class="attendance-select"
+                    onchange="
+                        updateAttendance(
+                            ${employeeIndex},
+                            ${dayIndex},
+                            this.value
+                        )
+                    "
+                >
+
+                    ${options}
+
+                </select>
+
+            </td>
+
+        `;
+
+
+        body.appendChild(tr);
+
+    });
+
+
+    updatePresentCount();
+
+    overlay.style.display = "flex";
+
+}
+
+
+function updateAttendance(
+    employeeIndex,
+    dayIndex,
+    value
+) {
+
+    if (!employees[employeeIndex].days) {
+
+        employees[employeeIndex].days =
+            Array(dates.length).fill("P");
+
+    }
+
+
+    employees[employeeIndex].days[dayIndex] =
+        value;
+
+
+    updatePresentCount();
+
+    
+
+    /*
+        Update the main muster table
+        immediately.
+    */
+
+    renderTable();
+
+}
+
+
+function updatePresentCount() {
+
+    if (currentAttendanceEmployee === null) {
+        return;
+    }
+
+    const employee =
+        employees[currentAttendanceEmployee];
+
+
+    const present =
+        (employee.days || [])
+            .filter(status => status === "P")
+            .length;
+
+
+    document.getElementById("presentCount")
+        .textContent = present;
+
+}
+
+
+function closeAttendance() {
+
+    document.getElementById(
+        "attendanceOverlay"
+    ).style.display = "none";
+
+    currentAttendanceEmployee = null;
+
+}
+
+
+function updateAttendanceRemark(value) {
+
+    if (currentAttendanceEmployee === null) {
+        return;
+    }
+
+    const employee =
+        employees[currentAttendanceEmployee];
+
+    employee.remark = value;
+
+    updateMainRemarks();
+
+    
+}
+
+function updateMainRemarks() {
+
+    const lines = [];
+
+    employees.forEach((employee, index) => {
+
+        if (employee.remark && employee.remark.trim()) {
+
+            lines.push(
+                `${index + 1}. ${employee.name} : ${employee.remark.trim()}`
+            );
+
+        }
+
+    });
+
+    document.getElementById("remarks").value =
+        lines.join("\n");
+}
+
+function updateEmployeeRemarksFromMain() {
+
+    const textarea =
+        document.getElementById("remarks");
+
+    const lines =
+        textarea.value.split("\n");
+
+    // Clear existing employee remarks first
+    employees.forEach(employee => {
+        employee.remark = "";
+    });
+
+    lines.forEach(line => {
+
+        /*
+         Expected format:
+
+         2. Loveleen Kumar : CL granted
+        */
+
+        const match =
+            line.match(/^(\d+)\.\s*(.*?)\s*:\s*(.*)$/);
+
+        if (!match) return;
+
+        const employeeNumber =
+            Number(match[1]);
+
+        const remark =
+            match[3].trim();
+
+        const employee =
+            employees[employeeNumber - 1];
+
+        if (employee) {
+            employee.remark = remark;
+        }
+
+    });
+
+    
+}
+/* =========================================================
+   INITIAL DATE
+========================================================= */
+
+(function init() {
+
+    changeMusterPeriod();
+
+})();
+
+</script>
+
+
+<div id="attendanceOverlay" class="attendance-overlay">
+
+    <div class="attendance-modal">
+
+        <div class="attendance-header">
+
+            <div>
+                <div class="attendance-title">
+                    Employee Attendance
+                </div>
+
+                <div class="attendance-employee" id="attendanceEmployee">
+                </div>
+            </div>
+
+            <button
+                class="attendance-close"
+                onclick="closeAttendance()">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="attendance-info">
+
+            <span>
+                Period:
+                <b id="attendancePeriod"></b>
+            </span>
+
+            <span>
+                Present:
+                <b id="presentCount">0</b>
+            </span>
+
+        </div>
+
+
+        <div class="attendance-table-wrapper">
+
+            <table class="attendance-table">
+
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+
+                <tbody id="attendanceBody"></tbody>
+
+            </table>
+
+        </div>
+		
+		<div class="attendance-remark">
+
+    <label for="attendanceRemark">
+        Remark
+    </label>
+
+    <textarea
+        id="attendanceRemark"
+        placeholder="Enter remark for this employee..."
+        oninput="updateAttendanceRemark(this.value)"
+    ></textarea>
+
+</div>
+
+    </div>
+
+</div>
+</body>
+</html>
