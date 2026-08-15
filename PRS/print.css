@@ -79,6 +79,10 @@ body {
     margin-bottom: 3px;
 }
 
+.day-head small {
+    display: none !important;
+}
+
 
 /* =========================================================
    TABLE WRAPPER
