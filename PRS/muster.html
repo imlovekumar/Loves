@@ -1073,7 +1073,8 @@ button {
         </div>
 
         <div class="header-actions">
-            <button class="btn btn-green" onclick="exportCSV()">📊 Excel / CSV</button>
+			<button class="btn btn-green" onclick="exportXLS()">📊 Excel</button>
+            
             <button class="btn btn-blue" onclick="window.print()">🖨 Print Muster</button>
         </div>
 
@@ -1657,95 +1658,186 @@ function updatePrintHeader() {
 }
 
 /* =========================================================
-   CSV EXPORT
+   Xlsx EXPORT
 ========================================================= */
 
-function exportCSV() {
+function exportXLS() {
 
-    let rows = [];
+    let table = `
+        <table border="1">
+            <tr>
+                <th colspan="${5 + dates.length}">
+                    MUSTER OF DEPOT : ${escapeHTML(document.getElementById("depot").value)},
+                    BU : ${escapeHTML(document.getElementById("bu").value)},
+                    DEPARTMENT : ${escapeHTML(document.getElementById("department").value)}
+                </th>
+            </tr>
 
-    // Header
-    let header = [
-        "SNo",
-        "PF Number",
-        "Name",
-        "Designation",
-        "Station"
-    ];
+            <tr>
+                <th colspan="${5 + dates.length}">
+                    For Period
+                    ${formatDate(dates[0])}
+                    to
+                    ${formatDate(dates[dates.length - 1])}
+                </th>
+            </tr>
 
-    // Add the automatically generated muster dates
+            <tr>
+                <th>SNo.</th>
+                <th>PF Number</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Station</th>
+    `;
+
+    // Date headers
     dates.forEach(date => {
-        header.push(formatDate(date));
+
+        table += `
+            <th>
+                ${formatDate(date)}
+            </th>
+        `;
+
     });
 
-    rows.push(header);
+    table += `</tr>`;
 
 
-    // Employee data
+    // Employee rows
     employees.forEach((emp, index) => {
 
-        let row = [
-            index + 1,
-            emp.pe || "",
-            emp.name || "",
-            emp.desig || "",
-            emp.station || ""
-        ];
+        table += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${escapeHTML(emp.pe || "")}</td>
+                <td>${escapeHTML(emp.name || "")}</td>
+                <td>${escapeHTML(emp.desig || "")}</td>
+                <td>${escapeHTML(emp.station || "")}</td>
+        `;
 
         dates.forEach((date, dayIndex) => {
 
-            row.push(
+            const status =
                 emp.days && emp.days[dayIndex]
                     ? emp.days[dayIndex]
-                    : ""
-            );
+                    : "";
+
+            table += `
+                <td style="text-align:center;">
+                    ${escapeHTML(status)}
+                </td>
+            `;
 
         });
 
-        rows.push(row);
+        table += `</tr>`;
 
     });
 
 
-    // Convert to CSV
-    let csv = rows.map(row => {
+    // Remarks
+    table += `
+        <tr>
+            <td colspan="${5 + dates.length}">
+                <b>Remarks</b>
+            </td>
+        </tr>
 
-        return row.map(value => {
+        <tr>
+            <td colspan="${5 + dates.length}">
+                ${escapeHTML(
+                    document.getElementById("remarks").value
+                ).replace(/\n/g, "<br>")}
+            </td>
+        </tr>
+    `;
 
-            value = String(value ?? "");
-
-            return `"${value.replace(/"/g, '""')}"`;
-
-        }).join(",");
-
-    }).join("\n");
+    table += `</table>`;
 
 
-    // Create file
-    let blob = new Blob(
-        ["\ufeff" + csv],
+    // Excel HTML document
+    const excelFile = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office"
+              xmlns:x="urn:schemas-microsoft-com:office:excel"
+              xmlns="http://www.w3.org/TR/REC-html40">
+
+        <head>
+            <meta charset="UTF-8">
+
+            <!--[if gte mso 9]>
+            <xml>
+                <x:ExcelWorkbook>
+                    <x:ExcelWorksheets>
+                        <x:ExcelWorksheet>
+                            <x:Name>Muster</x:Name>
+                            <x:WorksheetOptions>
+                                <x:Print>
+                                    <x:ValidPrinterInfo/>
+                                </x:Print>
+                                <x:FitToPage/>
+                                <x:PageLayoutZoom>80</x:PageLayoutZoom>
+                            </x:WorksheetOptions>
+                        </x:ExcelWorksheet>
+                    </x:ExcelWorksheets>
+                </x:ExcelWorkbook>
+            </xml>
+            <![endif]-->
+
+            <style>
+                table {
+                    border-collapse: collapse;
+                }
+
+                th {
+                    font-weight: bold;
+                    background: #e8eef5;
+                    text-align: center;
+                }
+
+                th, td {
+                    border: 1px solid #000000;
+                    padding: 4px;
+                }
+            </style>
+
+        </head>
+
+        <body>
+            ${table}
+        </body>
+
+        </html>
+    `;
+
+
+    const blob = new Blob(
+        ["\ufeff", excelFile],
         {
-            type: "text/csv;charset=utf-8;"
+            type: "application/vnd.ms-excel"
         }
     );
 
 
-    let url = URL.createObjectURL(blob);
+    const url =
+        URL.createObjectURL(blob);
 
-    let a = document.createElement("a");
+    const a =
+        document.createElement("a");
 
     a.href = url;
 
-    // Use Muster Period + Year for filename
     const period =
         document.getElementById("musterPeriod")
-            .selectedOptions[0].textContent;
+            .selectedOptions[0]
+            .textContent
+            .replace(/\s+/g, "-");
 
     const year =
         document.getElementById("musterYear").value;
 
     a.download =
-        `Muster_${period.replace(/\s+/g, "-")}_${year}.csv`;
+        `Muster_${period}_${year}.xls`;
 
     document.body.appendChild(a);
 
@@ -1755,8 +1847,7 @@ function exportCSV() {
 
     URL.revokeObjectURL(url);
 }
-
-
+           
 /* =========================================================
    HTML ESCAPE
 ========================================================= */
