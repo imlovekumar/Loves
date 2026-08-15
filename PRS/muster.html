@@ -619,139 +619,6 @@ button {
 
 
 /* =========================================
-   PRINT
-========================================= */
-
-@media print {
-
-    @page {
-        size: A4 landscape;
-        margin: 5mm;
-    }
-
-    html,
-    body {
-        overflow: visible;
-    }
-
-    .app-header,
-    .settings,
-    .staff-toolbar,
-    .status-help,
-    .no-print {
-        display: none !important;
-    }
-
-    .container {
-        max-width: none;
-
-        margin: 0;
-
-        padding: 0;
-    }
-
-    .table-wrapper {
-        width: 100%;
-
-        overflow: visible !important;
-
-        border: 0;
-
-        box-shadow: none;
-
-        border-radius: 0;
-    }
-
-    #musterTable {
-        width: 100% !important;
-        min-width: 0 !important;
-
-        table-layout: auto;
-
-        font-size: 7px;
-    }
-
-    #musterTable th,
-    #musterTable td {
-        position: static !important;
-    }
-
-    #musterTable thead th {
-        position: static !important;
-
-        height: 18px;
-
-        font-size: 7px;
-    }
-
-    #musterTable .day-head,
-    #musterTable .day-cell {
-        width: auto;
-        min-width: 0;
-        max-width: none;
-    }
-
-    .employee-input {
-        height: 17px;
-
-        font-size: 7px;
-
-        padding: 0 2px;
-    }
-
-    .day-select {
-        height: 17px;
-
-        font-size: 7px;
-
-        appearance: none;
-        -webkit-appearance: none;
-    }
-
-    .day-head small {
-        display: none;
-    }
-
-    .bottom-section {
-        display: block;
-
-        margin-top: 8px;
-    }
-
-    .box {
-        border: 0;
-
-        padding: 2px;
-    }
-
-    .box textarea {
-        border: 0;
-
-        min-height: auto;
-
-        padding: 0;
-
-        font-size: 7px;
-
-        resize: none;
-    }
-
-    .box-title {
-        font-size: 8px;
-    }
-
-    .print-title {
-        font-size: 10px;
-    }
-
-    .print-period {
-        font-size: 9px;
-
-        margin-bottom: 5px;
-    }
-}
-
-/* =========================================
    ATTENDANCE POPUP
 ========================================= */
 
@@ -1056,7 +923,7 @@ button {
     color: #94a3b8;
 }
 </style>
-
+<link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>
 
