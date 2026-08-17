@@ -1060,21 +1060,17 @@ button {
 
 <header class="app-header no-print">
     <div class="header-inner">
-
         <div>
             <div class="header-title">🚆 Railway Muster Generator</div>
             <div class="header-subtitle">
-                Create monthly staff muster quickly • Offline • Excel-friendly
+                Create monthly staff muster quickly • Offline
             </div>
         </div>
 
         <div class="header-actions">
-			<button class="btn btn-green" onclick="fillAllP()">
-                ✓ Fill All P
-            </button>
-            <button class="btn btn-blue" onclick="window.print()">🖨 Print Muster</button>
+			<button class="btn btn-green" onclick="fillAllP()">✓ Fill All P</button>
+            <button class="btn btn-blue" onclick="printMuster()">🖨 Print Muster</button>
         </div>
-
     </div>
 </header>
 
@@ -1082,12 +1078,8 @@ button {
 <main class="container">
 
 <!-- SETTINGS -->
-
     <section class="settings no-print">
-
-        <div class="section-title">
-            Muster Details
-        </div>
+        <div class="section-title">Muster Details</div>
 
         <div class="form-grid">
 
@@ -1101,48 +1093,45 @@ button {
 
             <div class="field">
                 <label>BU</label>
-                <input id="bu" value="3705667">
+                <input id="bu" value="3705667" disabled>
             </div>
 			
 			<div class="field department-field">
-    <label>Department</label>
-	<select id="department">
-		<option value="OPERATING">OPERATING</option>
-	</select>
-</div>
-
-            
+                <label>Department</label>
+	            <select id="department">
+                    <option value="OPERATING">OPERATING</option>
+                </select>
+            </div>
 
 			<div class="field">
-    <label>Muster Period</label>
-    <select id="musterPeriod" onchange="changeMusterPeriod()">
-        <option value="1-2">January - February</option>
-        <option value="2-3">February - March</option>
-        <option value="3-4">March - April</option>
-        <option value="4-5">April - May</option>
-        <option value="5-6">May - June</option>
-        <option value="6-7">June - July</option>
-        <option value="7-8">July - August</option>
-        <option value="8-9" selected>August - September</option>
-        <option value="9-10">September - October</option>
-        <option value="10-11">October - November</option>
-        <option value="11-12">November - December</option>
-        <option value="12-1">December - January</option>
-    </select>
-</div>
+                <label>Muster Period</label>
+                <select id="musterPeriod" onchange="changeMusterPeriod()">
+                    <option value="1-2">January - February</option>
+                    <option value="2-3">February - March</option>
+                    <option value="3-4">March - April</option>
+                    <option value="4-5">April - May</option>
+                    <option value="5-6">May - June</option>
+                    <option value="6-7">June - July</option>
+                    <option value="7-8">July - August</option>
+                    <option value="8-9" selected>August - September</option>
+                    <option value="9-10">September - October</option>
+                    <option value="10-11">October - November</option>
+                    <option value="11-12">November - December</option>
+                    <option value="12-1">December - January</option>
+                </select>
+            </div>
 
-<div class="field">
-    <label>Muster Year</label>
-    <select id="musterYear" onchange="changeMusterPeriod()">
-        <option value="2025">2025</option>
-        <option value="2026" selected>2026</option>
-        <option value="2027">2027</option>
-        <option value="2028">2028</option>
-        <option value="2029">2029</option>
-        <option value="2030">2030</option>
-    </select>
-</div>
-
+            <div class="field">
+                <label>Muster Year</label>
+                <select id="musterYear" onchange="changeMusterPeriod()">
+                    <option value="2025">2025</option>
+                    <option value="2026" selected>2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                </select>
+            </div>
         </div>
 
         <div class="status-help">
@@ -1156,7 +1145,7 @@ button {
 
     </section>
 
-<!-- PRINT TITLE -->
+    <!-- PRINT TITLE -->
 
     <section id="printHeading">
 
@@ -1181,41 +1170,29 @@ button {
     <!-- MAIN TABLE -->
 
     <div class="table-wrapper">
-
         <table id="musterTable">
-
             <thead>
                 <tr id="tableHead">
-
                     <th class="fixed col-sno">
                         SNo.
                     </th>
-
                     <th class="fixed col-pe">
                         PF Number
                     </th>
-
                     <th class="fixed col-name">
                         Name
                     </th>
-
                     <th class="fixed col-desig">
                         Designation
                     </th>
-
                     <th class="fixed col-station">
                         Station
                     </th>
-
                 </tr>
             </thead>
-
             <tbody id="staffBody"></tbody>
-
         </table>
-
     </div>
-
 
     <!-- BOTTOM -->
 
@@ -1233,256 +1210,220 @@ button {
 	
 	<!-- LEAVE / ABSENT LIST -->
 
-<section id="leaveSection" class="leave-section">
+    <section id="leaveSection" class="leave-section">
+        <div class="leave-title">
+            LEAVE/ABSENT LIST OF DEPOT :
+            <span id="leaveDepot">SMR/KDP</span>,
+            BU :
+            <span id="leaveBU">3705667</span>,
+            DEPARTMENT :
+            <span id="leaveDepartment">OPERATING</span>.
+        </div>
 
-    <div class="leave-title">
-        LEAVE/ABSENT LIST OF DEPOT :
-        <span id="leaveDepot">SMR/KDP</span>,
-        BU :
-        <span id="leaveBU">3705667</span>,
-        DEPARTMENT :
-        <span id="leaveDepartment">OPERATING</span>.
-    </div>
+        <div class="leave-period">
+            For Period
+            <span id="leaveStart">11-07-2026</span>
+            to
+            <span id="leaveEnd">10-08-2026</span>
+        </div>
 
-    <div class="leave-period">
-        For Period
-        <span id="leaveStart">11-07-2026</span>
-        to
-        <span id="leaveEnd">10-08-2026</span>
-    </div>
+        <div class="leave-table-wrapper">
+            <table id="leaveTable">
+                <thead>
+                    <tr id="leaveTableHead">
+                        <th class="leave-sno">SNo.</th>
+                        <th class="leave-pe">PF Number</th>
+                        <th class="leave-name">Name</th>
+                        <th class="leave-desig">Desig.</th>
+                        <th class="leave-station">Station</th>
+                    </tr>
+                </thead>
+                <tbody id="leaveTableBody"></tbody>
+            </table>
+        </div>
+    </section>
 
-    <div class="leave-table-wrapper">
+    <!-- NH STATEMENT -->
 
-        <table id="leaveTable">
+    <section id="nhSection" class="nh-section">
+        <div class="nh-title">
+            NH STATEMENT OF DEPOT :
+            <span id="nhDepot">SMR/KDP</span>,
+            BU :
+            <span id="nhBU">3705667</span>,
+            DEPARTMENT :
+            <span id="nhDepartment">OPERATING</span>
+        </div>
 
-            <thead>
-                <tr id="leaveTableHead">
-                    <th class="leave-sno">SNo.</th>
-                    <th class="leave-pe">PF Number</th>
-                    <th class="leave-name">Name</th>
-                    <th class="leave-desig">Desig.</th>
-                    <th class="leave-station">Station</th>
-                </tr>
-            </thead>
+        <div class="nh-period">
+            For Period
+            <span id="nhStart">11-07-2026</span>
+            to
+            <span id="nhEnd">10-08-2026</span>
+        </div>
 
-            <tbody id="leaveTableBody"></tbody>
+        <div class="nh-table-wrapper">
+            <table id="nhTable">
+                <thead>
+                    <tr id="nhTableHead">
+                        <th class="nh-sno">SNo.</th>
+                        <th class="nh-pe">PF Number</th>
+                        <th class="nh-name">Name</th>
+                        <th class="nh-desig">Desig.</th>
+                        <th class="nh-station">Station</th>
+                    </tr>
+                </thead>
+                <tbody id="nhTableBody"></tbody>
+            </table>
+        </div>
+    </section>
 
-        </table>
+    <!-- NDA SECTION -->
 
-    </div>
+    <section class="nda-section">
+        <div class="nda-title">
+            NDA OF DEPOT :
+            <span id="ndaDepot">SMR/KDP</span>,
+            BU :
+            <span id="ndaBU">3705667</span>,
+            DEPARTMENT :
+            <span id="ndaDepartment">OPERATING</span>.
+        </div>
 
-</section>
+        <div class="nda-period">
+            For Period
+            <span id="ndaStart">01-07-2026</span>
+            to
+            <span id="ndaEnd">31-07-2026</span>
+        </div>
 
-<!-- NH STATEMENT -->
+        <div class="nda-table-wrapper">
+            <table id="ndaTable">
+                <thead>
+                    <tr>
+                        <th>SNo.</th>
+                        <th>PF Number</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Station</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Duty Hours</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody id="ndaBody"></tbody>
+            </table>
+        </div>
+    </section>
 
-<section id="nhSection" class="nh-section">
+    <!-- SCALE CHECK STATEMENT -->
 
-    <div class="nh-title">
-        NH STATEMENT OF DEPOT :
-        <span id="nhDepot">SMR/KDP</span>,
-        BU :
-        <span id="nhBU">3705667</span>,
-        DEPARTMENT :
-        <span id="nhDepartment">OPERATING</span>
-    </div>
+    <section class="scale-section">
+        <div class="scale-title">
+            SCALE CHECK STATEMENT OF DEPOT :
+            <span>SMR/KDP</span>,
+            BU :
+            <span>3705667</span>,
+            DEPARTMENT :
+            <span>OPERATING</span>
+        </div>
 
-    <div class="nh-period">
-        For Period
-        <span id="nhStart">11-07-2026</span>
-        to
-        <span id="nhEnd">10-08-2026</span>
-    </div>
+        <div class="scale-period">
+            For Period 11-07-2026 to 10-08-2026
+        </div>
 
-    <div class="nh-table-wrapper">
+        <div class="scale-table-wrapper">
+            <table id="scaleTable">
+                <thead>
+                    <tr>
+                        <th>Bill Unit</th>
+                        <th>Designation</th>
+                        <th>Sanction</th>
+                        <th>Actuals</th>
+                        <th>Vacancy</th>
+                        <th>Excess</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            SMR (G.P:4600/-) L-7
+                        </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            DY SM (G.P:4200/-) L-6
+                        </td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            RG SM (G.P:4200/-) L-6
+                        </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            LR SM (G.P:4200/-) L-6
+                        </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
 
-        <table id="nhTable">
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            Sr. BC (G.P:2800/-) L-5
+                        </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
 
-            <thead>
-                <tr id="nhTableHead">
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            Pointsman (G.P:1900/-) L-2
+                        </td>
+                        <td>2</td>
+                        <td>4</td>
+                        <td>0</td>
+                        <td>2</td>
+                    </tr>
 
-                    <th class="nh-sno">SNo.</th>
-                    <th class="nh-pe">PF Number</th>
-                    <th class="nh-name">Name</th>
-                    <th class="nh-desig">Desig.</th>
-                    <th class="nh-station">Station</th>
-
-                </tr>
-            </thead>
-
-            <tbody id="nhTableBody"></tbody>
-
-        </table>
-
-    </div>
-
-</section>
-
-<!-- NDA SECTION -->
-
-<section class="nda-section">
-
-    <div class="nda-title">
-        NDA OF DEPOT :
-        <span id="ndaDepot">SMR/KDP</span>,
-        BU :
-        <span id="ndaBU">3705667</span>,
-        DEPARTMENT :
-        <span id="ndaDepartment">OPERATING</span>.
-    </div>
-
-    <div class="nda-period">
-        For Period
-        <span id="ndaStart">01-07-2026</span>
-        to
-        <span id="ndaEnd">31-07-2026</span>
-    </div>
-
-    <div class="nda-table-wrapper">
-
-        <table id="ndaTable">
-
-            <thead>
-    <tr>
-        <th>SNo.</th>
-        <th>PF Number</th>
-        <th>Name</th>
-        <th>Designation</th>
-        <th>Station</th>
-        <th>From Date</th>
-        <th>To Date</th>
-        <th>Duty Hours</th>
-        <th>Remarks</th>
-    </tr>
-</thead>
-
-            <tbody id="ndaBody"></tbody>
-
-        </table>
-
-    </div>
-
-</section>
-
-<!-- SCALE CHECK STATEMENT -->
-
-<section class="scale-section">
-
-    <div class="scale-title">
-        SCALE CHECK STATEMENT OF DEPOT :
-        <span>SMR/KDP</span>,
-        BU :
-        <span>3705667</span>,
-        DEPARTMENT :
-        <span>OPERATING</span>
-    </div>
-
-    <div class="scale-period">
-        For Period 11-07-2026 to 10-08-2026
-    </div>
-
-    <div class="scale-table-wrapper">
-
-        <table id="scaleTable">
-
-            <thead>
-                <tr>
-                    <th>Bill Unit</th>
-                    <th>Designation</th>
-                    <th>Sanction</th>
-                    <th>Actuals</th>
-                    <th>Vacancy</th>
-                    <th>Excess</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <tr>
-                    <td>3705667</td>
-                    <td class="scale-designation">
-                        SMR (G.P:4600/-) L-7
-                    </td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-
-                <tr>
-                    <td>3705667</td>
-                    <td class="scale-designation">
-                        DY SM (G.P:4200/-) L-6
-                    </td>
-                    <td>2</td>
-                    <td>2</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-
-                <tr>
-                    <td>3705667</td>
-                    <td class="scale-designation">
-                        RG SM (G.P:4200/-) L-6
-                    </td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-
-                <tr>
-                    <td>3705667</td>
-                    <td class="scale-designation">
-                        LR SM (G.P:4200/-) L-6
-                    </td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-
-                <tr>
-                    <td>3705667</td>
-                    <td class="scale-designation">
-                        Sr. BC (G.P:2800/-) L-5
-                    </td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-
-                <tr>
-                    <td>3705667</td>
-                    <td class="scale-designation">
-                        Pointsman (G.P:1900/-) L-2
-                    </td>
-                    <td>2</td>
-                    <td>4</td>
-                    <td>0</td>
-                    <td>2</td>
-                </tr>
-
-                <tr>
-                    <td>3705667</td>
-                    <td class="scale-designation">
-                        Assistant PMAN L-1
-                    </td>
-                    <td>2</td>
-                    <td>0</td>
-                    <td>2</td>
-                    <td>0</td>
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</section>
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            Assistant PMAN L-1
+                        </td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </main>
-
 
 <script>
 
@@ -1510,149 +1451,150 @@ const STATUS_OPTIONS = [
 
 const depotEmployees = {
 	
-	"SMR/KDP" : [
+	"SMR/KDP" : 
+        [
+            {
+                pe: "24505541967",
+                name: "C Guruprasad",
+                desig: "SMR",
+                station: "KDP",
+                days: []
+            },
 
-    {
-        pe: "24505541967",
-        name: "C Guruprasad",
-        desig: "SMR",
-        station: "KDP",
-        days: []
-    },
+            {
+                pe: "24129802911",
+                name: "Loveleen kumar",
+                desig: "Dy SM",
+                station: "KDP",
+                days: []
+            },
 
-    {
-        pe: "24129802911",
-        name: "Loveleen kumar",
-        desig: "Dy SM",
-        station: "KDP",
-        days: []
-    },
+            {
+                pe: "24129802896",
+                name: "Pankaj Kumar Meena",
+                desig: "Dy SM",
+                station: "KDP",
+                days: []
+            },
 
-    {
-        pe: "24129802896",
-        name: "Pankaj Kumar Meena",
-        desig: "Dy SM",
-        station: "KDP",
-        days: []
-    },
+            {
+                pe: "24129802920",
+                name: "Sanjiv Kumar Singh",
+                desig: "RG SM",
+                station: "KDP",
+                days: []
+            },
 
-    {
-        pe: "24129802920",
-        name: "Sanjiv Kumar Singh",
-        desig: "RG SM",
-        station: "KDP",
-        days: []
-    },
+            {
+                pe: "24529803490",
+                name: "Anil Yadav",
+                desig: "LR SM",
+                station: "KDP",
+                days: []
+            },
 
-    {
-        pe: "24529803490",
-        name: "Anil Yadav",
-        desig: "LR SM",
-        station: "KDP",
-        days: []
-    },
+            {
+                pe: "24505543289",
+                name: "Y Nageshwara Rao",
+                desig: "CCTS",
+                station: "KDP",
+                days: []
+            },
 
-    {
-        pe: "24505543289",
-        name: "Y Nageshwara Rao",
-        desig: "CCTS",
-        station: "KDP",
-        days: []
-    },
+            {
+                pe: "245II110205",
+                name: "S Jagadeesh",
+                desig: "PMAN",
+                station: "KDP",
+                days: []
+            },
 
-    {
-        pe: "245II110205",
-        name: "S Jagadeesh",
-        desig: "PMAN",
-        station: "KDP",
-        days: []
-    },
+            {
+                pe: "24529801904",
+                name: "K Nagendra",
+                desig: "PMAN",
+                station: "KDP",
+                days: []
+            },
 
-    {
-        pe: "24529801904",
-        name: "K Nagendra",
-        desig: "PMAN",
-        station: "KDP",
-        days: []
-    },
+            {
+                pe: "24529803583",
+                name: "Abhdesh Kumar",
+                desig: "PMAN",
+                station: "KDP",
+                days: []
+            },
 
-    {
-        pe: "24529803583",
-        name: "Abhdesh Kumar",
-        desig: "PMAN",
-        station: "KDP",
-        days: []
-    },
+            {
+                pe: "24529806563",
+                name: "Praphul Kumar Choubey",
+                desig: "PMAN",
+                station: "KDP",
+                days: []
+            }
 
-    {
-        pe: "24529806563",
-        name: "Praphul Kumar Choubey",
-        desig: "PMAN",
-        station: "KDP",
-        days: []
-    }
+        ],
 
-],
-"SMR/MUM": [
+    "SMR/MUM": 
+        [
 
-        {
+            {
 
-            pe: "245II050255",
-            name: "S.Md Athaullah",
-            desig: "SMR",
-            station: "MUM",
-            days: []
-        },
+                pe: "245II050255",
+                name: "S.Md Athaullah",
+                desig: "SMR",
+                station: "MUM",
+                days: []
+            },
 
-        {
+            {
 
-            pe: "24129802947",
-            name: "MANISH KUMAR",
-            desig: "Dy SM",
-            station: "MUM",
-            days: []
+                pe: "24129802947",
+                name: "MANISH KUMAR",
+                desig: "Dy SM",
+                station: "MUM",
+                days: []
 
-        },
+            },
 
-        {
+            {
 
-            pe: "24529807820",
-            name: "PARMAR MEHULKUMAR DEVABHAI",
-            desig: "Dy SM",
-            station: "MUM",
-            days: []
-        },
+                pe: "24529807820",
+                name: "PARMAR MEHULKUMAR DEVABHAI",
+                desig: "Dy SM",
+                station: "MUM",
+                days: []
+            },
 
-        {
+            {
 
-            pe: "24529806453",
-            name: "JITENDRA KUMAR",
-            desig: "PMAN",
-            station: "MUM",
-            days: []
-        },
-		
-		{
+                pe: "24529806453",
+                name: "JITENDRA KUMAR",
+                desig: "PMAN",
+                station: "MUM",
+                days: []
+            },
+            
+            {
 
-            pe: "24529808643",
-            name: "V Ramesh Reddy",
-            desig: "APMAN",
-            station: "MUM",
-            days: []
-        },
+                pe: "24529808643",
+                name: "V Ramesh Reddy",
+                desig: "APMAN",
+                station: "MUM",
+                days: []
+            },
 
-        {
+            {
 
-            pe: "24529808237",
-            name: "M SANDEEP",
-            desig: "APMAN",
-            station: "MUM",
-            days: []
-        }
-]
+                pe: "24529808237",
+                name: "M SANDEEP",
+                desig: "APMAN",
+                station: "MUM",
+                days: []
+            }
+        ]
 };
 
-//let employees = depotEmployees["SMR/KDP"];
 let dates = [];
 
 
@@ -1665,7 +1607,6 @@ function formatDate(date) {
     let d = String(date.getDate()).padStart(2, "0");
     let m = String(date.getMonth() + 1).padStart(2, "0");
     let y = date.getFullYear();
-
     return `${d}-${m}-${y}`;
 }
 
@@ -1773,7 +1714,7 @@ function buildHeader() {
 =============*/
 	
 function getCurrentDepot() {
-    	return document.getElementById("depot").value;
+    return document.getElementById("depot").value;
 }
 
 function changeDepot() {
@@ -1823,8 +1764,8 @@ function renderTable() {
         }
 		
 		if (emp.days.length > dates.length) {
-    emp.days = emp.days.slice(0, dates.length);
-}
+            emp.days = emp.days.slice(0, dates.length);
+        }
 
         let tr = document.createElement("tr");
         tr.className = "employee-row";
@@ -1844,17 +1785,15 @@ function renderTable() {
             </td>
 
            <td class="fixed col-name">
-
-    <button
-        type="button"
-        class="employee-name-button"
-        onclick="openAttendance(${employeeIndex})"
-        title="Edit attendance"
-    >
-        ${escapeHTML(emp.name || "Unnamed Employee")}
-    </button>
-
-</td>
+                <button
+                    type="button"
+                    class="employee-name-button"
+                    onclick="openAttendance(${employeeIndex})"
+                    title="Edit attendance"
+                >
+                    ${escapeHTML(emp.name || "Unnamed Employee")}
+                </button>
+            </td>
 
             <td class="fixed col-desig">
                 <input
@@ -1874,13 +1813,9 @@ function renderTable() {
 
         `;
 
-
         dates.forEach((date, dayIndex) => {
-
             let value = emp.days[dayIndex] || "P";
-
             let options = STATUS_OPTIONS.map(status => {
-
                 return `
                     <option value="${status}"
                         ${status === value ? "selected" : ""}>
@@ -1890,21 +1825,15 @@ function renderTable() {
 
             }).join("");
 
-
             tr.innerHTML += `
-
-		<td class="day-cell ${value ? "status-" + value : ""}">
-        
-    ${emp.days && emp.days[dayIndex]
-        ? emp.days[dayIndex]
-        : ""}
-</td>
-
+		            <td class="day-cell ${value ? "status-" + value : ""}">
+                        ${emp.days && emp.days[dayIndex]
+                        ? emp.days[dayIndex]
+                        : ""}
+                    </td>
             `;
 
         });
-
-
         body.appendChild(tr);
 
     });
@@ -1933,9 +1862,7 @@ function renderLeaveTable() {
 
     // No LAP anywhere → hide complete section
     if (leaveEmployees.length === 0) {
-
         section.style.display = "none";
-
         return;
     }
 
@@ -1962,14 +1889,9 @@ function renderLeaveTable() {
 
     // Body
     body.innerHTML = "";
-
     leaveEmployees.forEach((emp) => {
-
-        const employeeIndex =
-            employees.indexOf(emp);
-
-        const tr =
-            document.createElement("tr");
+        const employeeIndex = employees.indexOf(emp);
+        const tr = document.createElement("tr");
 
         tr.innerHTML = `
             <td>
@@ -2010,9 +1932,7 @@ function renderLeaveTable() {
         });
 
         body.appendChild(tr);
-
     });
-
     updateLeaveHeader();
 }
 
@@ -2060,14 +1980,10 @@ function renderNHTable() {
 
     // Nothing to show
     if (nhEmployees.length === 0) {
-
         section.style.display = "none";
-
         return;
     }
-
     section.style.display = "block";
-
     // Header
     head.innerHTML = `
         <th class="nh-sno">SNo.</th>
@@ -2078,25 +1994,19 @@ function renderNHTable() {
     `;
 
     dates.forEach(date => {
-
         head.innerHTML += `
             <th class="nh-day">
                 ${date.getDate()}
             </th>
         `;
-
     });
 
     body.innerHTML = "";
-
     nhEmployees.forEach(emp => {
-
         const employeeIndex =
             employees.indexOf(emp);
-
         const tr =
             document.createElement("tr");
-
         tr.innerHTML = `
             <td>
                 ${employeeIndex + 1}
@@ -2118,7 +2028,6 @@ function renderNHTable() {
                 ${escapeHTML(emp.station || "")}
             </td>
         `;
-
         dates.forEach((date, dayIndex) => {
 
             const value =
@@ -2132,13 +2041,9 @@ function renderNHTable() {
                     ${value}
                 </td>
             `;
-
         });
-
         body.appendChild(tr);
-
     });
-
     updateNHHeader();
 }
 
@@ -2164,7 +2069,6 @@ function updateNHHeader() {
 function renderNDATable() {
 
     const body = document.getElementById("ndaBody");
-
     body.innerHTML = "";
 
     const period =
@@ -2196,7 +2100,7 @@ function renderNDATable() {
 	document.getElementById("ndaStart").textContent =
     ndaStartText;
 
-document.getElementById("ndaEnd").textContent =
+    document.getElementById("ndaEnd").textContent =
     ndaEndText;
 
     employees.forEach((emp, index) => {
@@ -2207,9 +2111,9 @@ document.getElementById("ndaEnd").textContent =
                 : "-";
 
         const remarks =
-    emp.ndaRemark && emp.ndaRemark.trim()
-        ? emp.ndaRemark.trim()
-        : "NIL";
+            emp.ndaRemark && emp.ndaRemark.trim()
+            ? emp.ndaRemark.trim()
+            : "NIL";
 
         const tr = document.createElement("tr");
 
@@ -2266,9 +2170,6 @@ function updateDay(select) {
 
     select.className =
         "day-select status-" + select.value;
-
-    
-
 }
 
 /* =========================================================
@@ -2278,14 +2179,9 @@ function updateDay(select) {
 function fillAllP() {
 
     employees.forEach(emp => {
-
         emp.days = Array(dates.length).fill("P");
-
     });
-
     renderTable();
-
-    
 }
 
 /* =========================================================
@@ -2297,17 +2193,17 @@ function updatePrintHeader() {
 	document.getElementById("ndaDepot").textContent =
     document.getElementById("depot").value;
 
-document.getElementById("ndaBU").textContent =
-    document.getElementById("bu").value;
+    document.getElementById("ndaBU").textContent =
+        document.getElementById("bu").value;
 
-document.getElementById("ndaDepartment").textContent =
-    document.getElementById("department").value;
+    document.getElementById("ndaDepartment").textContent =
+        document.getElementById("department").value;
 
-document.getElementById("ndaStart").textContent =
-    document.getElementById("printStart").textContent;
+    document.getElementById("ndaStart").textContent =
+        document.getElementById("printStart").textContent;
 
-document.getElementById("ndaEnd").textContent =
-    document.getElementById("printEnd").textContent;
+    document.getElementById("ndaEnd").textContent =
+        document.getElementById("printEnd").textContent;
 
     document.getElementById("printDepot").textContent =
         document.getElementById("depot").value;
@@ -2348,12 +2244,8 @@ function escapeHTML(value) {
 
     document.getElementById(id)
         .addEventListener("input", () => {
-
             updatePrintHeader();
-            
-
         });
-
 });
 
 /* =========================================
@@ -2362,13 +2254,10 @@ function escapeHTML(value) {
 
 let currentAttendanceEmployee = null;
 
-
 function openAttendance(employeeIndex) {
-
     currentAttendanceEmployee = employeeIndex;
-
     const employee = employees[employeeIndex];
-	
+
 	document.getElementById("attendanceNDA").value =
     employee.nda || "";
 	
@@ -2402,41 +2291,26 @@ function openAttendance(employeeIndex) {
         + document.getElementById("musterYear").value;
 
     period.textContent = periodText;
-
-
     body.innerHTML = "";
-
-
     dates.forEach((date, dayIndex) => {
-
         const value =
             employee.days &&
             employee.days[dayIndex]
                 ? employee.days[dayIndex]
                 : "P";
-
-
         const tr =
             document.createElement("tr");
-
-
         const options =
             STATUS_OPTIONS.map(status => {
-
                 return `
                     <option value="${status}"
                         ${status === value ? "selected" : ""}>
                         ${status}
                     </option>
                 `;
-
             }).join("");
-
-
         tr.innerHTML = `
-
             <td>${dayIndex + 1}</td>
-
             <td class="attendance-date">
                 ${formatDate(date)}
             </td>
@@ -2460,25 +2334,14 @@ function openAttendance(employeeIndex) {
                         )
                     "
                 >
-
                     ${options}
-
                 </select>
-
             </td>
-
         `;
-
-
         body.appendChild(tr);
-
     });
-
-
     updatePresentCount();
-
     overlay.style.display = "flex";
-
 }
 
 function updateAttendanceNDA(value) {
@@ -2486,9 +2349,7 @@ function updateAttendanceNDA(value) {
     if (currentAttendanceEmployee === null) {
         return;
     }
-
     employees[currentAttendanceEmployee].nda = value;
-
     renderNDATable();
 }
 
@@ -2499,7 +2360,6 @@ function updateAttendanceNDARemark(value) {
     }
 
     employees[currentAttendanceEmployee].ndaRemark = value;
-
     renderNDATable();
 }
 
@@ -2515,23 +2375,15 @@ function updateAttendance(
             Array(dates.length).fill("P");
 
     }
-
-
     employees[employeeIndex].days[dayIndex] =
         value;
-
-
     updatePresentCount();
-
-    
 
     /*
         Update the main muster table
         immediately.
     */
-
     renderTable();
-
 }
 
 
@@ -2540,22 +2392,15 @@ function updatePresentCount() {
     if (currentAttendanceEmployee === null) {
         return;
     }
-
     const employee =
         employees[currentAttendanceEmployee];
-
-
     const present =
         (employee.days || [])
             .filter(status => status === "P")
             .length;
-
-
     document.getElementById("presentCount")
         .textContent = present;
-
 }
-
 
 function closeAttendance() {
 
@@ -2564,9 +2409,7 @@ function closeAttendance() {
     ).style.display = "none";
 
     currentAttendanceEmployee = null;
-
 }
-
 
 function updateAttendanceRemark(value) {
 
@@ -2578,26 +2421,17 @@ function updateAttendanceRemark(value) {
         employees[currentAttendanceEmployee];
 
     employee.remark = value;
-
-    updateMainRemarks();
-
-    
+    updateMainRemarks();    
 }
 
 function updateMainRemarks() {
-
     const lines = [];
-
     employees.forEach((employee, index) => {
-
         if (employee.remark && employee.remark.trim()) {
-
             lines.push(
                 `${index + 1}. ${employee.name} : ${employee.remark.trim()}`
             );
-
         }
-
     });
 
     document.getElementById("remarks").value =
@@ -2648,103 +2482,50 @@ function updateEmployeeRemarksFromMain() {
     
 }
 
-function openPrintPreview() {
+/*============================================
+    Print Muster with name
+============================================*/
 
-    const overlay =
-        document.getElementById("printPreviewOverlay");
+function printMuster() {
 
-    const preview =
-        document.getElementById("printPreviewPage");
+    const depot = document.getElementById("depot").value.split("/")[1];
+    const period = document.getElementById("musterPeriod").value;
 
-    // Clear old preview
-    preview.innerHTML = "";
+    const months = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    const [startMonth, endMonth] = period.split("-");
+    const periodName = `${months[Number(startMonth) - 1]}-${months[Number(endMonth) - 1]}`;
 
-    // Clone the main printable content
-    const content =
-        document.querySelector(".container").cloneNode(true);
+    const oldTitle = document.title;
+    document.title = `Muster_${periodName}_${depot}`;
 
-    // Remove everything marked no-print
-    content.querySelectorAll(".no-print").forEach(el => {
-        el.remove();
-    });
-
-    preview.appendChild(content);
-
-    /*
-       Get the existing PRINT CSS from the page
-       and apply it to the preview.
-    */
-    document.querySelectorAll("style").forEach(style => {
-
-        try {
-
-            [...style.sheet.cssRules].forEach(rule => {
-
-                if (
-                    rule.type === CSSRule.MEDIA_RULE &&
-                    rule.conditionText.includes("print")
-                ) {
-
-                    [...rule.cssRules].forEach(printRule => {
-
-                        const printStyle =
-                            document.createElement("style");
-
-                        printStyle.textContent =
-                            printRule.cssText;
-
-                        preview.prepend(printStyle);
-
-                    });
-
-                }
-
-            });
-
-        } catch (e) {
-            console.log("Print CSS skipped:", e);
-        }
-
-    });
-
-    overlay.style.display = "block";
-
-    document.body.style.overflow = "hidden";
+    window.print();
+    
+    // Restore after printing
+    setTimeout(() => {
+        document.title = oldTitle;
+    }, 1000);
 }
 
-
-function closePrintPreview() {
-
-    document.getElementById(
-        "printPreviewOverlay"
-    ).style.display = "none";
-
-    document.body.style.overflow = "";
-}
 /* =========================================================
    INITIAL DATE
 ========================================================= */
 
-(function init() {
-
+( function init() {
     changeMusterPeriod();
-
 })();
 
 </script>
 
-
 <div id="attendanceOverlay" class="attendance-overlay">
-
     <div class="attendance-modal">
-
         <div class="attendance-header">
-
             <div>
                 <div class="attendance-title">
                     Employee Attendance
                 </div>
-
                 <div class="attendance-employee" id="attendanceEmployee">
                 </div>
             </div>
@@ -2754,9 +2535,7 @@ function closePrintPreview() {
                 onclick="closeAttendance()">
                 ×
             </button>
-
         </div>
-
 
         <div class="attendance-info">
 
@@ -2769,53 +2548,39 @@ function closePrintPreview() {
                 Present:
                 <b id="presentCount">0</b>
             </span>
-
         </div>
 		
 		<div class="attendance-nda">
 
-    <div class="nda-input-group">
-
-        <label for="attendanceNDA">
-            NDA
-        </label>
-
-        <input
-            type="number"
-            id="attendanceNDA"
-            min="0"
-            step="0.5"
-            placeholder="Hours"
-            oninput="updateAttendanceNDA(this.value)"
-        >
-
-        <span>hours</span>
-
-    </div>
-
-
-    <div class="nda-remark-group">
-
-        <label for="attendanceNDARemark">
-            NDA Remark
-        </label>
-
-        <input
-            type="text"
-            id="attendanceNDARemark"
-            placeholder="Enter NDA remark..."
-            oninput="updateAttendanceNDARemark(this.value)"
-        >
-
-    </div>
-
-</div>
-
+            <div class="nda-input-group">
+                <label for="attendanceNDA">
+                    NDA
+                </label>
+                <input
+                    type="number"
+                    id="attendanceNDA"
+                    min="0"
+                    step="0.5"
+                    placeholder="Hours"
+                    oninput="updateAttendanceNDA(this.value)"
+                >
+                <span>hours</span>
+            </div>
+            <div class="nda-remark-group">
+                <label for="attendanceNDARemark">
+                    NDA Remark
+                </label>
+                <input
+                    type="text"
+                    id="attendanceNDARemark"
+                    placeholder="Enter NDA remark..."
+                    oninput="updateAttendanceNDARemark(this.value)"
+                >
+            </div>
+        </div>
 
         <div class="attendance-table-wrapper">
-
             <table class="attendance-table">
-
                 <thead>
                     <tr>
                         <th>S.No.</th>
@@ -2824,29 +2589,22 @@ function closePrintPreview() {
                         <th>Attendance</th>
                     </tr>
                 </thead>
-
                 <tbody id="attendanceBody"></tbody>
-
             </table>
-
         </div>
-		
 		<div class="attendance-remark">
+            <label for="attendanceRemark">
+                Remark
+            </label>
 
-    <label for="attendanceRemark">
-        Remark
-    </label>
-
-    <textarea
-        id="attendanceRemark"
-        placeholder="Enter remark for this employee..."
-        oninput="updateAttendanceRemark(this.value)"
-    ></textarea>
-
-</div>
-
+            <textarea
+                id="attendanceRemark"
+                placeholder="Enter remark for this employee..."
+                oninput="updateAttendanceRemark(this.value)"
+            ></textarea>
+        </div>
     </div>
-
 </div>
+
 </body>
 </html>
