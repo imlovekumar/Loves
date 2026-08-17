@@ -1778,9 +1778,15 @@ function getCurrentDepot() {
 
 function changeDepot() {
     const depot = getCurrentDepot();
+	
     if (!depotEmployees[depot]) {
         depotEmployees[depot] = [];
     }
+	
+	document.querySelectorAll(".scale-section").forEach(el => {
+		el.style.display = depot === "SMR/MUM" ? "none" : "";
+	});
+	
     employees = depotEmployees[depot];
     employees.forEach(emp => {
         if (!emp.days) {
