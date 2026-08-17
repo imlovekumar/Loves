@@ -43,7 +43,7 @@ body {
 ========================================= */
 
 .app-header {
-    background: linear-gradient(135deg, #173f5f, #20639b);
+    /*background: linear-gradient(135deg, #173f5f, #20639b);*/
     color: white;
     padding: 18px 25px;
     box-shadow: 0 5px 20px rgba(0,0,0,.15);
@@ -58,23 +58,61 @@ body {
     gap: 20px;
 }
 
-.header-title {
-    font-size: 23px;
-    font-weight: 800;
+.railway-label {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: nowrap;
+    color: #315da8;
 }
 
-.header-subtitle {
-    font-size: 12px;
-    opacity: .8;
-    margin-top: 4px;
+        .railway-title {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: .5px;
+            line-height: 1;
+        }
+
+        .railway-line {
+            width: 300px;
+            height: 1px;
+            background: #315da8;
+            margin: 2px;
+        }
+
+        .railway-subtitle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: #52709d;
+        }
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.container {
+    max-width: 1500px;
+    margin: 25px auto;
+	margin-top: 10px;
+    padding: 0 18px;
 }
 
 .header-actions {
     display: flex;
+	flex-direction: column;
     gap: 8px;
     flex-wrap: wrap;
+	margin-bottom: 10px;
 }
-
 
 /* =========================================
    BUTTONS
@@ -98,40 +136,9 @@ button {
     transform: translateY(-1px);
 }
 
-.btn-light {
-    background: white;
-    color: var(--primary);
-}
-
 .btn-blue {
     background: #2563eb;
     color: white;
-}
-
-.btn-green {
-    background: #059669;
-    color: white;
-}
-
-.btn-red {
-    background: #dc2626;
-    color: white;
-}
-
-.btn-gray {
-    background: #64748b;
-    color: white;
-}
-
-
-/* =========================================
-   MAIN CONTAINER
-========================================= */
-
-.container {
-    max-width: 1500px;
-    margin: 25px auto;
-    padding: 0 18px;
 }
 
 /* =========================================
@@ -1060,23 +1067,24 @@ button {
 
 <header class="app-header no-print">
     <div class="header-inner">
-        <div>
-            <div class="header-title">🚆 Railway Muster Generator</div>
-            <div class="header-subtitle">
-                Create monthly staff muster quickly • Offline
-            </div>
-        </div>
-
-        <div class="header-actions">
-			<button class="btn btn-green" onclick="fillAllP()">✓ Fill All P</button>
-            <button class="btn btn-blue" onclick="printMuster()">🖨 Print Muster</button>
-        </div>
+		<div class="railway-label">
+        		<div class="railway-title">INDIAN RAILWAY</div>
+        		<div class="railway-line"></div>
+        		<div class="railway-subtitle">
+            		<span>SOUTH COAST RAILWAY</span>
+				<span>&#11044;</span>
+            		<span>GUNTAKAL DIVISION</span>
+        		</div>
+    		</div>
     </div>
 </header>
 
-
 <main class="container">
-
+	
+		<div class="header-actions">
+        		<button class="btn btn-blue" onclick="printMuster()">🖨 Print Muster</button>
+    		</div>
+	
 <!-- SETTINGS -->
     <section class="settings no-print">
         <div class="section-title">Muster Details</div>
@@ -2173,18 +2181,6 @@ function updateDay(select) {
 }
 
 /* =========================================================
-   FILL ALL P
-========================================================= */
-
-function fillAllP() {
-
-    employees.forEach(emp => {
-        emp.days = Array(dates.length).fill("P");
-    });
-    renderTable();
-}
-
-/* =========================================================
    PRINT HEADER
 ========================================================= */
 
@@ -2500,8 +2496,8 @@ function printMuster() {
 
     const oldTitle = document.title;
     document.title = `Muster_${periodName}_${depot}`;
-    
-    setTimeout(() => {
+
+	setTimeout(() => {
         window.print();
     }, 500);
     
