@@ -2500,8 +2500,10 @@ function printMuster() {
 
     const oldTitle = document.title;
     document.title = `Muster_${periodName}_${depot}`;
-
-    window.print();
+    
+    setTimeout(() => {
+        window.print();
+    }, 1000);
     
     // Restore after printing
     setTimeout(() => {
