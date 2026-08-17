@@ -202,25 +202,6 @@ button {
 }
 
 /* =========================================
-   TOOLBAR
-========================================= */
-
-.staff-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 18px 0 10px;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.staff-toolbar-left {
-    display: flex;
-    gap: 7px;
-    flex-wrap: wrap;
-}
-
-/* =========================================
    PRINT TITLE
 ========================================= */
 
@@ -1088,6 +1069,9 @@ button {
         </div>
 
         <div class="header-actions">
+			<button class="btn btn-green" onclick="fillAllP()">
+                ✓ Fill All P
+            </button>
             <button class="btn btn-blue" onclick="window.print()">🖨 Print Muster</button>
         </div>
 
@@ -1190,28 +1174,6 @@ button {
         </div>
 
     </section>
-
-
-    <!-- STAFF TOOLBAR -->
-
-    <div class="staff-toolbar no-print">
-
-        <div class="staff-toolbar-left">
-
-       
-
-            <button class="btn btn-green" onclick="fillAllP()">
-                ✓ Fill All P
-            </button>
-
-        </div>
-
-        <div>
-            
-        </div>
-
-    </div>
-
 
     <!-- MAIN TABLE -->
 
