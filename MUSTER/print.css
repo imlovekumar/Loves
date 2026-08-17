@@ -1,0 +1,440 @@
+/* =========================================================
+   PRINT ONLY — RAILWAY MUSTER
+========================================================= */
+
+@page {
+    size: A4 landscape;
+    margin: 5mm;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+html,
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: visible !important;
+    background: white !important;
+}
+
+/* =========================================================
+   HIDE WEBPAGE CONTROLS
+========================================================= */
+
+.app-header,
+.settings,
+.staff-toolbar,
+.status-help,
+.no-print,
+.attendance-overlay {
+    display: none !important;
+}
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.container {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* =========================================================
+   PRINT HEADING
+========================================================= */
+
+#printHeading {
+    display: block !important;
+    width: 100%;
+    margin-bottom: 2mm;
+    text-align: center;
+}
+
+.print-title, .leave-title, .nh-title, .nda-title, .scale-title {
+    font-size: 10px;
+    font-weight: 800;
+    margin-bottom: 2px;
+}
+
+.print-period ,.leave-period, .nh-period, .nda-period, .scale-period {
+    font-size: 9px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.table-wrapper {
+    width: 100% !important;
+    max-width: none !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+/* =========================================================
+   MAIN TABLE
+========================================================= */
+
+#musterTable {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse;
+    font-size: 7px;
+}
+
+/* =========================================================
+   ALL CELLS
+========================================================= */
+
+#musterTable th,
+#musterTable td {
+    border: 1px solid #aaa !important;
+    padding: 0 1px !important;
+    height: 14px !important;
+    min-height: 14px !important;
+    line-height: 12px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    position: static !important;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+#musterTable thead th {
+    height: 17px !important;
+    min-height: 17px !important;
+    padding: 0 1px !important;
+    background: #e8eef5 !important;
+    color: #000 !important;
+    font-size: 7px;
+    line-height: 10px !important;
+}
+
+/* =========================================================
+   FIXED EMPLOYEE COLUMNS
+========================================================= */
+
+#musterTable .col-sno, #leaveTable .leave-sno,#nhTable .nh-sno {
+    width: 25px !important;
+}
+
+#musterTable .col-pe, #leaveTable .leave-pe,#nhTable .nh-pe {
+    width: 60px !important;
+}
+
+#musterTable .col-name, #leaveTable .leave-name,#nhTable .nh-name {
+    width: 115px !important;
+}
+
+#musterTable .col-desig, #leaveTable .leave-desig,#nhTable .nh-desig {
+    width: 40px !important;
+}
+
+#musterTable .col-station, #leaveTable .leave-station,#nhTable .nh-station {
+    width: 40px !important;
+}
+
+/* =========================================================
+   DATE COLUMNS
+   All dates receive equal remaining width
+========================================================= */
+
+#musterTable .day-head,
+#musterTable .day-cell {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+}
+
+/* =========================================================
+   DATE HEADER
+========================================================= */
+
+.day-head {
+    height: 17px !important;
+    line-height: 10px !important;
+}
+
+.day-head small {
+    display: none !important;
+}
+
+/* =========================================================
+   EMPLOYEE INPUTS
+========================================================= */
+
+.employee-input {
+    width: 100%;
+    height: 14px !important;
+    padding: 0 1px !important;
+    border: 0 !important;
+    background: transparent !important;
+    font-size: 6.5px !important;
+    line-height: 14px !important;
+    text-align: left;
+    margin-left: 4px;
+}
+
+/* =========================================================
+   EMPLOYEE NAME BUTTON
+========================================================= */
+
+.employee-name-button, .nh-name-cell, .leave-name-cell {
+    width: 100%;
+    height: 14px !important;
+    padding: 0 1px !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #000 !important;
+    font-size: 6.5px !important;
+    line-height: 14px !important;
+    text-align: left;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    margin-left: 2px;
+}
+
+/* =========================================================
+   DAILY STATUS
+========================================================= */
+
+.day-cell {
+    height: 14px !important;
+    line-height: 14px !important;
+    text-align: center;
+}
+
+/* =========================================================
+   BOTTOM REMARKS
+========================================================= */
+
+.bottom-section {
+    display: block;
+    width: 100%;
+    margin-top: 1mm;
+}
+
+.box {
+    width: 100%;
+    border: 0;
+    padding: 0;
+}
+
+.box-title {
+    font-size: 8px;
+    margin-bottom: .2mm;
+}
+
+.box textarea {
+    width: 100%;
+    min-height: 1px;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    resize: none;
+    background: transparent;
+    font-size: 7px;
+    overflow: visible;
+    color: #000;
+}
+
+.box textarea::placeholder {
+    color: transparent;
+}
+
+/* =========================================
+   LEAVE / ABSENT LIST - PRINT
+========================================= */
+
+.leave-section {
+    margin-top: 2mm !important;
+    margin-bottom: 2mm !important;
+    page-break-inside: avoid;
+}
+
+.leave-table-wrapper {
+    width: 100% !important;
+    overflow: visible !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+#leaveTable {
+    width: 100% !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+    border-collapse: collapse;
+    font-size: 7px;
+}
+
+#leaveTable th,
+#leaveTable td {
+    height: 14px !important;
+    padding: 0 2px !important;
+    border: 1px solid #999 !important;
+    line-height: 11px !important;
+    white-space: nowrap;
+}
+
+#leaveTable th {
+    height: 17px !important;
+}
+
+#leaveTable .leave-day {
+    width: auto;
+}
+
+#leaveTable .leave-name-cell {
+    text-align: left;
+}
+
+/* =========================================
+   NH STATEMENT - PRINT
+========================================= */
+
+.nh-section {
+    margin-top: 2mm;
+    page-break-inside: avoid;
+}
+
+.nh-table-wrapper {
+    width: 100% !important;
+    overflow: visible !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+#nhTable {
+    width: 100% !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+    border-collapse: collapse;
+    font-size: 7px;
+}
+
+#nhTable th,
+#nhTable td {
+    height: 14px !important;
+    padding: 0 2px !important;
+    border: 1px solid #999 !important;
+    line-height: 11px !important;
+    white-space: nowrap;
+}
+
+#nhTable th {
+    height: 17px !important;
+}
+
+#nhTable .nh-day {
+    width: auto;
+}
+
+#nhTable .nh-name-cell {
+    text-align: left;
+}
+
+/* =================================================
+    NDA TABLE
+    NATURAL WIDTH
+================================================= */
+
+.nda-section {
+    margin-top: 2mm !important;
+    margin-bottom: 2mm !important;
+}
+
+.nda-table-wrapper {
+    overflow: visible !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    border: none !important;
+}
+
+#ndaTable {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    table-layout: auto !important;
+    border-collapse: collapse !important;
+    font-size: 7px !important;
+}
+
+#ndaTable th,
+#ndaTable td {
+    border: 1px solid #aaa !important;
+    padding: 1px 5px !important;
+    height: 12px !important;
+    line-height: 10px !important;
+    white-space: nowrap !important;
+}
+
+#ndaTable th {
+    background: #f1f1f1 !important;
+    font-weight: 800 !important;
+}
+
+
+/* =================================================
+    SCALE CHECK
+    NATURAL WIDTH — DO NOT STRETCH
+================================================= */
+
+.scale-section {
+    margin-top: 2mm !important;
+    margin-bottom: 2mm !important;
+}
+
+.scale-table-wrapper {
+    overflow: visible !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+#scaleTable {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    table-layout: auto !important;
+    border-collapse: collapse !important;
+    font-size: 7px !important;
+}
+
+#scaleTable th,
+#scaleTable td {
+    border: 1px solid #aaa !important;
+    padding: 1px 5px !important;
+    height: 12px !important;
+    line-height: 10px !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+}
+
+#scaleTable th {
+    background: #f1f1f1 !important;
+    font-weight: 800 !important;
+}
+
+/*
+    Designation can take its natural
+    required width.
+*/
+
+#scaleTable .scale-designation {
+    text-align: left !important;
+}
