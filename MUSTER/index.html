@@ -224,14 +224,14 @@ button {
    PRINT TITLE
 ========================================= */
 
-.print-title {
+.print-title, .leave-title, .nh-title, .nda-title, .scale-title {
     text-align: center;
     font-weight: 800;
     font-size: 15px;
     margin-bottom: 2px;
 }
 
-.print-period {
+.print-period ,.leave-period, .nh-period, .nda-period, .scale-period {
     text-align: center;
     font-weight: 700;
     font-size: 13px;
@@ -251,11 +251,7 @@ button {
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    background: white;
-    border: 1px solid #cbd5e1;
-    border-radius: 14px;
-    box-shadow:
-        0 8px 25px rgba(15,23,42,.08);
+    background: #f1f5f9;
 }
 
 /* =========================================
@@ -304,28 +300,28 @@ button {
 ========================================= */
 
 #musterTable .col-sno {
-    width: 42px;
-    min-width: 42px;
+    width: 35px;
+    min-width: 20px;
 }
 
 #musterTable .col-pe {
-    width: 100%;
-    min-width: 115px;
+    width: 100px;
+    min-width: 100px;
 }
 
 #musterTable .col-name {
-    width: 155px;
-    min-width: 155px;
+    width: 120px;
+    min-width: 125px;
 }
 
 #musterTable .col-desig {
-    width: 85px;
-    min-width: 85px;
+    width: 60px;
+    min-width: 60px;
 }
 
 #musterTable .col-station {
-    width: 70px;
-    min-width: 70px;
+    width: 60px;
+    min-width: 60px;
 }
 
 /* =========================================
@@ -363,15 +359,32 @@ button {
     background: transparent;
     padding: 0 2px;
     font-size: 11px;
-    text-align: center;
+    text-align: left;
+	margin-left: 5px;
+}
+
+.employee-name-button {
+    width: 100%;
+    height: 32px;
+    border: 0;
+    background: transparent;
+    padding: 0 5px;
+    text-align: left;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    color: #20639b;
+    cursor: pointer;
+	text-transform: uppercase;
+}
+
+.employee-name-button:hover {
+    color: #2563eb;
+    text-decoration: underline;
 }
 
 .employee-input.name {
     text-align: left;
-}
-
-.employee-name-button {
-	text-transform: uppercase;
 }
 
 .employee-input:focus {
@@ -444,9 +457,9 @@ button {
 
 .box {
     background: white;
-    border: 1px solid #cbd5e1;
+    border: 0.5px solid #cbd5e1;
     border-radius: 12px;
-    padding: 14px;
+    padding: 10px;
 }
 
 .box-title {
@@ -471,7 +484,6 @@ button {
     border-color: #2563eb;
 }
 
-
 /* =========================================
    MOBILE / PORTRAIT
 ========================================= */
@@ -495,23 +507,21 @@ button {
     .form-grid {
         grid-template-columns: 1fr 1fr;
     }
+
 	.form-grid .department-field {
-    grid-column: 1 / -1;
-}
+    		grid-column: 1 / -1;
+	}
 
     .bottom-section {
         grid-template-columns: 1fr;
     }
 
-
     /* TABLE */
 
     .table-wrapper {
         width: 100%;
-
         overflow-x: auto;
         overflow-y: hidden;
-
         touch-action: pan-x;
     }
 
@@ -546,37 +556,26 @@ button {
 .attendance-overlay {
     position: fixed;
     inset: 0;
-
     display: none;
     align-items: center;
     justify-content: center;
-
     padding: 20px;
-
     background: rgba(15, 23, 42, .55);
-
     backdrop-filter: blur(5px);
-
     z-index: 9999;
 }
 
 .attendance-modal {
     width: min(700px, 100%);
     max-height: 90vh;
-
     display: flex;
     flex-direction: column;
-
     background: white;
-
     border-radius: 18px;
-
     box-shadow:
         0 25px 70px rgba(0,0,0,.25);
-
     overflow: hidden;
 }
-
 
 /* Header */
 
@@ -584,16 +583,13 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     padding: 18px 20px;
-
     background:
         linear-gradient(
             135deg,
             #173f5f,
             #20639b
         );
-
     color: white;
 }
 
@@ -613,17 +609,11 @@ button {
 .attendance-close {
     width: 36px;
     height: 36px;
-
     border-radius: 50%;
-
     background: rgba(255,255,255,.15);
-
     color: white;
-
     font-size: 25px;
-
     line-height: 1;
-
     cursor: pointer;
 }
 
@@ -636,60 +626,42 @@ button {
 
 .attendance-info {
     display: flex;
-
     gap: 25px;
-
     padding: 12px 20px;
-
     border-bottom: 1px solid #e2e8f0;
-
     background: #f8fafc;
-
     font-size: 12px;
-
     color: #475569;
 }
-
 
 /* Table scroll */
 
 .attendance-table-wrapper {
     overflow-y: auto;
-
     max-height: calc(90vh - 145px);
 }
-
 
 /* Attendance table */
 
 .attendance-table {
     width: 100%;
-
     border-collapse: collapse;
-
     font-size: 12px;
 }
 
 .attendance-table th {
     position: sticky;
     top: 0;
-
     background: #e8eef5;
-
     color: #172033;
-
     padding: 10px;
-
     border-bottom: 1px solid #cbd5e1;
-
     z-index: 2;
 }
 
 .attendance-table td {
     padding: 8px 10px;
-
     border-bottom: 1px solid #e2e8f0;
-
     text-align: center;
 }
 
@@ -697,43 +669,32 @@ button {
     background: #f8fafc;
 }
 
-
 /* Date */
 
 .attendance-date {
     font-weight: 700;
 }
 
-
 /* Attendance dropdown */
 
 .attendance-select {
     width: 110px;
     height: 32px;
-
     border: 1px solid #cbd5e1;
-
     border-radius: 7px;
-
     background: white;
-
     padding: 0 8px;
-
     font-size: 12px;
     font-weight: 700;
-
     outline: none;
-
     cursor: pointer;
 }
 
 .attendance-select:focus {
     border-color: #2563eb;
-
     box-shadow:
         0 0 0 3px rgba(37,99,235,.1);
 }
-
 
 /* Mobile */
 
@@ -745,7 +706,6 @@ button {
 
     .attendance-modal {
         max-height: 94vh;
-
         border-radius: 14px;
     }
 
@@ -763,79 +723,40 @@ button {
     }
 }
 
-.employee-name-button {
-    width: 100%;
-    height: 32px;
-
-    border: 0;
-    background: transparent;
-
-    padding: 0 5px;
-
-    text-align: left;
-
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 700;
-
-    color: #20639b;
-
-    cursor: pointer;
-}
-
-.employee-name-button:hover {
-    color: #2563eb;
-    text-decoration: underline;
-}
-
 /* =========================================
    ATTENDANCE REMARK
 ========================================= */
 
 .attendance-remark {
     padding: 12px 20px 16px;
-
     border-top: 1px solid #e2e8f0;
-
     background: #ffffff;
 }
 
 .attendance-remark label {
     display: block;
-
     margin-bottom: 6px;
-
     font-size: 11px;
     font-weight: 800;
-
     color: #475569;
 }
 
 .attendance-remark textarea {
     width: 100%;
-
     min-height: 65px;
-
     resize: vertical;
-
     border: 1px solid #cbd5e1;
     border-radius: 9px;
-
     background: #f8fafc;
-
     padding: 9px 10px;
-
     font-family: inherit;
     font-size: 12px;
-
     outline: none;
 }
 
 .attendance-remark textarea:focus {
     border-color: #2563eb;
-
     background: white;
-
     box-shadow:
         0 0 0 3px rgba(37,99,235,.1);
 }
@@ -852,60 +773,28 @@ button {
     margin-top: 25px;
 }
 
-.nda-title {
-    text-align: center;
-
-    font-weight: 800;
-
-    font-size: 15px;
-
-    margin-bottom: 2px;
-}
-
-.nda-period {
-    text-align: center;
-
-    font-weight: 700;
-
-    font-size: 13px;
-
-    margin-bottom: 12px;
-}
-
 .nda-table-wrapper {
     width: 100%;
-
     overflow-x: auto;
-
-    background: white;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 14px;
+    background: #f1f5f9;
 }
 
 #ndaTable {
     width: 100%;
-
     border-collapse: collapse;
-
     font-size: 11px;
 }
 
 #ndaTable th,
 #ndaTable td {
     border: 1px solid #cbd5e1;
-
     padding: 7px;
-
     text-align: center;
-
     white-space: nowrap;
 }
 
 #ndaTable th {
     background: #e8eef5;
-
     font-weight: 800;
 }
 
@@ -925,9 +814,7 @@ button {
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
-
     padding: 10px 20px;
-
     border-bottom: 1px solid #e2e8f0;
     background: #fff;
 }
@@ -937,13 +824,11 @@ button {
     display: flex;
     align-items: center;
     gap: 8px;
-
     width: 100%;
 }
 
 .attendance-nda label {
     flex: 0 0 80px;
-
     font-size: 11px;
     font-weight: 800;
     color: #475569;
@@ -952,19 +837,13 @@ button {
 
 .attendance-nda input {
     height: 32px;
-
     border: 1px solid #cbd5e1;
     border-radius: 7px;
-
     background: #f8fafc;
-
     padding: 0 9px;
-
     font-family: inherit;
     font-size: 12px;
-
     outline: none;
-
     transition: .15s;
 }
 
@@ -982,7 +861,6 @@ button {
 .attendance-nda input:focus {
     border-color: #2563eb;
     background: white;
-
     box-shadow:
         0 0 0 3px rgba(37,99,235,.1);
 }
@@ -1005,55 +883,30 @@ button {
     margin-top: 25px;
 }
 
-.scale-title {
-    text-align: center;
-    font-size: 15px;
-    font-weight: 800;
-    margin-bottom: 3px;
-}
-
-.scale-period {
-    text-align: center;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 12px;
-}
-
 .scale-table-wrapper {
     width: 100%;
     overflow-x: auto;
-
-    background: white;
-
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
+    background: #f1f5f9;
 }
 
 #scaleTable {
     width: 100%;
     border-collapse: collapse;
-
     font-size: 11px;
 }
 
 #scaleTable th,
 #scaleTable td {
     border: 1px solid #cbd5e1;
-
     height: 24px;
-
     padding: 3px 7px;
-
     text-align: center;
-
     white-space: nowrap;
 }
 
 #scaleTable th {
     background: #e8eef5;
-
     color: #172033;
-
     font-weight: 800;
 }
 
@@ -1074,65 +927,31 @@ button {
     margin-top: 20px;
 }
 
-.leave-title {
-    text-align: center;
-
-    font-size: 15px;
-    font-weight: 800;
-
-    margin-bottom: 3px;
-}
-
-.leave-period {
-    text-align: center;
-
-    font-size: 13px;
-    font-weight: 700;
-
-    margin-bottom: 10px;
-}
-
 .leave-table-wrapper {
     width: 100%;
-
     overflow-x: auto;
-
-    background: white;
-
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
-
-    box-shadow:
-        0 8px 25px rgba(15,23,42,.08);
+    background: #f1f5f9;
 }
 
 #leaveTable {
     border-collapse: collapse;
-
     width: max-content;
     min-width: 100%;
-
     table-layout: fixed;
-
     font-size: 11px;
 }
 
 #leaveTable th,
 #leaveTable td {
     border: 1px solid #cbd5e1;
-
     height: 24px;
-
     padding: 2px 5px;
-
     text-align: center;
-
     white-space: nowrap;
 }
 
 #leaveTable th {
     background: #e8eef5;
-
     font-weight: 800;
 }
 
@@ -1182,69 +1001,34 @@ button {
 
 .nh-section {
     display: none;
-
     margin-top: 20px;
-}
-
-.nh-title {
-    text-align: center;
-
-    font-size: 15px;
-    font-weight: 800;
-
-    margin-bottom: 3px;
-}
-
-.nh-period {
-    text-align: center;
-
-    font-size: 13px;
-    font-weight: 700;
-
-    margin-bottom: 10px;
 }
 
 .nh-table-wrapper {
     width: 100%;
-
     overflow-x: auto;
-
-    background: white;
-
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
-
-    box-shadow:
-        0 8px 25px rgba(15,23,42,.08);
+    background: #f1f5f9;
 }
 
 #nhTable {
     border-collapse: collapse;
-
     width: max-content;
     min-width: 100%;
-
     table-layout: fixed;
-
     font-size: 11px;
 }
 
 #nhTable th,
 #nhTable td {
     border: 1px solid #cbd5e1;
-
     height: 24px;
-
     padding: 2px 5px;
-
     text-align: center;
-
     white-space: nowrap;
 }
 
 #nhTable th {
     background: #e8eef5;
-
     font-weight: 800;
 }
 
@@ -1287,151 +1071,9 @@ button {
 #nhTable .nh-day-cell {
     font-weight: 700;
 }
-
-/* =========================================
-   A4 PRINT PREVIEW
-========================================= */
-
-.print-preview-overlay {
-    position: fixed;
-    inset: 0;
-
-    z-index: 99999;
-
-    display: none;
-
-    background: #525252;
-
-    overflow: auto;
-}
-
-
-/* Top bar */
-
-.print-preview-toolbar {
-    position: sticky;
-    top: 0;
-
-    z-index: 10;
-
-    height: 56px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 18px;
-
-    background: #173f5f;
-
-    color: white;
-
-    box-shadow: 0 2px 12px rgba(0,0,0,.3);
-}
-
-.print-preview-toolbar > div {
-    display: flex;
-    gap: 8px;
-}
-
-
-/* =========================================
-   A4 PAPER
-========================================= */
-
-.print-preview-area {
-
-    padding: 30px;
-
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-
-/*
-   EXACT A4 LANDSCAPE
-*/
-
-#printPreviewPage {
-
-    width: 297mm;
-    height: 210mm;
-
-    min-width: 297mm;
-    min-height: 210mm;
-
-    background: #ffffff;
-
-    color: #000000;
-
-    padding: 5mm;
-
-    box-sizing: border-box;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 4px 20px rgba(0,0,0,.35);
-}
-
-
-/*
-   Remove screen appearance from
-   the cloned container.
-*/
-
-#printPreviewPage .container {
-
-    max-width: none !important;
-
-    margin: 0 !important;
-
-    padding: 0 !important;
-
-    background: transparent !important;
-
-    box-shadow: none !important;
-}
-
-
-/*
-   No rounded card appearance in print
-*/
-
-#printPreviewPage .settings,
-#printPreviewPage .staff-toolbar {
-
-    display: none !important;
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 900px) {
-
-    .print-preview-area {
-        padding: 15px;
-        justify-content: flex-start;
-    }
-
-    #printPreviewPage {
-        transform-origin: top left;
-
-        /*
-           Allows the complete A4 sheet to be
-           viewed on a small phone screen.
-        */
-        transform: scale(.45);
-
-        margin-bottom: -110mm;
-        margin-right: -163mm;
-    }
-}
 </style>
 <link rel="stylesheet" href="print.css" media="print">
+
 </head>
 <body>
 
@@ -2108,9 +1750,7 @@ function buildHeader() {
 function renderTable() {
 
     buildHeader();
-
     let body = document.getElementById("staffBody");
-
     body.innerHTML = "";
 
     employees.forEach((emp, employeeIndex) => {
@@ -2194,7 +1834,8 @@ function renderTable() {
 
             tr.innerHTML += `
 
-                <td class="day-cell">
+		<td class="day-cell ${value ? "status-" + value : ""}">
+        
     ${emp.days && emp.days[dayIndex]
         ? emp.days[dayIndex]
         : ""}
@@ -3144,38 +2785,6 @@ function closePrintPreview() {
     ></textarea>
 
 </div>
-
-    </div>
-
-</div>
-
-<!-- PRINT PREVIEW -->
-
-<div id="printPreviewOverlay" class="print-preview-overlay">
-
-    <div class="print-preview-toolbar">
-
-        <b>Print Preview — A4 Landscape</b>
-
-        <div>
-            <button
-                class="btn btn-blue"
-                onclick="window.print()">
-                🖨 Print
-            </button>
-
-            <button
-                class="btn btn-gray"
-                onclick="closePrintPreview()">
-                ✕ Close
-            </button>
-        </div>
-
-    </div>
-
-    <div class="print-preview-area">
-
-        <div id="printPreviewPage"></div>
 
     </div>
 
