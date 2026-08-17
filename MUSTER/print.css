@@ -136,7 +136,7 @@ body {
 }
 
 #musterTable .col-name, #leaveTable .leave-name,#nhTable .nh-name {
-    width: 120px !important;
+    width: 125px !important;
 }
 
 #musterTable .col-desig, #leaveTable .leave-desig,#nhTable .nh-desig {
