@@ -1081,7 +1081,7 @@ button {
 
 <main class="container">
 
-    <!-- SETTINGS -->
+<!-- SETTINGS -->
 
     <section class="settings no-print">
 
@@ -1093,7 +1093,10 @@ button {
 
             <div class="field">
                 <label>Depot</label>
-                <input id="depot" value="SMR/KDP">
+				<select id="depot" onchange="changeDepot()">
+					<option value="SMR/KDP">SMR/KDP</option>
+					<option value="SMR/MUM">SMR/MUM</option>
+				</select>
             </div>
 
             <div class="field">
@@ -1103,7 +1106,9 @@ button {
 			
 			<div class="field department-field">
     <label>Department</label>
-    <input id="department" value="OPERATING">
+	<select id="department">
+		<option value="OPERATING">OPERATING</option>
+	</select>
 </div>
 
             
@@ -1147,13 +1152,11 @@ button {
             <b>CL</b> = Casual Leave,
             <b>LAP</b> = Leave,
             <b>E</b> = Other.
-            You can add your own codes below in the JavaScript.
         </div>
 
     </section>
 
-
-    <!-- PRINT TITLE -->
+<!-- PRINT TITLE -->
 
     <section id="printHeading">
 
@@ -1505,7 +1508,9 @@ const STATUS_OPTIONS = [
     Delete/change these as required.
 */
 
-let employees = [
+const depotEmployees = {
+	
+	"SMR/KDP" : [
 
     {
         pe: "24505541967",
@@ -1587,9 +1592,67 @@ let employees = [
         days: []
     }
 
-];
+],
+"SMR/MUM": [
 
+        {
 
+            pe: "245II050255",
+            name: "S.Md Athaullah",
+            desig: "SMR",
+            station: "MUM",
+            days: []
+        },
+
+        {
+
+            pe: "24129802947",
+            name: "MANISH KUMAR",
+            desig: "Dy SM",
+            station: "MUM",
+            days: []
+
+        },
+
+        {
+
+            pe: "24529807820",
+            name: "PARMAR MEHULKUMAR DEVABHAI",
+            desig: "Dy SM",
+            station: "MUM",
+            days: []
+        },
+
+        {
+
+            pe: "24529806453",
+            name: "JITENDRA KUMAR",
+            desig: "PMAN",
+            station: "MUM",
+            days: []
+        },
+		
+		{
+
+            pe: "24529808643",
+            name: "V Ramesh Reddy",
+            desig: "APMAN",
+            station: "MUM",
+            days: []
+        },
+
+        {
+
+            pe: "24529808237",
+            name: "M SANDEEP",
+            desig: "APMAN",
+            station: "MUM",
+            days: []
+        }
+]
+};
+
+//let employees = depotEmployees["SMR/KDP"];
 let dates = [];
 
 
@@ -1704,6 +1767,34 @@ function buildHeader() {
     });
 
 }
+
+/* ==========
+    DEPOT
+=============*/
+	
+function getCurrentDepot() {
+    	return document.getElementById("depot").value;
+}
+
+function changeDepot() {
+    const depot = getCurrentDepot();
+    if (!depotEmployees[depot]) {
+        depotEmployees[depot] = [];
+    }
+    employees = depotEmployees[depot];
+    employees.forEach(emp => {
+        if (!emp.days) {
+            emp.days = [];
+        }
+        while (emp.days.length < dates.length) {
+            emp.days.push("P");
+        }
+        emp.days.length = dates.length;
+    });
+    renderTable();
+}
+
+changeDepot();
 
 /* =========================================================
    TABLE
