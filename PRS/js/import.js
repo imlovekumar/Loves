@@ -292,6 +292,29 @@ function importBookmarklet() {
             );
         }
 
+        // ==========================================
+        // concessiontoggle
+        // ==========================================
+
+
+        const concToggle = document.getElementById("concToggle");
+
+        if (concToggle) {
+
+            const code = input.value;
+
+            const hasConcession =
+                /concession\s*:\s*["'][^"']+["']/i.test(code);
+
+            concToggle.checked = hasConcession;
+
+            concToggle.dispatchEvent(
+                new Event("change", {
+                    bubbles: true
+                })
+            );
+        }
+
 
         // ==========================================
         // MOBILE
