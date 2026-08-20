@@ -39,8 +39,9 @@ function generate() {
 
                 let pObj = `  { name: "${name}", gender: "${genders[i].value}", age: "${age}", berth: "${berths[i].value}"`;
                 if (!foods[i].disabled) pObj += `, food: "${foods[i].value}"`;
-                if (quota === "DP - DUTY PASS") pObj += `, concession: "${concessions[i].value}", otp: "${otps[i].value}", upn: "${upns[i].value}"`;
-                pObj += ` }`;
+                if (quota === "DP - DUTY PASS" || document.getElementById("concToggle").checked)
+    				pObj += `, concession: "${concessions[i].value}", otp: "${otps[i].value}", upn: "${upns[i].value}"`;
+				pObj += ` }`;
 
                 passengerData.push(pObj);
             }
@@ -92,7 +93,7 @@ async function selectMatOption(placeholder, optionText, index = 0, fallback = nu
   }
 }
 
-async function selectTrain(optionText) {
+async function selectOption(optionText) {
   const option = [...document.querySelectorAll(".mat-option-text")].find(el => el.textContent.trim().startsWith(optionText));
   if (option) {
     option.click();
@@ -102,12 +103,79 @@ async function selectTrain(optionText) {
   await sleep(50);
 }
 
+const passengerCount = Math.min(Math.max(parseInt(passengers.length, 10) || 1, 1),6);
+function getConcessionInputs() {
+    return [...document.querySelectorAll('input[name="inputConcession"]')];
+}
+
+async function fillConcession(passengerIndex) {
+    const inputs = getConcessionInputs();
+    const input = inputs[passengerIndex];
+    if (!input) {
+        return false;
+    }
+    input.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+    await sleep(100);
+    setAngularValue(input, passengers[0].concession);
+    input.click();
+    await sleep(200);
+    await selectOption(passengers[0].concession);
+    return true;
+}
+
+async function fillOtp() {
+    let otpInput = null;
+    for (let i = 0; i < 30; i++) {
+        otpInput = document.querySelector('input[formcontrolname="hrmsOtp"]');
+        if (otpInput) break;
+        await sleep(100);
+    }
+    if (!otpInput) {
+        return false;
+    }
+    setAngularValue(otpInput, passengers[0].otp);
+    return true;
+}
+
+async function fillUpn() {
+    let upnInput = null;
+    for (let i = 0; i < 30; i++) {
+        upnInput = document.querySelector('input[formcontrolname="psgnConcTktNo"]');
+        if (upnInput) break;
+        await sleep(100);
+    }
+    if (!upnInput) {
+        return false;
+    }
+    setAngularValue(upnInput, passengers[0].upn);
+    return true;
+}
+
+async function executeConc() {
+    const first = await fillConcession(0);
+    if (!first) {
+        return;
+    }
+    await sleep(200);
+    await fillOtp();
+    await fillUpn();
+    for (let i = 1; i < passengerCount; i++) {
+        const success = await fillConcession(i);
+        if (!success) {
+            break;
+        }
+    }
+}
+
 async function fillTrain(TrainNo) {
   const tNO = document.querySelector('input[name="inputTrainNo"]');
   if (tNO) {
     setAngularValue(tNO, TrainNo);
     tNO.click();
-    await selectTrain(TrainNo);
+    await selectOption(TrainNo);
   }
 }
 
@@ -130,7 +198,7 @@ async function waitAndSetLocation(placeholderList, val) {
   while (!input.value.trim()) await sleep(100);
   setAngularValue(input, val);
   input.click();
-  await selectTrain(val);
+  await selectOption(val);
 }
 
 async function Class(coach) {
@@ -179,27 +247,6 @@ async function checkAvailabilityAndClickNext() {
     const next = [...document.querySelectorAll('span.mat-button-wrapper')].find(el => el.textContent.trim() === 'Next');
     if (next) next.closest('button').click();
   }
-
-  document.getElementById('availability-box')?.remove();
-  const box = document.createElement('div');
-  box.id = 'availability-box';
-  Object.assign(box.style, {
-    position: 'fixed', top: '20px', right: '20px', zIndex: '999999', background: '#1f2937', color: '#fff',
-    padding: '16px 22px', borderRadius: '12px', font: '600 16px Arial, sans-serif', boxShadow: '0 8px 24px rgba(0,0,0,.3)',
-    minWidth: '320px', maxWidth: '500px', lineHeight: '1.5', transition: 'opacity .4s', opacity: '1'
-  });
-  box.textContent = '&#x1F504; Fetching Availability...';
-  document.body.appendChild(box);
-
-  while (true) {
-    const status = [...document.querySelectorAll('span.text-success')].find(el => el.textContent.includes('AVAILABILITY STATUS'));
-    if (status) {
-      box.textContent = '&#x1F4CB; ' + status.textContent.trim();
-      setTimeout(() => { box.style.opacity = '0'; setTimeout(() => box.remove(), 400); }, 5000);
-      return status.textContent.trim();
-    }
-    await sleep(200);
-  }
 }
 
 async function runPrs() {
@@ -217,6 +264,9 @@ async function runPrs() {
     await execute();
     await psngForm(passengers, mobileNumber, PaymentMode);
     await checkAvailabilityAndClickNext();
+	if (passengers[0]?.concession) {
+    		await executeConc();
+	}
   }
 }
 
