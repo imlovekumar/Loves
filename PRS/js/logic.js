@@ -104,8 +104,15 @@ async function selectOption(optionText) {
 }
 
 const passengerCount = Math.min(Math.max(parseInt(passengers.length, 10) || 1, 1),6);
+
 function getConcessionInputs() {
     return [...document.querySelectorAll('input[name="inputConcession"]')];
+}
+
+function clickConcessionBooking(){
+  [...document.querySelectorAll('span.mat-slide-toggle-content')]
+    .find(e => e.textContent.trim() === 'Concession Booking')
+      ?.click();
 }
 
 async function fillConcession(passengerIndex) {
@@ -209,6 +216,7 @@ async function Class(coach) {
 }
 
 async function execute() {
+  if (passengers[0]?.concession) { clickConcessionBooking(); }
   await fillTrain(TrainNo);
   await fillDate(JDate);
   await nofPsng(passengers);
