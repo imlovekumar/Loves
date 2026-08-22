@@ -42,6 +42,7 @@
         :root {
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
             --card-bg: rgba(255, 255, 255, 0.82);
+			--railway-red: #c62828;
             --card-border: rgba(255, 255, 255, 0.5);
             --primary: #4f46e5;
             --primary-hover: #4338ca;
@@ -120,12 +121,17 @@
         }
 
         .railway-line {
-            width: 180px;
-            height: 1px;
-            background: #315da8;
-            margin: 10px 0;
-        }
-
+    			width: 180px;
+    			height: 2px;
+    			margin: 9px 0;
+    			background:
+        			linear-gradient(
+            		90deg,
+            		transparent,
+            		var(--railway-red),
+            		transparent);
+		}
+		
         .railway-subtitle {
             display: flex;
             align-items: center;
@@ -1103,7 +1109,6 @@
             text-align: center;
             margin-left: auto;
             margin-right: 20px;
-
         }
 
         #currentTime {
