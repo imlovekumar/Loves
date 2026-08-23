@@ -17,10 +17,9 @@
             <span>GUNTAKAL DIVISION</span>
         </div>
     </div>
-	<div id="bgstation">
-		<img src="images/Bg_station.png" alt="Railway Logo">
-	</div>
-	     
+    <div id="bgstation">
+        <img src="images/Bg_station.png" alt="Railway Logo">
+    </div>
     <div class="booking-container" id="page">
         <div class="main-header">
             <span>Kondapuram  •  कोंडापुरम  •  కొండాపురం</span>
@@ -100,14 +99,7 @@
                 <div class="journey-info-bar2">
                     <div class="info-block">
                         <span class="info-label">Class
-							<span class="class-indicators">
-                                <span class="class-indicator" data-class="SL">SL</span>
-                                <span class="class-indicator" data-class="3A">3A</span>
-                                <span class="class-indicator" data-class="3E">3E</span>
-                                <span class="class-indicator" data-class="2A">2A</span>
-                                <span class="class-indicator" data-class="1A">1A</span>
-                                <span class="class-indicator" data-class="2S">2S</span>
-                            </span>
+							<span class="class-indicators" id="classIndicators"></span>
 						</span>
                         <div class="input-group">
                             <select class="form-control" id="coach">
@@ -117,6 +109,12 @@
                                 <option>2A - SECOND AC</option>
                                 <option>1A - FIRST AC</option>
 							    <option>2S - SECOND SEATING</option>
+                                <option>CC - AC CHAIR CAR</option>
+                                <option>EA - EXECUTIVE ANUBHUTI</option>
+                                <option>EC - EXECUTIVE CHAIR CAR</option>
+                                <option>EV - EXECUTIVE VISTADOME</option>
+                                <option>FC - FIRST CLASS</option>
+                                <option>VS - VISTADOME NON AC</option>
                             </select>
                         </div>
                     </div>
@@ -622,6 +620,27 @@ function formatDate(input) {
     input.value = formatted;
 }
 
+function updateClassIndicators() {
+    const trainNo = document.getElementById("trainNumber")?.value.trim();
+    const container = document.getElementById("classIndicators");
+
+    if (!container) return;
+    container.innerHTML = "";
+    const train = trainRoutes[trainNo];
+    if (!train || !Array.isArray(train.classes)) return;
+    train.classes.forEach(cls => {
+        const indicator = document.createElement("span");
+        indicator.className = "class-indicator";
+        indicator.dataset.class = cls;
+        indicator.textContent = cls;
+        container.appendChild(indicator);
+    });
+}
+
+document.getElementById("trainNumber").addEventListener("input", updateClassIndicators);
+document.getElementById("trainNumber").addEventListener("input", updateClassIndicator);
+
+
 function updateIndicator(id, selector, key) {
     const value = document.getElementById(id).value.substring(0, 2).trim();
 
@@ -646,7 +665,6 @@ document.getElementById("coach").addEventListener("change", updateClassIndicator
 document.getElementById("count").addEventListener("change", updatePsgnIndicator);
 document.getElementById("quota").addEventListener("change", updateQuotaIndicator);
 
-updateClassIndicator();
 updatePsgnIndicator();
 updateQuotaIndicator();
 
@@ -848,13 +866,13 @@ function clearAll() {
     });
 
     document.querySelectorAll("textarea").forEach(textarea => textarea.value = "");
+    document.getElementById("classIndicators").innerHTML = "";
 
     ["brdStn", "wagon", "quota"].forEach(id => document.getElementById(id).disabled = true);
 
     createPassRows();
     setTomorrowDate();
     updateConcLabel();
-    updateClassIndicator();
     updatePsgnIndicator();
     updateQuotaIndicator();
 
