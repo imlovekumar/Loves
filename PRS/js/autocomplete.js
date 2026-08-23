@@ -393,6 +393,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
             updateTrainDisplay(train);
+			updateClassIndicators();
+			updateClassIndicator();
 
 
             /*
