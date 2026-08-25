@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Ethanol Blend Calculator</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:
+        radial-gradient(circle at top left, #dbeafe 0, transparent 35%),
+        radial-gradient(circle at bottom right, #dcfce7 0, transparent 35%),
+        #f1f5f9;
+    color: #0f172a;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+
+/* HEADER */
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header .icon {
+    width: 64px;
+    height: 64px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    font-size: 32px;
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+    box-shadow: 0 12px 30px rgba(15, 118, 110, .25);
+}
+
+.header h1 {
+    margin: 14px 0 5px;
+    font-size: 25px;
+}
+
+.header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* CARD */
+
+.card {
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,.8);
+    border-radius: 24px;
+    padding: 22px;
+    box-shadow:
+        0 20px 50px rgba(15,23,42,.10),
+        inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+/* INPUT */
+
+.input-group {
+    margin-bottom: 17px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 7px;
+}
+
+.input-wrap {
+    position: relative;
+}
+
+input {
+    width: 100%;
+    height: 52px;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    background: rgba(248,250,252,.9);
+    padding: 0 48px 0 15px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #0f172a;
+    outline: none;
+    transition: .2s;
+}
+
+input:focus {
+    border-color: #14b8a6;
+    box-shadow: 0 0 0 4px rgba(20,184,166,.12);
+    background: white;
+}
+
+.unit {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* BLEND INDICATOR */
+
+.blend-box {
+    margin: 20px 0;
+    padding: 16px;
+    border-radius: 17px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.blend-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.blend-title span:last-child {
+    color: #0f766e;
+}
+
+.progress {
+    height: 12px;
+    width: 100%;
+    border-radius: 20px;
+    background: #e2e8f0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #14b8a6, #0f766e);
+    border-radius: inherit;
+    transition: width .25s ease;
+}
+
+/* RESULT */
+
+.result {
+    margin-top: 20px;
+}
+
+.result-header {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.result-item {
+    padding: 15px;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.result-item .label {
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+.result-item .value {
+    font-size: 19px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.result-item .sub {
+    margin-top: 3px;
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+/* TOTAL */
+
+.total {
+    margin-top: 12px;
+    padding: 18px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #0f766e, #0d9488);
+    color: white;
+    box-shadow: 0 12px 25px rgba(15,118,110,.2);
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.total-row.main {
+    margin-bottom: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,.2);
+}
+
+.total-row.main .name {
+    font-size: 14px;
+    opacity: .9;
+}
+
+.total-row.main .value {
+    font-size: 27px;
+    font-weight: 900;
+}
+
+.total-row:not(.main) {
+    font-size: 13px;
+}
+
+.total-row:not(.main) strong {
+    font-size: 15px;
+}
+
+/* RESET */
+
+.reset {
+    width: 100%;
+    height: 48px;
+    margin-top: 15px;
+    border: 0;
+    border-radius: 14px;
+    background: #e2e8f0;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.reset:active {
+    transform: scale(.98);
+}
+
+/* INFO */
+
+.info {
+    margin-top: 16px;
+    padding: 13px;
+    border-radius: 14px;
+    background: #ecfeff;
+    border: 1px solid #a5f3fc;
+    color: #155e75;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 18px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* MOBILE */
+
+@media (max-width: 400px) {
+
+    body {
+        padding: 12px;
+    }
+
+    .card {
+        padding: 17px;
+        border-radius: 20px;
+    }
+
+    .header h1 {
+        font-size: 22px;
+    }
+
+    .result-item .value {
+        font-size: 17px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="icon">
+            ⛽
+        </div>
+
+        <h1>Ethanol Blend Calculator</h1>
+
+        <p>Calculate E20 + E0 petrol for your required ethanol percentage</p>
+
+    </div>
+
+
+    <div class="card">
+
+        <!-- REQUIRED BLEND -->
+
+        <div class="input-group">
+
+            <label>Required Ethanol Blending</label>
+
+            <div class="input-wrap">
+
+                <input
+                    id="blend"
+                    type="number"
+                    min="0"
+                    max="20"
+                    step="0.1"
+                    value="10"
+                    inputmode="decimal"
+                    oninput="calculate()"
+                >
+
+                <span class="unit">%</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOTAL PETROL -->
+
+        <div class="input-group">
+
+            <label>Total Petrol Required</label>
+
+            <div class="input-wrap">
+
+                <input
+                    id="totalLitres"
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    value="20"
+                    inputmode="decimal"
+                    oninput="calculate()"
+                >
+
+                <span class="unit">L</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- E20 PRICE -->
+
+        <div class="input-group">
+
+            <label>E20 Petrol Price</label>
+
+            <div class="input-wrap">
+
+                <input
+                    id="e20Price"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value="100"
+                    inputmode="decimal"
+                    oninput="calculate()"
+                >
+
+                <span class="unit">₹/L</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- E0 PRICE -->
+
+        <div class="input-group">
+
+            <label>E0 Petrol Price</label>
+
+            <div class="input-wrap">
+
+                <input
+                    id="e0Price"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value="100"
+                    inputmode="decimal"
+                    oninput="calculate()"
+                >
+
+                <span class="unit">₹/L</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- BLEND INDICATOR -->
+
+        <div class="blend-box">
+
+            <div class="blend-title">
+                <span>Final Ethanol Content</span>
+                <span id="blendResult">10.00%</span>
+            </div>
+
+            <div class="progress">
+                <div
+                    class="progress-bar"
+                    id="progressBar">
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="result">
+
+            <div class="result-header">
+                Petrol Mixing Required
+            </div>
+
+
+            <div class="result-grid">
+
+                <div class="result-item">
+
+                    <div class="label">
+                        E20 PETROL
+                    </div>
+
+                    <div class="value" id="e20Litres">
+                        10.00 L
+                    </div>
+
+                    <div class="sub" id="e20Cost">
+                        ₹0.00
+                    </div>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <div class="label">
+                        E0 PETROL
+                    </div>
+
+                    <div class="value" id="e0Litres">
+                        10.00 L
+                    </div>
+
+                    <div class="sub" id="e0Cost">
+                        ₹0.00
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="total">
+
+                <div class="total-row main">
+
+                    <span class="name">
+                        TOTAL COST
+                    </span>
+
+                    <span class="value" id="totalCost">
+                        ₹0.00
+                    </span>
+
+                </div>
+
+
+                <div class="total-row">
+
+                    <span>
+                        Total Quantity
+                    </span>
+
+                    <strong id="totalResult">
+                        20.00 L
+                    </strong>
+
+                </div>
+
+
+                <div class="total-row">
+
+                    <span>
+                        Effective Price
+                    </span>
+
+                    <strong id="effectivePrice">
+                        ₹0.00/L
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESET -->
+
+        <button class="reset" onclick="resetCalculator()">
+            ↻ Reset Calculator
+        </button>
+
+
+        <div class="info">
+
+            <strong>How it works:</strong><br>
+
+            E20 contains 20% ethanol while E0 contains 0% ethanol.
+            The calculator determines the exact amount of each required
+            to achieve your selected ethanol percentage.
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        E20 + E0 Petrol Mixing Calculator
+    </div>
+
+</div>
+
+
+<script>
+
+function calculate() {
+
+    const blend =
+        parseFloat(document.getElementById("blend").value) || 0;
+
+    const total =
+        parseFloat(document.getElementById("totalLitres").value) || 0;
+
+    const e20Price =
+        parseFloat(document.getElementById("e20Price").value) || 0;
+
+    const e0Price =
+        parseFloat(document.getElementById("e0Price").value) || 0;
+
+
+    /*
+        E20 = 20% ethanol
+        E0  = 0% ethanol
+
+        Required E20 quantity:
+
+        E20 × 20% = Total × Required%
+
+        Therefore:
+
+        E20 = Total × Required% / 20%
+    */
+
+    let e20Litres = total * blend / 20;
+
+    let e0Litres = total - e20Litres;
+
+
+    // Prevent invalid values
+
+    if (e20Litres < 0) {
+        e20Litres = 0;
+    }
+
+    if (e0Litres < 0) {
+        e0Litres = 0;
+    }
+
+
+    // Cost calculation
+
+    const e20Cost =
+        e20Litres * e20Price;
+
+    const e0Cost =
+        e0Litres * e0Price;
+
+    const totalCost =
+        e20Cost + e0Cost;
+
+
+    // Effective price per litre
+
+    const effectivePrice =
+        total > 0 ? totalCost / total : 0;
+
+
+    // Display quantities
+
+    document.getElementById("e20Litres").textContent =
+        e20Litres.toFixed(2) + " L";
+
+    document.getElementById("e0Litres").textContent =
+        e0Litres.toFixed(2) + " L";
+
+
+    // Display individual costs
+
+    document.getElementById("e20Cost").textContent =
+        "₹" + e20Cost.toFixed(2);
+
+    document.getElementById("e0Cost").textContent =
+        "₹" + e0Cost.toFixed(2);
+
+
+    // Display total
+
+    document.getElementById("totalCost").textContent =
+        "₹" + totalCost.toFixed(2);
+
+
+    document.getElementById("totalResult").textContent =
+        total.toFixed(2) + " L";
+
+
+    document.getElementById("effectivePrice").textContent =
+        "₹" + effectivePrice.toFixed(2) + "/L";
+
+
+    // Final ethanol percentage
+
+    const actualBlend =
+        total > 0 ? (e20Litres * 20 / total) : 0;
+
+    document.getElementById("blendResult").textContent =
+        actualBlend.toFixed(2) + "%";
+
+
+    // Progress bar
+
+    const progress =
+        Math.min(Math.max(actualBlend / 20 * 100, 0), 100);
+
+    document.getElementById("progressBar").style.width =
+        progress + "%";
+}
+
+
+function resetCalculator() {
+
+    document.getElementById("blend").value = 10;
+
+    document.getElementById("totalLitres").value = 20;
+
+    document.getElementById("e20Price").value = 100;
+
+    document.getElementById("e0Price").value = 100;
+
+    calculate();
+}
+
+
+// Calculate immediately when page loads
+
+calculate();
+
+</script>
+
+</body>
+</html>
