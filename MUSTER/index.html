@@ -439,6 +439,27 @@ body {
     text-align: center;
 }
 
+#printScaleHeading
+ {
+    position: relative;
+
+    margin: 10px auto;
+    padding: 12px 16px 10px;
+
+    max-width: 1000px;
+
+    background: #ffffff;
+
+    border: 1px solid #dbe2ea;
+    border-radius: 12px;
+
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+
+    overflow: hidden;
+
+    text-align: center;
+}
+
 /* Top accent */
 #printHeading::before {
     content: "";
@@ -455,6 +476,21 @@ body {
     );
 }
 
+/* Top accent */
+#printScaleHeading::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        #0f766e,
+        #14b8a6,
+        #3b82f6
+    );
+}
 /* =========================================================
    ALL TITLE CLASSES
    ========================================================= */
@@ -540,6 +576,13 @@ body {
 
         border-radius: 10px;
     }
+	
+	#printScaleHeading {
+        margin: 7px 8px;
+        padding: 10px 10px 8px;
+
+        border-radius: 10px;
+    }
 
 
     .print-title,
@@ -579,6 +622,11 @@ body {
 @media (max-width: 380px) {
 
     #printHeading {
+        margin: 5px;
+        padding: 9px 7px 7px;
+    }
+	
+	#printScaleHeading {
         margin: 5px;
         padding: 9px 7px 7px;
     }
@@ -1742,8 +1790,9 @@ body {
     </section>
 
     <!-- SCALE CHECK STATEMENT -->
-<section id="printHeading">
-			<div class="scale-title">
+	
+	<section id="printScaleHeading">
+		<div class="scale-title">
             SCALE CHECK STATEMENT OF DEPOT :
             <span id="scaleDepot">SMR/KDP</span>,
             BU :
@@ -1751,13 +1800,14 @@ body {
             DEPARTMENT :
             <span id="scaleDepartment">OPERATING</span>
         </div>
-<div class="scale-period">
+		<div class="scale-period">
             For Period
             <span id="scaleStart">11-07-2026</span>
             to
             <span id="scaleEnd">10-08-2026</span>
         </div>
-</section>
+	</section>
+	
     <section class="scale-section">
         
         <div class="scale-table-wrapper">
@@ -2155,6 +2205,8 @@ function changeDepot() {
 		el.style.display = depot === "SMR/MUM" ? "none" : "";
 	});
 	
+	document.getElementById("printScaleHeading").style.display = depot === "SMR/MUM" ? "none" : "";
+
     employees = depotEmployees[depot];
     employees.forEach(emp => {
         if (!emp.days) {
