@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://gstatic.com" crossorigin>
 <link href="https://googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
 
-<style>
+<style id="mainCSS">
 * {
     box-sizing: border-box;
 }
@@ -32,11 +32,9 @@ body {
 
 body {
     font-family:  'Quicksand', sans-serif;
-    background:
-        radial-gradient(circle at top left, #dbeafe, transparent 35%),
-        linear-gradient(135deg, #f8fafc, #e2e8f0);
     color: var(--text);
 	padding-top: 82px;
+	background: linear-gradient(to right, #BADAE8, beige);
 }
 
 /* =========================================
@@ -48,7 +46,7 @@ body {
     left: 0;
     width: 100%;
     height: 82px;
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid #e2e8f0;
@@ -63,6 +61,7 @@ body {
     align-items: center;
     padding: 0 20px;
     box-sizing: border-box;
+	position: relative;
 }
 
 /* Logo */
@@ -126,6 +125,104 @@ body {
 }
 
 /* =========================================
+   HEADER MENU
+========================================= */
+
+/* Menu container */
+.header-menu {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+}
+
+/* =========================================
+   THREE LINE BUTTON
+========================================= */
+
+.menu-toggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #cbd5e1;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.15s ease,
+                transform 0.15s ease;
+}
+
+.menu-toggle span {
+    width: 20px;
+    height: 3px;
+    background: #334155;
+    border-radius: 2px;
+}
+
+.menu-toggle:hover {
+    background: #f8fafc;
+}
+
+.menu-toggle:active {
+    transform: translateY(1px);
+}
+
+/* =========================================
+   DROPDOWN
+========================================= */
+
+.header-menu-dropdown {
+    display: none;
+    position: absolute;
+    top: 43px;
+    right: 0;
+    min-width: 175px;
+    padding: 5px;
+    background: #ffffff;
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+    box-shadow: 0 5px 16px rgba(15, 23, 42, 0.15);
+    z-index: 9999;
+}
+
+.header-menu-dropdown.show {
+    display: block;
+}
+
+/* Menu option */
+
+.header-menu-dropdown button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 11px;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+	border: 1px solid #0f766e;
+    background: #0f766e;
+    color: #ffffff;
+}
+
+.header-menu-dropdown button:hover {
+    background: #f1f5f9;
+}
+
+.header-menu-dropdown button:active {
+    background: #e2e8f0;
+}
+
+/* =========================================
    MAIN CONTAINER
 ========================================= */
 
@@ -134,72 +231,6 @@ body {
     margin: 25px auto;
 	margin-top: 10px;
     padding: 0 18px;
-}
-
-/* =========================================================
-   PRINT MUSTER — FLAT MODERN BUTTON
-========================================================= */
-
-.header-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin: 8px 0;
-}
-
-.btn.btn-blue {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    height: 37px;
-    padding: 0 16px;
-    border: 1px solid #0f766e;
-    border-radius: 7px;
-    background: #0f766e;
-    color: #ffffff;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(15, 118, 110, 0.18);
-    transition:
-        background 0.15s ease,
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
-}
-
-/* Hover */
-.btn.btn-blue:hover {
-    background: #0d6b64;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 9px rgba(15, 118, 110, 0.22);
-}
-
-/* Click */
-.btn.btn-blue:active {
-    background: #0b5f59;
-    transform: translateY(1px);
-    box-shadow: 0 1px 3px rgba(15, 118, 110, 0.15);
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 560px) {
-
-    .header-actions {
-        justify-content: stretch;
-        margin: 7px 8px;
-    }
-
-    .btn.btn-blue {
-        width: 100%;
-        height: 35px;
-        border-radius: 6px;
-        font-size: 12px;
-    }
 }
 
 /* =========================================================
@@ -217,7 +248,6 @@ body {
     box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
     overflow: hidden;
 }
-
 
 /* Top accent */
 .settings::before {
@@ -418,65 +448,22 @@ body {
    MUSTER HEADING CONTAINER
 ========================================================= */
 
-#printHeading
- {
+#printHeading,
+#printScaleHeading {
     position: relative;
-
     margin: 10px auto;
     padding: 12px 16px 10px;
-
     max-width: 1000px;
-
-    background: #ffffff;
-
+    background: #ffffff99;
     border: 1px solid #dbe2ea;
     border-radius: 12px;
-
     box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
-
     overflow: hidden;
-
-    text-align: center;
-}
-
-#printScaleHeading
- {
-    position: relative;
-
-    margin: 10px auto;
-    padding: 12px 16px 10px;
-
-    max-width: 1000px;
-
-    background: #ffffff;
-
-    border: 1px solid #dbe2ea;
-    border-radius: 12px;
-
-    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
-
-    overflow: hidden;
-
     text-align: center;
 }
 
 /* Top accent */
-#printHeading::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(
-        90deg,
-        #0f766e,
-        #14b8a6,
-        #3b82f6
-    );
-}
-
-/* Top accent */
+#printHeading::before,
 #printScaleHeading::before {
     content: "";
     position: absolute;
@@ -491,9 +478,10 @@ body {
         #3b82f6
     );
 }
+
 /* =========================================================
    ALL TITLE CLASSES
-   ========================================================= */
+========================================================= */
 
 .print-title,
 .leave-title,
@@ -519,7 +507,6 @@ body {
     font-weight: 800;
 }
 
-
 /* =========================================================
    ALL PERIOD CLASSES
    ========================================================= */
@@ -530,17 +517,12 @@ body {
 .nda-period,
 .scale-period {
     margin: 0;
-
     text-align: center;
-
     font-size: 12px;
     font-weight: 700;
-
     line-height: 1.5;
-
     color: #64748b;
 }
-
 
 /* Dates / values */
 .print-period span,
@@ -549,20 +531,14 @@ body {
 .nda-period span,
 .scale-period span {
     display: inline-block;
-
     margin: 0 3px;
     padding: 2px 7px;
-
     border-radius: 5px;
-
     background: #f1f5f9;
-
     color: #0f766e;
-
     font-size: 11px;
     font-weight: 800;
 }
-
 
 /* =========================================================
    MOBILE
@@ -570,20 +546,12 @@ body {
 
 @media (max-width: 560px) {
 
-    #printHeading {
-        margin: 7px 8px;
-        padding: 10px 10px 8px;
-
-        border-radius: 10px;
-    }
-	
+    #printHeading,
 	#printScaleHeading {
         margin: 7px 8px;
         padding: 10px 10px 8px;
-
         border-radius: 10px;
     }
-
 
     .print-title,
     .leave-title,
@@ -594,7 +562,6 @@ body {
         line-height: 1.55;
     }
 
-
     .print-period,
     .leave-period,
     .nh-period,
@@ -602,7 +569,6 @@ body {
     .scale-period {
         font-size: 10px;
     }
-
 
     .print-period span,
     .leave-period span,
@@ -610,40 +576,6 @@ body {
     .nda-period span,
     .scale-period span {
         padding: 2px 5px;
-        font-size: 9px;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 380px) {
-
-    #printHeading {
-        margin: 5px;
-        padding: 9px 7px 7px;
-    }
-	
-	#printScaleHeading {
-        margin: 5px;
-        padding: 9px 7px 7px;
-    }
-
-    .print-title,
-    .leave-title,
-    .nh-title,
-    .nda-title,
-    .scale-title {
-        font-size: 10px;
-    }
-
-    .print-period,
-    .leave-period,
-    .nh-period,
-    .nda-period,
-    .scale-period {
         font-size: 9px;
     }
 }
@@ -1046,9 +978,7 @@ body {
 
 .attendance-employee {
     margin-top: 4px;
-
     font-size: 12px;
-
     opacity: .85;
 }
 
@@ -1066,7 +996,6 @@ body {
 .attendance-close:hover {
     background: rgba(255,255,255,.25);
 }
-
 
 /* Information */
 
@@ -1523,7 +1452,7 @@ body {
 }
 
 </style>
-<link rel="stylesheet" href="print.css" media="print">
+<link id="printCSS" rel="stylesheet" href="print.css" media="print">
 
 </head>
 <body>
@@ -1537,15 +1466,23 @@ body {
             <div class="title-line"></div>
             <div class="division-name">GUNTAKAL DIVISION</div>
         </div>
+		<!-- MENU -->
+        <div class="header-menu">
+            <button class="menu-toggle" onclick="toggleHeaderMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div id="headerMenu" class="header-menu-dropdown">
+                <button class="btn btn-blue" onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
+            </div>
+        </div>
     </div>
 </header>
 
 <main class="container">
-	<div class="header-actions">
-		<button class="btn btn-blue" onclick="printMuster()">🖨 Print Muster</button>
-	</div>
 
-<!-- SETTINGS -->
+	<!-- SETTINGS -->
     <section class="settings no-print">
         <div class="section-title">Muster Details</div>
 
@@ -1565,7 +1502,7 @@ body {
 			
 			<div class="field department-field">
                 <label>Department</label>
-	            <select id="department">
+	            <select id="department" disabled>
                     <option value="OPERATING">OPERATING</option>
                 </select>
             </div>
@@ -1590,7 +1527,7 @@ body {
 
             <div class="field">
                 <label>Muster Year</label>
-                <select id="musterYear" onchange="changeMusterPeriod()">
+                <select id="musterYear" onchange="changeMusterPeriod()" disabled>
                     <option value="2025">2025</option>
                     <option value="2026" selected>2026</option>
                     <option value="2027">2027</option>
@@ -1604,10 +1541,11 @@ body {
         <div class="status-help">
             Daily status: <b>P</b> = Present,
             <b>R</b> = Rest,
-            <b>CR</b> = Casual Rest,
+            <b>CR</b> = Compensatory Rest,
             <b>CL</b> = Casual Leave,
-            <b>LAP</b> = Leave,
-            <b>E</b> = Other.
+            <b>LAP</b> = Leave on Average Pay,
+            <b>S</b> = Sick,
+			<b>E</b> = Other.
         </div>
 
     </section>
@@ -2997,6 +2935,22 @@ function printMuster() {
         document.title = oldTitle;
     }, 1000);
 }
+
+
+function toggleHeaderMenu() {
+    document.getElementById("headerMenu").classList.toggle("show");
+}
+
+function closeHeaderMenu() {
+    document.getElementById("headerMenu").classList.remove("show");
+}
+
+document.addEventListener("click", function (e) {
+    const menu = document.querySelector(".header-menu");
+    if (!menu.contains(e.target)) {
+        closeHeaderMenu();
+    }
+});
 
 /* =========================================================
    INITIAL DATE
