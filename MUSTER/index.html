@@ -36,64 +36,94 @@ body {
         radial-gradient(circle at top left, #dbeafe, transparent 35%),
         linear-gradient(135deg, #f8fafc, #e2e8f0);
     color: var(--text);
+	padding-top: 82px;
 }
 
 /* =========================================
    HEADER
 ========================================= */
-
 .app-header {
-    /*background: linear-gradient(135deg, #173f5f, #20639b);*/
-    color: white;
-    padding: 18px 25px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.15);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 82px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e2e8f0;
+    z-index: 1000;
 }
 
+/* Header content */
 .header-inner {
-    max-width: 1500px;
-    margin: auto;
+    width: 100%;
+    height: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
-.railway-label {
+/* Logo */
+.logo-section {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 16px;
+}
+
+.logo-section img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    filter: drop-shadow(
+        0 3px 5px rgba(15, 23, 42, 0.12)
+    );
+}
+
+/* Vertical divider + titles */
+.title-section {
     position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
+    height: 58px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    white-space: nowrap;
-    color: #315da8;
+    justify-content: center;
+    padding-left: 18px;
+    border-left: 1px solid #cbd5e1;
 }
 
-        .railway-title {
-            font-size: 42px;
-            font-weight: 800;
-            letter-spacing: .5px;
-            line-height: 1;
-        }
+/* SOUTH COAST RAILWAY */
+.railway-name {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    color: #172033;
+    line-height: 1;
+}
 
-        .railway-line {
-            width: 300px;
-            height: 1px;
-            background: #315da8;
-            margin: 2px;
-        }
+/* Middle horizontal line */
+.title-line {
+    width: 100%;
+    max-width: 270px;
+    height: 1px;
+    margin: 6px 0;
+    background: linear-gradient(
+        to right,
+        #64748b,
+        #cbd5e1
+    );
+}
 
-        .railway-subtitle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            color: #52709d;
-        }
+/* GUNTAKAL DIVISION */
+.division-name {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #64748b;
+    line-height: 1;
+}
 
 /* =========================================
    MAIN CONTAINER
@@ -106,124 +136,468 @@ body {
     padding: 0 18px;
 }
 
+/* =========================================================
+   PRINT MUSTER — FLAT MODERN BUTTON
+========================================================= */
+
 .header-actions {
     display: flex;
-	flex-direction: column;
-    gap: 8px;
-    flex-wrap: wrap;
-	margin-bottom: 10px;
+    justify-content: flex-end;
+    margin: 8px 0;
 }
 
-/* =========================================
-   BUTTONS
-========================================= */
-
-button {
-    border: 0;
-    cursor: pointer;
+.btn.btn-blue {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: 37px;
+    padding: 0 16px;
+    border: 1px solid #0f766e;
+    border-radius: 7px;
+    background: #0f766e;
+    color: #ffffff;
     font-family: inherit;
-}
-
-.btn {
-    padding: 9px 14px;
-    border-radius: 8px;
+    font-size: 13px;
     font-weight: 700;
-    font-size: 12px;
-    transition: .15s;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(15, 118, 110, 0.18);
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
-.btn:hover {
+/* Hover */
+.btn.btn-blue:hover {
+    background: #0d6b64;
     transform: translateY(-1px);
+    box-shadow: 0 4px 9px rgba(15, 118, 110, 0.22);
 }
 
-.btn-blue {
-    background: #2563eb;
-    color: white;
+/* Click */
+.btn.btn-blue:active {
+    background: #0b5f59;
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(15, 118, 110, 0.15);
 }
 
-/* =========================================
-   SETTINGS
-========================================= */
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+    .header-actions {
+        justify-content: stretch;
+        margin: 7px 8px;
+    }
+
+    .btn.btn-blue {
+        width: 100%;
+        height: 35px;
+        border-radius: 6px;
+        font-size: 12px;
+    }
+}
+
+/* =========================================================
+   COMPACT MUSTER DETAILS
+========================================================= */
 
 .settings {
-    background: rgba(255,255,255,.92);
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(15,23,42,.08);
-    margin-bottom: 20px;
+    position: relative;
+    margin: 10px;
+    padding: 14px 10px;
+    max-width: 1000px;
+    background: #ffffff;
+    border: 1px solid #dbe2ea;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
 }
 
-.section-title {
-    font-size: 15px;
-    font-weight: 800;
-    margin-bottom: 14px;
-    color: var(--primary);
+
+/* Top accent */
+.settings::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        #0f766e,
+        #14b8a6,
+        #3b82f6
+    );
 }
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.section-title {
+    display: flex;
+    align-items: center;
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.section-title::before {
+    content: "";
+    width: 5px;
+    height: 19px;
+    margin-right: 8px;
+    border-radius: 4px;
+    background: #0f766e;
+}
+
+/* =========================================================
+   GRID
+========================================================= */
 
 .form-grid {
     display: grid;
     grid-template-columns:
-        1.2fr
-        1fr
-        1fr
-        1fr
-        1fr;
-    gap: 12px;
+        repeat(3, minmax(0, 1fr));
+    gap: 10px 12px;
 }
 
+/* =========================================================
+   FIELD
+========================================================= */
+
+.field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* Label */
 .field label {
-    display: block;
-    font-size: 11px;
+    margin-bottom: 4px;
+    font-size: 10px;
     font-weight: 700;
-    margin-bottom: 5px;
-    color: #475569;
-}
-
-.field input,
-.field select,
-.field textarea {
-    width: 100%;
-    height: 38px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0 10px;
-    background: #f8fafc;
-    outline: none;
-    font-size: 13px;
-}
-
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-    border-color: #2563eb;
-    background: white;
-    box-shadow:
-        0 0 0 3px rgba(37,99,235,.1);
-}
-
-.status-help {
-    margin-top: 12px;
-    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
     color: #64748b;
 }
 
-/* =========================================
-   PRINT TITLE
-========================================= */
+/* =========================================================
+   INPUT / SELECT
+========================================================= */
 
-.print-title, .leave-title, .nh-title, .nda-title, .scale-title {
-    text-align: center;
-    font-weight: 800;
-    font-size: 15px;
-    margin-bottom: 2px;
+.field input,
+.field select {
+    width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+    padding: 0 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #f8fafc;
+    color: #0f172a;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    outline: none;
+    transition: 0.15s ease;
 }
 
-.print-period ,.leave-period, .nh-period, .nda-period, .scale-period {
+.field input:hover,
+.field select:hover {
+    border-color: #94a3b8;
+    background: #fff;
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: #14b8a6;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.10);
+}
+
+/* Disabled */
+.field input:disabled,
+.field select:disabled {
+    background: #eef2f6;
+    color: #64748b;
+    cursor: not-allowed;
+}
+
+/* =========================================================
+   STATUS HELP
+========================================================= */
+
+.status-help {
+    margin-top: 11px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.status-help b {
+    color: #0f766e;
+    font-weight: 800;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px 10px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+    .settings {
+        margin: 7px;
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    .section-title {
+        margin-bottom: 10px;
+        padding-bottom: 7px;
+        font-size: 14px;
+    }
+
+    .section-title::before {
+        width: 4px;
+        height: 17px;
+        margin-right: 7px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .field label {
+        margin-bottom: 3px;
+        font-size: 9px;
+    }
+
+    .field input,
+    .field select {
+        height: 34px;
+        padding: 0 9px;
+        border-radius: 6px;
+        font-size: 12px;
+    }
+
+    .status-help {
+        margin-top: 9px;
+        padding: 6px 8px;
+        font-size: 9px;
+        line-height: 1.6;
+    }
+}
+
+/* =========================================================
+   MUSTER HEADING CONTAINER
+========================================================= */
+
+#printHeading
+ {
+    position: relative;
+
+    margin: 10px auto;
+    padding: 12px 16px 10px;
+
+    max-width: 1000px;
+
+    background: #ffffff;
+
+    border: 1px solid #dbe2ea;
+    border-radius: 12px;
+
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+
+    overflow: hidden;
+
     text-align: center;
+}
+
+/* Top accent */
+#printHeading::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        #0f766e,
+        #14b8a6,
+        #3b82f6
+    );
+}
+
+/* =========================================================
+   ALL TITLE CLASSES
+   ========================================================= */
+
+.print-title,
+.leave-title,
+.nh-title,
+.nda-title,
+.scale-title {
+    margin: 0 0 3px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.5;
+    color: #334155;
+}
+
+
+/* Values inside titles */
+.print-title span,
+.leave-title span,
+.nh-title span,
+.nda-title span,
+.scale-title span {
+    color: #0f766e;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   ALL PERIOD CLASSES
+   ========================================================= */
+
+.print-period,
+.leave-period,
+.nh-period,
+.nda-period,
+.scale-period {
+    margin: 0;
+
+    text-align: center;
+
+    font-size: 12px;
     font-weight: 700;
-    font-size: 13px;
-    margin-bottom: 12px;
+
+    line-height: 1.5;
+
+    color: #64748b;
+}
+
+
+/* Dates / values */
+.print-period span,
+.leave-period span,
+.nh-period span,
+.nda-period span,
+.scale-period span {
+    display: inline-block;
+
+    margin: 0 3px;
+    padding: 2px 7px;
+
+    border-radius: 5px;
+
+    background: #f1f5f9;
+
+    color: #0f766e;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 560px) {
+
+    #printHeading {
+        margin: 7px 8px;
+        padding: 10px 10px 8px;
+
+        border-radius: 10px;
+    }
+
+
+    .print-title,
+    .leave-title,
+    .nh-title,
+    .nda-title,
+    .scale-title {
+        font-size: 11px;
+        line-height: 1.55;
+    }
+
+
+    .print-period,
+    .leave-period,
+    .nh-period,
+    .nda-period,
+    .scale-period {
+        font-size: 10px;
+    }
+
+
+    .print-period span,
+    .leave-period span,
+    .nh-period span,
+    .nda-period span,
+    .scale-period span {
+        padding: 2px 5px;
+        font-size: 9px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    #printHeading {
+        margin: 5px;
+        padding: 9px 7px 7px;
+    }
+
+    .print-title,
+    .leave-title,
+    .nh-title,
+    .nda-title,
+    .scale-title {
+        font-size: 10px;
+    }
+
+    .print-period,
+    .leave-period,
+    .nh-period,
+    .nda-period,
+    .scale-period {
+        font-size: 9px;
+    }
 }
 
 /* =========================================
@@ -234,6 +608,7 @@ button {
     width: 100%;
     max-width: 100%;
     display: block;
+	margin-left: 10px;
 
     /* ONLY THE TABLE SCROLLS */
     overflow-x: auto;
@@ -432,44 +807,89 @@ button {
     color: #be123c;
 }
 
-/* =========================================
-   BOTTOM BOXES
-========================================= */
+/* =========================================================
+   REMARKS — CLEAN COMPACT STYLE
+========================================================= */
 
 .bottom-section {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
-.box {
-    background: white;
-    border: 0.5px solid #cbd5e1;
-    border-radius: 12px;
-    padding: 10px;
+.bottom-section .box {
+    padding: 8px 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    box-shadow: none;
 }
 
-.box-title {
-    font-size: 12px;
+/* Title */
+.bottom-section .box-title {
+    margin-bottom: 4px;
+    font-size: 10px;
     font-weight: 800;
-    margin-bottom: 8px;
+    color: #475569;
+    letter-spacing: 0.3px;
 }
 
-.box textarea {
+/* Textarea */
+.bottom-section textarea {
+    display: block;
     width: 100%;
-    min-height: 90px;
-    resize: horizontal;
+    min-height: 38px;
+    box-sizing: border-box;
+    padding: 7px 9px;
     border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    padding: 9px;
-    font-family: Arial;
-    font-size: 12px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #475569;
+    font-family: inherit;
+    font-size: 11px;
+    line-height: 1.4;
+    resize: vertical;
     outline: none;
 }
 
-.box textarea:focus {
-    border-color: #2563eb;
+/* Focus */
+.bottom-section textarea:focus {
+    border-color: #94a3b8;
+    box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.12);
+}
+
+/* Disabled */
+.bottom-section textarea:disabled {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+    .bottom-section {
+        margin-top: 8px;
+    }
+
+    .bottom-section .box {
+        padding: 7px 8px;
+        border-radius: 7px;
+    }
+
+    .bottom-section .box-title {
+        margin-bottom: 3px;
+        font-size: 9px;
+    }
+
+    .bottom-section textarea {
+        min-height: 35px;
+        padding: 6px 8px;
+        font-size: 10px;
+        border-radius: 5px;
+    }
 }
 
 /* =========================================
@@ -477,16 +897,6 @@ button {
 ========================================= */
 
 @media (max-width: 800px) {
-
-    .app-header {
-        padding: 15px;
-    }
-
-    .header-inner {
-        flex-direction: column;
-
-        align-items: flex-start;
-    }
 
     .container {
         padding: 0 10px;
@@ -758,7 +1168,8 @@ button {
 ========================================= */
 
 .nda-section {
-    margin-top: 25px;
+    margin-top: 10px;
+	margin-left: 10px;
 }
 
 .nda-table-wrapper {
@@ -868,7 +1279,8 @@ button {
 ========================================= */
 
 .scale-section {
-    margin-top: 25px;
+    margin-top: 10px;
+	margin-left: 10px;
 }
 
 .scale-table-wrapper {
@@ -912,13 +1324,14 @@ button {
 
 .leave-section {
     display: none;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .leave-table-wrapper {
     width: 100%;
     overflow-x: auto;
     background: #f1f5f9;
+	margin-left: 10px;
 }
 
 #leaveTable {
@@ -989,13 +1402,14 @@ button {
 
 .nh-section {
     display: none;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .nh-table-wrapper {
     width: 100%;
     overflow-x: auto;
     background: #f1f5f9;
+	margin-left: 10px;
 }
 
 #nhTable {
@@ -1059,38 +1473,35 @@ button {
 #nhTable .nh-day-cell {
     font-weight: 700;
 }
+
 </style>
 <link rel="stylesheet" href="print.css" media="print">
 
 </head>
 <body>
-
 <header class="app-header no-print">
     <div class="header-inner">
-		<div class="railway-label">
-        		<div class="railway-title">INDIAN RAILWAY</div>
-        		<div class="railway-line"></div>
-        		<div class="railway-subtitle">
-            		<span>SOUTH COAST RAILWAY</span>
-				<span>&#11044;</span>
-            		<span>GUNTAKAL DIVISION</span>
-        		</div>
-    		</div>
+        <div class="logo-section">
+            <img src="railway-logo.png" alt="Railway Logo">
+        </div>
+        <div class="title-section">
+            <div class="railway-name">SOUTH COAST RAILWAY</div>
+            <div class="title-line"></div>
+            <div class="division-name">GUNTAKAL DIVISION</div>
+        </div>
     </div>
 </header>
 
 <main class="container">
-	
-		<div class="header-actions">
-        		<button class="btn btn-blue" onclick="printMuster()">🖨 Print Muster</button>
-    		</div>
-	
+	<div class="header-actions">
+		<button class="btn btn-blue" onclick="printMuster()">🖨 Print Muster</button>
+	</div>
+
 <!-- SETTINGS -->
     <section class="settings no-print">
         <div class="section-title">Muster Details</div>
 
         <div class="form-grid">
-
             <div class="field">
                 <label>Depot</label>
 				<select id="depot" onchange="changeDepot()">
@@ -1100,7 +1511,7 @@ button {
             </div>
 
             <div class="field">
-                <label>BU</label>
+                <label>BILL UNIT</label>
                 <input id="bu" value="3705667" disabled>
             </div>
 			
@@ -1219,7 +1630,9 @@ button {
 	<!-- LEAVE / ABSENT LIST -->
 
     <section id="leaveSection" class="leave-section">
-        <div class="leave-title">
+        
+	<section id="printHeading">
+		<div class="leave-title">
             LEAVE/ABSENT LIST OF DEPOT :
             <span id="leaveDepot">SMR/KDP</span>,
             BU :
@@ -1234,6 +1647,7 @@ button {
             to
             <span id="leaveEnd">10-08-2026</span>
         </div>
+	</section>
 
         <div class="leave-table-wrapper">
             <table id="leaveTable">
@@ -1254,7 +1668,8 @@ button {
     <!-- NH STATEMENT -->
 
     <section id="nhSection" class="nh-section">
-        <div class="nh-title">
+        <section id="printHeading">
+			<div class="nh-title">
             NH STATEMENT OF DEPOT :
             <span id="nhDepot">SMR/KDP</span>,
             BU :
@@ -1269,7 +1684,7 @@ button {
             to
             <span id="nhEnd">10-08-2026</span>
         </div>
-
+</section>
         <div class="nh-table-wrapper">
             <table id="nhTable">
                 <thead>
@@ -1287,9 +1702,8 @@ button {
     </section>
 
     <!-- NDA SECTION -->
-
-    <section class="nda-section">
-        <div class="nda-title">
+ <section id="printHeading">
+			<div class="nda-title">
             NDA OF DEPOT :
             <span id="ndaDepot">SMR/KDP</span>,
             BU :
@@ -1304,7 +1718,9 @@ button {
             to
             <span id="ndaEnd">31-07-2026</span>
         </div>
-
+</section>
+    <section class="nda-section">
+       
         <div class="nda-table-wrapper">
             <table id="ndaTable">
                 <thead>
@@ -1326,21 +1742,24 @@ button {
     </section>
 
     <!-- SCALE CHECK STATEMENT -->
-
-    <section class="scale-section">
-        <div class="scale-title">
+<section id="printHeading">
+			<div class="scale-title">
             SCALE CHECK STATEMENT OF DEPOT :
-            <span>SMR/KDP</span>,
+            <span id="scaleDepot">SMR/KDP</span>,
             BU :
-            <span>3705667</span>,
+            <span id="scaleBU">3705667</span>,
             DEPARTMENT :
-            <span>OPERATING</span>
+            <span id="scaleDepartment">OPERATING</span>
         </div>
-
-        <div class="scale-period">
-            For Period 11-07-2026 to 10-08-2026
+<div class="scale-period">
+            For Period
+            <span id="scaleStart">11-07-2026</span>
+            to
+            <span id="scaleEnd">10-08-2026</span>
         </div>
-
+</section>
+    <section class="scale-section">
+        
         <div class="scale-table-wrapper">
             <table id="scaleTable">
                 <thead>
@@ -1847,6 +2266,7 @@ function renderTable() {
     });
 	
 	updatePrintHeader();
+	updateScaleHeader();
 	renderLeaveTable();
 	renderNDATable();
 	renderNHTable();
@@ -1961,6 +2381,25 @@ function updateLeaveHeader() {
     document.getElementById("leaveEnd").textContent =
         document.getElementById("printEnd").textContent;
 }
+
+function updateScaleHeader() {
+
+    document.getElementById("scaleDepot").textContent =
+        document.getElementById("depot").value;
+
+    document.getElementById("scaleBU").textContent =
+        document.getElementById("bu").value;
+
+    document.getElementById("scaleDepartment").textContent =
+        document.getElementById("department").value;
+
+    document.getElementById("scaleStart").textContent =
+        document.getElementById("printStart").textContent;
+
+    document.getElementById("scaleEnd").textContent =
+        document.getElementById("printEnd").textContent;
+}
+
 
 function renderNHTable() {
 
