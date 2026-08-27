@@ -1,185 +1,62 @@
 /* =========================================================
-   COMPACT PRINT — RAILWAY MUSTER
+   COMPACT PRINT — BORDER + MUSTER SIZE
 ========================================================= */
 
-@page {
-    size: A4 landscape;
-    margin: 5mm 7mm;
-}
-
 /* =========================================================
-   PAGE
-========================================================= */
-
-html,
-body {
-    width: 100%;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: visible !important;
-    background: #fff !important;
-}
-
-/* =========================================================
-   HIDE WEBPAGE CONTROLS
-========================================================= */
-
-.app-header,
-.header-actions,
-.settings,
-.staff-toolbar,
-.status-help,
-.no-print,
-.attendance-overlay,
-.bottom-section {
-    display: none !important;
-}
-
-/* =========================================================
-   MAIN CONTAINER
-========================================================= */
-
-.container {
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-/* =========================================================
-   PRINT HEADINGS
-========================================================= */
-
-#printHeading,
-#printScaleHeading {
-    position: relative;
-    width: auto !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: none !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    overflow: hidden;
-    text-align: center;
-}
-
-.print-title,
-.leave-title,
-.nh-title,
-.nda-title,
-.scale-title {
-    font-size: 10px !important;
-    line-height: 10px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    color: #000 !important;
-}
-
-.print-title span,
-.leave-title span,
-.nh-title span,
-.nda-title span,
-.scale-title span {
-    color: #000 !important;
-}
-
-.print-period,
-.leave-period,
-.nh-period,
-.nda-period,
-.scale-period {
-    font-size: 8px !important;
-    line-height: 9px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    color: #000 !important;
-}
-
-.print-period span,
-.leave-period span,
-.nh-period span,
-.nda-period span,
-.scale-period span {
-    display: inline !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: none !important;
-    border-radius: 0 !important;
-    color: #000 !important;
-    font-size: 8px !important;
-    font-weight: 700 !important;
-}
-
-/* Remove decorative heading elements */
-
-#printHeading::before,
-#printHeading::after,
-#printScaleHeading::before,
-#printScaleHeading::after {
-    content: none !important;
-}
-
-/* =========================================================
-   TABLE WRAPPER
-========================================================= */
-
-.table-wrapper {
-    width: 100% !important;
-    max-width: none !important;
-    overflow: visible !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    margin: 1mm 0 !important;
-    padding: 0 !important;
-}
-
-/* =========================================================
-   MAIN TABLE
+   MAIN MUSTER TABLE
 ========================================================= */
 
 #musterTable {
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100% !important;
+
     table-layout: fixed !important;
     border-collapse: collapse !important;
     border-spacing: 0 !important;
-    font-size: 6.5px !important;
+
+    font-size: 8px !important;
     margin: 0 !important;
 }
 
 /* =========================================================
-   ALL CELLS
+   MUSTER TABLE CELLS
 ========================================================= */
 
 #musterTable th,
 #musterTable td {
     border: 1px solid #999 !important;
-    padding: 0 !important;
-    height: 9px !important;
-    min-height: 9px !important;
-    line-height: 9px !important;
+
+    padding: 0 1px !important;
+
+    height: 10px !important;
+    min-height: 10px !important;
+
+    line-height: 10px !important;
+
     white-space: nowrap !important;
     overflow: hidden !important;
+
     position: static !important;
     vertical-align: middle !important;
 }
 
 /* =========================================================
-   HEADER
+   MUSTER HEADER
 ========================================================= */
 
 #musterTable thead th {
-    height: 11px !important;
-    min-height: 11px !important;
-    padding: 0 !important;
+    height: 12px !important;
+    min-height: 12px !important;
+
+    padding: 0 1px !important;
+
     background: #e8eef5 !important;
     color: #000 !important;
-    font-size: 6.5px !important;
-    line-height: 9px !important;
+
+    font-size: 8px !important;
+    line-height: 10px !important;
+
     font-weight: 700 !important;
 }
 
@@ -187,34 +64,24 @@ body {
    FIXED EMPLOYEE COLUMNS
 ========================================================= */
 
-#musterTable .col-sno,
-#leaveTable .leave-sno,
-#nhTable .nh-sno {
-    width: 22px !important;
+#musterTable .col-sno {
+    width: 25px !important;
 }
 
-#musterTable .col-pe,
-#leaveTable .leave-pe,
-#nhTable .nh-pe {
-    width: 55px !important;
+#musterTable .col-pe {
+    width: 60px !important;
 }
 
-#musterTable .col-name,
-#leaveTable .leave-name,
-#nhTable .nh-name {
-    width: 125px !important;
+#musterTable .col-name {
+    width: 130px !important;
 }
 
-#musterTable .col-desig,
-#leaveTable .leave-desig,
-#nhTable .nh-desig {
-    width: 38px !important;
+#musterTable .col-desig {
+    width: 40px !important;
 }
 
-#musterTable .col-station,
-#leaveTable .leave-station,
-#nhTable .nh-station {
-    width: 38px !important;
+#musterTable .col-station {
+    width: 40px !important;
 }
 
 /* =========================================================
@@ -232,13 +99,13 @@ body {
    DATE HEADER
 ========================================================= */
 
-.day-head {
-    height: 13px !important;
-    line-height: 8px !important;
+#musterTable .day-head {
+    height: 12px !important;
+    line-height: 9px !important;
     padding: 0 !important;
 }
 
-.day-head small {
+#musterTable .day-head small {
     display: none !important;
 }
 
@@ -246,19 +113,26 @@ body {
    EMPLOYEE INPUTS
 ========================================================= */
 
-.employee-input {
+#musterTable .employee-input {
     width: 100% !important;
-    height: 9px !important;
-    min-height: 9px !important;
+
+    height: 10px !important;
+    min-height: 10px !important;
+
     padding: 0 !important;
     margin: 0 !important;
+
     border: 0 !important;
+
     background: transparent !important;
+
     box-shadow: none !important;
+
     color: #000 !important;
-    font-size: 6.5px !important;
-    font-weight: 400 !important;
-    line-height: 9px !important;
+
+    font-size: 8px !important;
+    line-height: 10px !important;
+
     text-align: left !important;
 }
 
@@ -266,27 +140,34 @@ body {
    EMPLOYEE NAME
 ========================================================= */
 
-.employee-name-button,
-.nh-name-cell,
-.leave-name-cell {
+#musterTable .employee-name-button {
     width: 100% !important;
-    height: 9px !important;
-    min-height: 9px !important;
+
+    height: 10px !important;
+    min-height: 10px !important;
+
     padding: 0 !important;
     margin: 0 !important;
+
     border: 0 !important;
+
     background: transparent !important;
+
     color: #000 !important;
-    font-size: 6.5px !important;
-    line-height: 9px !important;
+
+    font-size: 8px !important;
+    line-height: 10px !important;
+
     text-align: left !important;
+
     text-decoration: none !important;
     text-transform: uppercase;
+
     box-shadow: none !important;
 }
 
-.employee-name-button::after,
-.employee-name-button::before {
+#musterTable .employee-name-button::before,
+#musterTable .employee-name-button::after {
     content: none !important;
 }
 
@@ -294,20 +175,25 @@ body {
    SNO
 ========================================================= */
 
-.sno-tag {
+#musterTable .sno-tag {
     width: 100% !important;
-    height: 9px !important;
+
+    height: 10px !important;
+
     margin: 0 !important;
     padding: 0 !important;
+
     border: none !important;
-    border-radius: 0 !important;
+
     background: none !important;
+
     color: #000 !important;
-    font-family: inherit;
-    font-size: 6.5px !important;
+
+    font-size: 8px !important;
     font-weight: 600 !important;
-    line-height: 9px !important;
-    text-decoration: none !important;
+
+    line-height: 10px !important;
+
     box-shadow: none !important;
 }
 
@@ -315,27 +201,54 @@ body {
    PF / PE
 ========================================================= */
 
-.pf-id-tag {
+#musterTable .pf-id-tag {
     width: 100% !important;
-    height: 9px !important;
+
+    height: 10px !important;
+
     margin: 0 !important;
     padding: 0 !important;
+
     border: none !important;
-    border-radius: 0 !important;
+
     background: none !important;
+
     box-shadow: none !important;
+
     overflow: hidden !important;
-    line-height: 9px !important;
+
+    line-height: 10px !important;
 }
 
-.pf-id-tag .pe-input {
-    color: #000 !important;
-    font-size: 6.5px !important;
-    text-align: left !important;
-    font-weight: 600 !important;
+#musterTable .pf-id-tag .pe-input {
+    height: 10px !important;
+
     padding: 0 !important;
-    height: 9px !important;
-    line-height: 9px !important;
+
+    color: #000 !important;
+
+    font-size: 8px !important;
+
+    font-weight: 600 !important;
+
+    line-height: 10px !important;
+
+    text-align: left !important;
+}
+
+/* =========================================================
+   DAILY STATUS
+========================================================= */
+
+#musterTable .day-cell {
+    height: 10px !important;
+    min-height: 10px !important;
+
+    padding: 0 !important;
+
+    line-height: 10px !important;
+
+    text-align: center !important;
 }
 
 /* =========================================================
@@ -344,219 +257,112 @@ body {
 
 #musterTable .col-desig .employee-input,
 #musterTable .col-station .employee-input {
-    box-shadow: none !important;
     color: #000 !important;
-}
-
-/* =========================================================
-   DAILY STATUS
-========================================================= */
-
-.day-cell {
-    height: 9px !important;
-    min-height: 9px !important;
-    line-height: 9px !important;
-    text-align: center !important;
-    padding: 0 !important;
-}
-
-/* =========================================================
-   LEAVE / ABSENT SECTION
-========================================================= */
-
-.leave-section {
-    page-break-inside: avoid !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.leave-table-wrapper {
-    margin: 1mm 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    overflow: visible !important;
-    border: none !important;
     box-shadow: none !important;
 }
 
-#leaveTable {
-    width: 100% !important;
-    min-width: 0 !important;
-    table-layout: fixed !important;
-    border-collapse: collapse !important;
-    border-spacing: 0 !important;
-    font-size: 6.5px !important;
-    margin: 0 !important;
-}
+
+/* =========================================================
+   LEAVE TABLE — 1px BORDER
+========================================================= */
 
 #leaveTable th,
 #leaveTable td {
-    height: 9px !important;
-    min-height: 9px !important;
-    padding: 0 !important;
+    height: 10px !important;
+    min-height: 10px !important;
+
+    padding: 0 1px !important;
+
     border: 1px solid #999 !important;
-    line-height: 9px !important;
+
+    line-height: 10px !important;
+
+    font-size: 8px !important;
+
     white-space: nowrap !important;
-    vertical-align: middle !important;
 }
 
 #leaveTable th {
-    height: 11px !important;
-    line-height: 9px !important;
+    height: 12px !important;
+    line-height: 10px !important;
+    font-size: 8px !important;
 }
 
-#leaveTable .leave-day {
-    width: auto !important;
-}
-
-#leaveTable .leave-name-cell {
-    text-align: left !important;
-}
 
 /* =========================================================
-   NH STATEMENT
+   NH TABLE — 1px BORDER
 ========================================================= */
-
-.nh-section {
-    page-break-inside: avoid !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.nh-table-wrapper {
-    margin: 1mm 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    overflow: visible !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-#nhTable {
-    width: 100% !important;
-    min-width: 0 !important;
-    table-layout: fixed !important;
-    border-collapse: collapse !important;
-    border-spacing: 0 !important;
-    font-size: 6.5px !important;
-    margin: 0 !important;
-}
 
 #nhTable th,
 #nhTable td {
-    height: 9px !important;
-    min-height: 9px !important;
-    padding: 0 !important;
+    height: 10px !important;
+    min-height: 10px !important;
+
+    padding: 0 1px !important;
+
     border: 1px solid #999 !important;
-    line-height: 9px !important;
+
+    line-height: 10px !important;
+
+    font-size: 8px !important;
+
     white-space: nowrap !important;
-    vertical-align: middle !important;
 }
 
 #nhTable th {
-    height: 11px !important;
-    line-height: 9px !important;
+    height: 12px !important;
+    line-height: 10px !important;
+    font-size: 8px !important;
 }
 
-#nhTable .nh-day {
-    width: auto !important;
-}
-
-#nhTable .nh-name-cell {
-    text-align: left !important;
-}
 
 /* =========================================================
-   NDA TABLE
+   NDA TABLE — 1px BORDER
 ========================================================= */
-
-.nda-section {
-    margin: 1mm 0 !important;
-    padding: 0 !important;
-    page-break-inside: avoid !important;
-}
-
-.nda-table-wrapper {
-    overflow: visible !important;
-    width: fit-content !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-}
-
-#ndaTable {
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    table-layout: auto !important;
-    border-collapse: collapse !important;
-    border-spacing: 0 !important;
-    font-size: 6.5px !important;
-    margin: 0 !important;
-}
 
 #ndaTable th,
 #ndaTable td {
     border: 1px solid #999 !important;
+
     padding: 0 3px !important;
-    height: 9px !important;
-    line-height: 9px !important;
+
+    height: 10px !important;
+
+    line-height: 10px !important;
+
+    font-size: 8px !important;
+
     white-space: nowrap !important;
 }
 
 #ndaTable th {
-    height: 11px !important;
-    background: #f1f1f1 !important;
-    font-weight: 800 !important;
+    height: 12px !important;
+    font-size: 8px !important;
 }
+
 
 /* =========================================================
-   SCALE CHECK
+   SCALE TABLE — 1px BORDER
 ========================================================= */
-
-.scale-section {
-    margin: 1mm 0 !important;
-    padding: 0 !important;
-    page-break-inside: avoid !important;
-}
-
-.scale-table-wrapper {
-    overflow: visible !important;
-    width: fit-content !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-}
-
-#scaleTable {
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    table-layout: auto !important;
-    border-collapse: collapse !important;
-    border-spacing: 0 !important;
-    font-size: 6.5px !important;
-    margin: 0 !important;
-}
 
 #scaleTable th,
 #scaleTable td {
     border: 1px solid #999 !important;
+
     padding: 0 3px !important;
-    height: 9px !important;
-    line-height: 9px !important;
+
+    height: 10px !important;
+
+    line-height: 10px !important;
+
+    font-size: 8px !important;
+
     white-space: nowrap !important;
+
     text-align: center !important;
 }
 
 #scaleTable th {
-    height: 11px !important;
-    background: #f1f1f1 !important;
-    font-weight: 800 !important;
-}
-
-#scaleTable .scale-designation {
-    text-align: left !important;
+    height: 12px !important;
+    font-size: 8px !important;
 }
