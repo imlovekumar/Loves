@@ -157,7 +157,7 @@ body {
 
 #musterTable th,
 #musterTable td {
-    border: 0.5px solid #999 !important;
+    border: 1px solid #999 !important;
     padding: 0 !important;
     height: 9px !important;
     min-height: 9px !important;
@@ -394,7 +394,7 @@ body {
     height: 9px !important;
     min-height: 9px !important;
     padding: 0 !important;
-    border: 0.5px solid #999 !important;
+    border: 1px solid #999 !important;
     line-height: 9px !important;
     white-space: nowrap !important;
     vertical-align: middle !important;
@@ -447,7 +447,7 @@ body {
     height: 9px !important;
     min-height: 9px !important;
     padding: 0 !important;
-    border: 0.5px solid #999 !important;
+    border: 1px solid #999 !important;
     line-height: 9px !important;
     white-space: nowrap !important;
     vertical-align: middle !important;
@@ -498,7 +498,7 @@ body {
 
 #ndaTable th,
 #ndaTable td {
-    border: 0.5px solid #999 !important;
+    border: 1px solid #999 !important;
     padding: 0 3px !important;
     height: 9px !important;
     line-height: 9px !important;
@@ -543,7 +543,7 @@ body {
 
 #scaleTable th,
 #scaleTable td {
-    border: 0.5px solid #999 !important;
+    border: 1px solid #999 !important;
     padding: 0 3px !important;
     height: 9px !important;
     line-height: 9px !important;
