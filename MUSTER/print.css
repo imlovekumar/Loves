@@ -462,6 +462,7 @@ body {
 
 #nhTable th,
 #nhTable td {
+    width: 100% !important;
     height: 14px !important;
     padding: 0 2px !important;
     border: 1px solid #999 !important;
