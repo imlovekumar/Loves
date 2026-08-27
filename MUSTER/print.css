@@ -175,7 +175,7 @@ body {
 ========================================================= */
 
 #musterTable .col-sno, #leaveTable .leave-sno,#nhTable .nh-sno {
-    width: 25px !important;
+    width: 23px !important;
 }
 
 #musterTable .col-pe, #leaveTable .leave-pe,#nhTable .nh-pe {
@@ -183,7 +183,7 @@ body {
 }
 
 #musterTable .col-name, #leaveTable .leave-name,#nhTable .nh-name {
-    width: 125px !important;
+    width: 128px !important;
 }
 
 #musterTable .col-desig, #leaveTable .leave-desig,#nhTable .nh-desig {
