@@ -1,26 +1,23 @@
 /* =========================================================
-   PRINT ONLY — RAILWAY MUSTER
+   COMPACT PRINT — RAILWAY MUSTER
 ========================================================= */
 
 @page {
     size: A4 landscape;
-    margin: 7mm 10mm;
+    margin: 5mm 7mm;
 }
 
 /* =========================================================
    PAGE
 ========================================================= */
-/* =========================================
-   MUSTER VIEW MODE
-========================================= */
 
 html,
 body {
     width: 100%;
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
     overflow: visible !important;
-    background: white !important;
+    background: #fff !important;
 }
 
 /* =========================================================
@@ -50,64 +47,78 @@ body {
 }
 
 /* =========================================================
-   PRINT HEADING
+   PRINT HEADINGS
 ========================================================= */
 
 #printHeading,
 #printScaleHeading {
     position: relative;
-    width: auto;
-    max-width: none;
-    margin: 0;
-    padding: 0 0 0;
-    background: none;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
     overflow: hidden;
     text-align: center;
 }
 
-
-.print-title, .leave-title, .nh-title, .nda-title, .scale-title {
-    font-size: 12px;
-    margin-bottom: 0;
-    line-height: 1;
-    color: #000;
-    margin-top: 0;
+.print-title,
+.leave-title,
+.nh-title,
+.nda-title,
+.scale-title {
+    font-size: 10px !important;
+    line-height: 10px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #000 !important;
 }
 
-/* Values inside titles */
 .print-title span,
 .leave-title span,
 .nh-title span,
 .nda-title span,
 .scale-title span {
-    color: black;
+    color: #000 !important;
 }
 
-.print-period ,.leave-period, .nh-period, .nda-period, .scale-period {
-    font-size: 10px;
-    font-weight: 700;
-    line-height: 1;
-    color: #000;
-    margin-bottom: 0;
+.print-period,
+.leave-period,
+.nh-period,
+.nda-period,
+.scale-period {
+    font-size: 8px !important;
+    line-height: 9px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #000 !important;
 }
 
-/* Dates / values */
 .print-period span,
 .leave-period span,
 .nh-period span,
 .nda-period span,
 .scale-period span {
-    display: inline-block;
-    margin-top: 4px;
-    padding: 0;
-    border-radius: 0;
-    background:none;
-    color: black;
-    font-size: 10px;
-    font-weight: 700;
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: none !important;
+    border-radius: 0 !important;
+    color: #000 !important;
+    font-size: 8px !important;
+    font-weight: 700 !important;
+}
+
+/* Remove decorative heading elements */
+
+#printHeading::before,
+#printHeading::after,
+#printScaleHeading::before,
+#printScaleHeading::after {
+    content: none !important;
 }
 
 /* =========================================================
@@ -118,13 +129,11 @@ body {
     width: 100% !important;
     max-width: none !important;
     overflow: visible !important;
-    border: 0 !important;
+    border: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    margin-left: 0;
-    margin-top: 2mm !important;
-    margin-bottom: 2mm !important;
-    
+    margin: 1mm 0 !important;
+    padding: 0 !important;
 }
 
 /* =========================================================
@@ -136,9 +145,10 @@ body {
     min-width: 0 !important;
     max-width: 100% !important;
     table-layout: fixed !important;
-    border-collapse: collapse;
-    font-size: 7px;
-    margin-bottom: 4px;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    font-size: 6.5px !important;
+    margin: 0 !important;
 }
 
 /* =========================================================
@@ -147,14 +157,15 @@ body {
 
 #musterTable th,
 #musterTable td {
-    border: 1px solid #aaa !important;
-    padding: 0 1px !important;
-    height: 12px !important;
-    min-height: 12px !important;
-    line-height: 12px !important;
-    white-space: nowrap;
-    overflow: hidden;
+    border: 0.5px solid #999 !important;
+    padding: 0 !important;
+    height: 9px !important;
+    min-height: 9px !important;
+    line-height: 9px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
     position: static !important;
+    vertical-align: middle !important;
 }
 
 /* =========================================================
@@ -162,43 +173,52 @@ body {
 ========================================================= */
 
 #musterTable thead th {
-    height: 14px !important;
-    min-height: 14px !important;
-    padding: 0 1px !important;
+    height: 11px !important;
+    min-height: 11px !important;
+    padding: 0 !important;
     background: #e8eef5 !important;
     color: #000 !important;
-    font-size: 7px;
-    line-height: 10px !important;
-    font-weight: 700;
+    font-size: 6.5px !important;
+    line-height: 9px !important;
+    font-weight: 700 !important;
 }
 
 /* =========================================================
    FIXED EMPLOYEE COLUMNS
 ========================================================= */
 
-#musterTable .col-sno, #leaveTable .leave-sno,#nhTable .nh-sno {
-    width: 25px !important;
+#musterTable .col-sno,
+#leaveTable .leave-sno,
+#nhTable .nh-sno {
+    width: 22px !important;
 }
 
-#musterTable .col-pe, #leaveTable .leave-pe,#nhTable .nh-pe {
-    width: 60px !important;
+#musterTable .col-pe,
+#leaveTable .leave-pe,
+#nhTable .nh-pe {
+    width: 55px !important;
 }
 
-#musterTable .col-name, #leaveTable .leave-name,#nhTable .nh-name {
-    width: 130px !important;
+#musterTable .col-name,
+#leaveTable .leave-name,
+#nhTable .nh-name {
+    width: 125px !important;
 }
 
-#musterTable .col-desig, #leaveTable .leave-desig,#nhTable .nh-desig {
-    width: 40px !important;
+#musterTable .col-desig,
+#leaveTable .leave-desig,
+#nhTable .nh-desig {
+    width: 38px !important;
 }
 
-#musterTable .col-station, #leaveTable .leave-station,#nhTable .nh-station {
-    width: 40px !important;
+#musterTable .col-station,
+#leaveTable .leave-station,
+#nhTable .nh-station {
+    width: 38px !important;
 }
 
 /* =========================================================
    DATE COLUMNS
-   All dates receive equal remaining width
 ========================================================= */
 
 #musterTable .day-head,
@@ -213,8 +233,9 @@ body {
 ========================================================= */
 
 .day-head {
-    height: 17px !important;
-    line-height: 10px !important;
+    height: 13px !important;
+    line-height: 8px !important;
+    padding: 0 !important;
 }
 
 .day-head small {
@@ -226,97 +247,105 @@ body {
 ========================================================= */
 
 .employee-input {
-    width: 100%;
-    height: 14px !important;
-    padding: 0 1px !important;
+    width: 100% !important;
+    height: 9px !important;
+    min-height: 9px !important;
+    padding: 0 !important;
+    margin: 0 !important;
     border: 0 !important;
     background: transparent !important;
-    font-size: 7px !important;
-    font-weight: 400;
-    line-height: 14px !important;
-    text-align: left;
-    margin-left: 4px;
-	box-shadow: none;
-	color: #000;
+    box-shadow: none !important;
+    color: #000 !important;
+    font-size: 6.5px !important;
+    font-weight: 400 !important;
+    line-height: 9px !important;
+    text-align: left !important;
 }
 
 /* =========================================================
-   EMPLOYEE NAME BUTTON
+   EMPLOYEE NAME
 ========================================================= */
 
-.employee-name-button::after,
-.employee-name-button::before
- {
-    content: none !important;
-}
-
-#printHeading::before,
-#printScaleHeading::before {
-	content: none;
-}
-.sno-tag {
-    width: 100%;
-    height: 14px;
-    margin: 0;
-    padding: 0;
-    border: none;
-    border-left: none;
-    border-radius: 0;
-    background:none;
-    color: #115e59;
-    font-family: inherit;
-    font-size: 7px;
-    font-weight: 600;
-    box-shadow: none;
-	text-decoration: none;
-	color: #000;
-}
-
-.pf-id-tag {
-    width: 100%;
-    height: 14px;
-    margin: 0 0;
-    border: none;
-    border-radius: 0;
-    background:none;
-    box-shadow: none;
-    overflow: hidden;
-    transition: none;
-	margin-left: 2px;
-	text-decoration: none;
-	line-height: 0;
-	color: #000;
-}
-
-/* PF input */
-.pf-id-tag .pe-input {
-    color: #000;
-    font-size: 7px;
-    text-align: left;
-    font-weight: 600;
-    padding: 0 0;
-}
-
-.employee-name-button, .nh-name-cell, .leave-name-cell {
-    width: 100%;
-    height: 14px !important;
-    padding: 0 0 0 0 !important;
+.employee-name-button,
+.nh-name-cell,
+.leave-name-cell {
+    width: 100% !important;
+    height: 9px !important;
+    min-height: 9px !important;
+    padding: 0 !important;
+    margin: 0 !important;
     border: 0 !important;
     background: transparent !important;
     color: #000 !important;
-    font-size: 7px !important;
-    line-height: 14px !important;
-    text-align: left;
+    font-size: 6.5px !important;
+    line-height: 9px !important;
+    text-align: left !important;
     text-decoration: none !important;
     text-transform: uppercase;
-    margin-left: 2px;
-	box-shadow: none;
+    box-shadow: none !important;
 }
 
+.employee-name-button::after,
+.employee-name-button::before {
+    content: none !important;
+}
 
-#musterTable .col-desig .employee-input, #musterTable .col-station .employee-input {
-	box-shadow: none;
-	color: #000;
+/* =========================================================
+   SNO
+========================================================= */
+
+.sno-tag {
+    width: 100% !important;
+    height: 9px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: none !important;
+    color: #000 !important;
+    font-family: inherit;
+    font-size: 6.5px !important;
+    font-weight: 600 !important;
+    line-height: 9px !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+}
+
+/* =========================================================
+   PF / PE
+========================================================= */
+
+.pf-id-tag {
+    width: 100% !important;
+    height: 9px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    line-height: 9px !important;
+}
+
+.pf-id-tag .pe-input {
+    color: #000 !important;
+    font-size: 6.5px !important;
+    text-align: left !important;
+    font-weight: 600 !important;
+    padding: 0 !important;
+    height: 9px !important;
+    line-height: 9px !important;
+}
+
+/* =========================================================
+   DESIGNATION / STATION
+========================================================= */
+
+#musterTable .col-desig .employee-input,
+#musterTable .col-station .employee-input {
+    box-shadow: none !important;
+    color: #000 !important;
 }
 
 /* =========================================================
@@ -324,73 +353,29 @@ body {
 ========================================================= */
 
 .day-cell {
-    height: 14px !important;
-    line-height: 14px !important;
-    text-align: center;
+    height: 9px !important;
+    min-height: 9px !important;
+    line-height: 9px !important;
+    text-align: center !important;
+    padding: 0 !important;
 }
 
 /* =========================================================
-   BOTTOM REMARKS
+   LEAVE / ABSENT SECTION
 ========================================================= */
 
-.bottom-section {
-    display: block;
-    width: 100%;
-    margin-top: 0mm;
-    margin-bottom: 2mm;
-    margin-left: 0px;
-}
-
-.bottom-section .box {
-    padding: 0px;
-    background: none;
-    border: none;
-    border-radius: none;
-    box-shadow: none;
-}
-
-/* Title */
-.bottom-section .box-title {
-    margin-bottom: 0px;
-    font-size: 10px;
-    font-weight: 800;
-    color: #475569;
-    letter-spacing: 0.3px;
-}
-
-/* Textarea */
-.bottom-section textarea {
-    display: block;
-    width: 100%;
-    min-height: 0px;
-    box-sizing: none;
-    padding: 0px;
-    border: none;
-    border-radius: none;
-    background: none;
-    color: none;
-    font-family: inherit;
-    font-size: 10px;
-    line-height: 0;
-    resize: vertical;
-    outline: none;
-}
-
-/* =========================================
-   LEAVE / ABSENT LIST - PRINT
-========================================= */
-
 .leave-section {
-    page-break-inside: avoid;
+    page-break-inside: avoid !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .leave-table-wrapper {
-    margin-top: 2mm !important;
-    margin-bottom: 2mm !important;
+    margin: 1mm 0 !important;
+    padding: 0 !important;
     width: 100% !important;
     overflow: visible !important;
-    border: 0 !important;
-    margin-left: 0 !important;
+    border: none !important;
     box-shadow: none !important;
 }
 
@@ -398,46 +383,52 @@ body {
     width: 100% !important;
     min-width: 0 !important;
     table-layout: fixed !important;
-    border-collapse: collapse;
-    font-size: 7px;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    font-size: 6.5px !important;
+    margin: 0 !important;
 }
 
 #leaveTable th,
 #leaveTable td {
-    height: 14px !important;
-    padding: 0 2px !important;
-    border: 1px solid #999 !important;
-    line-height: 11px !important;
-    white-space: nowrap;
+    height: 9px !important;
+    min-height: 9px !important;
+    padding: 0 !important;
+    border: 0.5px solid #999 !important;
+    line-height: 9px !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
 }
 
 #leaveTable th {
-    height: 17px !important;
+    height: 11px !important;
+    line-height: 9px !important;
 }
 
 #leaveTable .leave-day {
-    width: auto;
+    width: auto !important;
 }
 
 #leaveTable .leave-name-cell {
-    text-align: left;
+    text-align: left !important;
 }
 
-/* =========================================
-   NH STATEMENT - PRINT
-========================================= */
+/* =========================================================
+   NH STATEMENT
+========================================================= */
 
 .nh-section {
-    page-break-inside: avoid;
+    page-break-inside: avoid !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .nh-table-wrapper {
-    margin-top: 2mm !important;
-    margin-bottom: 2mm !important;
+    margin: 1mm 0 !important;
+    padding: 0 !important;
     width: 100% !important;
     overflow: visible !important;
-    border: 0 !important;
-    margin-left: 0 !important;
+    border: none !important;
     box-shadow: none !important;
 }
 
@@ -445,46 +436,52 @@ body {
     width: 100% !important;
     min-width: 0 !important;
     table-layout: fixed !important;
-    border-collapse: collapse;
-    font-size: 7px;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    font-size: 6.5px !important;
+    margin: 0 !important;
 }
 
 #nhTable th,
 #nhTable td {
-    height: 14px !important;
-    padding: 0 2px !important;
-    border: 1px solid #999 !important;
-    line-height: 11px !important;
-    white-space: nowrap;
+    height: 9px !important;
+    min-height: 9px !important;
+    padding: 0 !important;
+    border: 0.5px solid #999 !important;
+    line-height: 9px !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
 }
 
 #nhTable th {
-    height: 17px !important;
+    height: 11px !important;
+    line-height: 9px !important;
 }
 
 #nhTable .nh-day {
-    width: auto;
+    width: auto !important;
 }
 
 #nhTable .nh-name-cell {
-    text-align: left;
+    text-align: left !important;
 }
 
-/* =================================================
-    NDA TABLE
-    NATURAL WIDTH
-================================================= */
+/* =========================================================
+   NDA TABLE
+========================================================= */
 
 .nda-section {
-    margin-top: 2mm !important;
-    margin-bottom: 2mm !important;
-    margin-left: 0 !important;
+    margin: 1mm 0 !important;
+    padding: 0 !important;
+    page-break-inside: avoid !important;
 }
 
 .nda-table-wrapper {
     overflow: visible !important;
     width: fit-content !important;
     max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     border: none !important;
 }
 
@@ -494,33 +491,34 @@ body {
     max-width: none !important;
     table-layout: auto !important;
     border-collapse: collapse !important;
-    font-size: 7px !important;
+    border-spacing: 0 !important;
+    font-size: 6.5px !important;
+    margin: 0 !important;
 }
 
 #ndaTable th,
 #ndaTable td {
-    border: 1px solid #aaa !important;
-    padding: 1px 5px !important;
-    height: 12px !important;
-    line-height: 10px !important;
+    border: 0.5px solid #999 !important;
+    padding: 0 3px !important;
+    height: 9px !important;
+    line-height: 9px !important;
     white-space: nowrap !important;
 }
 
 #ndaTable th {
+    height: 11px !important;
     background: #f1f1f1 !important;
     font-weight: 800 !important;
 }
 
-
-/* =================================================
-    SCALE CHECK
-    NATURAL WIDTH — DO NOT STRETCH
-================================================= */
+/* =========================================================
+   SCALE CHECK
+========================================================= */
 
 .scale-section {
-    margin-top: 2mm !important;
-    margin-bottom: 2mm !important;
-    margin-left: 0 !important;
+    margin: 1mm 0 !important;
+    padding: 0 !important;
+    page-break-inside: avoid !important;
 }
 
 .scale-table-wrapper {
@@ -528,6 +526,7 @@ body {
     width: fit-content !important;
     max-width: 100% !important;
     margin: 0 !important;
+    padding: 0 !important;
     border: none !important;
 }
 
@@ -537,28 +536,26 @@ body {
     max-width: none !important;
     table-layout: auto !important;
     border-collapse: collapse !important;
-    font-size: 7px !important;
+    border-spacing: 0 !important;
+    font-size: 6.5px !important;
+    margin: 0 !important;
 }
 
 #scaleTable th,
 #scaleTable td {
-    border: 1px solid #aaa !important;
-    padding: 1px 5px !important;
-    height: 12px !important;
-    line-height: 10px !important;
+    border: 0.5px solid #999 !important;
+    padding: 0 3px !important;
+    height: 9px !important;
+    line-height: 9px !important;
     white-space: nowrap !important;
     text-align: center !important;
 }
 
 #scaleTable th {
+    height: 11px !important;
     background: #f1f1f1 !important;
     font-weight: 800 !important;
 }
-
-/*
-    Designation can take its natural
-    required width.
-*/
 
 #scaleTable .scale-designation {
     text-align: left !important;
