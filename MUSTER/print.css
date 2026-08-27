@@ -468,6 +468,9 @@ body {
     border: 1px solid #999 !important;
     line-height: 11px !important;
     white-space: nowrap;
+    overflow: hidden !important;
+    position: static !important;
+    vertical-align: middle !important;
 }
 
 #nhTable th {
