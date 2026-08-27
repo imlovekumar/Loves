@@ -4,7 +4,7 @@
 
 @page {
     size: A4 landscape;
-    margin: 5mm;
+    margin: 7mm 10mm;
 }
 
 /* =========================================================
@@ -33,7 +33,8 @@ body {
 .staff-toolbar,
 .status-help,
 .no-print,
-.attendance-overlay {
+.attendance-overlay,
+.bottom-section {
     display: none !important;
 }
 
@@ -52,24 +53,61 @@ body {
    PRINT HEADING
 ========================================================= */
 
-#printHeading {
-    display: block !important;
-    width: 100%;
-    margin-bottom: 2mm;
+#printHeading,
+#printScaleHeading {
+    position: relative;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0 0 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
     text-align: center;
-	border: none;
 }
 
+
 .print-title, .leave-title, .nh-title, .nda-title, .scale-title {
-    font-size: 10px;
-    font-weight: 800;
-    margin-bottom: 2px;
+    font-size: 12px;
+    margin-bottom: 0;
+    line-height: 1;
+    color: #000;
+    margin-top: 0;
+}
+
+/* Values inside titles */
+.print-title span,
+.leave-title span,
+.nh-title span,
+.nda-title span,
+.scale-title span {
+    color: black;
 }
 
 .print-period ,.leave-period, .nh-period, .nda-period, .scale-period {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 700;
-    margin-bottom: 3px;
+    line-height: 1;
+    color: #000;
+    margin-bottom: 0;
+}
+
+/* Dates / values */
+.print-period span,
+.leave-period span,
+.nh-period span,
+.nda-period span,
+.scale-period span {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 0;
+    border-radius: 0;
+    background:none;
+    color: black;
+    font-size: 10px;
+    font-weight: 700;
 }
 
 /* =========================================================
@@ -83,6 +121,10 @@ body {
     border: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
+    margin-left: 0;
+    margin-top: 2mm !important;
+    margin-bottom: 2mm !important;
+    
 }
 
 /* =========================================================
@@ -96,6 +138,7 @@ body {
     table-layout: fixed !important;
     border-collapse: collapse;
     font-size: 7px;
+    margin-bottom: 4px;
 }
 
 /* =========================================================
@@ -104,7 +147,7 @@ body {
 
 #musterTable th,
 #musterTable td {
-    border: 1px solid #aaa !important;
+    border:.5px solid #aaa !important;
     padding: 0 1px !important;
     height: 14px !important;
     min-height: 14px !important;
@@ -119,13 +162,14 @@ body {
 ========================================================= */
 
 #musterTable thead th {
-    height: 14px !important;
+    height: 20px !important;
     min-height: 14px !important;
     padding: 0 1px !important;
     background: #e8eef5 !important;
     color: #000 !important;
     font-size: 7px;
     line-height: 10px !important;
+    font-weight: 700;
 }
 
 /* =========================================================
@@ -141,7 +185,7 @@ body {
 }
 
 #musterTable .col-name, #leaveTable .leave-name,#nhTable .nh-name {
-    width: 120px !important;
+    width: 130px !important;
 }
 
 #musterTable .col-desig, #leaveTable .leave-desig,#nhTable .nh-desig {
@@ -187,54 +231,80 @@ body {
     padding: 0 1px !important;
     border: 0 !important;
     background: transparent !important;
-    font-size: 6.5px !important;
+    font-size: 7px !important;
+    font-weight: 400;
     line-height: 14px !important;
     text-align: left;
     margin-left: 4px;
 	box-shadow: none;
+	color: #000;
 }
 
 /* =========================================================
    EMPLOYEE NAME BUTTON
 ========================================================= */
 
+.employee-name-button::after,
+.employee-name-button::before
+ {
+    content: none !important;
+}
+
+#printHeading::before,
+#printScaleHeading::before {
+	content: none;
+}
 .sno-tag {
     width: 100%;
     height: 14px;
     margin: 0;
-    border: 0;
-    border-left: 0;
+    padding: 0;
+    border: none;
+    border-left: none;
     border-radius: 0;
     background:none;
     color: #115e59;
     font-family: inherit;
-    font-size: 6.5px;
-    font-weight: 800;
+    font-size: 7px;
+    font-weight: 600;
     box-shadow: none;
 	text-decoration: none;
+	color: #000;
 }
 
 .pf-id-tag {
     width: 100%;
     height: 14px;
-    margin: 0;
-    border: 0;
+    margin: 0 0;
+    border: none;
     border-radius: 0;
     background:none;
     box-shadow: none;
     overflow: hidden;
     transition: none;
+	margin-left: 2px;
 	text-decoration: none;
+	line-height: 0;
+	color: #000;
+}
+
+/* PF input */
+.pf-id-tag .pe-input {
+    color: #000;
+    font-size: 7px;
+    text-align: left;
+    font-weight: 600;
+    padding: 0 0;
 }
 
 .employee-name-button, .nh-name-cell, .leave-name-cell {
     width: 100%;
     height: 14px !important;
-    padding: 0 1px !important;
+    padding: 0 0 0 0 !important;
     border: 0 !important;
     background: transparent !important;
     color: #000 !important;
-    font-size: 6.5px !important;
+    font-size: 7px !important;
     line-height: 14px !important;
     text-align: left;
     text-decoration: none !important;
@@ -243,8 +313,10 @@ body {
 	box-shadow: none;
 }
 
+
 #musterTable .col-desig .employee-input, #musterTable .col-station .employee-input {
 	box-shadow: none;
+	color: #000;
 }
 
 /* =========================================================
@@ -264,36 +336,44 @@ body {
 .bottom-section {
     display: block;
     width: 100%;
-    margin-top: 1mm;
+    margin-top: 0mm;
+    margin-bottom: 2mm;
+    margin-left: 0px;
 }
 
-.box {
+.bottom-section .box {
+    padding: 0px;
+    background: none;
+    border: none;
+    border-radius: none;
+    box-shadow: none;
+}
+
+/* Title */
+.bottom-section .box-title {
+    margin-bottom: 0px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #475569;
+    letter-spacing: 0.3px;
+}
+
+/* Textarea */
+.bottom-section textarea {
+    display: block;
     width: 100%;
-    border: 0;
-    padding: 0;
-}
-
-.box-title {
-    font-size: 8px;
-    margin-bottom: .2mm;
-}
-
-.box textarea {
-    width: 100%;
-    min-height: 1px;
-    height: auto;
-    border: 0;
-    border-radius: 0;
-    padding: 0;
-    resize: none;
-    background: transparent;
-    font-size: 7px;
-    overflow: visible;
-    color: #000;
-}
-
-.box textarea::placeholder {
-    color: transparent;
+    min-height: 0px;
+    box-sizing: none;
+    padding: 0px;
+    border: none;
+    border-radius: none;
+    background: none;
+    color: none;
+    font-family: inherit;
+    font-size: 10px;
+    line-height: 0;
+    resize: vertical;
+    outline: none;
 }
 
 /* =========================================
@@ -301,15 +381,16 @@ body {
 ========================================= */
 
 .leave-section {
-    margin-top: 2mm !important;
-    margin-bottom: 2mm !important;
     page-break-inside: avoid;
 }
 
 .leave-table-wrapper {
+    margin-top: 2mm !important;
+    margin-bottom: 2mm !important;
     width: 100% !important;
     overflow: visible !important;
     border: 0 !important;
+    margin-left: 0 !important;
     box-shadow: none !important;
 }
 
@@ -325,7 +406,7 @@ body {
 #leaveTable td {
     height: 14px !important;
     padding: 0 2px !important;
-    border: 1px solid #999 !important;
+    border: .5px solid #999 !important;
     line-height: 11px !important;
     white-space: nowrap;
 }
@@ -347,14 +428,16 @@ body {
 ========================================= */
 
 .nh-section {
-    margin-top: 2mm;
     page-break-inside: avoid;
 }
 
 .nh-table-wrapper {
+    margin-top: 2mm !important;
+    margin-bottom: 2mm !important;
     width: 100% !important;
     overflow: visible !important;
     border: 0 !important;
+    margin-left: 0 !important;
     box-shadow: none !important;
 }
 
@@ -370,7 +453,7 @@ body {
 #nhTable td {
     height: 14px !important;
     padding: 0 2px !important;
-    border: 1px solid #999 !important;
+    border: 0.5px solid #999 !important;
     line-height: 11px !important;
     white-space: nowrap;
 }
@@ -395,6 +478,7 @@ body {
 .nda-section {
     margin-top: 2mm !important;
     margin-bottom: 2mm !important;
+    margin-left: 0 !important;
 }
 
 .nda-table-wrapper {
@@ -415,7 +499,7 @@ body {
 
 #ndaTable th,
 #ndaTable td {
-    border: 1px solid #aaa !important;
+    border: .5px solid #aaa !important;
     padding: 1px 5px !important;
     height: 12px !important;
     line-height: 10px !important;
@@ -436,6 +520,7 @@ body {
 .scale-section {
     margin-top: 2mm !important;
     margin-bottom: 2mm !important;
+    margin-left: 0 !important;
 }
 
 .scale-table-wrapper {
