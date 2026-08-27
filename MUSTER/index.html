@@ -625,17 +625,31 @@ body {
     position: static;
 }
 
+#musterTable tbody tr {
+    background: #ffffff;
+}
+
+/* Alternating rows */
+#musterTable tbody tr:nth-child(even) td {
+    background: #f8fafc;
+}
 
 /* =========================================
    HEADER
 ========================================= */
 
 #musterTable thead th {
-    background: #e8eef5;
-    color: #172033;
     height: 31px;
+    padding: 0 8px;
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    font-family: inherit;
+    font-size: 10px;
     font-weight: 800;
-    position: static;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
 }
 
 /* =========================================
@@ -706,24 +720,185 @@ body {
 	margin-left: 5px;
 }
 
-.employee-name-button {
-    width: 100%;
-    height: 32px;
-    border: 0;
-    background: transparent;
-    padding: 0 5px;
-    text-align: left;
+.sno-tag {
+    width: 27px;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1px auto;
+    border: .5px solid #99d8d2;
+    border-left: 3px solid #0f766e;
+    border-radius: 4px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 184, 166, 0.11),
+            rgba(248, 250, 252, 0.75)
+        );
+    color: #115e59;
     font-family: inherit;
-    font-size: 11px;
-    font-weight: 700;
-    color: #20639b;
-    cursor: pointer;
-	text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 800;
+    box-shadow:
+        0 1px 2px rgba(15, 118, 110, 0.10);
+    box-sizing: border-box;
 }
 
+.pf-id-tag {
+    width: calc(100% - 6px);
+    height: 27px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 2px 3px;
+    border: 1px solid #d5e2e8;
+    border-radius: 4px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 184, 166, 0.11),
+            rgba(248, 250, 252, 0.75)
+        );
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+/* PF input */
+.pf-id-tag .pe-input {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0 5px;
+    border: 0;
+    background: transparent;
+    color: #145c59;
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 750;
+    text-align: left;
+    outline: none;
+}
+
+/* Hover */
+.pf-id-tag:hover {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 184, 166, 0.18),
+            rgba(248, 250, 252, 0.9)
+        );
+    border-color: #99d8d2;
+    transform: translateX(1px);
+}
+
+/* Focus while editing */
+.pf-id-tag:focus-within {
+    border-color: #14b8a6;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 184, 166, 0.16),
+            #ffffff
+        );
+    box-shadow:
+        0 0 0 2px rgba(20, 184, 166, 0.10);
+}
+
+.employee-name-button {
+    width: calc(100% - 6px);
+    height: 27px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 2px 3px;
+    padding: 0 20px 0 9px;
+    border: 1px solid #d5e2e8;
+    border-left: 3px solid #0f766e;
+    border-radius: 4px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 184, 166, 0.11),
+            rgba(248, 250, 252, 0.75)
+        );
+    color: #145c59;
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 750;
+    text-align: left;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.06);
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+/* Tiny ID-card indicator */
+.employee-name-button::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 50%;
+    transform: translate(-1px, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    background: #0f766e;
+    color: #ffffff;
+    font-size: 6px;
+    font-weight: 900;
+    letter-spacing: -0.3px;
+}
+
+/* Arrow */
+.employee-name-button::after {
+    content: "›";
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #14b8a6;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+/* Hover */
 .employee-name-button:hover {
-    color: #2563eb;
-    text-decoration: underline;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 184, 166, 0.18),
+            rgba(248, 250, 252, 0.9)
+        );
+    border-color: #99d8d2;
+    transform: translateX(1px);
+}
+
+
+/* Click */
+.employee-name-button:active {
+    transform: translateX(0);
+    background: rgba(20, 184, 166, 0.20);
+}
+
+/* Keyboard focus */
+.employee-name-button:focus-visible {
+    outline: none;
+    border-color: #14b8a6;
+    box-shadow:
+        0 0 0 2px rgba(20, 184, 166, 0.12);
 }
 
 .employee-input.name {
@@ -734,6 +909,74 @@ body {
     background: #eff6ff;
     box-shadow:
         inset 0 0 0 2px #3b82f6;
+}
+
+/* =========================================
+   DESIGNATION
+========================================= */
+
+#musterTable .col-desig .employee-input {
+    width: calc(100% - 6px);
+    height: 27px;
+    box-sizing: border-box;
+    margin: 2px 3px;
+    padding: 0 5px;
+    border: 1px solid #d5e2e8;
+    border-radius: 4px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 184, 166, 0.11),
+            rgba(248, 250, 252, 0.75)
+        );
+    color: #145c59;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 750;
+    text-align: left;
+    outline: none;
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+
+/* =========================================
+   STATION
+========================================= */
+
+#musterTable .col-station .employee-input {
+    width: calc(100% - 6px);
+    height: 27px;
+    box-sizing: border-box;
+    margin: 2px 3px;
+    padding: 0 5px;
+    border: 1px solid #d5e2e8;
+    border-radius: 4px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 184, 166, 0.11),
+            rgba(248, 250, 252, 0.75)
+        );
+    color: #145c59;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 750;
+    text-align: left;
+    outline: none;
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+/* =========================================
+   FOCUS
+========================================= */
+
+#musterTable .col-desig .employee-input:focus,
+#musterTable .col-station .employee-input:focus {
+    border-color: #99d8d2;
+    box-shadow:
+        0 0 0 2px rgba(20, 184, 166, 0.10);
 }
 
 /* =========================================
@@ -2190,16 +2433,20 @@ function renderTable() {
         tr.innerHTML = `
 
             <td class="fixed col-sno">
-                ${employeeIndex + 1}
-            </td>
+    				<div class="sno-tag">
+        				${employeeIndex + 1}
+    				</div>
+			</td>
 
             <td class="fixed col-pe">
-                <input
-                    class="employee-input pe-input"
-                    value="${escapeHTML(emp.pe)}"
-                    onchange="updateEmployee(${employeeIndex}, 'pe', this.value)"
-                >
-            </td>
+   				<div class="pf-id-tag">
+        				<input
+            				class="employee-input pe-input"
+            				value="${escapeHTML(emp.pe)}"
+            				onchange="updateEmployee(${employeeIndex}, 'pe', this.value)"
+        				>
+    				</div>
+			</td>
 
            <td class="fixed col-name">
                 <button
