@@ -459,7 +459,7 @@ body {
     border-collapse: collapse;
     font-size: 7px;
 }
-
+/*
 #nhTable th,
 #nhTable td {
     width: 100% !important;
@@ -468,7 +468,7 @@ body {
     border: 1px solid #999 !important;
     line-height: 11px !important;
     white-space: nowrap !important;
-}
+}*/
 
 #nhTable th {
     height: 17px !important;
