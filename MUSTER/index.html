@@ -609,6 +609,7 @@ body {
     min-width: max-content;
     table-layout: auto;
     font-size: 11px;
+	
 }
 
 /* =========================================
@@ -721,14 +722,14 @@ body {
 }
 
 .sno-tag {
-    width: 27px;
+    width: calc(100% - 6px);
     height: 27px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 1px auto;
     border: .5px solid #99d8d2;
-    border-left: 3px solid #0f766e;
+    border-left: 2px solid #0f766e;
     border-radius: 4px;
     background:
         linear-gradient(
@@ -821,7 +822,7 @@ body {
     margin: 2px 3px;
     padding: 0 20px 0 9px;
     border: 1px solid #d5e2e8;
-    border-left: 3px solid #0f766e;
+    border-left: 2px solid #0f766e;
     border-radius: 4px;
     background:
         linear-gradient(
@@ -1828,7 +1829,7 @@ body {
                         PF Number
                     </th>
                     <th class="fixed col-name">
-                        Name
+                        Name Of The Employee
                     </th>
                     <th class="fixed col-desig">
                         Designation
@@ -2338,10 +2339,10 @@ function buildHeader() {
 
     head.innerHTML = `
         <th class="fixed col-sno">SNo.</th>
-        <th class="fixed col-pe">PF Number</th>
-        <th class="fixed col-name">Name</th>
-        <th class="fixed col-desig">Design.</th>
-        <th class="fixed col-station">Station</th>
+        <th class="fixed col-pe">PF NUMBER</th>
+        <th class="fixed col-name">NAME OF THE EMPLOYEE</th>
+        <th class="fixed col-desig">DESIGN.</th>
+        <th class="fixed col-station">STATION</th>
     `;
 
     dates.forEach((date, index) => {
