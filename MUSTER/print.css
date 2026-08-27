@@ -137,15 +137,13 @@ body {
 }
 
 /* =========================================================
-   MUSTER / LEAVE / NH TABLE
-   SAME COMPACT PRINT STYLE
+   MAIN TABLE
 ========================================================= */
 
-#musterTable,
-#leaveTable,
-#nhTable {
+#musterTable {
     width: 100% !important;
     min-width: 0 !important;
+    max-width: 100% !important;
     table-layout: fixed !important;
     border-collapse: collapse !important;
     border-spacing: 0 !important;
@@ -158,27 +156,23 @@ body {
 ========================================================= */
 
 #musterTable th,
-#musterTable td,
-#leaveTable th,
-#leaveTable td,
-#nhTable th,
-#nhTable td {
+#musterTable td {
+    border: 1px solid #999 !important;
+    padding: 0 !important;
     height: 10px !important;
     min-height: 10px !important;
-    padding: 0 !important;
-    border: 1px solid #999 !important;
     line-height: 10px !important;
     white-space: nowrap !important;
+    overflow: hidden !important;
+    position: static !important;
     vertical-align: middle !important;
 }
 
 /* =========================================================
-   TABLE HEADERS
+   HEADER
 ========================================================= */
 
-#musterTable thead th,
-#leaveTable th,
-#nhTable th {
+#musterTable thead th {
     height: 12px !important;
     min-height: 12px !important;
     padding: 0 !important;
@@ -224,7 +218,7 @@ body {
 }
 
 /* =========================================================
-   MUSTER DATE COLUMNS
+   DATE COLUMNS
 ========================================================= */
 
 #musterTable .day-head,
@@ -367,52 +361,7 @@ body {
 }
 
 /* =========================================================
-   BOTTOM REMARKS
-========================================================= */
-
-.bottom-section {
-    display: block;
-    width: 100%;
-    margin-top: 0mm;
-    margin-bottom: 2mm;
-    margin-left: 0;
-}
-
-.bottom-section .box {
-    padding: 0;
-    background: none;
-    border: none;
-    border-radius: none;
-    box-shadow: none;
-}
-
-.bottom-section .box-title {
-    margin-bottom: 0;
-    font-size: 10px;
-    font-weight: 800;
-    color: #475569;
-    letter-spacing: 0.3px;
-}
-
-.bottom-section textarea {
-    display: block;
-    width: 100%;
-    min-height: 0;
-    box-sizing: none;
-    padding: 0;
-    border: none;
-    border-radius: none;
-    background: none;
-    color: none;
-    font-family: inherit;
-    font-size: 10px;
-    line-height: 0;
-    resize: vertical;
-    outline: none;
-}
-
-/* =========================================================
-   LEAVE / ABSENT LIST - PRINT
+   LEAVE / ABSENT SECTION
 ========================================================= */
 
 .leave-section {
@@ -436,24 +385,24 @@ body {
     table-layout: fixed !important;
     border-collapse: collapse !important;
     border-spacing: 0 !important;
-    font-size: 8px !important;
+    font-size: 6.5px !important;
     margin: 0 !important;
 }
 
 #leaveTable th,
 #leaveTable td {
-    height: 10px !important;
-    min-height: 10px !important;
+    height: 9px !important;
+    min-height: 9px !important;
     padding: 0 !important;
     border: 1px solid #999 !important;
-    line-height: 10px !important;
+    line-height: 9px !important;
     white-space: nowrap !important;
     vertical-align: middle !important;
 }
 
 #leaveTable th {
-    height: 12px !important;
-    line-height: 10px !important;
+    height: 11px !important;
+    line-height: 9px !important;
 }
 
 #leaveTable .leave-day {
@@ -465,7 +414,7 @@ body {
 }
 
 /* =========================================================
-   NH STATEMENT - PRINT
+   NH STATEMENT
 ========================================================= */
 
 .nh-section {
@@ -489,24 +438,24 @@ body {
     table-layout: fixed !important;
     border-collapse: collapse !important;
     border-spacing: 0 !important;
-    font-size: 8px !important;
+    font-size: 6.5px !important;
     margin: 0 !important;
 }
 
 #nhTable th,
 #nhTable td {
-    height: 10px !important;
-    min-height: 10px !important;
+    height: 9px !important;
+    min-height: 9px !important;
     padding: 0 !important;
     border: 1px solid #999 !important;
-    line-height: 10px !important;
+    line-height: 9px !important;
     white-space: nowrap !important;
     vertical-align: middle !important;
 }
 
 #nhTable th {
-    height: 12px !important;
-    line-height: 10px !important;
+    height: 11px !important;
+    line-height: 9px !important;
 }
 
 #nhTable .nh-day {
@@ -543,7 +492,7 @@ body {
     table-layout: auto !important;
     border-collapse: collapse !important;
     border-spacing: 0 !important;
-    font-size: 8px !important;
+    font-size: 6.5px !important;
     margin: 0 !important;
 }
 
@@ -551,13 +500,13 @@ body {
 #ndaTable td {
     border: 1px solid #999 !important;
     padding: 0 3px !important;
-    height: 10px !important;
-    line-height: 10px !important;
+    height: 9px !important;
+    line-height: 9px !important;
     white-space: nowrap !important;
 }
 
 #ndaTable th {
-    height: 12px !important;
+    height: 11px !important;
     background: #f1f1f1 !important;
     font-weight: 800 !important;
 }
@@ -588,7 +537,7 @@ body {
     table-layout: auto !important;
     border-collapse: collapse !important;
     border-spacing: 0 !important;
-    font-size: 8px !important;
+    font-size: 6.5px !important;
     margin: 0 !important;
 }
 
@@ -596,14 +545,14 @@ body {
 #scaleTable td {
     border: 1px solid #999 !important;
     padding: 0 3px !important;
-    height: 10px !important;
-    line-height: 10px !important;
+    height: 9px !important;
+    line-height: 9px !important;
     white-space: nowrap !important;
     text-align: center !important;
 }
 
 #scaleTable th {
-    height: 12px !important;
+    height: 11px !important;
     background: #f1f1f1 !important;
     font-weight: 800 !important;
 }
