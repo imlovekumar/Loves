@@ -17,7 +17,7 @@ body {
     margin: 0;
     padding: 0;
     overflow: visible !important;
-    background: white !important;
+    background: rgb(78, 47, 47) !important;
 }
 
 /* =========================================================
@@ -80,7 +80,7 @@ body {
 .nh-title span,
 .nda-title span,
 .scale-title span {
-    color: black;
+    color: #0f766e;
 }
 
 .print-period ,.leave-period, .nh-period, .nda-period, .scale-period {
@@ -102,7 +102,7 @@ body {
     padding: 0;
     border-radius: 0;
     background:none;
-    color: black;
+    color: #0f766e;
     font-size: 10px;
     font-weight: 700;
 }
