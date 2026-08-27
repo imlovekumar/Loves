@@ -147,10 +147,10 @@ body {
 
 #musterTable th,
 #musterTable td {
-    border:.5px solid #aaa !important;
+    border: 1px solid #aaa !important;
     padding: 0 1px !important;
-    height: 14px !important;
-    min-height: 14px !important;
+    height: 12px !important;
+    min-height: 12px !important;
     line-height: 12px !important;
     white-space: nowrap;
     overflow: hidden;
@@ -162,7 +162,7 @@ body {
 ========================================================= */
 
 #musterTable thead th {
-    height: 20px !important;
+    height: 14px !important;
     min-height: 14px !important;
     padding: 0 1px !important;
     background: #e8eef5 !important;
@@ -406,7 +406,7 @@ body {
 #leaveTable td {
     height: 14px !important;
     padding: 0 2px !important;
-    border: .5px solid #999 !important;
+    border: 1px solid #999 !important;
     line-height: 11px !important;
     white-space: nowrap;
 }
@@ -453,7 +453,7 @@ body {
 #nhTable td {
     height: 14px !important;
     padding: 0 2px !important;
-    border: 0.5px solid #999 !important;
+    border: 1px solid #999 !important;
     line-height: 11px !important;
     white-space: nowrap;
 }
@@ -499,7 +499,7 @@ body {
 
 #ndaTable th,
 #ndaTable td {
-    border: .5px solid #aaa !important;
+    border: 1px solid #aaa !important;
     padding: 1px 5px !important;
     height: 12px !important;
     line-height: 10px !important;
