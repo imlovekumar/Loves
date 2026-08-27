@@ -433,13 +433,13 @@ body {
 #leaveTable .leave-name-cell {
     text-align: left;
 }
+
 /* =========================================
    NH STATEMENT - PRINT
 ========================================= */
 
 .nh-section {
     page-break-inside: avoid;
-    width: 100% !important;
 }
 
 .nh-table-wrapper {
@@ -449,189 +449,36 @@ body {
     overflow: visible !important;
     border: 0 !important;
     margin-left: 0 !important;
-    padding: 0 !important;
     box-shadow: none !important;
 }
 
-/* =========================================
-   NH TABLE
-========================================= */
-
 #nhTable {
     width: 100% !important;
-    max-width: 100% !important;
     min-width: 0 !important;
-
     table-layout: fixed !important;
-    border-collapse: collapse !important;
-
-    font-size: 7px !important;
-    margin: 0 !important;
+    border-collapse: collapse;
+    font-size: 7px;
 }
-
-/* =========================================
-   ALL CELLS
-========================================= */
 
 #nhTable th,
 #nhTable td {
+    height: 14px !important;
+    padding: 0 2px !important;
     border: 1px solid #999 !important;
-
-    padding: 0 1.5px !important;
-    margin: 0 !important;
-
-    line-height: 9px !important;
-
-    /*
-       IMPORTANT:
-       Allow text to stay INSIDE the cell
-    */
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
-
-    vertical-align: middle !important;
-
-    box-sizing: border-box !important;
+    line-height: 11px !important;
+	white-space: nowrap !important;
 }
-
-/* =========================================
-   HEADER
-========================================= */
 
 #nhTable th {
     height: 17px !important;
-
-    font-size: 7px !important;
-    font-weight: 700 !important;
-
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-
-    vertical-align: middle !important;
 }
-
-/* =========================================
-   FIXED WIDTH COLUMNS
-========================================= */
-
-/* SNo. */
-#nhTable .nh-sno {
-    width: 10mm !important;
-    min-width: 10mm !important;
-}
-
-/* PF Number */
-#nhTable .nh-pe {
-    width: 22mm !important;
-    min-width: 22mm !important;
-
-    white-space: nowrap !important;
-}
-
-/* Name */
-#nhTable .nh-name {
-    width: 30mm !important;
-    min-width: 30mm !important;
-}
-
-/* Designation */
-#nhTable .nh-desig {
-    width: 18mm !important;
-    min-width: 18mm !important;
-}
-
-/* Station */
-#nhTable .nh-station {
-    width: 20mm !important;
-    min-width: 20mm !important;
-}
-
-/* =========================================
-   DATE COLUMNS
-   Remaining table width is automatically
-   divided between all date columns.
-========================================= */
 
 #nhTable .nh-day {
-    width: auto !important;
-    min-width: 0 !important;
-
-    padding: 0 !important;
-
-    text-align: center !important;
-    white-space: nowrap !important;
+    width: auto;
 }
 
-/* =========================================
-   DATA CELLS
-========================================= */
-
-#nhTable td {
-    height: 14px !important;
-}
-
-/* SNo */
-#nhTable td:nth-child(1) {
-    text-align: center !important;
-    white-space: nowrap !important;
-}
-
-/* PF Number */
-#nhTable td:nth-child(2) {
-    text-align: center !important;
-    white-space: nowrap !important;
-}
-
-/* Name */
 #nhTable .nh-name-cell {
-    text-align: left !important;
-
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
-}
-
-/* Designation */
-#nhTable td:nth-child(4) {
-    text-align: center !important;
-
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
-}
-
-/* Station */
-#nhTable td:nth-child(5) {
-    text-align: center !important;
-
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
-}
-
-/* NH status cells */
-#nhTable .nh-day-cell {
-    padding: 0 !important;
-
-    text-align: center !important;
-    white-space: nowrap !important;
-
-    font-size: 6.5px !important;
-    line-height: 9px !important;
-}
-
-/* =========================================
-   PREVENT TABLE FROM BREAKING HORIZONTALLY
-========================================= */
-
-#nhTable tr {
-    page-break-inside: avoid !important;
-}
-
-#nhTable th,
-#nhTable td {
-    max-width: 100% !important;
+    text-align: left;
 }
 
 /* =================================================
