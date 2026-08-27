@@ -10,6 +10,9 @@
 /* =========================================================
    PAGE
 ========================================================= */
+/* =========================================
+   MUSTER VIEW MODE
+========================================= */
 
 html,
 body {
@@ -54,6 +57,7 @@ body {
     width: 100%;
     margin-bottom: 2mm;
     text-align: center;
+	border: none;
 }
 
 .print-title, .leave-title, .nh-title, .nda-title, .scale-title {
@@ -187,11 +191,41 @@ body {
     line-height: 14px !important;
     text-align: left;
     margin-left: 4px;
+	box-shadow: none;
 }
 
 /* =========================================================
    EMPLOYEE NAME BUTTON
 ========================================================= */
+
+.sno-tag {
+    width: 100%;
+    height: 14px;
+    margin: 0;
+    border: 0;
+    border-left: 0;
+    border-radius: 0;
+    background:none;
+    color: #115e59;
+    font-family: inherit;
+    font-size: 6.5px;
+    font-weight: 800;
+    box-shadow: none;
+	text-decoration: none;
+}
+
+.pf-id-tag {
+    width: 100%;
+    height: 14px;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background:none;
+    box-shadow: none;
+    overflow: hidden;
+    transition: none;
+	text-decoration: none;
+}
 
 .employee-name-button, .nh-name-cell, .leave-name-cell {
     width: 100%;
@@ -206,6 +240,11 @@ body {
     text-decoration: none !important;
     text-transform: uppercase;
     margin-left: 2px;
+	box-shadow: none;
+}
+
+#musterTable .col-desig .employee-input, #musterTable .col-station .employee-input {
+	box-shadow: none;
 }
 
 /* =========================================================
