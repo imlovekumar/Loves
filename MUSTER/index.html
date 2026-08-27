@@ -189,10 +189,12 @@ body {
     border-radius: 8px;
     box-shadow: 0 5px 16px rgba(15, 23, 42, 0.15);
     z-index: 9999;
+	flex-direction: column;
+	gap: 5px;
 }
 
 .header-menu-dropdown.show {
-    display: block;
+    display: flex;
 }
 
 /* Menu option */
@@ -1718,8 +1720,10 @@ body {
                 <span></span>
             </button>
             <div id="headerMenu" class="header-menu-dropdown">
-                <button class="btn btn-blue" onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
-            </div>
+                <button onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
+            		<button onclick="toggleSkin(); closeHeaderMenu();">💾 Save Muster</button>
+				<button onclick="closeHeaderMenu();">🔘 Load Muster</button>
+			</div>
         </div>
     </div>
 </header>
@@ -3185,6 +3189,15 @@ function printMuster() {
     }, 1000);
 }
 
+function toggleSkin() {
+    const css = document.getElementById('printCSS');
+
+    if (css.media === 'print') {
+        css.media = 'all';
+    } else {
+        css.media = 'print';
+    }
+}
 
 function toggleHeaderMenu() {
     document.getElementById("headerMenu").classList.toggle("show");
