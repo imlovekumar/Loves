@@ -453,7 +453,7 @@ body {
 #printHeading,
 #printScaleHeading {
     position: relative;
-    margin: 10px auto;
+    margin: 10px;
     padding: 12px 16px 10px;
     max-width: 1000px;
     background: #ffffff99;
@@ -1142,7 +1142,7 @@ body {
 
     /* TABLE */
 
-    .table-wrapper {
+    .table-wrapper{
         width: 100%;
         overflow-x: auto;
         overflow-y: hidden;
@@ -1696,7 +1696,6 @@ body {
 #nhTable .nh-day-cell {
     font-weight: 700;
 }
-
 </style>
 <link id="printCSS" rel="stylesheet" href="print.css" media="print">
 
@@ -1721,13 +1720,12 @@ body {
             </button>
             <div id="headerMenu" class="header-menu-dropdown">
                 <button onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
-            		<button onclick="toggleSkin(); closeHeaderMenu();">💾 Save Muster</button>
-				<button onclick="closeHeaderMenu();">🔘 Load Muster</button>
+            		<button onclick="toggleSkin(); closeHeaderMenu();">👁️View Muster</button>
+				
 			</div>
         </div>
     </div>
 </header>
-
 <main class="container">
 
 	<!-- SETTINGS -->
@@ -2093,7 +2091,6 @@ body {
 /* =========================================================
    SETTINGS
 ========================================================= */
-
 const STATUS_OPTIONS = [
     "P",
     "R",
@@ -2106,7 +2103,6 @@ const STATUS_OPTIONS = [
 	"NHR",
 	"NHAV"
 ];
-
 
 /*
     Initial employees from the sample image.
