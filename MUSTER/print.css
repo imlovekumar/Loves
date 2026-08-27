@@ -183,7 +183,7 @@ body {
 }
 
 #musterTable .col-name, #leaveTable .leave-name,#nhTable .nh-name {
-    width: 130px !important;
+    width: 125px !important;
 }
 
 #musterTable .col-desig, #leaveTable .leave-desig,#nhTable .nh-desig {
@@ -191,7 +191,7 @@ body {
 }
 
 #musterTable .col-station, #leaveTable .leave-station,#nhTable .nh-station {
-    width: 40px !important;
+    width: 38px !important;
 }
 
 /* =========================================================
