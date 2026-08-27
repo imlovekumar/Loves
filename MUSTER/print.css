@@ -467,10 +467,7 @@ body {
     padding: 0 2px !important;
     border: 1px solid #999 !important;
     line-height: 11px !important;
-    white-space: nowrap;
-    overflow: hidden !important;
-    position: static !important;
-    vertical-align: middle !important;
+    white-space: nowrap !important;
 }
 
 #nhTable th {
