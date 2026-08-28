@@ -30,8 +30,7 @@ body {
 .staff-toolbar,
 .status-help,
 .no-print,
-.attendance-overlay,
-.bottom-section {
+.attendance-overlay {
     display: none !important;
 }
 
@@ -344,49 +343,47 @@ body {
    BOTTOM REMARKS
 ========================================================= */
 
-.bottom-section {
-    display: block;
-    width: 100%;
-    margin-top: 0mm;
-    margin-bottom: 2mm;
-    margin-left: 0px;
-}
+    /* Hide entire Remarks section if there are no remarks */
+    .bottom-section:has(.print-remarks:empty) {
+        display: none !important;
+    }
 
-.bottom-section .box {
-    padding: 0px;
-    background: none;
-    border: none;
-    border-radius: none;
-    box-shadow: none;
-}
+    /* Remove screen design when printing */
+    .bottom-section .box {
+        padding: 0 !important;
+        background: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
 
-/* Title */
-.bottom-section .box-title {
-    margin-bottom: 0px;
-    font-size: 6.5px;
-    font-weight: 800;
-    color: #475569;
-    letter-spacing: 0.3px;
-}
+    .bottom-section .box-title {
+        display: inline;
+        margin: 0;
+        font-size: 10px;
+        color: #000;
+    }
 
-/* Textarea */
-.bottom-section textarea {
-    display: block;
-    width: 100%;
-    min-height: 0px;
-    box-sizing: none;
-    padding: 0px;
-    border: none;
-    border-radius: none;
-    background: none;
-    color: none;
-    font-family: inherit;
-    font-size: 10px;
-    line-height: 0;
-    resize: vertical;
-    outline: none;
-}
+    /* Hide screen version */
+    .remarks-display {
+        display: none !important;
+    }
 
+    /* Plain print text */
+    .print-remarks {
+        display: inline !important;
+        padding: 0 !important;
+        margin: 0 !important;
+
+        background: none !important;
+        border: none !important;
+
+        color: #000 !important;
+        font-size: 10px;
+        line-height: 1.3;
+
+        white-space: normal;
+    }
 /* =========================================
    LEAVE / ABSENT LIST - PRINT
 ========================================= */
