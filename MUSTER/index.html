@@ -451,7 +451,8 @@ body {
 ========================================================= */
 
 #printHeading,
-#printScaleHeading {
+#printScaleHeading,
+#printRentHeading {
     position: relative;
     margin: 10px;
     padding: 12px 16px 10px;
@@ -466,7 +467,8 @@ body {
 
 /* Top accent */
 #printHeading::before,
-#printScaleHeading::before {
+#printScaleHeading::before,
+#printRentHeading::before {
     content: "";
     position: absolute;
     top: 0;
@@ -488,6 +490,7 @@ body {
 .print-title,
 .leave-title,
 .nh-title,
+.rent-title,
 .nda-title,
 .scale-title {
     
@@ -502,6 +505,7 @@ body {
 /* Values inside titles */
 .print-title span,
 .leave-title span,
+.rent-title span,
 .nh-title span,
 .nda-title span,
 .scale-title span {
@@ -515,6 +519,7 @@ body {
 
 .print-period,
 .leave-period,
+.rent-period,
 .nh-period,
 .nda-period,
 .scale-period {
@@ -529,6 +534,7 @@ body {
 /* Dates / values */
 .print-period span,
 .leave-period span,
+.rent-period span,
 .nh-period span,
 .nda-period span,
 .scale-period span {
@@ -549,7 +555,8 @@ body {
 @media (max-width: 560px) {
 
     #printHeading,
-	#printScaleHeading {
+	#printScaleHeading,
+	#printRentHeading {
         margin: 7px 8px;
         padding: 10px 10px 8px;
         border-radius: 0 0 10px 10px;
@@ -558,6 +565,7 @@ body {
     .print-title,
     .leave-title,
     .nh-title,
+	.rent-title,
     .nda-title,
     .scale-title {
         font-size: 11px;
@@ -567,6 +575,7 @@ body {
     .print-period,
     .leave-period,
     .nh-period,
+	.rent-period,
     .nda-period,
     .scale-period {
         font-size: 10px;
@@ -574,6 +583,7 @@ body {
 
     .print-period span,
     .leave-period span,
+	.rent-period span,
     .nh-period span,
     .nda-period span,
     .scale-period span {
@@ -596,7 +606,6 @@ body {
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    background: #f1f5f9;
 }
 
 /* =========================================
@@ -1033,14 +1042,14 @@ body {
     color: #7c3aed;
 }
 
-/* =========================================================
-   REMARKS — CLEAN COMPACT STYLE
-========================================================= */
+/* =========================================
+   BOTTOM REMARKS
+========================================= */
 
 .bottom-section {
     margin-top: 10px;
-	margin-left: 10px;
-	margin-right: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .bottom-section .box {
@@ -1060,34 +1069,40 @@ body {
     letter-spacing: 0.3px;
 }
 
-/* Textarea */
-.bottom-section textarea {
+
+/* =========================================
+   SCREEN REMARKS
+========================================= */
+
+.bottom-section .remarks-display {
     display: block;
     width: 100%;
     min-height: 38px;
     box-sizing: border-box;
+
     padding: 7px 9px;
+
     border: 1px solid #cbd5e1;
     border-radius: 6px;
+
     background: #ffffff;
     color: #475569;
+
     font-family: inherit;
     font-size: 11px;
     line-height: 1.4;
-    resize: vertical;
-    outline: none;
+
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
-/* Focus */
-.bottom-section textarea:focus {
-    border-color: #94a3b8;
-    box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.12);
-}
 
-/* Disabled */
-.bottom-section textarea:disabled {
-    background: #f1f5f9;
-    color: #64748b;
+/* =========================================
+   PRINT REMARKS
+========================================= */
+
+.bottom-section .print-remarks {
+    display: none;
 }
 
 /* =========================================================
@@ -1398,7 +1413,7 @@ body {
 .nda-table-wrapper {
     width: 100%;
     overflow-x: auto;
-    background: #f1f5f9;
+    background: none;
 }
 
 #ndaTable {
@@ -1420,13 +1435,20 @@ body {
     font-weight: 800;
 }
 
+#ndaTable td {
+    background: #fff;
+}
+
 #ndaTable .nda-value {
     font-weight: 800;
 }
 
-#ndaTable td:nth-child(3) {
+#ndaTable td:nth-child(2),
+#ndaTable td:nth-child(3),
+#ndaTable td:nth-child(4) {
     text-align: left;
     padding-left: 8px;
+    text-transform: uppercase;
 }
 /* =========================================
    NDA INPUT — ATTENDANCE POPUP
@@ -1501,25 +1523,29 @@ body {
    SCALE CHECK STATEMENT
 ========================================= */
 
-.scale-section {
+.scale-section,
+.rent-section {
     margin-top: 10px;
 	margin-left: 10px;
 }
 
-.scale-table-wrapper {
+.scale-table-wrapper,
+.rent-table-wrapper {
     width: 100%;
     overflow-x: auto;
-    background: #f1f5f9;
 }
 
-#scaleTable {
+#scaleTable,
+#rentTable {
     width: 100%;
     border-collapse: collapse;
     font-size: 11px;
 }
 
 #scaleTable th,
-#scaleTable td {
+#scaleTable td,
+#rentTable th,
+#rentTable td {
     border: 1px solid #cbd5e1;
     height: 24px;
     padding: 3px 7px;
@@ -1527,13 +1553,15 @@ body {
     white-space: nowrap;
 }
 
-#scaleTable th {
+#scaleTable th,
+#rentTable th {
     background: #e8eef5;
     color: #172033;
     font-weight: 800;
 }
 
-#scaleTable td {
+#scaleTable td,
+#rentTable td {
     background: white;
 }
 
@@ -1553,7 +1581,7 @@ body {
 .leave-table-wrapper {
     width: 100%;
     overflow-x: auto;
-    background: #f1f5f9;
+    background: none;
 	margin-left: 10px;
 }
 
@@ -1577,6 +1605,17 @@ body {
 #leaveTable th {
     background: #e8eef5;
     font-weight: 800;
+}
+
+#leaveTable td {
+    background: #fff;
+}
+
+#leaveTable td:nth-child(2),
+#leaveTable td:nth-child(3) {
+    text-align: left;
+    padding-left: 8px;
+    text-transform: uppercase;
 }
 
 #leaveTable .leave-sno {
@@ -1610,11 +1649,6 @@ body {
     max-width: 38px;
 }
 
-#leaveTable .leave-name-cell {
-    text-align: left;
-    font-weight: 700;
-}
-
 #leaveTable .leave-day-cell {
     font-weight: 700;
 }
@@ -1631,7 +1665,6 @@ body {
 .nh-table-wrapper {
     width: 100%;
     overflow-x: auto;
-    background: #f1f5f9;
 	margin-left: 10px;
 }
 
@@ -1655,6 +1688,16 @@ body {
 #nhTable th {
     background: #e8eef5;
     font-weight: 800;
+}
+
+#nhTable td {
+    background: #fff;
+}
+
+#nhTable td:nth-child(3) {
+    text-align: left;
+    padding-left: 8px;
+    text-transform: uppercase;
 }
 
 #nhTable .nh-sno {
@@ -1688,11 +1731,6 @@ body {
     max-width: 38px;
 }
 
-#nhTable .nh-name-cell {
-    text-align: left;
-    font-weight: 700;
-}
-
 #nhTable .nh-day-cell {
     font-weight: 700;
 }
@@ -1711,7 +1749,7 @@ body {
             <div class="title-line"></div>
             <div class="division-name">GUNTAKAL DIVISION</div>
         </div>
-		<!-- MENU -->
+		<!-- Three Line MENU -->
         <div class="header-menu">
             <button class="menu-toggle" onclick="toggleHeaderMenu()">
                 <span></span>
@@ -1728,11 +1766,11 @@ body {
 </header>
 <main class="container">
 
-	<!-- SETTINGS -->
+	<!-- Muster Detail SETTINGS -->
     <section class="settings no-print">
         <div class="section-title">Muster Details</div>
-
         <div class="form-grid">
+			
             <div class="field">
                 <label>Depot</label>
 				<select id="depot" onchange="changeDepot()">
@@ -1822,41 +1860,27 @@ body {
 
     <div class="table-wrapper">
         <table id="musterTable">
-            <thead>
-                <tr id="tableHead">
-                    <th class="fixed col-sno">
-                        SNo.
-                    </th>
-                    <th class="fixed col-pe">
-                        PF Number
-                    </th>
-                    <th class="fixed col-name">
-                        Name Of The Employee
-                    </th>
-                    <th class="fixed col-desig">
-                        Designation
-                    </th>
-                    <th class="fixed col-station">
-                        Station
-                    </th>
-                </tr>
-            </thead>
+        <thead>
+        <tr id="tableHead">
+        		<th class="fixed col-sno">SNo.</th>
+            <th class="fixed col-pe">PF Number</th>
+            <th class="fixed col-name">Name Of The Employee</th>
+            <th class="fixed col-desig">Designation</th>
+            <th class="fixed col-station">Station</th>
+        	</tr>
+        </thead>
             <tbody id="staffBody"></tbody>
         </table>
     </div>
 
-    <!-- BOTTOM -->
-
-    <div class="bottom-section">
-        <div class="box">
-            <div class="box-title">Remarks: </div>
-            <textarea
-                id="remarks"
-                placeholder="Enter remarks..."
-                oninput="updateEmployeeRemarksFromMain()"
-                disabled>
-            </textarea>
-        </div>
+    <!-- REMARK AREA -->
+	
+   	<div class="bottom-section">
+		<div class="box">
+			<div class="box-title">Remarks:</div>
+        		<div id="remarks" class="remarks-display">NO REMARKS !</div>
+        		<div id="printRemarks" class="print-remarks"></div>
+    		</div>
     </div>
 	
 	<!-- LEAVE / ABSENT LIST -->
@@ -1929,6 +1953,60 @@ body {
                     </tr>
                 </thead>
                 <tbody id="nhTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+
+   <!-- Rent Roll SECTION -->
+ <section id="printRentHeading">
+	<div class="rent-title">
+            RENT ROLL STATEMENT OF DEPOT :
+            <span id="rentDepot">SMR/KDP</span>,
+            BU :
+            <span id="rentBU">3705667</span>,
+            DEPARTMENT :
+            <span id="rentDepartment">OPERATING</span>.
+        </div>
+
+        <div class="rent-period">
+            For Period
+            <span id="rentStart">01-07-2026</span>
+            to
+            <span id="rentEnd">31-07-2026</span>
+        </div>
+</section>
+<section class="rent-section">
+        
+        <div class="rent-table-wrapper">
+            <table id="rentTable">
+                <thead>
+                    <tr>
+                        <th>SNo.</th>
+                        <th>PF NUMBER</th>
+                        <th>NAME</th>
+                        <th>DESIG.</th>
+                        <th>STATION</th>
+                        <th>RAILWAY QTR NO.</th>
+						<th>QTR TYPE</th>
+						<th>AREA</th>
+						<th>IN OCCUPATION FROM</th>
+						<th>REMARK</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>01</td>
+                        <td>24129802911</td>
+                        <td>ANIL YADAV</td>
+                        <td>LR SM</td>
+                        <td>KDP</td>
+                        <td>68/B</td>
+						<td>III</td>
+						<td>KDP</td>
+						<td>01/09/2025</td>
+						<td>NIL</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </section>
@@ -2257,7 +2335,6 @@ const depotEmployees = {
 
 let dates = [];
 
-
 /* =========================================================
    DATE FUNCTIONS
 ========================================================= */
@@ -2384,12 +2461,19 @@ function changeDepot() {
         depotEmployees[depot] = [];
     }
 	
+	const isKDP = depot === "SMR/KDP";
 	document.querySelectorAll(".scale-section").forEach(el => {
-		el.style.display = depot === "SMR/MUM" ? "none" : "";
+    		el.style.display = isKDP ? "" : "none";
 	});
+	document.getElementById("printScaleHeading").style.display =
+    		isKDP ? "" : "none";
 	
-	document.getElementById("printScaleHeading").style.display = depot === "SMR/MUM" ? "none" : "";
-
+	document.querySelectorAll(".rent-section").forEach(el => {
+    		el.style.display = isKDP ? "" : "none";
+	});
+	document.getElementById("printRentHeading").style.display =
+    		isKDP ? "" : "none";
+			
     employees = depotEmployees[depot];
     employees.forEach(emp => {
         if (!emp.days) {
@@ -2788,6 +2872,28 @@ function renderNDATable() {
 
     document.getElementById("ndaEnd").textContent =
     ndaEndText;
+	
+	const rentStart = new Date(
+        year,
+        startMonth - 1,
+        1
+    );
+
+    // Day 0 of next month = last day of selected month
+    const rentEnd = new Date(
+        year,
+        startMonth,
+        0
+    );
+
+    const rentStartText = formatDate(rentStart);
+    const rentEndText = formatDate(rentEnd);
+	
+	document.getElementById("rentStart").textContent =
+    rentStartText;
+
+    document.getElementById("rentEnd").textContent =
+    rentEndText;
 
     employees.forEach((emp, index) => {
 
@@ -2863,7 +2969,15 @@ function updateDay(select) {
 ========================================================= */
 
 function updatePrintHeader() {
-	
+	document.getElementById("rentDepot").textContent =
+    document.getElementById("depot").value;
+
+    document.getElementById("rentBU").textContent =
+        document.getElementById("bu").value;
+
+    document.getElementById("rentDepartment").textContent =
+        document.getElementById("department").value;
+
 	document.getElementById("ndaDepot").textContent =
     document.getElementById("depot").value;
 
@@ -3102,58 +3216,28 @@ function updateMainRemarks() {
     const lines = [];
     employees.forEach((employee, index) => {
         if (employee.remark && employee.remark.trim()) {
-            lines.push(
-                `${index + 1}. ${employee.name} : ${employee.remark.trim()}`
-            );
+            lines.push(`${index + 1}. ${employee.name} : ${employee.remark.trim()}`);
         }
     });
+    const screenRemarks = document.getElementById("remarks");
+    const printRemarks = document.getElementById("printRemarks");
+    const bottomSection = document.querySelector(".bottom-section");
 
-    document.getElementById("remarks").value =
-        lines.join(", ");
-}
-
-function updateEmployeeRemarksFromMain() {
-
-    const textarea =
-        document.getElementById("remarks");
-
-    const lines =
-        textarea.value.split("\n");
-
-    // Clear existing employee remarks first
-    employees.forEach(employee => {
-        employee.remark = "";
-    });
-
-    lines.forEach(line => {
-
-        /*
-         Expected format:
-
-         2. Loveleen Kumar : CL granted
-        */
-
-        const match =
-            line.match(/^(\d+)\.\s*(.*?)\s*:\s*(.*)$/);
-
-        if (!match) return;
-
-        const employeeNumber =
-            Number(match[1]);
-
-        const remark =
-            match[3].trim();
-
-        const employee =
-            employees[employeeNumber - 1];
-
-        if (employee) {
-            employee.remark = remark;
-        }
-
-    });
-
-    
+    if (lines.length) {
+        // Screen
+        screenRemarks.textContent = lines.join("\n");
+        // Print
+        printRemarks.textContent = lines.join(" , ");
+        // Show section
+        bottomSection.style.display = "";
+    } else {
+        // Screen
+        screenRemarks.textContent = "NO REMARKS";
+        // Print
+        printRemarks.textContent = "";
+        // Keep it visible on screen, but hide during print
+        bottomSection.style.display = "";
+    }
 }
 
 /*============================================
