@@ -307,6 +307,164 @@
     transform: translateY(1px);
 }
 
+/* =========================================
+   CUSTOM LOGIN DEPOT DROPDOWN
+========================================= */
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+/* Main button */
+
+.custom-select-button {
+    width: 100%;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 13px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+
+    background: #f8fafc;
+    color: #172033;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+    outline: none;
+
+    transition:
+        border-color .15s ease,
+        background .15s ease,
+        box-shadow .15s ease;
+}
+
+.custom-select-button:hover {
+    background: #ffffff;
+    border-color: #94a3b8;
+}
+
+.custom-select.open .custom-select-button {
+    background: #ffffff;
+    border-color: #14b8a6;
+
+    box-shadow:
+        0 0 0 3px rgba(20, 184, 166, .12);
+}
+
+/* Arrow */
+
+.custom-select-arrow {
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #64748b;
+    font-size: 18px;
+    font-weight: 800;
+
+    transition: transform .18s ease;
+}
+
+.custom-select.open .custom-select-arrow {
+    transform: rotate(180deg);
+}
+
+/* Dropdown */
+
+.custom-select-options {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: calc(100% + 6px);
+
+    display: none;
+
+    padding: 5px;
+
+    background: #ffffff;
+
+    border: 1px solid #dbe2ea;
+    border-radius: 10px;
+
+    box-shadow:
+        0 10px 25px rgba(15, 23, 42, .15);
+
+    z-index: 10000;
+
+    max-height: 210px;
+    overflow-y: auto;
+}
+
+.custom-select.open .custom-select-options {
+    display: block;
+}
+
+/* Options */
+
+.custom-select-option {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    min-height: 40px;
+
+    padding: 0 11px;
+
+    border-radius: 7px;
+
+    color: #334155;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background .12s ease,
+        color .12s ease;
+}
+
+.custom-select-option:hover {
+    background: #f0fdfa;
+    color: #0f766e;
+}
+
+.custom-select-option.selected {
+    background: #ccfbf1;
+    color: #0f766e;
+}
+
+/* Mobile */
+
+@media (max-width: 560px) {
+
+    .custom-select-button {
+        height: 42px;
+        font-size: 12px;
+        border-radius: 8px;
+    }
+
+    .custom-select-option {
+        min-height: 39px;
+        font-size: 12px;
+    }
+
+}
 
 /* =========================================
    MOBILE LOGIN
