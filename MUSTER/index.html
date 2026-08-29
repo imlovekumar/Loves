@@ -86,6 +86,29 @@
     </div>
 </div>
 
+<script>
+(function () {
+
+    const savedDepot =
+        localStorage.getItem("musterLoggedInDepot");
+
+    const savedToken =
+        localStorage.getItem("musterAuthToken");
+
+    if (savedDepot && savedToken) {
+
+        const loginScreen =
+            document.getElementById("loginScreen");
+
+        if (loginScreen) {
+            loginScreen.style.display = "none";
+        }
+
+    }
+
+})();
+</script>
+
 <main class="container" id="musterApp">
 
 	<!-- Muster Detail SETTINGS -->
@@ -96,8 +119,6 @@
             <div class="field">
                 <label>Depot</label>
 				<select id="depot">
-					<option value="SMR/KDP">SMR/KDP</option>
-					<option value="SMR/MUM">SMR/MUM</option>
 				</select>
             </div>
 
@@ -620,35 +641,24 @@ function getCurrentDepot() {
 ========================================= */
 
 async function changeDepot() {
-
     const depot = getCurrentDepot();
 	
 	/* Show loading */
+	const employeeLoading =
+    		document.getElementById("employeeLoading");
 
-const employeeLoading =
-    document.getElementById("employeeLoading");
+	if (employeeLoading) {
+    		employeeLoading.style.display = "flex";
+	}
 
-if (employeeLoading) {
-    employeeLoading.style.display = "flex";
-}
-	
-/* Clear previous depot table immediately */
-
+	/* Clear previous depot table immediately */
     employees = [];
-
-    const staffBody =
-
-        document.getElementById("staffBody");
-
+    const staffBody = document.getElementById("staffBody");
     if (staffBody) {
-
         staffBody.innerHTML = "";
-
     }
-
-    
+	
     const isKDP = depot === "SMR/KDP";
-
 
     /* =====================================
        KDP / MUM VISIBILITY
@@ -658,7 +668,6 @@ if (employeeLoading) {
         el.style.display = isKDP ? "" : "none";
     });
 
-
     const printScaleHeading =
         document.getElementById("printScaleHeading");
 
@@ -667,11 +676,9 @@ if (employeeLoading) {
             isKDP ? "" : "none";
     }
 
-
     document.querySelectorAll(".rent-section").forEach(el => {
         el.style.display = isKDP ? "" : "none";
     });
-
 
     const printRentHeading =
         document.getElementById("printRentHeading");
@@ -680,7 +687,6 @@ if (employeeLoading) {
         printRentHeading.style.display =
             isKDP ? "" : "none";
     }
-
 
     /* =====================================
        GET SECURITY TOKEN
