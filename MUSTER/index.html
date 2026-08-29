@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://googleapis.com">
 <link rel="preconnect" href="https://gstatic.com" crossorigin>
 <link href="https://googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
-
+<link id="loginCSS" rel="stylesheet" href="login.css">
 <style id="mainCSS">
 * {
     box-sizing: border-box;
@@ -403,9 +403,10 @@ body {
 @media (max-width: 560px) {
 
     .settings {
-        margin: 7px;
+        margin: 8px;
+		margin-right: 0;
         padding: 12px;
-        border-radius: 0 0 10px 10px;
+        border-radius: 0 0 0px 0px;
     }
 
     .section-title {
@@ -557,9 +558,9 @@ body {
     #printHeading,
 	#printScaleHeading,
 	#printRentHeading {
-        margin: 7px 8px;
+        margin: 7px 0px 10px 10px;
         padding: 10px 10px 8px;
-        border-radius: 0 0 10px 10px;
+        border-radius: 0 0 0px 0px;
     }
 
     .print-title,
@@ -1049,14 +1050,12 @@ body {
 .bottom-section {
     margin-top: 10px;
     margin-left: 10px;
-    margin-right: 10px;
 }
 
 .bottom-section .box {
     padding: 8px 10px;
     background: #f8fafc99;
     border: 1px solid #e2e8f0;
-    border-radius: 7px;
     box-shadow: none;
 }
 
@@ -1083,7 +1082,7 @@ body {
     padding: 7px 9px;
 
     border: 1px solid #cbd5e1;
-    border-radius: 6px;
+   
 
     background: #ffffff;
     color: #475569;
@@ -1117,7 +1116,6 @@ body {
 
     .bottom-section .box {
         padding: 7px 8px;
-        border-radius: 0 0 7px 7px;
     }
 
     .bottom-section .box-title {
@@ -1764,6 +1762,7 @@ body {
         </div>
     </div>
 </header>
+
 <main class="container">
 
 	<!-- Muster Detail SETTINGS -->
@@ -2162,6 +2161,94 @@ body {
             </table>
         </div>
     </section>
+	
+	
+<div id="attendanceOverlay" class="attendance-overlay">
+    <div class="attendance-modal">
+        <div class="attendance-header">
+            <div>
+                <div class="attendance-title">
+                    Employee Attendance
+                </div>
+                <div class="attendance-employee" id="attendanceEmployee">
+                </div>
+            </div>
+
+            <button
+                class="attendance-close"
+                onclick="closeAttendance()">
+                ×
+            </button>
+        </div>
+
+        <div class="attendance-info">
+
+            <span>
+                Period:
+                <b id="attendancePeriod"></b>
+            </span>
+
+            <span>
+                Present:
+                <b id="presentCount">0</b>
+            </span>
+        </div>
+		
+		<div class="attendance-nda">
+
+            <div class="nda-input-group">
+                <label for="attendanceNDA">
+                    NDA
+                </label>
+                <input
+                    type="number"
+                    id="attendanceNDA"
+                    min="0"
+                    step="0.5"
+                    placeholder="Hours"
+                    oninput="updateAttendanceNDA(this.value)"
+                >
+                <span>hours</span>
+            </div>
+            <div class="nda-remark-group">
+                <label for="attendanceNDARemark">
+                    NDA Remark
+                </label>
+                <input
+                    type="text"
+                    id="attendanceNDARemark"
+                    placeholder="Enter NDA remark..."
+                    oninput="updateAttendanceNDARemark(this.value)"
+                >
+            </div>
+        </div>
+
+        <div class="attendance-table-wrapper">
+            <table class="attendance-table">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceBody"></tbody>
+            </table>
+        </div>
+		<div class="attendance-remark">
+            <label for="attendanceRemark">
+                Remark
+            </label>
+
+            <textarea
+                id="attendanceRemark"
+                placeholder="Enter remark for this employee..."
+                oninput="updateAttendanceRemark(this.value)"
+            ></textarea>
+        </div>
+    </div>
+</div>
 </main>
 
 <script>
@@ -3303,93 +3390,5 @@ document.addEventListener("click", function (e) {
 })();
 
 </script>
-
-<div id="attendanceOverlay" class="attendance-overlay">
-    <div class="attendance-modal">
-        <div class="attendance-header">
-            <div>
-                <div class="attendance-title">
-                    Employee Attendance
-                </div>
-                <div class="attendance-employee" id="attendanceEmployee">
-                </div>
-            </div>
-
-            <button
-                class="attendance-close"
-                onclick="closeAttendance()">
-                ×
-            </button>
-        </div>
-
-        <div class="attendance-info">
-
-            <span>
-                Period:
-                <b id="attendancePeriod"></b>
-            </span>
-
-            <span>
-                Present:
-                <b id="presentCount">0</b>
-            </span>
-        </div>
-		
-		<div class="attendance-nda">
-
-            <div class="nda-input-group">
-                <label for="attendanceNDA">
-                    NDA
-                </label>
-                <input
-                    type="number"
-                    id="attendanceNDA"
-                    min="0"
-                    step="0.5"
-                    placeholder="Hours"
-                    oninput="updateAttendanceNDA(this.value)"
-                >
-                <span>hours</span>
-            </div>
-            <div class="nda-remark-group">
-                <label for="attendanceNDARemark">
-                    NDA Remark
-                </label>
-                <input
-                    type="text"
-                    id="attendanceNDARemark"
-                    placeholder="Enter NDA remark..."
-                    oninput="updateAttendanceNDARemark(this.value)"
-                >
-            </div>
-        </div>
-
-        <div class="attendance-table-wrapper">
-            <table class="attendance-table">
-                <thead>
-                    <tr>
-                        <th>S.No.</th>
-                        <th>Date</th>
-                        <th>Day</th>
-                        <th>Attendance</th>
-                    </tr>
-                </thead>
-                <tbody id="attendanceBody"></tbody>
-            </table>
-        </div>
-		<div class="attendance-remark">
-            <label for="attendanceRemark">
-                Remark
-            </label>
-
-            <textarea
-                id="attendanceRemark"
-                placeholder="Enter remark for this employee..."
-                oninput="updateAttendanceRemark(this.value)"
-            ></textarea>
-        </div>
-    </div>
-</div>
-
 </body>
 </html>
