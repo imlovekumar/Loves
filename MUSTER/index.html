@@ -43,38 +43,24 @@
 <!-- LOGIN SCREEN -->
 <div id="loginScreen" class="login-screen">
     <div class="login-card">
-        <div class="login-icon">
-            🔐
-        </div>
-        <div class="login-title">
-            Muster Login
-        </div>
-        <div class="login-subtitle">
-            Select your depot and enter password
-        </div>
+        <div class="login-icon">🔐</div>
+        <div class="login-title">Muster Login</div>
+        <div class="login-subtitle">Select your depot and enter password</div>
         <div class="login-field">
-    <label for="loginDepot">User ID</label>
-
-    <div class="custom-select" id="loginDepotWrapper">
-
-        <select id="loginDepot" hidden></select>
-
-        <button
-            type="button"
-            class="custom-select-button"
-            id="loginDepotButton"
-            onclick="toggleDepotDropdown()">
-            <span id="loginDepotText">Select User ID</span>
-            <span class="custom-select-arrow">⌄</span>
-        </button>
-
-        <div
-            class="custom-select-options"
-            id="loginDepotOptions">
-        </div>
-
-    </div>
-</div>
+    			<label for="loginDepot">User ID</label>
+    			<div class="custom-select" id="loginDepotWrapper">
+        			<select id="loginDepot" hidden></select>
+        			<button
+            			type="button"
+            			class="custom-select-button"
+            			id="loginDepotButton"
+            			onclick="toggleDepotDropdown()">
+            			<span id="loginDepotText">Select User ID</span>
+            			<span class="custom-select-arrow">⌄</span>
+        			</button>
+        			<div class="custom-select-options" id="loginDepotOptions"></div>
+    			</div>
+		</div>
         <div class="login-field">
             <label>Password</label>
             <div class="password-wrapper">
@@ -82,13 +68,11 @@
                     type="password"
                     id="loginPassword"
                     placeholder="Enter password"
-                    autocomplete="off"
-                >
+                    autocomplete="off">
                 <button
                     type="button"
                     id="togglePassword"
-                    onclick="toggleLoginPassword()">
-                    👁
+                    onclick="toggleLoginPassword()">👁
                 </button>
             </div>
         </div>
@@ -172,41 +156,27 @@
 
     </section>
 
-    <!-- PRINT TITLE -->
+    <!-- MUSTER PRINT TITLE -->
 
     <section id="printHeading">
-
         <div class="print-title">
-            MUSTER STATEMENT OF DEPOT :
-            <span id="printDepot">SMR/KDP</span>,
-            BU :
-            <span id="printBU">3705667</span>,
-            DEPARTMENT :
-            <span id="printDepartment">OPERATING</span>.
+            MUSTER STATEMENT OF DEPOT : <span id="printDepot"></span>,
+            BU : <span id="printBU"></span>,
+            DEPARTMENT : <span id="printDepartment"></span>.
         </div>
-
         <div class="print-period">
-            For Period
-            <span id="printStart">11-07-2026</span>
-            to
-            <span id="printEnd">10-08-2026</span>
+            For Period <span id="printStart"></span>
+            to <span id="printEnd"></span>
         </div>
-
     </section>
 
     <!-- MAIN TABLE -->
 
     <div class="table-wrapper">
         <table id="musterTable">
-        <thead>
-        <tr id="tableHead">
-        		<th class="fixed col-sno">SNo.</th>
-            <th class="fixed col-pe">PF Number</th>
-            <th class="fixed col-name">Name Of The Employee</th>
-            <th class="fixed col-desig">Designation</th>
-            <th class="fixed col-station">Station</th>
-        	</tr>
-        </thead>
+        		<thead>
+        			<tr id="tableHead"></tr>
+        		</thead>
             <tbody id="staffBody"></tbody>
         </table>
     </div>
@@ -224,35 +194,21 @@
 	<!-- LEAVE / ABSENT LIST -->
 
     <section id="leaveSection" class="leave-section">
-        
 	<section id="printHeading">
 		<div class="leave-title">
-            LEAVE/ABSENT LIST OF DEPOT :
-            <span id="leaveDepot">SMR/KDP</span>,
-            BU :
-            <span id="leaveBU">3705667</span>,
-            DEPARTMENT :
-            <span id="leaveDepartment">OPERATING</span>.
+            LEAVE/ABSENT LIST OF DEPOT : <span id="leaveDepot"></span>,
+            BU : <span id="leaveBU"></span>,
+            DEPARTMENT : <span id="leaveDepartment"></span>.
         </div>
-
         <div class="leave-period">
-            For Period
-            <span id="leaveStart">11-07-2026</span>
-            to
-            <span id="leaveEnd">10-08-2026</span>
+            For Period <span id="leaveStart"></span>
+            to <span id="leaveEnd"></span>
         </div>
 	</section>
-
         <div class="leave-table-wrapper">
             <table id="leaveTable">
                 <thead>
-                    <tr id="leaveTableHead">
-                        <th class="leave-sno">SNo.</th>
-                        <th class="leave-pe">PF Number</th>
-                        <th class="leave-name">Name</th>
-                        <th class="leave-desig">Desig.</th>
-                        <th class="leave-station">Station</th>
-                    </tr>
+                    <tr id="leaveTableHead"></tr>
                 </thead>
                 <tbody id="leaveTableBody"></tbody>
             </table>
@@ -264,57 +220,38 @@
     <section id="nhSection" class="nh-section">
         <section id="printHeading">
 			<div class="nh-title">
-            NH STATEMENT OF DEPOT :
-            <span id="nhDepot">SMR/KDP</span>,
-            BU :
-            <span id="nhBU">3705667</span>,
-            DEPARTMENT :
-            <span id="nhDepartment">OPERATING</span>
-        </div>
-
-        <div class="nh-period">
-            For Period
-            <span id="nhStart">11-07-2026</span>
-            to
-            <span id="nhEnd">10-08-2026</span>
-        </div>
-</section>
+            		NH STATEMENT OF DEPOT : <span id="nhDepot"></span>,
+            		BU : <span id="nhBU"></span>,
+            		DEPARTMENT : <span id="nhDepartment"></span>
+        		</div>
+        		<div class="nh-period">
+            		For Period <span id="nhStart"></span>
+            		to <span id="nhEnd"></span>
+        		</div>
+		</section>
         <div class="nh-table-wrapper">
             <table id="nhTable">
                 <thead>
-                    <tr id="nhTableHead">
-                        <th class="nh-sno">SNo.</th>
-                        <th class="nh-pe">PF Number</th>
-                        <th class="nh-name">Name</th>
-                        <th class="nh-desig">Desig.</th>
-                        <th class="nh-station">Station</th>
-                    </tr>
+                    <tr id="nhTableHead"></tr>
                 </thead>
                 <tbody id="nhTableBody"></tbody>
             </table>
         </div>
     </section>
 
-   <!-- Rent Roll SECTION -->
+   <!-- RENT ROLL SECTION -->
  <section id="printRentHeading">
 	<div class="rent-title">
-            RENT ROLL STATEMENT OF DEPOT :
-            <span id="rentDepot">SMR/KDP</span>,
-            BU :
-            <span id="rentBU">3705667</span>,
-            DEPARTMENT :
-            <span id="rentDepartment">OPERATING</span>.
+            RENT ROLL STATEMENT OF DEPOT : <span id="rentDepot"></span>,
+            BU : <span id="rentBU"></span>,
+            DEPARTMENT : <span id="rentDepartment"></span>.
         </div>
-
         <div class="rent-period">
-            For Period
-            <span id="rentStart">01-07-2026</span>
-            to
-            <span id="rentEnd">31-07-2026</span>
+            For Period <span id="rentStart"></span>
+            to <span id="rentEnd"></span>
         </div>
 </section>
 <section class="rent-section">
-        
         <div class="rent-table-wrapper">
             <table id="rentTable">
                 <thead>
@@ -350,25 +287,18 @@
     </section>
 
     <!-- NDA SECTION -->
- <section id="printHeading">
-			<div class="nda-title">
-            NDA STATEMENT OF DEPOT :
-            <span id="ndaDepot">SMR/KDP</span>,
-            BU :
-            <span id="ndaBU">3705667</span>,
-            DEPARTMENT :
-            <span id="ndaDepartment">OPERATING</span>.
+<section id="printHeading">
+		<div class="nda-title">
+            NDA STATEMENT OF DEPOT : <span id="ndaDepot"></span>,
+            BU : <span id="ndaBU"></span>,
+            DEPARTMENT : <span id="ndaDepartment"></span>.
         </div>
-
         <div class="nda-period">
-            For Period
-            <span id="ndaStart">01-07-2026</span>
-            to
-            <span id="ndaEnd">31-07-2026</span>
+            For Period <span id="ndaStart"></span>
+            to <span id="ndaEnd"></span>
         </div>
 </section>
-    <section class="nda-section">
-       
+    <section class="nda-section">    
         <div class="nda-table-wrapper">
             <table id="ndaTable">
                 <thead>
@@ -390,26 +320,18 @@
     </section>
 
     <!-- SCALE CHECK STATEMENT -->
-	
 	<section id="printScaleHeading">
 		<div class="scale-title">
-            SCALE CHECK STATEMENT OF DEPOT :
-            <span id="scaleDepot">SMR/KDP</span>,
-            BU :
-            <span id="scaleBU">3705667</span>,
-            DEPARTMENT :
-            <span id="scaleDepartment">OPERATING</span>
+            SCALE CHECK STATEMENT OF DEPOT : <span id="scaleDepot"></span>,
+            BU : <span id="scaleBU"></span>,
+            DEPARTMENT : <span id="scaleDepartment"></span>
         </div>
 		<div class="scale-period">
-            For Period
-            <span id="scaleStart">11-07-2026</span>
-            to
-            <span id="scaleEnd">10-08-2026</span>
+            For Period <span id="scaleStart"></span>
+            to <span id="scaleEnd"></span>
         </div>
 	</section>
-	
     <section class="scale-section">
-        
         <div class="scale-table-wrapper">
             <table id="scaleTable">
                 <thead>
@@ -500,93 +422,45 @@
             </table>
         </div>
     </section>
-	
-	
+
 <div id="attendanceOverlay" class="attendance-overlay">
     <div class="attendance-modal">
         <div class="attendance-header">
-            <div>
-                <div class="attendance-title">
-                    Employee Attendance
-                </div>
-                <div class="attendance-employee" id="attendanceEmployee">
-                </div>
-            </div>
-
-            <button
-                class="attendance-close"
-                onclick="closeAttendance()">
-                ×
-            </button>
-        </div>
-
-        <div class="attendance-info">
-
-            <span>
-                Period:
-                <b id="attendancePeriod"></b>
-            </span>
-
-            <span>
-                Present:
-                <b id="presentCount">0</b>
-            </span>
-        </div>
+			<div>
+        			<div class="attendance-title">Employee Attendance</div>
+        			<div class="attendance-employee" id="attendanceEmployee"></div>
+    			</div>
+    			<button class="attendance-close" onclick="closeAttendance()"> × </button>
+		</div>
 		
-		<div class="attendance-nda">
-
-            <div class="nda-input-group">
-                <label for="attendanceNDA">
-                    NDA
-                </label>
-                <input
-                    type="number"
-                    id="attendanceNDA"
-                    min="0"
-                    step="0.5"
-                    placeholder="Hours"
-                    oninput="updateAttendanceNDA(this.value)"
-                >
-                <span>hours</span>
-            </div>
-            <div class="nda-remark-group">
-                <label for="attendanceNDARemark">
-                    NDA Remark
-                </label>
-                <input
-                    type="text"
-                    id="attendanceNDARemark"
-                    placeholder="Enter NDA remark..."
-                    oninput="updateAttendanceNDARemark(this.value)"
-                >
-            </div>
-        </div>
-
-        <div class="attendance-table-wrapper">
-            <table class="attendance-table">
-                <thead>
-                    <tr>
-                        <th>S.No.</th>
-                        <th>Date</th>
-                        <th>Day</th>
-                        <th>Attendance</th>
-                    </tr>
-                </thead>
-                <tbody id="attendanceBody"></tbody>
-            </table>
-        </div>
-		<div class="attendance-remark">
-            <label for="attendanceRemark">
-                Remark
-            </label>
-
-            <textarea
-                id="attendanceRemark"
-                placeholder="Enter remark for this employee..."
-                oninput="updateAttendanceRemark(this.value)"
-            ></textarea>
-        </div>
+<div class="attendance-info">
+	<span>Period: <b id="attendancePeriod"></b></span>
+    <span>Present: <b id="presentCount">0</b></span>
+</div>
+<div class="attendance-nda">
+	<div class="nda-input-group">
+    		<label for="attendanceNDA">NDA</label>
+        		<input type="number" id="attendanceNDA" min="0" step="0.5" placeholder="Hours" oninput="updateAttendanceNDA(this.value)">
+            <span>hours</span>
     </div>
+    <div class="nda-remark-group">
+    		<label for="attendanceNDARemark">NDA Remark</label>
+        <input type="text" id="attendanceNDARemark" placeholder="Enter NDA remark..." oninput="updateAttendanceNDARemark(this.value)">
+    </div>
+</div>
+<div class="attendance-table-wrapper">
+	<table class="attendance-table">
+    		<thead>
+        		<tr><th>S.No.</th><th>Date</th><th>Day</th><th>Attendance</th></tr>
+        </thead>
+        <tbody id="attendanceBody"></tbody>
+    </table>
+</div>
+<div class="attendance-remark">
+	<label for="attendanceRemark">Remark</label>
+    <textarea id="attendanceRemark" placeholder="Enter remark for this employee..." oninput="updateAttendanceRemark(this.value)"></textarea>
+</div>
+</div>
 </div>
 </main>
 
@@ -604,6 +478,7 @@ const STATUS_OPTIONS = [
     "CL",
     "LAP",
     "E",
+	"PL",
 	"S",
 	"NHP",
 	"NHR",
