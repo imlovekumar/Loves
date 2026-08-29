@@ -4,7 +4,6 @@
 
 const API_URL = "https://muster-api-tp2v.onrender.com";
 
-
 document.addEventListener("DOMContentLoaded", async function () {
 
     const depotSelect =
@@ -105,6 +104,71 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 });
 
+/* =========================================
+   LOAD MUSTER DEPOT DROPDOWN
+========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+        const musterDepot =
+            document.getElementById("depot");
+
+        if (!musterDepot) {
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL + "/api/depots"
+                );
+
+            const data =
+                await response.json();
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+                console.error(
+                    "Unable to load muster depots:",
+                    data
+                );
+                return;
+            }
+
+            /* Clear existing options */
+
+            musterDepot.innerHTML = "";
+
+            /* Add depots from API */
+
+            data.depots.forEach(function (depot) {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = depot;
+                option.textContent = depot;
+
+                musterDepot.appendChild(option);
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Unable to load muster depots:",
+                error
+            );
+
+        }
+
+    }
+);
 
 /* =========================================
    DEPOT DROPDOWN OPEN / CLOSE
@@ -576,37 +640,37 @@ document.addEventListener(
 
 
             /* =================================
-               SET MUSTER DEPOT
-            ================================= */
+   SET MUSTER DEPOT
+================================= */
 
-            const musterDepot =
-                document.getElementById("depot");
-
-
-            if (musterDepot) {
-
-                musterDepot.value =
-                    savedDepot;
+const musterDepot =
+    document.getElementById("depot");
 
 
-                /* Existing depot logic */
+if (musterDepot) {
 
-                if (
-                    typeof changeDepot ===
-                    "function"
-                ) {
-
-                    changeDepot();
-
-                }
+    musterDepot.value =
+        savedDepot;
 
 
-                /* Prevent changing depot */
+    /* Existing depot logic */
 
-                musterDepot.disabled =
-                    true;
+    if (
+        typeof changeDepot ===
+        "function"
+    ) {
 
-            }
+        changeDepot();
+
+    }
+
+
+    /* Prevent changing depot */
+
+    musterDepot.disabled =
+        true;
+
+}
 
 
         } catch (error) {
