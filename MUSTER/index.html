@@ -95,7 +95,7 @@
 			
             <div class="field">
                 <label>Depot</label>
-				<select id="depot" onchange="changeDepot()">
+				<select id="depot">
 					<option value="SMR/KDP">SMR/KDP</option>
 					<option value="SMR/MUM">SMR/MUM</option>
 				</select>
@@ -153,8 +153,12 @@
             <b>S</b> = Sick,
 			<b>E</b> = Other.
         </div>
-
     </section>
+
+	<div id="employeeLoading" class="employee-loading">
+    		<div class="loading-spinner"></div>
+    		<span>Loading employee data...</span>
+	</div>
 
     <!-- MUSTER PRINT TITLE -->
 
@@ -464,7 +468,6 @@
 </div>
 </main>
 
-<script src="js/employeeData.js"></script>
 <script src="js/login.js"></script>
 <script>
 
@@ -603,48 +606,242 @@ function buildHeader() {
 
 }
 
-/* ==========
-    DEPOT
-=============*/
-	
+/* =========================================
+   DEPOT
+========================================= */
+
 function getCurrentDepot() {
     return document.getElementById("depot").value;
 }
 
-function changeDepot() {
+
+/* =========================================
+   CHANGE DEPOT — LOAD EMPLOYEES FROM API
+========================================= */
+
+async function changeDepot() {
+
     const depot = getCurrentDepot();
 	
-    if (!depotEmployees[depot]) {
-        depotEmployees[depot] = [];
+	/* Show loading */
+
+const employeeLoading =
+    document.getElementById("employeeLoading");
+
+if (employeeLoading) {
+    employeeLoading.style.display = "flex";
+}
+	
+/* Clear previous depot table immediately */
+
+    employees = [];
+
+    const staffBody =
+
+        document.getElementById("staffBody");
+
+    if (staffBody) {
+
+        staffBody.innerHTML = "";
+
     }
-	
-	const isKDP = depot === "SMR/KDP";
-	document.querySelectorAll(".scale-section").forEach(el => {
-    		el.style.display = isKDP ? "" : "none";
-	});
-	document.getElementById("printScaleHeading").style.display =
-    		isKDP ? "" : "none";
-	
-	document.querySelectorAll(".rent-section").forEach(el => {
-    		el.style.display = isKDP ? "" : "none";
-	});
-	document.getElementById("printRentHeading").style.display =
-    		isKDP ? "" : "none";
-			
-    employees = depotEmployees[depot];
-    employees.forEach(emp => {
-        if (!emp.days) {
-            emp.days = [];
-        }
-        while (emp.days.length < dates.length) {
-            emp.days.push("P");
-        }
-        emp.days.length = dates.length;
+
+    
+    const isKDP = depot === "SMR/KDP";
+
+
+    /* =====================================
+       KDP / MUM VISIBILITY
+    ===================================== */
+
+    document.querySelectorAll(".scale-section").forEach(el => {
+        el.style.display = isKDP ? "" : "none";
     });
-    renderTable();
+
+
+    const printScaleHeading =
+        document.getElementById("printScaleHeading");
+
+    if (printScaleHeading) {
+        printScaleHeading.style.display =
+            isKDP ? "" : "none";
+    }
+
+
+    document.querySelectorAll(".rent-section").forEach(el => {
+        el.style.display = isKDP ? "" : "none";
+    });
+
+
+    const printRentHeading =
+        document.getElementById("printRentHeading");
+
+    if (printRentHeading) {
+        printRentHeading.style.display =
+            isKDP ? "" : "none";
+    }
+
+
+    /* =====================================
+       GET SECURITY TOKEN
+    ===================================== */
+
+    const token =
+        window.musterAuthToken ||
+        localStorage.getItem("musterAuthToken");
+
+
+    if (!token) {
+
+        logoutMuster();
+
+        return;
+
+    }
+
+
+    /* =====================================
+       LOAD EMPLOYEES FROM FLASK API
+    ===================================== */
+
+    try {
+
+        const response =
+            await fetch(
+
+                API_URL +
+                "/api/employees/" +
+                encodeURIComponent(depot),
+
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        /* =================================
+           TOKEN INVALID / EXPIRED
+        ================================= */
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            console.warn(
+                "Authentication token is invalid or expired."
+            );
+
+            logoutMuster();
+
+            return;
+
+        }
+
+
+        /* =================================
+           OTHER API ERROR
+        ================================= */
+
+        if (!response.ok || !data.success) {
+
+    console.error(
+        "Employee API error:",
+        data
+    );
+
+    if (employeeLoading) {
+        employeeLoading.style.display = "none";
+    }
+
+    return;
 }
 
-changeDepot();
+
+        /* =================================
+           GET EMPLOYEE DATA
+        ================================= */
+
+        employees =
+            data.employees || [];
+
+
+        /* =================================
+           PREPARE DAYS
+        ================================= */
+
+        employees.forEach(emp => {
+
+            if (!emp.days) {
+                emp.days = [];
+            }
+
+
+            while (
+                emp.days.length <
+                dates.length
+            ) {
+
+                emp.days.push("P");
+
+            }
+
+
+            emp.days.length =
+                dates.length;
+
+        });
+
+
+        /* =================================
+           RENDER TABLE
+        ================================= */
+
+        renderTable();
+
+/* Hide loading */
+
+if (employeeLoading) {
+    employeeLoading.style.display = "none";
+}
+
+
+    } catch (error) {
+
+    console.error(
+        "Unable to load employee data:",
+        error
+    );
+
+    if (employeeLoading) {
+        employeeLoading.style.display = "none";
+    }
+
+}
+
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const token =
+        window.musterAuthToken ||
+        localStorage.getItem("musterAuthToken");
+
+    if (token) {
+        changeDepot();
+    }
+
+});
 
 /* =========================================================
    TABLE
