@@ -435,6 +435,35 @@ body {
     }
 }
 
+/* =========================================
+   EMPLOYEE DATA LOADING
+========================================= */
+
+.employee-loading {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 30px 15px;
+    font-size: 14px;
+    color: #475569;
+}
+
+.loading-spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid #cbd5e1;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: employeeSpin 0.8s linear infinite;
+}
+
+@keyframes employeeSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 /* =========================================================
    MUSTER HEADING CONTAINER
 ========================================================= */
@@ -1066,23 +1095,16 @@ body {
     width: 100%;
     min-height: 38px;
     box-sizing: border-box;
-
     padding: 7px 9px;
-
     border: 1px solid #cbd5e1;
-   
-
     background: #ffffff;
     color: #475569;
-
     font-family: inherit;
     font-size: 11px;
     line-height: 1.4;
-
     white-space: pre-wrap;
     word-break: break-word;
 }
-
 
 /* =========================================
    PRINT REMARKS
