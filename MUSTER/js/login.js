@@ -1,28 +1,120 @@
 /* =========================================
-   MUSTER LOGIN
+   MUSTER LOGIN — DEPOT DROPDOWN
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    const depotSelect = document.getElementById("loginDepot");
+    const depotSelect =
+        document.getElementById("loginDepot");
 
-    if (!depotSelect || typeof depotPasswords === "undefined") {
+    const optionsContainer =
+        document.getElementById("loginDepotOptions");
+
+    const depotText =
+        document.getElementById("loginDepotText");
+
+    if (
+        !depotSelect ||
+        !optionsContainer ||
+        typeof depotPasswords === "undefined"
+    ) {
         return;
     }
 
-    Object.keys(depotPasswords).forEach(function (depot) {
+    Object.keys(depotPasswords).forEach(function (depot, index) {
 
-        const option = document.createElement("option");
+        /* Add to hidden select */
+
+        const option =
+            document.createElement("option");
 
         option.value = depot;
         option.textContent = depot;
 
         depotSelect.appendChild(option);
 
+
+        /* Add custom option */
+
+        const customOption =
+            document.createElement("div");
+
+        customOption.className =
+            "custom-select-option";
+
+        customOption.textContent = depot;
+
+        customOption.dataset.value = depot;
+
+        customOption.onclick = function () {
+
+            depotSelect.value = depot;
+
+            depotText.textContent = depot;
+
+            document
+                .querySelectorAll(".custom-select-option")
+                .forEach(function (item) {
+                    item.classList.remove("selected");
+                });
+
+            customOption.classList.add("selected");
+
+            closeDepotDropdown();
+        };
+
+        optionsContainer.appendChild(customOption);
+
     });
 
 });
 
+/* =========================================
+   DEPOT DROPDOWN OPEN / CLOSE
+========================================= */
+
+function toggleDepotDropdown() {
+
+    const wrapper =
+        document.getElementById("loginDepotWrapper");
+
+    if (!wrapper) {
+        return;
+    }
+
+    wrapper.classList.toggle("open");
+}
+
+
+function closeDepotDropdown() {
+
+    const wrapper =
+        document.getElementById("loginDepotWrapper");
+
+    if (!wrapper) {
+        return;
+    }
+
+    wrapper.classList.remove("open");
+}
+
+
+/* Close when clicking outside */
+
+document.addEventListener("click", function (event) {
+
+    const wrapper =
+        document.getElementById("loginDepotWrapper");
+
+    if (!wrapper) {
+        return;
+    }
+
+    if (!wrapper.contains(event.target)) {
+        wrapper.classList.remove("open");
+    }
+
+});
 
 /* =========================================
    SHOW / HIDE PASSWORD
