@@ -53,11 +53,28 @@
             Select your depot and enter password
         </div>
         <div class="login-field">
-            <label>User ID</label>
-            <select id="loginDepot">
-                <option value="">Select Depot</option>
-            </select>
+    <label for="loginDepot">User ID</label>
+
+    <div class="custom-select" id="loginDepotWrapper">
+
+        <select id="loginDepot" hidden></select>
+
+        <button
+            type="button"
+            class="custom-select-button"
+            id="loginDepotButton"
+            onclick="toggleDepotDropdown()">
+            <span id="loginDepotText">Select User ID</span>
+            <span class="custom-select-arrow">⌄</span>
+        </button>
+
+        <div
+            class="custom-select-options"
+            id="loginDepotOptions">
         </div>
+
+    </div>
+</div>
         <div class="login-field">
             <label>Password</label>
             <div class="password-wrapper">
