@@ -211,6 +211,7 @@ if (headerMenu) {
 /* Store logged-in depot */
 
 window.loggedInDepot = depot;
+localStorage.setItem("musterLoggedInDepot", depot);
 
 
 /* =========================================
@@ -244,24 +245,98 @@ if (musterDepot) {
 
 }
 
-function logoutMuster() {
+/* =========================================
+   REMEMBER LOGIN
+========================================= */
 
-    /* Hide muster */
-    const musterApp = document.getElementById("musterApp");
+document.addEventListener("DOMContentLoaded", function () {
+
+    const savedDepot = localStorage.getItem("musterLoggedInDepot");
+
+    if (!savedDepot) {
+        return;
+    }
+
+    /* Check that saved depot still exists */
+
+    if (
+        typeof depotPasswords === "undefined" ||
+        !depotPasswords[savedDepot]
+    ) {
+        localStorage.removeItem("musterLoggedInDepot");
+        return;
+    }
+
+    /* Hide login */
+
+    const loginScreen =
+        document.getElementById("loginScreen");
+
+    if (loginScreen) {
+        loginScreen.style.display = "none";
+    }
+
+
+    /* Show muster */
+
+    const musterApp =
+        document.getElementById("musterApp");
 
     if (musterApp) {
-        musterApp.style.display = "none";
+        musterApp.style.display = "block";
     }
 
-    /* Hide header menu */
-    const headerMenuContainer =
+
+    /* Show header menu */
+
+    const headerMenu =
         document.getElementById("headerMenuContainer");
 
-    if (headerMenuContainer) {
-        headerMenuContainer.style.display = "none";
+    if (headerMenu) {
+        headerMenu.style.display = "block";
     }
 
+
+    /* Store logged-in depot */
+
+    window.loggedInDepot = savedDepot;
+
+
+    /* Set muster depot */
+
+    const musterDepot =
+        document.getElementById("depot");
+
+    if (musterDepot) {
+
+        musterDepot.value = savedDepot;
+
+        /*
+         * Existing depot logic
+         */
+        if (typeof changeDepot === "function") {
+            changeDepot();
+        }
+
+        /* Prevent changing depot */
+
+        musterDepot.disabled = true;
+    }
+
+});
+
+function logoutMuster() {
+
+    /* Remove remembered login */
+
+    localStorage.removeItem("musterLoggedInDepot");
+
+    /* Clear current login */
+
+    window.loggedInDepot = null;
+
     /* Show login screen */
+
     const loginScreen =
         document.getElementById("loginScreen");
 
@@ -269,7 +344,26 @@ function logoutMuster() {
         loginScreen.style.display = "flex";
     }
 
-    /* Clear password */
+    /* Hide muster */
+
+    const musterApp =
+        document.getElementById("musterApp");
+
+    if (musterApp) {
+        musterApp.style.display = "none";
+    }
+
+    /* Hide header menu */
+
+    const headerMenu =
+        document.getElementById("headerMenuContainer");
+
+    if (headerMenu) {
+        headerMenu.style.display = "none";
+    }
+
+    /* Reset password */
+
     const password =
         document.getElementById("loginPassword");
 
@@ -277,22 +371,4 @@ function logoutMuster() {
         password.value = "";
     }
 
-    /* Clear login error */
-    const error =
-        document.getElementById("loginError");
-
-    if (error) {
-        error.textContent = "";
-    }
-
-    /* Clear logged-in depot */
-    window.loggedInDepot = null;
-
-    /* Enable depot selector for next login */
-    const depotSelect =
-        document.getElementById("depot");
-
-    if (depotSelect) {
-        depotSelect.disabled = false;
-    }
 }
