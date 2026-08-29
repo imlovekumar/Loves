@@ -82,7 +82,7 @@ const depotEmployees = {
         [
             {
                 pe: "245II050255",
-                name: "S.Md Athaullah",
+                name: "SMD Athaullah",
                 desig: "SMR",
                 station: "MUM",
                 days: []
