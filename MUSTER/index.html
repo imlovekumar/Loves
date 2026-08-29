@@ -653,6 +653,7 @@ async function changeDepot() {
 
 	/* Clear previous depot table immediately */
     employees = [];
+	
     const staffBody = document.getElementById("staffBody");
     if (staffBody) {
         staffBody.innerHTML = "";
@@ -692,26 +693,18 @@ async function changeDepot() {
        GET SECURITY TOKEN
     ===================================== */
 
-    const token =
-        window.musterAuthToken ||
-        localStorage.getItem("musterAuthToken");
-
+    const token = window.musterAuthToken || localStorage.getItem("musterAuthToken");
 
     if (!token) {
-
         logoutMuster();
-
         return;
-
     }
-
 
     /* =====================================
        LOAD EMPLOYEES FROM FLASK API
     ===================================== */
 
     try {
-
         const response =
             await fetch(
 
@@ -836,18 +829,6 @@ if (employeeLoading) {
 }
 
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const token =
-        window.musterAuthToken ||
-        localStorage.getItem("musterAuthToken");
-
-    if (token) {
-        changeDepot();
-    }
-
-});
 
 /* =========================================================
    TABLE
