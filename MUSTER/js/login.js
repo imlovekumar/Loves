@@ -2,7 +2,10 @@
    MUSTER LOGIN — DEPOT DROPDOWN
 ========================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+const API_URL = "https://muster-api-tp2v.onrender.com";
+
+
+document.addEventListener("DOMContentLoaded", async function () {
 
     const depotSelect =
         document.getElementById("loginDepot");
@@ -13,61 +16,95 @@ document.addEventListener("DOMContentLoaded", function () {
     const depotText =
         document.getElementById("loginDepotText");
 
-    if (
-        !depotSelect ||
-        !optionsContainer ||
-        typeof depotPasswords === "undefined"
-    ) {
+
+    if (!depotSelect || !optionsContainer || !depotText) {
         return;
     }
 
-    Object.keys(depotPasswords).forEach(function (depot, index) {
 
-        /* Add to hidden select */
+    try {
 
-        const option =
-            document.createElement("option");
+        const response =
+            await fetch(API_URL + "/api/depots");
 
-        option.value = depot;
-        option.textContent = depot;
-
-        depotSelect.appendChild(option);
+        const data =
+            await response.json();
 
 
-        /* Add custom option */
+        if (!data.success) {
+            return;
+        }
 
-        const customOption =
-            document.createElement("div");
 
-        customOption.className =
-            "custom-select-option";
+        data.depots.forEach(function (depot) {
 
-        customOption.textContent = depot;
+            /* =====================================
+               ADD TO HIDDEN SELECT
+            ===================================== */
 
-        customOption.dataset.value = depot;
+            const option =
+                document.createElement("option");
 
-        customOption.onclick = function () {
+            option.value = depot;
+            option.textContent = depot;
 
-            depotSelect.value = depot;
+            depotSelect.appendChild(option);
 
-            depotText.textContent = depot;
 
-            document
-                .querySelectorAll(".custom-select-option")
-                .forEach(function (item) {
-                    item.classList.remove("selected");
-                });
+            /* =====================================
+               ADD CUSTOM DROPDOWN OPTION
+            ===================================== */
 
-            customOption.classList.add("selected");
+            const customOption =
+                document.createElement("div");
 
-            closeDepotDropdown();
-        };
+            customOption.className =
+                "custom-select-option";
 
-        optionsContainer.appendChild(customOption);
+            customOption.textContent = depot;
 
-    });
+            customOption.dataset.value = depot;
+
+
+            customOption.onclick = function () {
+
+                depotSelect.value = depot;
+
+                depotText.textContent = depot;
+
+
+                document
+                    .querySelectorAll(".custom-select-option")
+                    .forEach(function (item) {
+
+                        item.classList.remove("selected");
+
+                    });
+
+
+                customOption.classList.add("selected");
+
+                closeDepotDropdown();
+
+            };
+
+
+            optionsContainer.appendChild(customOption);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load depots:",
+            error
+        );
+
+    }
 
 });
+
 
 /* =========================================
    DEPOT DROPDOWN OPEN / CLOSE
@@ -78,11 +115,14 @@ function toggleDepotDropdown() {
     const wrapper =
         document.getElementById("loginDepotWrapper");
 
+
     if (!wrapper) {
         return;
     }
 
+
     wrapper.classList.toggle("open");
+
 }
 
 
@@ -91,30 +131,40 @@ function closeDepotDropdown() {
     const wrapper =
         document.getElementById("loginDepotWrapper");
 
+
     if (!wrapper) {
         return;
     }
 
+
     wrapper.classList.remove("open");
+
 }
 
 
-/* Close when clicking outside */
+/* =========================================
+   CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+========================================= */
 
 document.addEventListener("click", function (event) {
 
     const wrapper =
         document.getElementById("loginDepotWrapper");
 
+
     if (!wrapper) {
         return;
     }
 
+
     if (!wrapper.contains(event.target)) {
+
         wrapper.classList.remove("open");
+
     }
 
 });
+
 
 /* =========================================
    SHOW / HIDE PASSWORD
@@ -128,14 +178,22 @@ function toggleLoginPassword() {
     const button =
         document.getElementById("togglePassword");
 
+
+    if (!password || !button) {
+        return;
+    }
+
+
     if (password.type === "password") {
 
         password.type = "text";
+
         button.textContent = "🙈";
 
     } else {
 
         password.type = "password";
+
         button.textContent = "👁";
 
     }
@@ -147,7 +205,7 @@ function toggleLoginPassword() {
    LOGIN
 ========================================= */
 
-function loginMuster() {
+async function loginMuster() {
 
     const depot =
         document.getElementById("loginDepot").value;
@@ -162,7 +220,9 @@ function loginMuster() {
     error.textContent = "";
 
 
-    /* No depot */
+    /* =====================================
+       NO DEPOT
+    ===================================== */
 
     if (!depot) {
 
@@ -170,10 +230,13 @@ function loginMuster() {
             "Please select User ID.";
 
         return;
+
     }
 
 
-    /* No password */
+    /* =====================================
+       NO PASSWORD
+    ===================================== */
 
     if (!password) {
 
@@ -181,65 +244,191 @@ function loginMuster() {
             "Please enter password.";
 
         return;
+
     }
 
 
-    /* Check password */
+    try {
 
-    if (
-        typeof depotPasswords !== "undefined" &&
-        depotPasswords[depot] === password
-    ) {
+        /* =====================================
+           SEND LOGIN TO FLASK API
+        ===================================== */
 
-      /* Successful login */
+        const response =
+            await fetch(API_URL + "/api/login", {
 
-document.getElementById("loginScreen").style.display = "none";
+                method: "POST",
 
-const musterApp = document.getElementById("musterApp");
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-if (musterApp) {
-    musterApp.style.display = "block";
-}
+                body: JSON.stringify({
 
-const headerMenu = document.getElementById("headerMenuContainer");
+                    depot: depot,
 
-if (headerMenu) {
-    headerMenu.style.display = "block";
-}
+                    password: password
 
+                })
 
-/* Store logged-in depot */
-
-window.loggedInDepot = depot;
-localStorage.setItem("musterLoggedInDepot", depot);
+            });
 
 
-/* =========================================
-   SET MUSTER DEPOT FROM LOGIN
-========================================= */
-
-const musterDepot = document.getElementById("depot");
-
-if (musterDepot) {
-
-    musterDepot.value = depot;
-
-    /* Use the existing depot logic */
-    changeDepot();
-
-    /* Prevent changing depot after login */
-    musterDepot.disabled = true;
-}
+        const data =
+            await response.json();
 
 
-    } else {
+        /* =====================================
+           LOGIN FAILED
+        ===================================== */
+
+        if (!response.ok || !data.success) {
+
+            error.textContent =
+                data.message ||
+                "Invalid User ID or password.";
+
+
+            document.getElementById(
+                "loginPassword"
+            ).value = "";
+
+
+            document.getElementById(
+                "loginPassword"
+            ).focus();
+
+
+            return;
+
+        }
+
+
+        /* =====================================
+           GET SECURITY TOKEN
+        ===================================== */
+
+        const token = data.token;
+
+
+        if (!token) {
+
+            error.textContent =
+                "Login failed. No security token received.";
+
+            return;
+
+        }
+
+
+        /* =====================================
+           SUCCESSFUL LOGIN
+        ===================================== */
+
+        /* Hide login */
+
+        const loginScreen =
+            document.getElementById("loginScreen");
+
+        if (loginScreen) {
+
+            loginScreen.style.display = "none";
+
+        }
+
+
+        /* Show muster */
+
+        const musterApp =
+            document.getElementById("musterApp");
+
+        if (musterApp) {
+
+            musterApp.style.display = "block";
+
+        }
+
+
+        /* Show header menu */
+
+        const headerMenu =
+            document.getElementById(
+                "headerMenuContainer"
+            );
+
+        if (headerMenu) {
+
+            headerMenu.style.display = "block";
+
+        }
+
+
+        /* =====================================
+           STORE LOGIN INFORMATION
+        ===================================== */
+
+        window.loggedInDepot =
+            depot;
+
+        window.musterAuthToken =
+            token;
+
+
+        /* =====================================
+           REMEMBER LOGIN
+        ===================================== */
+
+        localStorage.setItem(
+            "musterLoggedInDepot",
+            depot
+        );
+
+        localStorage.setItem(
+            "musterAuthToken",
+            token
+        );
+
+
+        /* =====================================
+           SET MUSTER DEPOT
+        ===================================== */
+
+        const musterDepot =
+            document.getElementById("depot");
+
+
+        if (musterDepot) {
+
+            musterDepot.value =
+                depot;
+
+
+            /* Existing depot logic */
+
+            if (typeof changeDepot === "function") {
+
+                changeDepot();
+
+            }
+
+
+            /* Prevent changing depot */
+
+            musterDepot.disabled = true;
+
+        }
+
+
+    } catch (networkError) {
+
+        console.error(
+            "Login error:",
+            networkError
+        );
+
 
         error.textContent =
-            "Invalid User ID or password.";
-
-        document.getElementById("loginPassword").value = "";
-
-        document.getElementById("loginPassword").focus();
+            "Unable to connect to server. Please try again.";
 
     }
 
@@ -249,126 +438,347 @@ if (musterDepot) {
    REMEMBER LOGIN
 ========================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
 
-    const savedDepot = localStorage.getItem("musterLoggedInDepot");
-
-    if (!savedDepot) {
-        return;
-    }
-
-    /* Check that saved depot still exists */
-
-    if (
-        typeof depotPasswords === "undefined" ||
-        !depotPasswords[savedDepot]
-    ) {
-        localStorage.removeItem("musterLoggedInDepot");
-        return;
-    }
-
-    /* Hide login */
-
-    const loginScreen =
-        document.getElementById("loginScreen");
-
-    if (loginScreen) {
-        loginScreen.style.display = "none";
-    }
+        const savedDepot =
+            localStorage.getItem(
+                "musterLoggedInDepot"
+            );
 
 
-    /* Show muster */
-
-    const musterApp =
-        document.getElementById("musterApp");
-
-    if (musterApp) {
-        musterApp.style.display = "block";
-    }
+        const savedToken =
+            localStorage.getItem(
+                "musterAuthToken"
+            );
 
 
-    /* Show header menu */
+        /* No saved login */
 
-    const headerMenu =
-        document.getElementById("headerMenuContainer");
+        if (!savedDepot || !savedToken) {
 
-    if (headerMenu) {
-        headerMenu.style.display = "block";
-    }
+            return;
 
-
-    /* Store logged-in depot */
-
-    window.loggedInDepot = savedDepot;
-
-
-    /* Set muster depot */
-
-    const musterDepot =
-        document.getElementById("depot");
-
-    if (musterDepot) {
-
-        musterDepot.value = savedDepot;
-
-        /*
-         * Existing depot logic
-         */
-        if (typeof changeDepot === "function") {
-            changeDepot();
         }
 
-        /* Prevent changing depot */
 
-        musterDepot.disabled = true;
+        try {
+
+            /* =================================
+               VERIFY SAVED TOKEN
+            ================================= */
+
+            const response =
+                await fetch(
+
+                    API_URL +
+                    "/api/employees/" +
+                    encodeURIComponent(savedDepot),
+
+                    {
+
+                        method: "GET",
+
+                        headers: {
+
+                            "Authorization":
+                                "Bearer " +
+                                savedToken
+
+                        }
+
+                    }
+
+                );
+
+
+            const data =
+                await response.json();
+
+
+            /* =================================
+               TOKEN INVALID
+            ================================= */
+
+            if (!response.ok || !data.success) {
+
+                localStorage.removeItem(
+                    "musterLoggedInDepot"
+                );
+
+                localStorage.removeItem(
+                    "musterAuthToken"
+                );
+
+                return;
+
+            }
+
+
+            /* =================================
+               TOKEN VALID
+            ================================= */
+
+            window.loggedInDepot =
+                savedDepot;
+
+            window.musterAuthToken =
+                savedToken;
+
+
+            /* Hide login */
+
+            const loginScreen =
+                document.getElementById(
+                    "loginScreen"
+                );
+
+
+            if (loginScreen) {
+
+                loginScreen.style.display =
+                    "none";
+
+            }
+
+
+            /* Show muster */
+
+            const musterApp =
+                document.getElementById(
+                    "musterApp"
+                );
+
+
+            if (musterApp) {
+
+                musterApp.style.display =
+                    "block";
+
+            }
+
+
+            /* Show header */
+
+            const headerMenu =
+                document.getElementById(
+                    "headerMenuContainer"
+                );
+
+
+            if (headerMenu) {
+
+                headerMenu.style.display =
+                    "block";
+
+            }
+
+
+            /* =================================
+               SET MUSTER DEPOT
+            ================================= */
+
+            const musterDepot =
+                document.getElementById("depot");
+
+
+            if (musterDepot) {
+
+                musterDepot.value =
+                    savedDepot;
+
+
+                /* Existing depot logic */
+
+                if (
+                    typeof changeDepot ===
+                    "function"
+                ) {
+
+                    changeDepot();
+
+                }
+
+
+                /* Prevent changing depot */
+
+                musterDepot.disabled =
+                    true;
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Remember login verification failed:",
+                error
+            );
+
+        }
+
     }
+);
 
-});
+
+/* =========================================
+   LOGOUT
+========================================= */
 
 function logoutMuster() {
 
-    /* Remove remembered login */
+/* Clear old employee data immediately */
 
-    localStorage.removeItem("musterLoggedInDepot");
+employees = [];
+
+const staffBody = document.getElementById("staffBody");
+
+if (staffBody) {
+    staffBody.innerHTML = "";
+}
+
+    /* =====================================
+       REMOVE SAVED LOGIN
+    ===================================== */
+
+    localStorage.removeItem(
+        "musterLoggedInDepot"
+    );
+
+    localStorage.removeItem(
+        "musterAuthToken"
+    );
+
 
     /* Clear current login */
 
-    window.loggedInDepot = null;
+    window.loggedInDepot =
+        null;
 
-    /* Show login screen */
+    window.musterAuthToken =
+        null;
+
+
+    /* =====================================
+       SHOW LOGIN SCREEN
+    ===================================== */
 
     const loginScreen =
-        document.getElementById("loginScreen");
+        document.getElementById(
+            "loginScreen"
+        );
+
 
     if (loginScreen) {
-        loginScreen.style.display = "flex";
+
+        loginScreen.style.display =
+            "flex";
+
     }
 
-    /* Hide muster */
+
+    /* =====================================
+       HIDE MUSTER
+    ===================================== */
 
     const musterApp =
-        document.getElementById("musterApp");
+        document.getElementById(
+            "musterApp"
+        );
+
 
     if (musterApp) {
-        musterApp.style.display = "none";
+
+        musterApp.style.display =
+            "none";
+
     }
 
-    /* Hide header menu */
+
+    /* =====================================
+       HIDE HEADER MENU
+    ===================================== */
 
     const headerMenu =
-        document.getElementById("headerMenuContainer");
+        document.getElementById(
+            "headerMenuContainer"
+        );
+
 
     if (headerMenu) {
-        headerMenu.style.display = "none";
+
+        headerMenu.style.display =
+            "none";
+
     }
 
-    /* Reset password */
+
+    /* =====================================
+       RESET PASSWORD
+    ===================================== */
 
     const password =
-        document.getElementById("loginPassword");
+        document.getElementById(
+            "loginPassword"
+        );
+
 
     if (password) {
+
         password.value = "";
+
     }
+
+
+    /* =====================================
+       RESET DEPOT
+    ===================================== */
+
+    const depotSelect =
+        document.getElementById(
+            "loginDepot"
+        );
+
+
+    if (depotSelect) {
+
+        depotSelect.value = "";
+
+    }
+
+
+    const depotText =
+        document.getElementById(
+            "loginDepotText"
+        );
+
+
+    if (depotText) {
+
+        depotText.textContent =
+            "Select User ID";
+
+    }
+
+
+    /* Remove selected state */
+
+    document
+        .querySelectorAll(
+            ".custom-select-option"
+        )
+        .forEach(function (item) {
+
+            item.classList.remove(
+                "selected"
+            );
+
+        });
+
+
+    /* Close dropdown */
+
+    closeDepotDropdown();
 
 }
