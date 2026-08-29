@@ -689,6 +689,7 @@ if (musterDepot) {
 /* =========================================
    LOGOUT
 ========================================= */
+let employees = [];
 
 function logoutMuster() {
 
