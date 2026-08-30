@@ -310,7 +310,12 @@ async function loginMuster() {
         return;
 
     }
-
+	
+showStatus(
+    "Signing In",
+    "Authenticating your account...",
+    "loading"
+);
 
     try {
 
@@ -347,6 +352,11 @@ async function loginMuster() {
         ===================================== */
 
         if (!response.ok || !data.success) {
+			
+			showError(
+    "Login Failed",
+    data.message || "Invalid username or password."
+);
 
             error.textContent =
                 data.message ||
@@ -390,6 +400,11 @@ async function loginMuster() {
         ===================================== */
 
         /* Hide login */
+		
+		showSuccess(
+    "Login Successful",
+    "Welcome back.",1200
+);
 
         const loginScreen =
             document.getElementById("loginScreen");
@@ -471,7 +486,11 @@ async function loginMuster() {
 
             if (typeof changeDepot === "function") {
 
-                changeDepot();
+                setTimeout(() => {
+
+    changeDepot();
+
+}, 1200);
 
             }
 
@@ -484,6 +503,11 @@ async function loginMuster() {
 
 
     } catch (networkError) {
+		
+		showError(
+    "Connection Failed",
+    "Unable to connect to the server."
+);
 
         console.error(
             "Login error:",
@@ -691,17 +715,26 @@ if (musterDepot) {
 ========================================= */
 let employees = [];
 
-function logoutMuster() {
+function logoutMuster(showMessage = false) {
 
-/* Clear old employee data immediately */
+    if (showMessage) {
+        showStatus(
+            "Signing Out",
+            "Please wait...",
+            "loading"
+        );
+    }
 
-employees = [];
+    /* Clear old employee data immediately */
 
-const staffBody = document.getElementById("staffBody");
+    employees = [];
 
-if (staffBody) {
-    staffBody.innerHTML = "";
-}
+    const staffBody =
+        document.getElementById("staffBody");
+
+    if (staffBody) {
+        staffBody.innerHTML = "";
+    }
 
     /* =====================================
        REMOVE SAVED LOGIN
@@ -718,11 +751,8 @@ if (staffBody) {
 
     /* Clear current login */
 
-    window.loggedInDepot =
-        null;
-
-    window.musterAuthToken =
-        null;
+    window.loggedInDepot = null;
+    window.musterAuthToken = null;
 
 
     /* =====================================
@@ -730,16 +760,10 @@ if (staffBody) {
     ===================================== */
 
     const loginScreen =
-        document.getElementById(
-            "loginScreen"
-        );
-
+        document.getElementById("loginScreen");
 
     if (loginScreen) {
-
-        loginScreen.style.display =
-            "flex";
-
+        loginScreen.style.display = "flex";
     }
 
 
@@ -748,16 +772,10 @@ if (staffBody) {
     ===================================== */
 
     const musterApp =
-        document.getElementById(
-            "musterApp"
-        );
-
+        document.getElementById("musterApp");
 
     if (musterApp) {
-
-        musterApp.style.display =
-            "none";
-
+        musterApp.style.display = "none";
     }
 
 
@@ -766,16 +784,10 @@ if (staffBody) {
     ===================================== */
 
     const headerMenu =
-        document.getElementById(
-            "headerMenuContainer"
-        );
-
+        document.getElementById("headerMenuContainer");
 
     if (headerMenu) {
-
-        headerMenu.style.display =
-            "none";
-
+        headerMenu.style.display = "none";
     }
 
 
@@ -784,15 +796,10 @@ if (staffBody) {
     ===================================== */
 
     const password =
-        document.getElementById(
-            "loginPassword"
-        );
-
+        document.getElementById("loginPassword");
 
     if (password) {
-
         password.value = "";
-
     }
 
 
@@ -801,43 +808,28 @@ if (staffBody) {
     ===================================== */
 
     const depotSelect =
-        document.getElementById(
-            "loginDepot"
-        );
-
+        document.getElementById("loginDepot");
 
     if (depotSelect) {
-
         depotSelect.value = "";
-
     }
 
 
     const depotText =
-        document.getElementById(
-            "loginDepotText"
-        );
-
+        document.getElementById("loginDepotText");
 
     if (depotText) {
-
-        depotText.textContent =
-            "Select User ID";
-
+        depotText.textContent = "Select User ID";
     }
 
 
     /* Remove selected state */
 
     document
-        .querySelectorAll(
-            ".custom-select-option"
-        )
-        .forEach(function (item) {
+        .querySelectorAll(".custom-select-option")
+        .forEach(function(item) {
 
-            item.classList.remove(
-                "selected"
-            );
+            item.classList.remove("selected");
 
         });
 
@@ -846,4 +838,20 @@ if (staffBody) {
 
     closeDepotDropdown();
 
+
+    /* =====================================
+       SHOW LOGOUT SUCCESS
+    ===================================== */
+    if (showMessage) {
+
+        setTimeout(function() {
+
+            showSuccess(
+                "Logged Out",
+                "You have been safely logged out.",
+                1200
+            );
+
+        }, 350);
+    }
 }
