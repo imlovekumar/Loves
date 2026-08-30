@@ -36,6 +36,7 @@
             		<button onclick="toggleSkin(); closeHeaderMenu();">👁️View Muster</button>
 				<button onclick="syncAttendance(); closeHeaderMenu();">🔄 Sync Attendance</button>
 				<button onclick="saveAttendance(); closeHeaderMenu();">💾 Save Attendance</button>
+				<button onclick="fillAllP(); closeHeaderMenu();">🔘 Reset Attendance</button>
 				<button onclick="logoutMuster(); closeHeaderMenu();">🔒 Logout</button>
 			</div>
         </div>
@@ -544,26 +545,26 @@ function changeMusterPeriod() {
     let startYear = year;
     let endYear = year;
 
-    // December → January of next year
+    /* December → January of next year */
     if (startMonth === 12) {
         endYear++;
     }
 
-    // Start = 11th
+    /* Start = 11th */
     const start = new Date(
         startYear,
         startMonth - 1,
         11
     );
 
-    // End = 10th of next month
+    /* End = 10th of next month */
     const end = new Date(
         endYear,
         endMonth - 1,
         10
     );
 
-    // Generate all dates
+    /* Generate all dates */
     dates = [];
 
     let current = new Date(start);
@@ -577,17 +578,43 @@ function changeMusterPeriod() {
         );
     }
 
-    // Update print period
+    /* =========================================
+       CLEAR PREVIOUS PERIOD ATTENDANCE
+    ========================================= */
+
+    employees.forEach(employee => {
+
+        employee.days = [];
+        employee.nda = "";
+        employee.ndaRemark = "";
+        employee.remark = "";
+
+    });
+
+    /* =========================================
+       UPDATE PRINT PERIOD
+    ========================================= */
+
     document.getElementById("printStart").textContent =
         formatDate(start);
 
     document.getElementById("printEnd").textContent =
         formatDate(end);
 
-    // Rebuild table
+    /* =========================================
+       SHOW FRESH / BLANK ATTENDANCE
+    ========================================= */
+
     renderTable();
 
-    
+    updateMainRemarks();
+
+    /* =========================================
+       FETCH NEW PERIOD FROM GITHUB
+    ========================================= */
+
+    syncAttendance();
+
 }
 
 /* =========================================================
@@ -750,6 +777,9 @@ async function changeDepot() {
         ================================= */
 
         renderTable();
+		
+		/* Automatically load saved attendance */
+		await syncAttendance();
 
         /* Hide loading */
         if (employeeLoading) employeeLoading.style.display = "none";
@@ -1805,12 +1835,12 @@ async function syncAttendance() {
 
         if (!data.found) {
 
-            alert(
-                "No saved attendance found for this muster period."
-            );
+    console.log(
+        "No saved attendance found for this muster period."
+    );
 
-            return;
-        }
+    return;
+}
 
         const savedAttendance =
             data.attendance || [];
@@ -1896,6 +1926,17 @@ async function syncAttendance() {
             "Unable to connect to server."
         );
     }
+}
+
+/* =========================================================
+   FILL ALL P
+========================================================= */
+
+function fillAllP() {
+    employees.forEach(emp => {
+        emp.days = Array(dates.length).fill("P");
+    });
+    renderTable();
 }
 </script>
 </body>
