@@ -642,23 +642,17 @@ function getCurrentDepot() {
 
 async function changeDepot() {
     const depot = getCurrentDepot();
-	
-	/* Show loading */
-	const employeeLoading =
-    		document.getElementById("employeeLoading");
 
-	if (employeeLoading) {
-    		employeeLoading.style.display = "flex";
-	}
+    /* Show loading */
+    const employeeLoading = document.getElementById("employeeLoading");
+    if (employeeLoading) employeeLoading.style.display = "flex";
 
-	/* Clear previous depot table immediately */
+    /* Clear previous depot table immediately */
     employees = [];
-	
+
     const staffBody = document.getElementById("staffBody");
-    if (staffBody) {
-        staffBody.innerHTML = "";
-    }
-	
+    if (staffBody) staffBody.innerHTML = "";
+
     const isKDP = depot === "SMR/KDP";
 
     /* =====================================
@@ -669,25 +663,15 @@ async function changeDepot() {
         el.style.display = isKDP ? "" : "none";
     });
 
-    const printScaleHeading =
-        document.getElementById("printScaleHeading");
-
-    if (printScaleHeading) {
-        printScaleHeading.style.display =
-            isKDP ? "" : "none";
-    }
+    const printScaleHeading = document.getElementById("printScaleHeading");
+    if (printScaleHeading) printScaleHeading.style.display = isKDP ? "" : "none";
 
     document.querySelectorAll(".rent-section").forEach(el => {
         el.style.display = isKDP ? "" : "none";
     });
 
-    const printRentHeading =
-        document.getElementById("printRentHeading");
-
-    if (printRentHeading) {
-        printRentHeading.style.display =
-            isKDP ? "" : "none";
-    }
+    const printRentHeading = document.getElementById("printRentHeading");
+    if (printRentHeading) printRentHeading.style.display = isKDP ? "" : "none";
 
     /* =====================================
        GET SECURITY TOKEN
@@ -705,102 +689,59 @@ async function changeDepot() {
     ===================================== */
 
     try {
-        const response =
-            await fetch(
-
-                API_URL +
-                "/api/employees/" +
-                encodeURIComponent(depot),
-
-                {
-                    method: "GET",
-
-                    headers: {
-                        "Authorization":
-                            "Bearer " + token
-                    }
+        const response = await fetch(
+            API_URL + "/api/employees/" + encodeURIComponent(depot),
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
                 }
+            }
+        );
 
-            );
-
-
-        const data =
-            await response.json();
-
+        const data = await response.json();
 
         /* =================================
            TOKEN INVALID / EXPIRED
         ================================= */
 
-        if (
-            response.status === 401 ||
-            response.status === 403
-        ) {
-
-            console.warn(
-                "Authentication token is invalid or expired."
-            );
-
+        if (response.status === 401 || response.status === 403) {
+            console.warn("Authentication token is invalid or expired.");
             logoutMuster();
-
             return;
-
         }
-
 
         /* =================================
            OTHER API ERROR
         ================================= */
 
         if (!response.ok || !data.success) {
+            console.error("Employee API error:", data);
 
-    console.error(
-        "Employee API error:",
-        data
-    );
+            if (employeeLoading) employeeLoading.style.display = "none";
 
-    if (employeeLoading) {
-        employeeLoading.style.display = "none";
-    }
-
-    return;
-}
-
+            return;
+        }
 
         /* =================================
            GET EMPLOYEE DATA
         ================================= */
 
-        employees =
-            data.employees || [];
-
+        employees = data.employees || [];
 
         /* =================================
            PREPARE DAYS
         ================================= */
 
         employees.forEach(emp => {
+            if (!emp.days) emp.days = [];
 
-            if (!emp.days) {
-                emp.days = [];
-            }
-
-
-            while (
-                emp.days.length <
-                dates.length
-            ) {
-
+            while (emp.days.length < dates.length) {
                 emp.days.push("P");
-
             }
 
-
-            emp.days.length =
-                dates.length;
-
+            emp.days.length = dates.length;
         });
-
 
         /* =================================
            RENDER TABLE
@@ -808,26 +749,14 @@ async function changeDepot() {
 
         renderTable();
 
-/* Hide loading */
-
-if (employeeLoading) {
-    employeeLoading.style.display = "none";
-}
-
+        /* Hide loading */
+        if (employeeLoading) employeeLoading.style.display = "none";
 
     } catch (error) {
+        console.error("Unable to load employee data:", error);
 
-    console.error(
-        "Unable to load employee data:",
-        error
-    );
-
-    if (employeeLoading) {
-        employeeLoading.style.display = "none";
+        if (employeeLoading) employeeLoading.style.display = "none";
     }
-
-}
-
 }
 
 /* =========================================================
@@ -1643,6 +1572,143 @@ document.addEventListener("click", function (e) {
     changeMusterPeriod();
 })();
 
+
+/* =========================================
+   SAVE ATTENDANCE
+========================================= */
+
+async function saveAttendance() {
+
+    const token =
+        window.musterAuthToken ||
+        localStorage.getItem("musterAuthToken");
+
+    const depot =
+        getCurrentDepot();
+
+    const period =
+        document.getElementById("musterPeriod").value;
+
+    const year =
+        document.getElementById("musterYear").value;
+
+    if (!token) {
+        alert("Login session expired. Please login again.");
+        logoutMuster();
+        return;
+    }
+
+    if (!employees || employees.length === 0) {
+        alert("No employee data available.");
+        return;
+    }
+
+    /* -----------------------------------------
+       PREPARE ATTENDANCE ONLY
+    ----------------------------------------- */
+
+    const attendance =
+        employees.map(employee => ({
+            pe: employee.pe || "",
+            days: employee.days || [],
+            nda: employee.nda || "",
+            ndaRemark: employee.ndaRemark || "",
+            remark: employee.remark || ""
+        }));
+
+    /* -----------------------------------------
+       PERIOD
+    ----------------------------------------- */
+
+    const savePeriod =
+        year + "-" + period;
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL + "/api/attendance/save",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body: JSON.stringify({
+                        depot: depot,
+                        period: savePeriod,
+                        attendance: attendance
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        /* -----------------------------------------
+           TOKEN INVALID
+        ----------------------------------------- */
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            alert(
+                "Login session expired. Please login again."
+            );
+
+            logoutMuster();
+            return;
+        }
+
+        /* -----------------------------------------
+           SAVE FAILED
+        ----------------------------------------- */
+
+        if (!response.ok || !data.success) {
+
+            console.error(
+                "Save attendance error:",
+                data
+            );
+
+            alert(
+                data.message ||
+                "Unable to save attendance."
+            );
+
+            return;
+        }
+
+        /* -----------------------------------------
+           SUCCESS
+        ----------------------------------------- */
+
+        alert(
+            "Attendance saved successfully."
+        );
+
+        console.log(
+            "Attendance saved:",
+            data
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Save attendance error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to server."
+        );
+    }
+}
 </script>
 </body>
 </html>
