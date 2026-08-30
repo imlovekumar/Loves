@@ -36,7 +36,7 @@
             		<button onclick="toggleSkin(); closeHeaderMenu();">👁️View Muster</button>
 				<button onclick="syncAttendance(); closeHeaderMenu();">🔄 Sync Attendance</button>
 				<button onclick="saveAttendance(); closeHeaderMenu();">💾 Save Attendance</button>
-				<button onclick="fillAllP(); closeHeaderMenu();">🔘 Reset Attendance</button>
+				<button onclick="resetData(); closeHeaderMenu();">🔘 Reset Attendance</button>
 				<button onclick="logoutMuster(); closeHeaderMenu();">🔒 Logout</button>
 			</div>
         </div>
@@ -1929,14 +1929,32 @@ async function syncAttendance() {
 }
 
 /* =========================================================
-   FILL ALL P
+   FILL ALL P/NDA/Remark
 ========================================================= */
+function resetData() {
 
-function fillAllP() {
     employees.forEach(emp => {
+
+        /* Reset attendance to P */
         emp.days = Array(dates.length).fill("P");
+
+        /* Reset NDA */
+        emp.nda = "";
+
+        /* Reset NDA Remark */
+        emp.ndaRemark = "";
+
+        /* Reset Employee Remark */
+        emp.remark = "";
+
     });
+
     renderTable();
+
+    /* Update main remarks if required */
+    if (typeof updateMainRemarks === "function") {
+        updateMainRemarks();
+    }
 }
 </script>
 </body>
