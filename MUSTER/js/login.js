@@ -489,6 +489,7 @@ showStatus(
                 setTimeout(() => {
 
     changeDepot();
+    changeMusterPeriod();
 
 }, 1200);
 
