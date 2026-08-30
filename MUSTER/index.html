@@ -34,6 +34,7 @@
             <div id="headerMenu" class="header-menu-dropdown">
                 <button onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
             		<button onclick="toggleSkin(); closeHeaderMenu();">👁️View Muster</button>
+				<button onclick="saveAttendance(); closeHeaderMenu();">💾 Save Attendance</button>
 				<button onclick="logoutMuster(); closeHeaderMenu();">🔒 Logout</button>
 			</div>
         </div>
@@ -1701,6 +1702,192 @@ async function saveAttendance() {
 
         console.error(
             "Save attendance error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to server."
+        );
+    }
+}
+
+/* =========================================
+   SYNC ATTENDANCE
+========================================= */
+
+async function syncAttendance() {
+
+    const token =
+        window.musterAuthToken ||
+        localStorage.getItem("musterAuthToken");
+
+    const depot =
+        getCurrentDepot();
+
+    const period =
+        document.getElementById("musterYear").value +
+        "-" +
+        document.getElementById("musterPeriod").value;
+
+    if (!token) {
+        alert("Login session expired. Please login again.");
+        logoutMuster();
+        return;
+    }
+
+    if (!employees || employees.length === 0) {
+        alert("No employee data available.");
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL +
+                "/api/attendance/sync?depot=" +
+                encodeURIComponent(depot) +
+                "&period=" +
+                encodeURIComponent(period),
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+        const data =
+            await response.json();
+
+        /* -----------------------------------------
+           TOKEN INVALID
+        ----------------------------------------- */
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            alert(
+                "Login session expired. Please login again."
+            );
+
+            logoutMuster();
+            return;
+        }
+
+        /* -----------------------------------------
+           SYNC ERROR
+        ----------------------------------------- */
+
+        if (!response.ok || !data.success) {
+
+            console.error(
+                "Sync attendance error:",
+                data
+            );
+
+            alert(
+                data.message ||
+                "Unable to sync attendance."
+            );
+
+            return;
+        }
+
+        /* -----------------------------------------
+           NO SAVED DATA
+        ----------------------------------------- */
+
+        if (!data.found) {
+
+            alert(
+                "No saved attendance found for this muster period."
+            );
+
+            return;
+        }
+
+        const savedAttendance =
+            data.attendance || [];
+
+        /* -----------------------------------------
+           MATCH USING PF NUMBER
+        ----------------------------------------- */
+
+        let syncedCount = 0;
+
+        employees.forEach(employee => {
+
+            const saved =
+                savedAttendance.find(
+                    item =>
+                        String(item.pe || "").trim() ===
+                        String(employee.pe || "").trim()
+                );
+
+            if (!saved) {
+                return;
+            }
+
+            /* Attendance */
+
+            if (Array.isArray(saved.days)) {
+
+                employee.days =
+                    [...saved.days];
+
+            }
+
+            /* NDA */
+
+            employee.nda =
+                saved.nda || "";
+
+            /* NDA Remark */
+
+            employee.ndaRemark =
+                saved.ndaRemark || "";
+
+            /* Employee Remark */
+
+            employee.remark =
+                saved.remark || "";
+
+            syncedCount++;
+
+        });
+
+        /* -----------------------------------------
+           REFRESH TABLES
+        ----------------------------------------- */
+
+        renderTable();
+
+        updateMainRemarks();
+
+        /* -----------------------------------------
+           RESULT
+        ----------------------------------------- */
+
+        alert(
+            "Attendance synced successfully.\n\n" +
+            syncedCount +
+            " employee(s) updated."
+        );
+
+        console.log(
+            "Attendance synced:",
+            syncedCount
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Sync attendance error:",
             error
         );
 
