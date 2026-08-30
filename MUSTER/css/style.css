@@ -25,6 +25,16 @@ body {
 	background: linear-gradient(to right, #BADAE8, beige);
 }
 
+/* Target both inputs and select dropdowns that are disabled */
+input:disabled, 
+select:disabled {
+    color: #333333 !important;       /* Forces normal text color */
+    background-color: #f8fafc !important; /* Forces normal background color */
+    opacity: 1 !important;           /* Removes default browser fade effect */
+    cursor: default !important;      /* Removes the "not-allowed" circle-slash cursor */
+    -webkit-text-fill-color: #333333 !important; /* Fix for Safari iOS text dimming */
+}
+
 /* =========================================
    HEADER
 ========================================= */
