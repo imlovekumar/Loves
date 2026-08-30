@@ -34,10 +34,10 @@
             <div id="headerMenu" class="header-menu-dropdown">
                 <button onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
             		<button onclick="toggleSkin(); closeHeaderMenu();">👁️View Muster</button>
-				<button onclick="syncAttendance(); closeHeaderMenu();">🔄 Sync Attendance</button>
+				<button onclick="syncAttendance(true); closeHeaderMenu();">🔄 Sync Attendance</button>
 				<button onclick="saveAttendance(); closeHeaderMenu();">💾 Save Attendance</button>
 				<button onclick="resetData(); closeHeaderMenu();">🔘 Reset Attendance</button>
-				<button onclick="logoutMuster(); closeHeaderMenu();">🔒 Logout</button>
+				<button onclick="logoutMuster(true); closeHeaderMenu();">🔒 Logout</button>
 			</div>
         </div>
     </div>
@@ -178,11 +178,6 @@
 			<b>E</b> = Other.
         </div>
     </section>
-
-	<div id="employeeLoading" class="employee-loading">
-    		<div class="loading-spinner"></div>
-    		<span>Loading employee data...</span>
-	</div>
 
     <!-- MUSTER PRINT TITLE -->
 
@@ -492,6 +487,40 @@
 </div>
 </main>
 
+<!-- =========================================
+     GLOBAL STATUS OVERLAY
+========================================= -->
+
+<div id="statusOverlay" class="status-overlay">
+    <div class="status-card">
+        <div id="statusSpinner" class="status-spinner"></div>
+        <div id="statusIcon" class="status-icon"></div>
+        <div id="statusTitle" class="status-title">
+            Processing...
+        </div>
+        <div id="statusMessage" class="status-message">
+            Please wait
+        </div>
+    </div>
+</div>
+
+<div id="appLoadingOverlay" class="app-loading-overlay">
+    <div class="app-loading-card">
+
+        <div class="app-loading-spinner"></div>
+
+        <div class="app-loading-title">
+            Loading Employees
+        </div>
+
+        <div class="app-loading-text">
+            Please wait while employee data is being loaded...
+        </div>
+
+    </div>
+</div>
+
+
 <script src="js/login.js"></script>
 <script>
 
@@ -670,12 +699,9 @@ function getCurrentDepot() {
 ========================================= */
 
 async function changeDepot() {
+    showAppLoading();
     const depot = getCurrentDepot();
-
-    /* Show loading */
-    const employeeLoading = document.getElementById("employeeLoading");
-    if (employeeLoading) employeeLoading.style.display = "flex";
-
+	
     /* Clear previous depot table immediately */
     employees = [];
 
@@ -709,6 +735,7 @@ async function changeDepot() {
     const token = window.musterAuthToken || localStorage.getItem("musterAuthToken");
 
     if (!token) {
+		hideAppLoading();
         logoutMuster();
         return;
     }
@@ -745,12 +772,16 @@ async function changeDepot() {
         ================================= */
 
         if (!response.ok || !data.success) {
-            console.error("Employee API error:", data);
 
-            if (employeeLoading) employeeLoading.style.display = "none";
+    console.error(
+        "Employee API error:",
+        data
+    );
 
-            return;
-        }
+    hideAppLoading();
+
+    return;
+}
 
         /* =================================
            GET EMPLOYEE DATA
@@ -777,17 +808,21 @@ async function changeDepot() {
         ================================= */
 
         renderTable();
-		
-		/* Automatically load saved attendance */
-		await syncAttendance();
 
-        /* Hide loading */
-        if (employeeLoading) employeeLoading.style.display = "none";
+        /* Automatically load saved attendance */
+        await syncAttendance();
 
-    } catch (error) {
-        console.error("Unable to load employee data:", error);
+        /* Everything is now loaded */
+        hideAppLoading();
 
-        if (employeeLoading) employeeLoading.style.display = "none";
+        } catch (error) {
+
+        console.error(
+            "Unable to load employee data:",
+            error
+        );
+
+        hideAppLoading();
     }
 }
 
@@ -1654,6 +1689,12 @@ async function saveAttendance() {
 
     const savePeriod =
         year + "-" + period;
+		
+		showStatus(
+    "Saving Attendance",
+    "Please wait...",
+    "loading"
+);
 
     try {
 
@@ -1708,10 +1749,10 @@ async function saveAttendance() {
                 data
             );
 
-            alert(
-                data.message ||
-                "Unable to save attendance."
-            );
+            showError(
+    "Save Failed",
+    "Unable to save attendance."
+);
 
             return;
         }
@@ -1720,9 +1761,10 @@ async function saveAttendance() {
            SUCCESS
         ----------------------------------------- */
 
-        alert(
-            "Attendance saved successfully."
-        );
+        showSuccess(
+    "Attendance Saved",
+    "Attendance has been saved successfully."
+);
 
         console.log(
             "Attendance saved:",
@@ -1746,7 +1788,16 @@ async function saveAttendance() {
    SYNC ATTENDANCE
 ========================================= */
 
-async function syncAttendance() {
+async function syncAttendance(showMessage = false) {
+
+
+if (showMessage) {
+    showStatus(
+        "Syncing Attendance",
+        "Checking saved attendance...",
+        "loading"
+    );
+}
 
     const token =
         window.musterAuthToken ||
@@ -1838,8 +1889,19 @@ async function syncAttendance() {
     console.log(
         "No saved attendance found for this muster period."
     );
+	if (showMessage) {
 
-    return;
+                showInfo(
+
+                    "No Saved Attendance",
+
+                    "No attendance was found for this muster period."
+
+                );
+
+            }
+
+            return;
 }
 
         const savedAttendance =
@@ -1904,11 +1966,14 @@ async function syncAttendance() {
            RESULT
         ----------------------------------------- */
 
-        alert(
-            "Attendance synced successfully.\n\n" +
-            syncedCount +
-            " employee(s) updated."
-        );
+        if (showMessage) {
+    showSuccess(
+        "Sync Complete",
+        syncedCount +
+        " employee(s) updated.",
+        1200
+    );
+}
 
         console.log(
             "Attendance synced:",
@@ -1932,9 +1997,7 @@ async function syncAttendance() {
    FILL ALL P/NDA/Remark
 ========================================================= */
 function resetData() {
-
     employees.forEach(emp => {
-
         /* Reset attendance to P */
         emp.days = Array(dates.length).fill("P");
 
@@ -1948,12 +2011,149 @@ function resetData() {
         emp.remark = "";
 
     });
-
     renderTable();
 
     /* Update main remarks if required */
     if (typeof updateMainRemarks === "function") {
         updateMainRemarks();
+    }
+}
+
+/* =========================================
+   GLOBAL STATUS OVERLAY
+========================================= */
+
+function showStatus(title, message = "", type = "loading") {
+
+    const overlay = document.getElementById("statusOverlay");
+    const spinner = document.getElementById("statusSpinner");
+    const icon = document.getElementById("statusIcon");
+    const titleEl = document.getElementById("statusTitle");
+    const messageEl = document.getElementById("statusMessage");
+
+    if (!overlay) return;
+
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+
+    /* Reset */
+
+    spinner.classList.add("hidden");
+
+    icon.className = "status-icon";
+    icon.textContent = "";
+
+    /* Loading */
+
+    if (type === "loading") {
+
+        spinner.classList.remove("hidden");
+
+    }
+
+    /* Success */
+
+    else if (type === "success") {
+
+        icon.classList.add("success");
+        icon.textContent = "✓";
+
+    }
+
+    /* Error */
+
+    else if (type === "error") {
+
+        icon.classList.add("error");
+        icon.textContent = "✕";
+
+    }
+
+    /* Info */
+
+    else if (type === "info") {
+
+        icon.classList.add("info");
+        icon.textContent = "i";
+
+    }
+
+    overlay.classList.add("show");
+}
+
+
+/* =========================================
+   HIDE STATUS
+========================================= */
+
+function hideStatus() {
+
+    const overlay =
+        document.getElementById("statusOverlay");
+
+    if (overlay) {
+        overlay.classList.remove("show");
+    }
+}
+
+
+/* =========================================
+   SUCCESS MESSAGE
+========================================= */
+
+function showSuccess(title, message = "", duration = 1800) {
+
+    showStatus(title, message, "success");
+
+    setTimeout(() => {
+        hideStatus();
+    }, duration);
+}
+
+
+/* =========================================
+   ERROR MESSAGE
+========================================= */
+
+function showError(title, message = "", duration = 2500) {
+
+    showStatus(title, message, "error");
+
+    setTimeout(() => {
+        hideStatus();
+    }, duration);
+}
+
+
+/* =========================================
+   INFO MESSAGE
+========================================= */
+
+function showInfo(title, message = "", duration = 2000) {
+
+    showStatus(title, message, "info");
+
+    setTimeout(() => {
+        hideStatus();
+    }, duration);
+}
+
+function showAppLoading() {
+    const overlay =
+        document.getElementById("appLoadingOverlay");
+
+    if (overlay) {
+        overlay.style.display = "flex";
+    }
+}
+
+
+function hideAppLoading() {
+    const overlay =
+        document.getElementById("appLoadingOverlay");
+
+    if (overlay) {
+        overlay.style.display = "none";
     }
 }
 </script>
