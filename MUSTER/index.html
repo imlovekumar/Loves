@@ -33,7 +33,7 @@
             </button>
             <div id="headerMenu" class="header-menu-dropdown">
                 <button onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
-            	<!-- <button onclick="toggleSkin(); closeHeaderMenu();">👁️View Muster</button> -->
+            		<!-- <button onclick="toggleSkin(); closeHeaderMenu();">👁️View Muster</button> -->
 				<button onclick="syncAttendance(true); closeHeaderMenu();">🔄 Sync Attendance</button>
 				<button onclick="saveAttendance(); closeHeaderMenu();">💾 Save Attendance</button>
 				<button onclick="resetData(); closeHeaderMenu();">🔘 Reset Attendance</button>
@@ -808,9 +808,10 @@ async function changeDepot() {
         ================================= */
 
         renderTable();
+		changeMusterPeriod();
 
         /* Automatically load saved attendance */
-        await syncAttendance();
+        //await syncAttendance();
 
         /* Everything is now loaded */
         hideAppLoading();
@@ -1635,9 +1636,9 @@ document.addEventListener("click", function (e) {
    INITIAL DATE
 ========================================= */
 
-( function init() {
-	changeMusterPeriod();
-})();
+//( function init() {
+//	changeMusterPeriod();
+//})();
 
 /* =========================================
    SAVE ATTENDANCE
@@ -1659,7 +1660,7 @@ async function saveAttendance() {
         document.getElementById("musterYear").value;
 
     if (!token) {
-        alert("Login session expired. Please login again.");
+        
         logoutMuster();
         return;
     }
@@ -1811,11 +1812,13 @@ if (showMessage) {
         document.getElementById("musterPeriod").value;
 
     if (!token) {
+        alert("Login session expired. Please login again.");
         logoutMuster();
         return;
     }
 
     if (!employees || employees.length === 0) {
+        alert("No employee data available.");
         return;
     }
 
