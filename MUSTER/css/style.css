@@ -35,6 +35,7 @@ select:disabled {
     -webkit-text-fill-color: #333333 !important; /* Fix for Safari iOS text dimming */
 }
 
+
 /* =========================================
    HEADER
 ========================================= */
@@ -706,7 +707,7 @@ select:disabled {
     width: 38px;
     min-width: 38px;
     max-width: 38px;
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .day-head small {
@@ -1996,4 +1997,367 @@ select:disabled {
     to {
         transform: rotate(360deg);
     }
+}
+
+/* =========================================================
+   NDA REMARK
+========================================================= */
+
+.nda-selection-remark {
+    padding: 10px 15px;
+    border-top: 1px solid #d5dbe3;
+}
+
+.nda-selection-remark label {
+    display: block;
+    margin-bottom: 5px;
+
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.nda-selection-remark textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    min-height: 55px;
+    resize: vertical;
+
+    padding: 7px 9px;
+
+    border: 1px solid #c8d0da;
+    border-radius: 6px;
+
+    font-family: inherit;
+    font-size: 12px;
+
+    outline: none;
+}
+
+.nda-selection-remark textarea:focus {
+    border-color: #2563eb;
+}
+
+	.nda-name-button {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    font-weight: inherit;
+    color: inherit;
+    cursor: pointer;
+	text-transform: uppercase;
+}
+
+.nda-name-button:hover {
+    text-decoration: underline;
+}
+
+.nda-selection-body {
+    padding: 15px;
+}
+
+.nda-date-option {
+    margin-bottom: 8px;
+}
+
+.nda-date-option label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.nda-date-option input {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.nda-night-dates {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.nda-date {
+    text-align: center;
+    min-width: 75px;
+}
+
+.nda-date small {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+.nda-arrow {
+    font-size: 18px;
+}
+
+.nda-date-option b {
+    min-width: 65px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.nda-selection-total {
+    margin-top: 15px;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* =========================================================
+   NDA NIGHT DUTY SELECTION POPUP
+========================================================= */
+
+.employee-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 15px;
+    z-index: 1000;
+}
+
+.employee-modal {
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh;
+
+    background: #fff;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+    overflow: hidden;
+}
+
+.employee-modal-header {
+    padding: 15px 18px;
+
+    border-bottom: 1px solid #d5dbe3;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.employee-modal-title {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.employee-modal-info {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.close-modal {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+
+    border-radius: 50%;
+
+    background: #e5e7eb;
+    color: #111827;
+
+    font-size: 20px;
+    line-height: 34px;
+}
+
+.close-modal:hover {
+    background: #d1d5db;
+}
+
+
+/* =========================================================
+   DUTY CALENDAR
+========================================================= */
+
+.employee-duty-calendar {
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.employee-duty-calendar .calendar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+
+/* =========================================================
+   DUTY PAIRS
+========================================================= */
+
+.duty-pair {
+    position: relative;
+}
+
+.duty-pair input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.duty-pair label {
+    min-height: 56px;
+
+    margin: 0;
+    padding: 7px 12px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+
+    border: 1px solid #c8d0da;
+    border-radius: 6px;
+
+    cursor: pointer;
+    background: #fff;
+
+    font-weight: normal;
+}
+
+.duty-pair input:checked + label {
+    background: #dcecff;
+    border-color: #2563eb;
+    font-weight: bold;
+}
+
+.duty-pair .hours {
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.first-duty label {
+    border-left: 4px solid #2563eb;
+}
+
+.last-duty label {
+    border-left: 4px solid #dc2626;
+}
+
+
+/* =========================================================
+   DATE + WEEKDAY
+========================================================= */
+
+.duty-date {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.duty-dates {
+    line-height: 1.2;
+}
+
+.duty-weekdays {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: normal;
+}
+
+.duty-pair input:checked + label .duty-weekdays {
+    color: #1e40af;
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   POPUP FOOTER
+========================================================= */
+
+.employee-modal-footer {
+    padding: 12px 15px;
+
+    border-top: 1px solid #d5dbe3;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.employee-modal-summary {
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.6;
+}
+
+.save-duty-btn {
+    background: #2563eb;
+    color: #fff;
+}
+
+.save-duty-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .employee-modal {
+        max-height: 94vh;
+    }
+
+    .employee-modal-footer {
+        align-items: flex-start;
+    }
+
+    .employee-modal-summary {
+        font-size: 12px;
+    }
+}
+
+/* =========================================================
+   NDA SAVE BUTTON
+========================================================= */
+
+.save-duty-btn {
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+
+    background: #2563eb;
+    color: #fff;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.save-duty-btn:hover {
+    background: #1d4ed8;
+}
+
+.save-duty-btn:active {
+    transform: scale(0.98);
 }
