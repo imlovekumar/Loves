@@ -1,0 +1,3180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>Railway Muster Generator</title>
+<link rel="preconnect" href="https://googleapis.com">
+<link rel="preconnect" href="https://gstatic.com" crossorigin>
+<link href="https://googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<link id="mainCSS" rel="stylesheet" href="css/style.css">
+<link id="loginCSS" rel="stylesheet" href="css/login.css">
+<link id="printCSS" rel="stylesheet" href="css/print.css" media="print">
+<link id="ndaCSS" rel="stylesheet" href="css/nda.css" media="print">
+
+</head>
+<body>
+<header class="app-header no-print">
+    <div class="header-inner">
+        <div class="logo-section">
+            <img src="images/railway-logo.png" alt="Railway Logo">
+        </div>
+        <div class="title-section">
+            <div class="railway-name">SOUTH COAST RAILWAY</div>
+            <div class="title-line"></div>
+            <div class="division-name">GUNTAKAL DIVISION</div>
+        </div>
+		<!-- Three Line MENU -->
+        <div class="header-menu" id="headerMenuContainer">
+            <button class="menu-toggle" onclick="toggleHeaderMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div id="headerMenu" class="header-menu-dropdown">
+                <button onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
+            		<button onclick="generatePDF(); closeHeaderMenu();">👁️View NDA</button>
+				<button onclick="syncAttendance(true); closeHeaderMenu();">🔄 Sync Attendance</button>
+				<button onclick="saveAttendance(); closeHeaderMenu();">💾 Save Attendance</button>
+				<button onclick="resetData(); closeHeaderMenu();">🔘 Reset Attendance</button>
+				<button onclick="logoutMuster(true); closeHeaderMenu();">🔒 Logout</button>
+			</div>
+        </div>
+    </div>
+</header>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="login-screen">
+    <div class="login-card">
+        <div class="login-icon">🔐</div>
+        <div class="login-title">Muster Login</div>
+        <div class="login-subtitle">Select your depot and enter password</div>
+        <div class="login-field">
+    			<label for="loginDepot">User ID</label>
+    			<div class="custom-select" id="loginDepotWrapper">
+        			<select id="loginDepot" hidden></select>
+        			<button
+            			type="button"
+            			class="custom-select-button"
+            			id="loginDepotButton"
+            			onclick="toggleDepotDropdown()">
+            			<span id="loginDepotText">Select User ID</span>
+            			<span class="custom-select-arrow">⌄</span>
+        			</button>
+        			<div class="custom-select-options" id="loginDepotOptions"></div>
+    			</div>
+		</div>
+        <div class="login-field">
+            <label>Password</label>
+            <div class="password-wrapper">
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter password"
+                    autocomplete="off">
+                <button
+                    type="button"
+                    id="togglePassword"
+                    onclick="toggleLoginPassword()">👁
+                </button>
+            </div>
+        </div>
+        <div id="loginError" class="login-error"></div>
+        <button
+            type="button"
+            class="login-button"
+            onclick="loginMuster()">
+            🔓 Login
+        </button>
+    </div>
+</div>
+
+<script>
+(function () {
+
+    const savedDepot =
+        localStorage.getItem("musterLoggedInDepot");
+
+    const savedToken =
+        localStorage.getItem("musterAuthToken");
+
+    if (savedDepot && savedToken) {
+
+        const loginScreen =
+            document.getElementById("loginScreen");
+
+        if (loginScreen) {
+            loginScreen.style.display = "none";
+        }
+
+    }
+
+})();
+</script>
+
+<main class="container" id="musterApp">
+
+	<!-- Muster Detail SETTINGS -->
+    <section class="settings no-print">
+        <div class="section-title">Muster Details</div>
+        <div class="form-grid">
+			
+            <div class="field">
+                <label>Depot</label>
+				<select id="depot">
+				</select>
+            </div>
+
+            <div class="field">
+                <label>BILL UNIT</label>
+                <input id="bu" value="3705667" disabled>
+            </div>
+			
+			<div class="field department-field">
+                <label>Department</label>
+	            <select id="department" disabled>
+                    <option value="OPERATING">OPERATING</option>
+                </select>
+            </div>
+
+			<div class="field">
+                <label>Muster Period</label>
+                <select id="musterPeriod" onchange="changeMusterPeriod()">
+                    <option value="1-2">January - February</option>
+                    <option value="2-3">February - March</option>
+                    <option value="3-4">March - April</option>
+                    <option value="4-5">April - May</option>
+                    <option value="5-6">May - June</option>
+                    <option value="6-7">June - July</option>
+                    <option value="7-8">July - August</option>
+                    <option value="8-9" selected>August - September</option>
+                    <option value="9-10">September - October</option>
+                    <option value="10-11">October - November</option>
+                    <option value="11-12">November - December</option>
+                    <option value="12-1">December - January</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Muster Year</label>
+                <select id="musterYear" onchange="changeMusterPeriod()" disabled>
+                    <option value="2025">2025</option>
+                    <option value="2026" selected>2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="status-help">
+            Daily status: <b>P</b> = Present,
+            <b>R</b> = Rest,
+            <b>CR</b> = Compensatory Rest,
+            <b>CL</b> = Casual Leave,
+            <b>LAP</b> = Leave on Average Pay,
+            <b>S</b> = Sick,
+			<b>E</b> = Other.
+        </div>
+    </section>
+
+    <!-- MUSTER PRINT TITLE -->
+
+    <section id="printHeading">
+        <div class="print-title">
+            MUSTER STATEMENT OF DEPOT : <span id="printDepot"></span>,
+            BU : <span id="printBU"></span>,
+            DEPARTMENT : <span id="printDepartment"></span>.
+        </div>
+        <div class="print-period">
+            For Period <span id="printStart"></span>
+            to <span id="printEnd"></span>
+        </div>
+    </section>
+
+    <!-- MAIN TABLE -->
+
+    <div class="table-wrapper">
+        <table id="musterTable">
+        		<thead>
+        			<tr id="tableHead"></tr>
+        		</thead>
+            <tbody id="staffBody"></tbody>
+        </table>
+    </div>
+
+    <!-- REMARK AREA -->
+	
+   	<div class="bottom-section">
+		<div class="box">
+			<div class="box-title">Remarks:</div>
+        		<div id="remarks" class="remarks-display">NO REMARKS !</div>
+        		<div id="printRemarks" class="print-remarks"></div>
+    		</div>
+    </div>
+	
+	<!-- LEAVE / ABSENT LIST -->
+
+    <section id="leaveSection" class="leave-section">
+	<section id="printHeading">
+		<div class="leave-title">
+            LEAVE/ABSENT LIST OF DEPOT : <span id="leaveDepot"></span>,
+            BU : <span id="leaveBU"></span>,
+            DEPARTMENT : <span id="leaveDepartment"></span>.
+        </div>
+        <div class="leave-period">
+            For Period <span id="leaveStart"></span>
+            to <span id="leaveEnd"></span>
+        </div>
+	</section>
+        <div class="leave-table-wrapper">
+            <table id="leaveTable">
+                <thead>
+                    <tr id="leaveTableHead"></tr>
+                </thead>
+                <tbody id="leaveTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- NH STATEMENT -->
+
+    <section id="nhSection" class="nh-section">
+        <section id="printHeading">
+			<div class="nh-title">
+            		NH STATEMENT OF DEPOT : <span id="nhDepot"></span>,
+            		BU : <span id="nhBU"></span>,
+            		DEPARTMENT : <span id="nhDepartment"></span>
+        		</div>
+        		<div class="nh-period">
+            		For Period <span id="nhStart"></span>
+            		to <span id="nhEnd"></span>
+        		</div>
+		</section>
+        <div class="nh-table-wrapper">
+            <table id="nhTable">
+                <thead>
+                    <tr id="nhTableHead"></tr>
+                </thead>
+                <tbody id="nhTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+
+   <!-- RENT ROLL SECTION -->
+ <section id="printRentHeading">
+	<div class="rent-title">
+            RENT ROLL STATEMENT OF DEPOT : <span id="rentDepot"></span>,
+            BU : <span id="rentBU"></span>,
+            DEPARTMENT : <span id="rentDepartment"></span>.
+        </div>
+        <div class="rent-period">
+            For Period <span id="rentStart"></span>
+            to <span id="rentEnd"></span>
+        </div>
+</section>
+<section class="rent-section">
+        <div class="rent-table-wrapper">
+            <table id="rentTable">
+                <thead>
+                    <tr>
+                        <th>SNo.</th>
+                        <th>PF NUMBER</th>
+                        <th>NAME</th>
+                        <th>DESIG.</th>
+                        <th>STATION</th>
+                        <th>RAILWAY QTR NO.</th>
+						<th>QTR TYPE</th>
+						<th>AREA</th>
+						<th>IN OCCUPATION FROM</th>
+						<th>REMARK</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>01</td>
+                        <td>24129802911</td>
+                        <td>ANIL YADAV</td>
+                        <td>LR SM</td>
+                        <td>KDP</td>
+                        <td>68/B</td>
+						<td>III</td>
+						<td>KDP</td>
+						<td>01/09/2025</td>
+						<td>NIL</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- NDA SECTION -->
+<section id="printHeading">
+		<div class="nda-title">
+            NDA STATEMENT OF DEPOT : <span id="ndaDepot"></span>,
+            BU : <span id="ndaBU"></span>,
+            DEPARTMENT : <span id="ndaDepartment"></span>.
+        </div>
+        <div class="nda-period">
+            For Period <span id="ndaStart"></span>
+            to <span id="ndaEnd"></span>
+        </div>
+</section>
+    <section class="nda-section">    
+        <div class="nda-table-wrapper">
+            <table id="ndaTable">
+                <thead>
+                    <tr>
+                        <th>SNo.</th>
+                        <th>PF Number</th>
+                        <th>Name</th>
+                        <th>Desig.</th>
+                        <th>Station</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Duty Hours</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody id="ndaBody"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SCALE CHECK STATEMENT -->
+	<section id="printScaleHeading">
+		<div class="scale-title">
+            SCALE CHECK STATEMENT OF DEPOT : <span id="scaleDepot"></span>,
+            BU : <span id="scaleBU"></span>,
+            DEPARTMENT : <span id="scaleDepartment"></span>
+        </div>
+		<div class="scale-period">
+            For Period <span id="scaleStart"></span>
+            to <span id="scaleEnd"></span>
+        </div>
+	</section>
+    <section class="scale-section">
+        <div class="scale-table-wrapper">
+            <table id="scaleTable">
+                <thead>
+                    <tr>
+                        <th>Bill Unit</th>
+                        <th>Designation</th>
+                        <th>Sanction</th>
+                        <th>Actuals</th>
+                        <th>Vacancy</th>
+                        <th>Excess</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            SMR (G.P:4600/-) L-7
+                        </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            DY SM (G.P:4200/-) L-6
+                        </td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            RG SM (G.P:4200/-) L-6
+                        </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            LR SM (G.P:4200/-) L-6
+                        </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            Sr. BC (G.P:2800/-) L-5
+                        </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            Pointsman (G.P:1900/-) L-2
+                        </td>
+                        <td>2</td>
+                        <td>4</td>
+                        <td>0</td>
+                        <td>2</td>
+                    </tr>
+
+                    <tr>
+                        <td>3705667</td>
+                        <td class="scale-designation">
+                            Assistant PMAN L-1
+                        </td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+<div id="attendanceOverlay" class="attendance-overlay">
+    <div class="attendance-modal">
+        <div class="attendance-header">
+			<div>
+        			<div class="attendance-title">Employee Attendance</div>
+        			<div class="attendance-employee" id="attendanceEmployee"></div>
+    			</div>
+    			<button class="attendance-close" onclick="closeAttendance()"> × </button>
+		</div>
+		
+<div class="attendance-info">
+	<span>Period: <b id="attendancePeriod"></b></span>
+    <span>Present: <b id="presentCount">0</b></span>
+</div>
+
+<div class="attendance-table-wrapper">
+	<table class="attendance-table">
+    		<thead>
+        		<tr><th>S.No.</th><th>Date</th><th>Day</th><th>Attendance</th></tr>
+        </thead>
+        <tbody id="attendanceBody"></tbody>
+    </table>
+</div>
+<div class="attendance-remark">
+	<label for="attendanceRemark">Remark</label>
+    <textarea id="attendanceRemark" placeholder="Enter remark for this employee..." oninput="updateAttendanceRemark(this.value)"></textarea>
+</div>
+</div>
+</div>
+
+<!-- =========================================================
+     NDA NIGHT DUTY SELECTION POPUP
+========================================================= -->
+
+<div id="ndaSelectionOverlay" class="employee-overlay">
+    <div class="employee-modal">
+        <div class="employee-modal-header">
+            <div>
+                <div id="ndaSelectionTitle"
+                    class="employee-modal-title">Night Duty
+  				</div>
+                <div
+                    id="ndaSelectionEmployee"
+                    class="employee-modal-info">
+                </div>
+            </div>
+            <button
+                class="close-modal"
+                type="button"
+                onclick="closeNDASelection()">
+                ×
+            </button>
+        </div>
+        <div class="employee-duty-calendar">
+            <div
+                id="ndaSelectionBody"
+                class="calendar">
+            </div>
+        </div>
+<div class="nda-selection-remark">
+    <label for="ndaSelectionRemark">NDA Remarks</label>
+    <textarea
+        id="ndaSelectionRemark"
+        rows="2"
+        placeholder="Enter NDA remarks...">
+    </textarea>
+</div>
+        <div class="employee-modal-footer">
+
+            <div
+                id="ndaSelectionSummary"
+                class="employee-modal-summary">
+
+                Selected Duties: 0<br>
+                Total Hours: 0<br>
+                Total Unit: 0.00
+
+            </div>
+            <button
+                class="save-duty-btn"
+                type="button"
+                onclick="saveNDASelection()">
+
+                Save
+
+            </button>
+        </div>
+    </div>
+</div>
+</main>
+
+<!-- =========================================
+     GLOBAL STATUS OVERLAY
+========================================= -->
+
+<div id="statusOverlay" class="status-overlay">
+    <div class="status-card">
+        <div id="statusSpinner" class="status-spinner"></div>
+        <div id="statusIcon" class="status-icon"></div>
+        <div id="statusTitle" class="status-title">Processing...</div>
+        <div id="statusMessage" class="status-message">Please wait</div>
+    </div>
+</div>
+
+<div id="appLoadingOverlay" class="app-loading-overlay">
+    <div class="app-loading-card">
+
+        <div class="app-loading-spinner"></div>
+
+        <div class="app-loading-title">
+            Loading Employees
+        </div>
+
+        <div class="app-loading-text">
+            Please wait while employee data is being loaded...
+        </div>
+
+    </div>
+</div>
+
+
+<script src="js/login.js"></script>
+<script>
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+const STATUS_OPTIONS = [
+    "P",
+    "R",
+    "CR",
+    "CL",
+    "LAP",
+    "E",
+	"PL",
+	"S",
+	"NHP",
+	"NHR",
+	"NHAV"
+];
+
+/*
+    Initial employees from the sample image.
+    Delete/change these as required.
+*/
+
+let dates = [];
+
+/* =========================================================
+   DATE FUNCTIONS
+========================================================= */
+
+function formatDate(date) {
+
+    let d = String(date.getDate()).padStart(2, "0");
+    let m = String(date.getMonth() + 1).padStart(2, "0");
+    let y = date.getFullYear();
+    return `${d}-${m}-${y}`;
+}
+
+function changeMusterPeriod() {
+
+    const period =
+        document.getElementById("musterPeriod").value;
+
+    const year =
+        Number(document.getElementById("musterYear").value);
+
+    const [startMonth, endMonth] =
+        period.split("-").map(Number);
+
+    let startYear = year;
+    let endYear = year;
+
+    /* December → January of next year */
+    if (startMonth === 12) {
+        endYear++;
+    }
+
+    /* Start = 11th */
+    const start = new Date(
+        startYear,
+        startMonth - 1,
+        11
+    );
+
+    /* End = 10th of next month */
+    const end = new Date(
+        endYear,
+        endMonth - 1,
+        10
+    );
+
+    /* Generate all dates */
+    dates = [];
+
+    let current = new Date(start);
+
+    while (current <= end) {
+
+        dates.push(new Date(current));
+
+        current.setDate(
+            current.getDate() + 1
+        );
+    }
+
+    /* =========================================
+       CLEAR PREVIOUS PERIOD ATTENDANCE
+    ========================================= */
+
+    employees.forEach(employee => {
+
+        employee.days = [];
+        employee.nda = "";
+        employee.ndaRemark = "";
+        employee.remark = "";
+
+    });
+
+    /* =========================================
+       UPDATE PRINT PERIOD
+    ========================================= */
+
+    document.getElementById("printStart").textContent =
+        formatDate(start);
+
+    document.getElementById("printEnd").textContent =
+        formatDate(end);
+
+    /* =========================================
+       SHOW FRESH / BLANK ATTENDANCE
+    ========================================= */
+
+    renderTable();
+
+    updateMainRemarks();
+
+    /* =========================================
+       FETCH NEW PERIOD FROM GITHUB
+    ========================================= */
+
+    syncAttendance();
+
+}
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
+
+function buildHeader() {
+
+    let head = document.getElementById("tableHead");
+
+    head.innerHTML = `
+        <th class="fixed col-sno">SNo.</th>
+        <th class="fixed col-pe">PF NUMBER</th>
+        <th class="fixed col-name">NAME OF THE EMPLOYEE</th>
+        <th class="fixed col-desig">DESIGN.</th>
+        <th class="fixed col-station">STATION</th>
+    `;
+
+    dates.forEach((date, index) => {
+
+        let day = date.getDate();
+
+        let month = date.toLocaleString("en-IN", {
+            month: "short"
+        });
+
+        let weekday = date.toLocaleString("en-IN", {
+            weekday: "short"
+        });
+
+        head.innerHTML += `
+            <th class="day-head">
+                ${day}
+                <small>${weekday}</small>
+            </th>
+        `;
+
+    });
+
+}
+
+/* =========================================
+   DEPOT
+========================================= */
+
+function getCurrentDepot() {
+    return document.getElementById("depot").value;
+}
+
+
+/* =========================================
+   CHANGE DEPOT — LOAD EMPLOYEES FROM API
+========================================= */
+
+async function changeDepot() {
+    showAppLoading();
+    const depot = getCurrentDepot();
+	
+    /* Clear previous depot table immediately */
+    employees = [];
+
+    const staffBody = document.getElementById("staffBody");
+    if (staffBody) staffBody.innerHTML = "";
+
+    const isKDP = depot === "SMR/KDP";
+
+    /* =====================================
+       KDP / MUM VISIBILITY
+    ===================================== */
+
+    document.querySelectorAll(".scale-section").forEach(el => {
+        el.style.display = isKDP ? "" : "none";
+    });
+
+    const printScaleHeading = document.getElementById("printScaleHeading");
+    if (printScaleHeading) printScaleHeading.style.display = isKDP ? "" : "none";
+
+    document.querySelectorAll(".rent-section").forEach(el => {
+        el.style.display = isKDP ? "" : "none";
+    });
+
+    const printRentHeading = document.getElementById("printRentHeading");
+    if (printRentHeading) printRentHeading.style.display = isKDP ? "" : "none";
+
+    /* =====================================
+       GET SECURITY TOKEN
+    ===================================== */
+
+    const token = window.musterAuthToken || localStorage.getItem("musterAuthToken");
+
+    if (!token) {
+		hideAppLoading();
+        logoutMuster();
+        return;
+    }
+
+    /* =====================================
+       LOAD EMPLOYEES FROM FLASK API
+    ===================================== */
+
+    try {
+        const response = await fetch(
+            API_URL + "/api/employees/" + encodeURIComponent(depot),
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        /* =================================
+           TOKEN INVALID / EXPIRED
+        ================================= */
+
+        if (response.status === 401 || response.status === 403) {
+            console.warn("Authentication token is invalid or expired.");
+            logoutMuster();
+            return;
+        }
+
+        /* =================================
+           OTHER API ERROR
+        ================================= */
+
+        if (!response.ok || !data.success) {
+
+    console.error(
+        "Employee API error:",
+        data
+    );
+
+    hideAppLoading();
+
+    return;
+}
+
+        /* =================================
+           GET EMPLOYEE DATA
+        ================================= */
+
+        employees = data.employees || [];
+
+        /* =================================
+           PREPARE DAYS
+        ================================= */
+
+        employees.forEach(emp => {
+            if (!emp.days) emp.days = [];
+
+            while (emp.days.length < dates.length) {
+                emp.days.push("P");
+            }
+
+            emp.days.length = dates.length;
+        });
+
+        /* =================================
+           RENDER TABLE
+        ================================= */
+
+        renderTable();
+		changeMusterPeriod();
+
+        /* Automatically load saved attendance */
+        //await syncAttendance();
+
+        /* Everything is now loaded */
+        hideAppLoading();
+
+        } catch (error) {
+
+        console.error(
+            "Unable to load employee data:",
+            error
+        );
+
+        hideAppLoading();
+    }
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+function renderTable() {
+
+    buildHeader();
+    let body = document.getElementById("staffBody");
+    body.innerHTML = "";
+
+    employees.forEach((emp, employeeIndex) => {
+
+        if (!emp.days) emp.days = [];
+		if (emp.nda === undefined) emp.nda = "";
+		if (emp.ndaRemark === undefined) { emp.ndaRemark = ""; }
+
+        while (emp.days.length < dates.length) {
+            emp.days.push("P");
+        }
+		
+		if (emp.days.length > dates.length) {
+            emp.days = emp.days.slice(0, dates.length);
+        }
+
+        let tr = document.createElement("tr");
+        tr.className = "employee-row";
+
+        tr.innerHTML = `
+
+            <td class="fixed col-sno">
+    				<div class="sno-tag">
+        				${employeeIndex + 1}
+    				</div>
+			</td>
+
+            <td class="fixed col-pe">
+   				<div class="pf-id-tag">
+        				<input
+            				class="employee-input pe-input"
+            				value="${escapeHTML(emp.pe)}"
+            				onchange="updateEmployee(${employeeIndex}, 'pe', this.value)"
+        				>
+    				</div>
+			</td>
+
+           <td class="fixed col-name">
+                <button
+                    type="button"
+                    class="employee-name-button"
+                    onclick="openAttendance(${employeeIndex})"
+                    title="Edit attendance"
+                >
+                    ${escapeHTML(emp.name || "Unnamed Employee")}
+                </button>
+            </td>
+
+            <td class="fixed col-desig">
+                <input
+                    class="employee-input"
+                    value="${escapeHTML(emp.desig)}"
+                    onchange="updateEmployee(${employeeIndex}, 'desig', this.value)"
+                >
+            </td>
+
+            <td class="fixed col-station">
+                <input
+                    class="employee-input"
+                    value="${escapeHTML(emp.station)}"
+                    onchange="updateEmployee(${employeeIndex}, 'station', this.value)"
+                >
+            </td>
+
+        `;
+
+        dates.forEach((date, dayIndex) => {
+            let value = emp.days[dayIndex] || "P";
+            let options = STATUS_OPTIONS.map(status => {
+                return `
+                    <option value="${status}"
+                        ${status === value ? "selected" : ""}>
+                        ${status}
+                    </option>
+                `;
+
+            }).join("");
+
+            tr.innerHTML += `
+		            <td class="day-cell ${value ? "status-" + value : ""}">
+                        ${emp.days && emp.days[dayIndex]
+                        ? emp.days[dayIndex]
+                        : ""}
+                    </td>
+            `;
+
+        });
+        body.appendChild(tr);
+
+    });
+	
+	updatePrintHeader();
+	updateScaleHeader();
+	renderLeaveTable();
+	renderNDATable();
+	renderNHTable();
+}
+
+function renderLeaveTable() {
+
+    const section =
+        document.getElementById("leaveSection");
+
+    const head =
+        document.getElementById("leaveTableHead");
+
+    const body =
+        document.getElementById("leaveTableBody");
+
+    // Find employees having at least one LAP
+    const leaveEmployees = employees.filter(emp =>
+        (emp.days || []).some(status => status === "LAP")
+    );
+
+    // No LAP anywhere → hide complete section
+    if (leaveEmployees.length === 0) {
+        section.style.display = "none";
+        return;
+    }
+
+    section.style.display = "block";
+
+    // Header
+    head.innerHTML = `
+        <th class="leave-sno">SNo.</th>
+        <th class="leave-pe">PF Number</th>
+        <th class="leave-name">Name</th>
+        <th class="leave-desig">Desig.</th>
+        <th class="leave-station">Station</th>
+    `;
+
+    dates.forEach(date => {
+
+        head.innerHTML += `
+            <th class="leave-day">
+                ${date.getDate()}
+            </th>
+        `;
+
+    });
+
+    // Body
+    body.innerHTML = "";
+    leaveEmployees.forEach((emp) => {
+        const employeeIndex = employees.indexOf(emp);
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>
+                ${employeeIndex + 1}
+            </td>
+
+            <td>
+                ${escapeHTML(emp.pe || "")}
+            </td>
+
+            <td class="leave-name-cell">
+                ${escapeHTML(emp.name || "")}
+            </td>
+
+            <td>
+                ${escapeHTML(emp.desig || "")}
+            </td>
+
+            <td>
+                ${escapeHTML(emp.station || "")}
+            </td>
+        `;
+
+        dates.forEach((date, dayIndex) => {
+
+            const value =
+                emp.days &&
+                emp.days[dayIndex] === "LAP"
+                    ? "LAP"
+                    : "";
+
+            tr.innerHTML += `
+                <td class="leave-day-cell">
+                    ${value}
+                </td>
+            `;
+
+        });
+
+        body.appendChild(tr);
+    });
+    updateLeaveHeader();
+}
+
+function updateLeaveHeader() {
+
+    document.getElementById("leaveDepot").textContent =
+        document.getElementById("depot").value;
+
+    document.getElementById("leaveBU").textContent =
+        document.getElementById("bu").value;
+
+    document.getElementById("leaveDepartment").textContent =
+        document.getElementById("department").value;
+
+    document.getElementById("leaveStart").textContent =
+        document.getElementById("printStart").textContent;
+
+    document.getElementById("leaveEnd").textContent =
+        document.getElementById("printEnd").textContent;
+}
+
+function updateScaleHeader() {
+
+    document.getElementById("scaleDepot").textContent =
+        document.getElementById("depot").value;
+
+    document.getElementById("scaleBU").textContent =
+        document.getElementById("bu").value;
+
+    document.getElementById("scaleDepartment").textContent =
+        document.getElementById("department").value;
+
+    document.getElementById("scaleStart").textContent =
+        document.getElementById("printStart").textContent;
+
+    document.getElementById("scaleEnd").textContent =
+        document.getElementById("printEnd").textContent;
+}
+
+
+function renderNHTable() {
+
+    const section =
+        document.getElementById("nhSection");
+
+    const head =
+        document.getElementById("nhTableHead");
+
+    const body =
+        document.getElementById("nhTableBody");
+
+    const NH_STATUS = [
+        "NHP",
+        "NHR",
+        "NHAV"
+    ];
+
+    // Employees having at least one NH status
+    const nhEmployees = employees.filter(emp =>
+        (emp.days || []).some(status =>
+            NH_STATUS.includes(status)
+        )
+    );
+
+    // Nothing to show
+    if (nhEmployees.length === 0) {
+        section.style.display = "none";
+        return;
+    }
+    section.style.display = "block";
+    // Header
+    head.innerHTML = `
+        <th class="nh-sno">SNo.</th>
+        <th class="nh-pe">PF Number</th>
+        <th class="nh-name">Name</th>
+        <th class="nh-desig">Desig.</th>
+        <th class="nh-station">Station</th>
+    `;
+
+    dates.forEach(date => {
+        head.innerHTML += `
+            <th class="nh-day">
+                ${date.getDate()}
+            </th>
+        `;
+    });
+
+    body.innerHTML = "";
+    nhEmployees.forEach(emp => {
+        const employeeIndex =
+            employees.indexOf(emp);
+        const tr =
+            document.createElement("tr");
+        tr.innerHTML = `
+            <td>
+                ${employeeIndex + 1}
+            </td>
+
+            <td>
+                ${escapeHTML(emp.pe || "")}
+            </td>
+
+            <td class="nh-name-cell">
+                ${escapeHTML(emp.name || "")}
+            </td>
+
+            <td>
+                ${escapeHTML(emp.desig || "")}
+            </td>
+
+            <td>
+                ${escapeHTML(emp.station || "")}
+            </td>
+        `;
+        dates.forEach((date, dayIndex) => {
+
+            const value =
+                emp.days &&
+                NH_STATUS.includes(emp.days[dayIndex])
+                    ? emp.days[dayIndex]
+                    : "";
+
+            tr.innerHTML += `
+                <td class="nh-day-cell">
+                    ${value}
+                </td>
+            `;
+        });
+        body.appendChild(tr);
+    });
+    updateNHHeader();
+}
+
+function updateNHHeader() {
+
+    document.getElementById("nhDepot").textContent =
+        document.getElementById("depot").value;
+
+    document.getElementById("nhBU").textContent =
+        document.getElementById("bu").value;
+
+    document.getElementById("nhDepartment").textContent =
+        document.getElementById("department").value;
+
+    document.getElementById("nhStart").textContent =
+        document.getElementById("printStart").textContent;
+
+    document.getElementById("nhEnd").textContent =
+        document.getElementById("printEnd").textContent;
+}
+
+
+function renderNDATable() {
+
+    const body = document.getElementById("ndaBody");
+    body.innerHTML = "";
+
+    const period =
+        document.getElementById("musterPeriod").value;
+
+    const year =
+        Number(document.getElementById("musterYear").value);
+
+    const [startMonth] =
+        period.split("-").map(Number);
+
+    // NDA is for the COMPLETE first month
+    const ndaStart = new Date(
+        year,
+        startMonth - 1,
+        1
+    );
+
+    // Day 0 of next month = last day of selected month
+    const ndaEnd = new Date(
+        year,
+        startMonth,
+        0
+    );
+
+    const ndaStartText = formatDate(ndaStart);
+    const ndaEndText = formatDate(ndaEnd);
+	
+	document.getElementById("ndaStart").textContent =
+    ndaStartText;
+
+    document.getElementById("ndaEnd").textContent =
+    ndaEndText;
+	
+	const rentStart = new Date(
+        year,
+        startMonth - 1,
+        1
+    );
+
+    // Day 0 of next month = last day of selected month
+    const rentEnd = new Date(
+        year,
+        startMonth,
+        0
+    );
+
+    const rentStartText = formatDate(rentStart);
+    const rentEndText = formatDate(rentEnd);
+	
+	document.getElementById("rentStart").textContent =
+    rentStartText;
+
+    document.getElementById("rentEnd").textContent =
+    rentEndText;
+
+    employees.forEach((emp, index) => {
+
+        const dutyHours =
+            emp.nda && String(emp.nda).trim()
+                ? Number(emp.nda).toFixed(2)
+                : "-";
+
+        const remarks =
+            emp.ndaRemark && emp.ndaRemark.trim()
+            ? emp.ndaRemark.trim()
+            : "NIL";
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+
+            <td>${escapeHTML(emp.pe || "")}</td>
+
+            <td class="nda-name">
+    <button
+        type="button"
+        class="nda-name-button"
+        onclick="openNDASelection(${index})"
+        title="Night Duty Selection"
+    >
+        ${escapeHTML(emp.name || "")}
+    </button>
+</td>
+
+            <td>${escapeHTML(emp.desig || "")}</td>
+
+            <td>${escapeHTML(emp.station || "")}</td>
+
+            <td>${ndaStartText}</td>
+
+            <td>${ndaEndText}</td>
+
+            <td class="nda-hours">
+                ${dutyHours}
+            </td>
+
+            <td class="nda-remark">
+                ${escapeHTML(remarks)}
+            </td>
+        `;
+
+        body.appendChild(tr);
+    });
+}
+
+/* =========================================================
+   NDA NIGHT DUTY SELECTION
+========================================================= */
+
+let currentNDAEmployee = null;
+
+let temporaryNDASelection = [];
+
+
+/* =========================================================
+   OPEN NDA SELECTION
+========================================================= */
+
+function openNDASelection(employeeIndex) {
+
+    const employee = employees[employeeIndex];
+
+    if (!employee) {
+        return;
+    }
+
+    currentNDAEmployee = employeeIndex;
+
+    /*
+       Temporary selection is loaded from this employee.
+
+       We use a separate temporary array so that
+       clicking Save is what commits the selection.
+    */
+
+    temporaryNDASelection =
+        Array.isArray(employee.ndaSelection)
+            ? [...employee.ndaSelection]
+            : [];
+			
+	document.getElementById(
+    "ndaSelectionRemark"
+).value =
+    employee.ndaRemark || "";
+
+    document.getElementById(
+        "ndaSelectionTitle"
+    ).textContent =
+        "Night Duty";
+
+
+    document.getElementById(
+        "ndaSelectionEmployee"
+    ).textContent =
+        `${(employee.name || "").toUpperCase()} | ${employee.desig || ""}`;
+
+
+    buildNDASelectionCalendar();
+
+
+    document.getElementById(
+        "ndaSelectionOverlay"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* =========================================================
+   BUILD FULL MONTH CALENDAR
+========================================================= */
+
+function buildNDASelectionCalendar() {
+
+    const body =
+        document.getElementById(
+            "ndaSelectionBody"
+        );
+
+    body.innerHTML = "";
+
+
+    const period =
+        document.getElementById(
+            "musterPeriod"
+        ).value;
+
+
+    const year =
+        Number(
+            document.getElementById(
+                "musterYear"
+            ).value
+        );
+
+
+    const [startMonth] =
+        period.split("-").map(Number);
+
+
+    /*
+       JavaScript month is zero based.
+    */
+
+    const month =
+        startMonth - 1;
+
+
+    const days =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+
+    const weekdayNames = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ];
+
+
+    const currentMonth =
+        monthNames[month];
+
+
+    const previousMonth =
+        monthNames[
+            (month + 11) % 12
+        ];
+
+
+    const nextMonth =
+        monthNames[
+            (month + 1) % 12
+        ];
+
+
+    const duties = [];
+
+
+    /* =====================================================
+       PREVIOUS MONTH LAST DAY → 01
+       6 HOURS
+    ===================================================== */
+
+    const previousLastDate =
+        new Date(
+            year,
+            month,
+            0
+        );
+
+
+    const currentFirstDate =
+        new Date(
+            year,
+            month,
+            1
+        );
+
+
+    duties.push({
+
+        id: "previous-first",
+
+        text:
+            `${String(previousLastDate.getDate()).padStart(2, "0")} ${previousMonth} → 01 ${currentMonth}`,
+
+        weekdays:
+            `${weekdayNames[previousLastDate.getDay()]} → ${weekdayNames[currentFirstDate.getDay()]}`,
+
+        hours: 6,
+
+        className: "first-duty"
+
+    });
+
+
+    /* =====================================================
+       NORMAL DUTIES
+       8 HOURS
+    ===================================================== */
+
+    for (
+        let day = 1;
+        day < days;
+        day++
+    ) {
+
+        const firstDate =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+
+        const secondDate =
+            new Date(
+                year,
+                month,
+                day + 1
+            );
+
+
+        duties.push({
+
+            id:
+                `duty-${day}`,
+
+            text:
+                `${String(day).padStart(2, "0")} ${currentMonth} → ${String(day + 1).padStart(2, "0")} ${currentMonth}`,
+
+            weekdays:
+                `${weekdayNames[firstDate.getDay()]} → ${weekdayNames[secondDate.getDay()]}`,
+
+            hours: 8,
+
+            className: ""
+
+        });
+
+    }
+
+
+    /* =====================================================
+       LAST DAY → NEXT MONTH 01
+       2 HOURS
+    ===================================================== */
+
+    const lastDate =
+        new Date(
+            year,
+            month,
+            days
+        );
+
+
+    const nextFirstDate =
+        new Date(
+            year,
+            month + 1,
+            1
+        );
+
+
+    duties.push({
+
+        id: "last-next",
+
+        text:
+            `${String(days).padStart(2, "0")} ${currentMonth} → 01 ${nextMonth}`,
+
+        weekdays:
+            `${weekdayNames[lastDate.getDay()]} → ${weekdayNames[nextFirstDate.getDay()]}`,
+
+        hours: 2,
+
+        className: "last-duty"
+
+    });
+
+
+    /* =====================================================
+       CREATE ROWS
+    ===================================================== */
+
+    duties.forEach(
+        duty => {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "duty-pair " +
+                duty.className;
+
+
+            const input =
+                document.createElement(
+                    "input"
+                );
+
+
+            input.type =
+                "checkbox";
+
+
+            input.id =
+                "nda-duty-" +
+                duty.id;
+
+
+            input.dataset.originalId =
+                duty.id;
+
+
+            input.dataset.hours =
+                duty.hours;
+
+
+            input.checked =
+                temporaryNDASelection.includes(
+                    duty.id
+                );
+
+
+            const label =
+                document.createElement(
+                    "label"
+                );
+
+
+            label.htmlFor =
+                input.id;
+
+
+            label.innerHTML = `
+
+                <span class="duty-date">
+
+                    <span class="duty-dates">
+                        ${duty.text}
+                    </span>
+
+                    <span class="duty-weekdays">
+                        ${duty.weekdays}
+                    </span>
+
+                </span>
+
+                <span class="hours">
+                    ${duty.hours} Hrs
+                </span>
+
+            `;
+
+
+            input.addEventListener(
+                "change",
+                updateNDASelection
+            );
+
+
+            wrapper.appendChild(
+                input
+            );
+
+
+            wrapper.appendChild(
+                label
+            );
+
+
+            body.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+
+    updateNDASelection();
+
+}
+
+
+/* =========================================================
+   UPDATE POPUP TOTALS
+========================================================= */
+
+function updateNDASelection() {
+
+    const body =
+        document.getElementById(
+            "ndaSelectionBody"
+        );
+
+
+    const selected =
+        body.querySelectorAll(
+            "input[type=checkbox]:checked"
+        );
+
+
+    temporaryNDASelection =
+        [...selected].map(
+            input =>
+                input.dataset.originalId
+        );
+
+
+    let hours = 0;
+
+
+    selected.forEach(
+        input => {
+
+            hours +=
+                Number(
+                    input.dataset.hours
+                );
+
+        }
+    );
+
+
+    const unit =
+        hours / 6;
+
+
+    document.getElementById(
+        "ndaSelectionSummary"
+    ).innerHTML = `
+
+        Selected Duties: ${selected.length}<br>
+
+        Total Hours: ${hours}<br>
+
+        Total Unit: ${unit.toFixed(2)}
+
+    `;
+
+}
+
+
+/* =========================================================
+   SAVE NDA SELECTION
+========================================================= */
+
+function updateNDAHours(value) {
+    if (currentNDAEmployee === null) {
+        return;
+    }
+    employees[currentNDAEmployee].nda =
+        value;
+    renderNDATable();
+}
+
+function updateNDARemark(value) {
+    if (currentNDAEmployee === null) {
+        return;
+    }
+    employees[currentNDAEmployee].ndaRemark =
+        value;
+    renderNDATable();
+}
+
+function saveNDASelection() {
+
+    if (
+        currentNDAEmployee === null ||
+        !employees[currentNDAEmployee]
+    ) {
+        return;
+    }
+
+    const employee =
+        employees[currentNDAEmployee];
+
+    /* Save selected duties */
+    employee.ndaSelection =
+        [...temporaryNDASelection];
+
+
+    /* Calculate NDA hours */
+
+    let totalHours = 0;
+
+    temporaryNDASelection.forEach(id => {
+
+        if (id === "previous-first") {
+            totalHours += 6;
+        }
+
+        else if (id === "last-next") {
+            totalHours += 2;
+        }
+
+        else if (id.startsWith("duty-")) {
+            totalHours += 8;
+        }
+
+    });
+
+
+    /* Save total NDA hours */
+	
+	updateNDAHours(totalHours);
+
+
+    /* Save NDA remark */
+
+    updateNDARemark(
+    document.getElementById(
+        "ndaSelectionRemark"
+    ).value.trim()
+);
+
+    closeNDASelection();
+}
+
+/* =========================================================
+   CLOSE NDA SELECTION
+========================================================= */
+
+function closeNDASelection() {
+
+    document.getElementById(
+        "ndaSelectionOverlay"
+    ).style.display =
+        "none";
+
+
+    currentNDAEmployee =
+        null;
+
+
+    temporaryNDASelection =
+        [];
+
+}
+
+
+/* =========================================================
+   CLICK OUTSIDE POPUP
+========================================================= */
+
+document.getElementById(
+    "ndaSelectionOverlay"
+).addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === this
+        ) {
+
+            closeNDASelection();
+
+        }
+
+    }
+);
+
+/* =========================================================
+   UPDATE
+========================================================= */
+
+function updateEmployee(index, field, value) {
+
+    employees[index][field] = value;
+
+    updatePrintHeader();
+
+    
+}
+
+
+function updateDay(select) {
+
+    let row = Number(select.dataset.row);
+    let day = Number(select.dataset.day);
+
+    employees[row].days[day] = select.value;
+
+    select.className =
+        "day-select status-" + select.value;
+}
+
+/* =========================================================
+   PRINT HEADER
+========================================================= */
+
+function updatePrintHeader() {
+	document.getElementById("rentDepot").textContent =
+    document.getElementById("depot").value;
+
+    document.getElementById("rentBU").textContent =
+        document.getElementById("bu").value;
+
+    document.getElementById("rentDepartment").textContent =
+        document.getElementById("department").value;
+
+	document.getElementById("ndaDepot").textContent =
+    document.getElementById("depot").value;
+
+    document.getElementById("ndaBU").textContent =
+        document.getElementById("bu").value;
+
+    document.getElementById("ndaDepartment").textContent =
+        document.getElementById("department").value;
+
+    document.getElementById("ndaStart").textContent =
+        document.getElementById("printStart").textContent;
+
+    document.getElementById("ndaEnd").textContent =
+        document.getElementById("printEnd").textContent;
+
+    document.getElementById("printDepot").textContent =
+        document.getElementById("depot").value;
+
+    document.getElementById("printBU").textContent =
+        document.getElementById("bu").value;
+
+    document.getElementById("printDepartment").textContent =
+        document.getElementById("department").value;
+
+}          
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   SETTINGS CHANGE EVENTS
+========================================================= */
+
+[
+    "depot",
+    "bu",
+    "department",
+    "remarks"
+].forEach(id => {
+
+    document.getElementById(id)
+        .addEventListener("input", () => {
+            updatePrintHeader();
+        });
+});
+
+/* =========================================
+   ATTENDANCE EDITOR
+========================================= */
+
+let currentAttendanceEmployee = null;
+
+function openAttendance(employeeIndex) {
+    currentAttendanceEmployee = employeeIndex;
+    const employee = employees[employeeIndex];
+
+	document.getElementById("attendanceRemark").value =
+    employee.remark || "";
+
+    const overlay =
+        document.getElementById("attendanceOverlay");
+
+    const employeeName =
+        document.getElementById("attendanceEmployee");
+
+    const period =
+        document.getElementById("attendancePeriod");
+
+    const body =
+        document.getElementById("attendanceBody");
+
+
+    employeeName.textContent =
+        `${employee.name || "Unnamed Employee"} • ${employee.pe || ""}`;
+
+
+    const periodText =
+        document.getElementById("musterPeriod")
+            .selectedOptions[0].textContent
+        + " "
+        + document.getElementById("musterYear").value;
+
+    period.textContent = periodText;
+    body.innerHTML = "";
+    dates.forEach((date, dayIndex) => {
+        const value =
+            employee.days &&
+            employee.days[dayIndex]
+                ? employee.days[dayIndex]
+                : "P";
+        const tr =
+            document.createElement("tr");
+        const options =
+            STATUS_OPTIONS.map(status => {
+                return `
+                    <option value="${status}"
+                        ${status === value ? "selected" : ""}>
+                        ${status}
+                    </option>
+                `;
+            }).join("");
+        tr.innerHTML = `
+            <td>${dayIndex + 1}</td>
+            <td class="attendance-date">
+                ${formatDate(date)}
+            </td>
+
+            <td>
+                ${date.toLocaleDateString(
+                    "en-IN",
+                    { weekday: "long" }
+                )}
+            </td>
+
+            <td>
+
+                <select
+                    class="attendance-select"
+                    onchange="
+                        updateAttendance(
+                            ${employeeIndex},
+                            ${dayIndex},
+                            this.value
+                        )
+                    "
+                >
+                    ${options}
+                </select>
+            </td>
+        `;
+        body.appendChild(tr);
+    });
+    updatePresentCount();
+    overlay.style.display = "flex";
+}
+
+function updateAttendance(
+    employeeIndex,
+    dayIndex,
+    value
+) {
+
+    if (!employees[employeeIndex].days) {
+
+        employees[employeeIndex].days =
+            Array(dates.length).fill("P");
+
+    }
+    employees[employeeIndex].days[dayIndex] =
+        value;
+    updatePresentCount();
+
+    /*
+        Update the main muster table
+        immediately.
+    */
+    renderTable();
+}
+
+
+function updatePresentCount() {
+
+    if (currentAttendanceEmployee === null) {
+        return;
+    }
+    const employee =
+        employees[currentAttendanceEmployee];
+    const present =
+        (employee.days || [])
+            .filter(status => status === "P")
+            .length;
+    document.getElementById("presentCount")
+        .textContent = present;
+}
+
+function closeAttendance() {
+
+    document.getElementById(
+        "attendanceOverlay"
+    ).style.display = "none";
+
+    currentAttendanceEmployee = null;
+}
+
+function updateAttendanceRemark(value) {
+
+    if (currentAttendanceEmployee === null) {
+        return;
+    }
+
+    const employee =
+        employees[currentAttendanceEmployee];
+
+    employee.remark = value;
+    updateMainRemarks();    
+}
+
+function updateMainRemarks() {
+    const lines = [];
+    employees.forEach((employee, index) => {
+        if (employee.remark && employee.remark.trim()) {
+            lines.push(`${index + 1}. ${employee.name} : ${employee.remark.trim()}`);
+        }
+    });
+    const screenRemarks = document.getElementById("remarks");
+    const printRemarks = document.getElementById("printRemarks");
+    const bottomSection = document.querySelector(".bottom-section");
+
+    if (lines.length) {
+        // Screen
+        screenRemarks.textContent = lines.join("\n");
+        // Print
+        printRemarks.textContent = lines.join(" , ");
+        // Show section
+        bottomSection.style.display = "";
+    } else {
+        // Screen
+        screenRemarks.textContent = "NO REMARKS";
+        // Print
+        printRemarks.textContent = "";
+        // Keep it visible on screen, but hide during print
+        bottomSection.style.display = "";
+    }
+}
+
+/*============================================
+    Print Muster with name
+============================================*/
+
+function printMuster() {
+
+    const depot = document.getElementById("depot").value.split("/")[1];
+    const period = document.getElementById("musterPeriod").value;
+
+    const months = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    const [startMonth, endMonth] = period.split("-");
+    const periodName = `${months[Number(startMonth) - 1]}-${months[Number(endMonth) - 1]}`;
+
+    const oldTitle = document.title;
+    document.title = `Muster_${periodName}_${depot}`;
+
+	setTimeout(() => {
+        window.print();
+    }, 500);
+    
+    // Restore after printing
+    setTimeout(() => {
+        document.title = oldTitle;
+    }, 1000);
+}
+
+function toggleHeaderMenu() {
+    document.getElementById("headerMenu").classList.toggle("show");
+}
+
+function closeHeaderMenu() {
+    document.getElementById("headerMenu").classList.remove("show");
+}
+
+document.addEventListener("click", function (e) {
+    const menu = document.querySelector(".header-menu");
+    if (!menu.contains(e.target)) {
+        closeHeaderMenu();
+    }
+});
+
+/* =========================================
+   SAVE ATTENDANCE
+========================================= */
+
+async function saveAttendance() {
+
+    const token =
+        window.musterAuthToken ||
+        localStorage.getItem("musterAuthToken");
+
+    const depot =
+        getCurrentDepot();
+
+    const period =
+        document.getElementById("musterPeriod").value;
+
+    const year =
+        document.getElementById("musterYear").value;
+
+    if (!token) {
+        
+        logoutMuster();
+        return;
+    }
+
+    if (!employees || employees.length === 0) {
+        alert("No employee data available.");
+        return;
+    }
+
+    /* -----------------------------------------
+       PREPARE ATTENDANCE ONLY
+    ----------------------------------------- */
+
+    const attendance =
+    employees.map(employee => ({
+        pe: employee.pe || "",
+        days: employee.days || [],
+        nda: employee.nda || "",
+        ndaRemark: employee.ndaRemark || "",
+        ndaSelection: employee.ndaSelection || [],
+        remark: employee.remark || ""
+    }));
+
+    /* -----------------------------------------
+       PERIOD
+    ----------------------------------------- */
+
+    const savePeriod =
+        year + "-" + period;
+		
+		showStatus(
+    "Saving Attendance",
+    "Please wait...",
+    "loading"
+);
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL + "/api/attendance/save",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body: JSON.stringify({
+                        depot: depot,
+                        period: savePeriod,
+                        attendance: attendance
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        /* -----------------------------------------
+           TOKEN INVALID
+        ----------------------------------------- */
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            alert(
+                "Login session expired. Please login again."
+            );
+
+            logoutMuster();
+            return;
+        }
+
+        /* -----------------------------------------
+           SAVE FAILED
+        ----------------------------------------- */
+
+        if (!response.ok || !data.success) {
+
+            console.error(
+                "Save attendance error:",
+                data
+            );
+
+            showError(
+    "Save Failed",
+    "Unable to save attendance."
+);
+
+            return;
+        }
+
+        /* -----------------------------------------
+           SUCCESS
+        ----------------------------------------- */
+
+        showSuccess(
+    "Attendance Saved",
+    "Attendance has been saved successfully."
+);
+
+        console.log(
+            "Attendance saved:",
+            data
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Save attendance error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to server."
+        );
+    }
+}
+
+/* =========================================
+   SYNC ATTENDANCE
+========================================= */
+
+async function syncAttendance(showMessage = false) {
+
+
+if (showMessage) {
+    showStatus(
+        "Syncing Attendance",
+        "Checking saved attendance...",
+        "loading"
+    );
+}
+
+    const token =
+        window.musterAuthToken ||
+        localStorage.getItem("musterAuthToken");
+
+    const depot =
+        getCurrentDepot();
+
+    const period =
+        document.getElementById("musterYear").value +
+        "-" +
+        document.getElementById("musterPeriod").value;
+
+    if (!token) {
+        alert("Login session expired. Please login again.");
+        logoutMuster();
+        return;
+    }
+
+    if (!employees || employees.length === 0) {
+        alert("No employee data available.");
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL +
+                "/api/attendance/sync?depot=" +
+                encodeURIComponent(depot) +
+                "&period=" +
+                encodeURIComponent(period),
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+        const data =
+            await response.json();
+
+        /* -----------------------------------------
+           TOKEN INVALID
+        ----------------------------------------- */
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            alert(
+                "Login session expired. Please login again."
+            );
+
+            logoutMuster();
+            return;
+        }
+
+        /* -----------------------------------------
+           SYNC ERROR
+        ----------------------------------------- */
+
+        if (!response.ok || !data.success) {
+
+            console.error(
+                "Sync attendance error:",
+                data
+            );
+
+            alert(
+                data.message ||
+                "Unable to sync attendance."
+            );
+
+            return;
+        }
+
+        /* -----------------------------------------
+           NO SAVED DATA
+        ----------------------------------------- */
+
+        if (!data.found) {
+
+    console.log(
+        "No saved attendance found for this muster period."
+    );
+	if (showMessage) {
+
+                showInfo(
+
+                    "No Saved Attendance",
+
+                    "No attendance was found for this muster period."
+
+                );
+
+            }
+
+            return;
+}
+
+        const savedAttendance =
+            data.attendance || [];
+
+        /* -----------------------------------------
+           MATCH USING PF NUMBER
+        ----------------------------------------- */
+
+        let syncedCount = 0;
+
+        employees.forEach(employee => {
+
+            const saved =
+                savedAttendance.find(
+                    item =>
+                        String(item.pe || "").trim() ===
+                        String(employee.pe || "").trim()
+                );
+
+            if (!saved) {
+                return;
+            }
+
+            /* Attendance */
+
+            if (Array.isArray(saved.days)) {
+
+                employee.days =
+                    [...saved.days];
+
+            }
+
+            /* NDA */
+
+            employee.nda =
+                saved.nda || "";
+
+            /* NDA Remark */
+
+            employee.ndaRemark =
+                saved.ndaRemark || "";
+				
+			/* NDA Selection */
+
+			if (Array.isArray(saved.ndaSelection)) {
+    				employee.ndaSelection = [...saved.ndaSelection];
+			}
+
+            /* Employee Remark */
+
+            employee.remark =
+                saved.remark || "";
+
+            syncedCount++;
+
+        });
+
+        /* -----------------------------------------
+           REFRESH TABLES
+        ----------------------------------------- */
+
+        renderTable();
+
+        updateMainRemarks();
+
+        /* -----------------------------------------
+           RESULT
+        ----------------------------------------- */
+
+        if (showMessage) {
+    showSuccess(
+        "Sync Complete",
+        syncedCount +
+        " employee(s) updated.",
+        1200
+    );
+}
+
+        console.log(
+            "Attendance synced:",
+            syncedCount
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Sync attendance error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to server."
+        );
+    }
+}
+
+/* =========================================================
+   FILL ALL P/NDA/Remark
+========================================================= */
+function resetData() {
+    employees.forEach(emp => {
+        /* Reset attendance to P */
+        emp.days = Array(dates.length).fill("P");
+
+        /* Reset NDA */
+        emp.nda = "";
+
+        /* Reset NDA Remark */
+        emp.ndaRemark = "";
+
+        /* Reset Employee Remark */
+        emp.remark = "";
+
+    });
+    renderTable();
+
+    /* Update main remarks if required */
+    if (typeof updateMainRemarks === "function") {
+        updateMainRemarks();
+    }
+}
+
+/* =========================================
+   GLOBAL STATUS OVERLAY
+========================================= */
+
+function showStatus(title, message = "", type = "loading") {
+
+    const overlay = document.getElementById("statusOverlay");
+    const spinner = document.getElementById("statusSpinner");
+    const icon = document.getElementById("statusIcon");
+    const titleEl = document.getElementById("statusTitle");
+    const messageEl = document.getElementById("statusMessage");
+
+    if (!overlay) return;
+
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+
+    /* Reset */
+
+    spinner.classList.add("hidden");
+    icon.className = "status-icon";
+    icon.textContent = "";
+
+    /* Loading */
+    if (type === "loading") {
+        spinner.classList.remove("hidden");
+    }
+    /* Success */
+    else if (type === "success") {
+        icon.classList.add("success");
+        icon.textContent = "✓";
+    }
+    /* Error */
+    else if (type === "error") {
+        icon.classList.add("error");
+        icon.textContent = "✕";
+
+    }
+    /* Info */
+    else if (type === "info") {
+        icon.classList.add("info");
+        icon.textContent = "i";
+    }
+    overlay.classList.add("show");
+}
+
+/* =========================================
+   HIDE STATUS
+========================================= */
+
+function hideStatus() {
+    const overlay =
+        document.getElementById("statusOverlay");
+    if (overlay) {
+        overlay.classList.remove("show");
+    }
+}
+
+/* =========================================
+   SUCCESS MESSAGE
+========================================= */
+
+function showSuccess(title, message = "", duration = 1800) {
+    showStatus(title, message, "success");
+    setTimeout(() => {
+        hideStatus();
+    }, duration);
+}
+
+/* =========================================
+   ERROR MESSAGE
+========================================= */
+
+function showError(title, message = "", duration = 2500) {
+    showStatus(title, message, "error");
+    setTimeout(() => {
+        hideStatus();
+    }, duration);
+}
+
+/* =========================================
+   INFO MESSAGE
+========================================= */
+
+function showInfo(title, message = "", duration = 2000) {
+    showStatus(title, message, "info");
+    setTimeout(() => {
+        hideStatus();
+    }, duration);
+}
+
+function showAppLoading() {
+    const overlay =
+        document.getElementById("appLoadingOverlay");
+    if (overlay) {
+        overlay.style.display = "flex";
+    }
+}
+
+function hideAppLoading() {
+    const overlay =
+        document.getElementById("appLoadingOverlay");
+    if (overlay) {
+        overlay.style.display = "none";
+    }
+}
+
+/* =========================================================
+   GENERATE NDA PDF — OLD FORMAT
+========================================================= */
+
+function generatePDF() {
+
+    const printCSS =
+        document.getElementById("printCSS");
+
+    const ndaCSS =
+        document.getElementById("ndaCSS");
+
+    /* =====================================================
+       DISABLE NORMAL MUSTER PRINT CSS
+    ===================================================== */
+
+    if (printCSS) {
+        printCSS.disabled = true;
+    }
+
+    if (ndaCSS) {
+        ndaCSS.disabled = false;
+    }
+
+    /* =====================================================
+       MUSTER PERIOD
+    ===================================================== */
+
+    const period =
+        document.getElementById("musterPeriod").value;
+
+    const year =
+        Number(
+            document.getElementById("musterYear").value
+        );
+
+    const [startMonth] =
+        period.split("-").map(Number);
+
+    const monthIndex =
+        startMonth - 1;
+
+
+    const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+    const month =
+        monthNames[monthIndex];
+
+
+    /* =====================================================
+       GET NDA DUTY DATES
+    ===================================================== */
+
+    function getNDADates(emp) {
+
+        const selection =
+            Array.isArray(emp.ndaSelection)
+                ? emp.ndaSelection
+                : [];
+
+
+        const dates = [];
+
+
+        const days =
+            new Date(
+                year,
+                monthIndex + 1,
+                0
+            ).getDate();
+
+
+        selection.forEach(id => {
+
+
+            /* =============================================
+               PREVIOUS MONTH LAST DAY
+               Example:
+               31 July → 01 August
+            ============================================= */
+
+            if (id === "previous-first") {
+
+                const previousLastDate =
+                    new Date(
+                        year,
+                        monthIndex,
+                        0
+                    );
+
+
+                dates.push(
+                    `${String(
+                        previousLastDate.getDate()
+                    ).padStart(2, "0")}-${String(
+                        monthIndex
+                    ).padStart(2, "0")}`
+                );
+
+                return;
+            }
+
+
+            /* =============================================
+               NORMAL DUTY
+               Example:
+               01 August → 02 August
+            ============================================= */
+
+            if (id.startsWith("duty-")) {
+
+                const day =
+                    Number(
+                        id.replace(
+                            "duty-",
+                            ""
+                        )
+                    );
+
+
+                dates.push(
+                    `${String(day).padStart(2, "0")}-${String(
+                        monthIndex + 1
+                    ).padStart(2, "0")}`
+                );
+
+                return;
+            }
+
+
+            /* =============================================
+               LAST DAY
+               Example:
+               31 August → 01 September
+            ============================================= */
+
+            if (id === "last-next") {
+
+                dates.push(
+                    `${String(days).padStart(2, "0")}-${String(
+                        monthIndex + 1
+                    ).padStart(2, "0")}`
+                );
+
+            }
+
+        });
+
+
+        return dates;
+    }
+
+
+    /* =====================================================
+       EMPLOYEE ROWS
+    ===================================================== */
+
+    const rows =
+        employees
+            .map(
+                (emp, index) => {
+
+
+                    const selection =
+                        Array.isArray(
+                            emp.ndaSelection
+                        )
+                            ? emp.ndaSelection
+                            : [];
+
+
+                    let hours = 0;
+
+
+                    selection.forEach(id => {
+
+                        if (
+                            id ===
+                            "previous-first"
+                        ) {
+
+                            hours += 6;
+
+                        }
+                        else if (
+                            id ===
+                            "last-next"
+                        ) {
+
+                            hours += 2;
+
+                        }
+                        else if (
+                            id.startsWith(
+                                "duty-"
+                            )
+                        ) {
+
+                            hours += 8;
+
+                        }
+
+                    });
+
+
+                    const unit =
+                        hours / 6;
+
+
+                    const dates =
+                        getNDADates(emp);
+
+
+                    return `
+
+                        <tr>
+
+                            <td class="nda-sno">
+                                ${index + 1}
+                            </td>
+
+
+                            <td class="nda-employee">
+
+                                ${escapeHTML(
+                                    emp.name || ""
+                                )}
+
+                                <br>
+
+                                <strong>
+                                    PF:
+                                    ${escapeHTML(
+                                        emp.pe || ""
+                                    )}
+                                </strong>
+
+                                <br>
+
+                                <strong>
+                                    BU:
+                                    ${escapeHTML(
+                                        emp.station || ""
+                                    )}
+                                </strong>
+
+                            </td>
+
+
+                            <td class="nda-desig">
+
+                                ${escapeHTML(
+                                    emp.desig || ""
+                                )}
+
+                            </td>
+
+
+                            <td class="nda-dates">
+
+                                ${
+                                    dates.length
+                                        ? dates.join(", ")
+                                        : "-"
+                                }
+
+                            </td>
+
+
+                            <td class="nda-hours">
+
+                                ${hours}
+
+                            </td>
+
+
+                            <td class="nda-unit">
+
+                                ${unit.toFixed(2)}
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    /* =====================================================
+       CREATE NDA PRINT AREA
+    ===================================================== */
+
+    document.getElementById(
+        "printArea"
+    ).innerHTML = `
+
+        <div class="nda-preview-page">
+
+
+            <div class="nda-letter-line">
+
+                From,<br>
+
+                SMR/KONDAPURAM
+
+            </div>
+
+
+            <div class="nda-letter-line">
+
+                To,<br>
+
+                Sr. DPO, GUNTAKAL
+
+            </div>
+
+
+            <div class="nda-subject">
+
+                <strong>
+                    Subject:
+                </strong>
+
+                Submission of Night Duty Allowance
+                for the month of
+                ${month}, ${year}.
+
+            </div>
+
+
+            <div class="nda-letter-line">
+
+                Respected Sir,
+
+            </div>
+
+
+            <div class="nda-letter-line">
+
+                The Detail of the Night Duty Allowance
+                for the Month of
+                ${month}, ${year}
+                of the Following Employee:
+                This is for Your Kind Attention.
+
+            </div>
+
+
+            <table class="nda-preview-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            SNo
+                        </th>
+
+                        <th>
+                            Name of the<br>
+                            Employee
+                        </th>
+
+                        <th>
+                            Desg.
+                        </th>
+
+                        <th>
+                            Date on which<br>
+                            Night Duty Performed
+                        </th>
+
+                        <th>
+                            Hours
+                        </th>
+
+                        <th>
+                            Unit
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    ${rows}
+
+                </tbody>
+
+            </table>
+
+
+            <div class="nda-bottom">
+
+                <div>
+
+                    <strong>
+                        Date:
+                    </strong>
+
+                    <br><br>
+
+                    <strong>
+                        Place:
+                    </strong>
+
+                </div>
+
+
+                <div class="nda-signature">
+
+                    SMR/KONDAPURAM
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
+
+
+    /* =====================================================
+       RESTORE NORMAL PRINT CSS AFTER PRINT
+    ===================================================== */
+
+    window.addEventListener(
+        "afterprint",
+        function restorePrintCSS() {
+
+            if (printCSS) {
+                printCSS.disabled = false;
+            }
+
+            window.removeEventListener(
+                "afterprint",
+                restorePrintCSS
+            );
+
+        }
+    );
+
+
+    window.print();
+
+}
+
+</script>
+</body>
+</html>
