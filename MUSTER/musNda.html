@@ -34,7 +34,7 @@
             </button>
             <div id="headerMenu" class="header-menu-dropdown">
                 <button onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
-            		<button onclick="generatePDF(); closeHeaderMenu();">👁️View NDA</button>
+            		<button onclick="generatePDF(); closeHeaderMenu();">🖨️ Print NDA</button>
 				<button onclick="syncAttendance(true); closeHeaderMenu();">🔄 Sync Attendance</button>
 				<button onclick="saveAttendance(); closeHeaderMenu();">💾 Save Attendance</button>
 				<button onclick="resetData(); closeHeaderMenu();">🔘 Reset Attendance</button>
@@ -666,6 +666,7 @@ function changeMusterPeriod() {
         employee.nda = "";
         employee.ndaRemark = "";
         employee.remark = "";
+		employee.ndaSelection = "";
 
     });
 
@@ -2880,6 +2881,9 @@ function generatePDF() {
     /* =====================================================
        EMPLOYEE ROWS
     ===================================================== */
+	
+	const billUnit = document.getElementById("bu").value;
+	console.log(billUnit);
 
     const rows =
         employees
@@ -2966,7 +2970,7 @@ function generatePDF() {
                                 <strong>
                                     BU:
                                     ${escapeHTML(
-                                        emp.station || ""
+                                        billUnit || ""
                                     )}
                                 </strong>
 
@@ -3106,75 +3110,44 @@ function generatePDF() {
                         <th>
                             Unit
                         </th>
-
                     </tr>
-
                 </thead>
-
-
                 <tbody>
-
                     ${rows}
-
                 </tbody>
-
             </table>
-
-
             <div class="nda-bottom">
-
                 <div>
-
                     <strong>
                         Date:
                     </strong>
-
                     <br><br>
-
                     <strong>
                         Place:
                     </strong>
-
                 </div>
-
-
                 <div class="nda-signature">
-
                     SMR/KONDAPURAM
-
                 </div>
-
             </div>
-
-
         </div>
-
     `;
-
-
     /* =====================================================
        RESTORE NORMAL PRINT CSS AFTER PRINT
     ===================================================== */
-
     window.addEventListener(
         "afterprint",
         function restorePrintCSS() {
-
             if (printCSS) {
                 printCSS.disabled = false;
             }
-
             window.removeEventListener(
                 "afterprint",
                 restorePrintCSS
             );
-
         }
     );
-
-
     window.print();
-
 }
 
 </script>
