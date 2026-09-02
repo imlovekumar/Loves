@@ -35,6 +35,9 @@ select:disabled {
     -webkit-text-fill-color: #333333 !important; /* Fix for Safari iOS text dimming */
 }
 
+#printArea {
+    display: none;
+}
 
 /* =========================================
    HEADER
