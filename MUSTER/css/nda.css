@@ -17,8 +17,11 @@
     body * {
         visibility: hidden !important;
     }
-
-
+    
+    body {
+    		background: none !important;
+	}
+    
     #printArea,
     #printArea * {
         visibility: visible !important;
