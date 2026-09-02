@@ -17,11 +17,12 @@
     body * {
         visibility: hidden !important;
     }
-    
-    body {
+	
+	body {
     		background: none !important;
 	}
-    
+
+
     #printArea,
     #printArea * {
         visibility: visible !important;
@@ -35,7 +36,7 @@
         width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
-        display: block;
+		display: block;
     }
 
 
@@ -46,17 +47,11 @@
     .nda-preview-page {
 
         width: 100% !important;
-
         box-sizing: border-box;
-
         font-family: Arial, sans-serif;
-
         font-size: 12px;
-
         color: #000;
-
         background: #fff;
-
     }
 
 
@@ -65,22 +60,13 @@
     ===================================================== */
 
     .nda-letter-line {
-
         margin-bottom: 14px;
-
-        line-height: 1.5;
-
     }
 
 
     .nda-subject {
-
         margin-top: 18px;
-
         margin-bottom: 18px;
-
-        line-height: 1.5;
-
     }
 
 
@@ -91,43 +77,27 @@
     .nda-preview-table {
 
         width: 100% !important;
-
         border-collapse: collapse !important;
-
         border-spacing: 0 !important;
-
         margin-top: 18px;
-
         font-size: 11px;
-
     }
-
 
     .nda-preview-table th,
     .nda-preview-table td {
-
         border: 1px solid #000 !important;
-
-        padding: 6px !important;
-
+        padding: 4px !important;
     }
 
-
     .nda-preview-table th {
-
         text-align: center;
-
         vertical-align: middle;
-
         font-weight: bold;
-
     }
 
 
     .nda-preview-table td {
-
-        vertical-align: top;
-
+        vertical-align: middle;
     }
 
 
@@ -136,74 +106,40 @@
     ===================================================== */
 
     .nda-sno {
-
-        width: 7%;
-
+        width: 6%;
         text-align: center;
-
-        vertical-align: top;
-
+        vertical-align: middle;
     }
-
 
     .nda-employee {
-
-        width: 28%;
-
+        width: 23%;
         text-align: left;
-
-        vertical-align: top;
-
-        line-height: 1.4;
-
+        vertical-align: middle;
     }
-
 
     .nda-desig {
-
-        width: 12%;
-
-        text-align: center;
-
-        vertical-align: top;
-
+        width: 10%;
+        text-align: left;
+        vertical-align: middle;
     }
-
 
     .nda-dates {
-
-        width: 35%;
-
+        width: 45%;
         text-align: left;
-
-        vertical-align: top;
-
-        line-height: 1.5;
-
+        vertical-align: middle;
     }
-
 
     .nda-hours {
-
-        width: 9%;
-
+        width: 8%;
         text-align: center;
-
-        vertical-align: top;
-
+        vertical-align: middle;
     }
-
 
     .nda-unit {
-
-        width: 9%;
-
+        width: 8%;
         text-align: center;
-
-        vertical-align: top;
-
+        vertical-align: middle;
     }
-
 
     /* =====================================================
        BOTTOM
