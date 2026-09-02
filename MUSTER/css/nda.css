@@ -11,9 +11,6 @@
 /* =========================================================
    HIDE EVERYTHING EXCEPT NDA PRINT AREA
 ========================================================= */
-
-@media print {
-
     body * {
         visibility: hidden !important;
     }
@@ -75,7 +72,6 @@
     ===================================================== */
 
     .nda-preview-table {
-
         width: 100% !important;
         border-collapse: collapse !important;
         border-spacing: 0 !important;
@@ -94,7 +90,6 @@
         vertical-align: middle;
         font-weight: bold;
     }
-
 
     .nda-preview-table td {
         vertical-align: middle;
@@ -118,13 +113,13 @@
     }
 
     .nda-desig {
-        width: 10%;
+        width: 9%;
         text-align: left;
         vertical-align: middle;
     }
 
     .nda-dates {
-        width: 45%;
+        width: 46%;
         text-align: left;
         vertical-align: middle;
     }
@@ -187,5 +182,3 @@
         page-break-after: auto;
 
     }
-
-}
