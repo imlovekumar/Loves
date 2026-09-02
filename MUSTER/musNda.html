@@ -3140,6 +3140,7 @@ function generatePDF() {
         function restorePrintCSS() {
             if (printCSS) {
                 printCSS.disabled = false;
+				ndaCSS.disabled = true;
             }
             window.removeEventListener(
                 "afterprint",
