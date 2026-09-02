@@ -1,0 +1,251 @@
+/* =========================================================
+   NDA PRINT — OLD FORMAT
+========================================================= */
+
+@page {
+    size: A4 portrait;
+    margin: 15mm;
+}
+
+
+/* =========================================================
+   HIDE EVERYTHING EXCEPT NDA PRINT AREA
+========================================================= */
+
+@media print {
+
+    body * {
+        visibility: hidden !important;
+    }
+
+
+    #printArea,
+    #printArea * {
+        visibility: visible !important;
+    }
+
+
+    #printArea {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+
+    /* =====================================================
+       NDA PAGE
+    ===================================================== */
+
+    .nda-preview-page {
+
+        width: 100% !important;
+
+        box-sizing: border-box;
+
+        font-family: Arial, sans-serif;
+
+        font-size: 12px;
+
+        color: #000;
+
+        background: #fff;
+
+    }
+
+
+    /* =====================================================
+       LETTER TEXT
+    ===================================================== */
+
+    .nda-letter-line {
+
+        margin-bottom: 14px;
+
+        line-height: 1.5;
+
+    }
+
+
+    .nda-subject {
+
+        margin-top: 18px;
+
+        margin-bottom: 18px;
+
+        line-height: 1.5;
+
+    }
+
+
+    /* =====================================================
+       NDA TABLE
+    ===================================================== */
+
+    .nda-preview-table {
+
+        width: 100% !important;
+
+        border-collapse: collapse !important;
+
+        border-spacing: 0 !important;
+
+        margin-top: 18px;
+
+        font-size: 11px;
+
+    }
+
+
+    .nda-preview-table th,
+    .nda-preview-table td {
+
+        border: 1px solid #000 !important;
+
+        padding: 6px !important;
+
+    }
+
+
+    .nda-preview-table th {
+
+        text-align: center;
+
+        vertical-align: middle;
+
+        font-weight: bold;
+
+    }
+
+
+    .nda-preview-table td {
+
+        vertical-align: top;
+
+    }
+
+
+    /* =====================================================
+       COLUMN ALIGNMENT
+    ===================================================== */
+
+    .nda-sno {
+
+        width: 7%;
+
+        text-align: center;
+
+        vertical-align: top;
+
+    }
+
+
+    .nda-employee {
+
+        width: 28%;
+
+        text-align: left;
+
+        vertical-align: top;
+
+        line-height: 1.4;
+
+    }
+
+
+    .nda-desig {
+
+        width: 12%;
+
+        text-align: center;
+
+        vertical-align: top;
+
+    }
+
+
+    .nda-dates {
+
+        width: 35%;
+
+        text-align: left;
+
+        vertical-align: top;
+
+        line-height: 1.5;
+
+    }
+
+
+    .nda-hours {
+
+        width: 9%;
+
+        text-align: center;
+
+        vertical-align: top;
+
+    }
+
+
+    .nda-unit {
+
+        width: 9%;
+
+        text-align: center;
+
+        vertical-align: top;
+
+    }
+
+
+    /* =====================================================
+       BOTTOM
+    ===================================================== */
+
+    .nda-bottom {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        margin-top: 35px;
+
+        width: 100%;
+
+    }
+
+
+    .nda-signature {
+
+        min-width: 180px;
+
+        text-align: center;
+
+        font-weight: bold;
+
+    }
+
+
+    /* =====================================================
+       TABLE PAGE BREAK
+    ===================================================== */
+
+    .nda-preview-table {
+
+        page-break-inside: auto;
+
+    }
+
+
+    .nda-preview-table tr {
+
+        page-break-inside: avoid;
+
+        page-break-after: auto;
+
+    }
+
+}
