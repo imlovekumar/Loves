@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NDA Generator</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #111827;
+}
+
+.app {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin: 0 0 20px;
+}
+
+.panel {
+    background: #fff;
+    padding: 18px;
+    margin-bottom: 18px;
+    border: 1px solid #d5dbe3;
+    border-radius: 10px;
+}
+
+.panel-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #b9c2ce;
+    border-radius: 6px;
+}
+
+/* =========================
+   EMPLOYEE TABLE
+========================= */
+
+.employee-header {
+    display: grid;
+    grid-template-columns: 135px 2fr 90px 70px 65px 65px;
+    gap: 10px;
+    padding: 0 12px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #64748b;
+}
+
+.employee-row {
+    display: grid;
+    grid-template-columns: 135px 2fr 90px 70px 65px 65px;
+    gap: 10px;
+    align-items: center;
+
+    padding: 11px 12px;
+    margin-bottom: 8px;
+
+    border: 1px solid #d5dbe3;
+    border-radius: 7px;
+
+    background: #fff;
+}
+
+.employee-row:hover {
+    background: #f8fafc;
+}
+
+.employee-pe {
+    font-size: 12px;
+    color: #475569;
+    word-break: break-all;
+}
+
+.employee-name {
+    color: #2563eb;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.employee-name:hover {
+    text-decoration: underline;
+}
+
+.employee-desig {
+    font-size: 13px;
+}
+
+.employee-station {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.employee-duty-count,
+.employee-hours,
+.employee-unit {
+    text-align: center;
+    font-weight: bold;
+}
+
+.no-employees {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+    border: 0;
+    border-radius: 6px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+.pdf-btn {
+    background: #111827;
+    color: #fff;
+}
+
+.pdf-btn:hover {
+    background: #1f2937;
+}
+
+.clear-btn {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.clear-btn:hover {
+    background: #d1d5db;
+}
+
+.save-duty-btn {
+    background: #2563eb;
+    color: #fff;
+}
+
+.save-duty-btn:hover {
+    background: #1d4ed8;
+}
+
+.close-modal {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 50%;
+    background: #e5e7eb;
+    color: #111827;
+    font-size: 20px;
+    line-height: 34px;
+}
+
+.close-modal:hover {
+    background: #d1d5db;
+}
+
+/* =========================
+   POPUP
+========================= */
+
+.employee-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 15px;
+    z-index: 1000;
+}
+
+.employee-modal {
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh;
+
+    background: #fff;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+    overflow: hidden;
+}
+
+.employee-modal-header {
+    padding: 15px 18px;
+
+    border-bottom: 1px solid #d5dbe3;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.employee-modal-title {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.employee-modal-info {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.employee-duty-calendar {
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.employee-duty-calendar .calendar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+/* =========================
+   DUTY PAIRS
+========================= */
+
+.duty-pair {
+    position: relative;
+}
+
+.duty-pair input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.duty-pair label {
+    min-height: 56px;
+    margin: 0;
+    padding: 7px 12px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+
+    border: 1px solid #c8d0da;
+    border-radius: 6px;
+
+    cursor: pointer;
+    background: #fff;
+
+    font-weight: normal;
+}
+
+.duty-pair input:checked + label {
+    background: #dcecff;
+    border-color: #2563eb;
+    font-weight: bold;
+}
+
+.duty-pair .hours {
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.first-duty label {
+    border-left: 4px solid #2563eb;
+}
+
+.last-duty label {
+    border-left: 4px solid #dc2626;
+}
+
+/* =========================
+   DATE + WEEKDAY
+========================= */
+
+.duty-date {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.duty-dates {
+    line-height: 1.2;
+}
+
+.duty-weekdays {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: normal;
+}
+
+.duty-pair input:checked + label .duty-weekdays {
+    color: #1e40af;
+    font-weight: bold;
+}
+
+/* =========================
+   POPUP FOOTER
+========================= */
+
+.employee-modal-footer {
+    padding: 12px 15px;
+
+    border-top: 1px solid #d5dbe3;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.employee-modal-summary {
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.6;
+}
+
+/* =========================
+   PRINT / PDF
+========================= */
+
+#printArea {
+    display: none;
+}
+
+.preview-page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 18mm 14mm;
+
+    background: white;
+
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.letter-line {
+    margin-bottom: 20px;
+}
+
+.subject {
+    margin: 25px 0 18px;
+}
+
+.preview-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 45px;
+    table-layout: fixed;
+}
+
+.preview-table th,
+.preview-table td {
+    border: 1px solid #777;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+.preview-table th {
+    text-align: center;
+}
+
+.preview-table th:nth-child(1) {
+    width: 7%;
+}
+
+.preview-table th:nth-child(2) {
+    width: 23%;
+}
+
+.preview-table th:nth-child(3) {
+    width: 9%;
+}
+
+.preview-table th:nth-child(4) {
+    width: 49%;
+}
+
+.preview-table th:nth-child(5) {
+    width: 6%;
+}
+
+.preview-table th:nth-child(6) {
+    width: 6%;
+}
+
+.date-cell {
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.bottom {
+    margin-top: 35px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.signature {
+    text-align: center;
+    min-width: 180px;
+}
+
+@media (max-width: 700px) {
+
+    .form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .employee-header {
+        display: none;
+    }
+
+    .employee-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+    }
+
+    .employee-pe {
+        grid-column: 1 / -1;
+    }
+
+    .employee-name {
+        grid-column: 1 / -1;
+        font-size: 15px;
+    }
+
+    .employee-desig,
+    .employee-station {
+        font-size: 12px;
+    }
+
+    .employee-duty-count,
+    .employee-hours,
+    .employee-unit {
+        text-align: left;
+    }
+
+    .employee-modal {
+        max-height: 94vh;
+    }
+
+    .employee-modal-footer {
+        align-items: flex-start;
+    }
+
+    .employee-modal-summary {
+        font-size: 12px;
+    }
+}
+
+@media print {
+
+    body > * {
+        display: none !important;
+    }
+
+    #printArea {
+        display: block !important;
+    }
+
+    .preview-page {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 18mm 14mm;
+    }
+
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<h1>Night Duty Allowance Generator</h1>
+
+
+<!-- =========================
+     NDA MONTH
+========================= -->
+
+<div class="panel">
+
+<div class="panel-title">
+    NDA Month
+</div>
+
+<div class="form-grid">
+
+<div>
+<label>Month</label>
+<select id="month"></select>
+</div>
+
+<div>
+<label>Year</label>
+<input id="year" type="number">
+</div>
+
+<div>
+<label>From</label>
+<input id="from" value="SMR/Kondapuram">
+</div>
+
+<div>
+<label>To</label>
+<input id="to" value="Sr.DPO, Guntakal">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     EMPLOYEES
+========================= -->
+
+<div class="panel">
+
+<div class="panel-title">
+    Employees
+</div>
+
+<div class="employee-header">
+    <div>PE No.</div>
+    <div>Name</div>
+    <div>Desig.</div>
+    <div>Station</div>
+    <div>Duties</div>
+    <div>Hours</div>
+</div>
+
+<div id="employees"
+     class="employee-list">
+</div>
+
+<div class="buttons">
+
+<button
+    class="pdf-btn"
+    type="button"
+    onclick="generatePDF()">
+    Generate / Print PDF
+</button>
+
+<button
+    class="clear-btn"
+    type="button"
+    onclick="clearAll()">
+    Clear All
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     EMPLOYEE DUTY POPUP
+========================= -->
+
+<div
+    id="employeeOverlay"
+    class="employee-overlay">
+
+<div class="employee-modal">
+
+
+<div class="employee-modal-header">
+
+<div>
+
+<div
+    id="employeeModalTitle"
+    class="employee-modal-title">
+    Night Duty
+</div>
+
+<div
+    id="employeeModalInfo"
+    class="employee-modal-info">
+</div>
+
+</div>
+
+<button
+    class="close-modal"
+    type="button"
+    onclick="closeEmployeePopup()">
+    ×
+</button>
+
+</div>
+
+
+<div class="employee-duty-calendar">
+
+<div
+    id="employeeCalendar"
+    class="calendar">
+</div>
+
+</div>
+
+
+<div class="employee-modal-footer">
+
+<div
+    id="employeeModalSummary"
+    class="employee-modal-summary">
+
+    Selected Duties: 0<br>
+    Total Hours: 0<br>
+    Total Unit: 0.00
+
+</div>
+
+<button
+    class="save-duty-btn"
+    type="button"
+    onclick="saveEmployeeDuties()">
+    Save
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div id="printArea"></div>
+
+
+<script>
+
+/* =========================================================
+   EMPLOYEE DATA
+========================================================= */
+
+const depot_employees = {
+
+    "SMR/KDP": [
+
+        {
+            "pe": "24505541967",
+            "name": "C Guruprasad",
+            "desig": "SMR",
+            "station": "KDP",
+            "days": []
+        },
+
+        {
+            "pe": "24129802911",
+            "name": "Loveleen kumar",
+            "desig": "Dy SM",
+            "station": "KDP",
+            "days": []
+        },
+
+        {
+            "pe": "24129802896",
+            "name": "Pankaj Kumar Meena",
+            "desig": "Dy SM",
+            "station": "KDP",
+            "days": []
+        },
+
+        {
+            "pe": "24129802920",
+            "name": "Sanjiv Kumar Singh",
+            "desig": "RG SM",
+            "station": "KDP",
+            "days": []
+        },
+
+        {
+            "pe": "24529803490",
+            "name": "Anil Yadav",
+            "desig": "LR SM",
+            "station": "KDP",
+            "days": []
+        },
+
+        {
+            "pe": "24505543289",
+            "name": "Y Nageshwara Rao",
+            "desig": "CCTS",
+            "station": "KDP",
+            "days": []
+        },
+
+        {
+            "pe": "245II110205",
+            "name": "S Jagadeesh",
+            "desig": "PMAN",
+            "station": "KDP",
+            "days": []
+        },
+
+        {
+            "pe": "24529801904",
+            "name": "K Nagendra",
+            "desig": "PMAN",
+            "station": "KDP",
+            "days": []
+        },
+
+        {
+            "pe": "24529803583",
+            "name": "Abhdesh Kumar",
+            "desig": "PMAN",
+            "station": "KDP",
+            "days": []
+        },
+
+        {
+            "pe": "24529806563",
+            "name": "Praphul Kumar Choubey",
+            "desig": "PMAN",
+            "station": "KDP",
+            "days": []
+        }
+
+    ]
+
+};
+
+
+/* =========================================================
+   MONTH / WEEKDAY
+========================================================= */
+
+const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+];
+
+const weekdayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+];
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let employees =
+    depot_employees["SMR/KDP"].map(emp => ({
+        ...emp,
+        days: Array.isArray(emp.days)
+            ? [...emp.days]
+            : []
+    }));
+
+let currentEmployeeIndex = -1;
+
+let temporaryEmployeeDays = [];
+
+
+const monthEl =
+    document.getElementById("month");
+
+const yearEl =
+    document.getElementById("year");
+
+const employeeCalendar =
+    document.getElementById(
+        "employeeCalendar"
+    );
+
+
+/* =========================================================
+   MONTH OPTIONS
+========================================================= */
+
+monthNames.forEach(
+    (name, index) => {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            index;
+
+        option.textContent =
+            name;
+
+        monthEl.appendChild(
+            option
+        );
+
+    }
+);
+
+
+const today =
+    new Date();
+
+monthEl.value =
+    today.getMonth();
+
+yearEl.value =
+    today.getFullYear();
+
+
+/* =========================================================
+   DAYS IN MONTH
+========================================================= */
+
+function daysInMonth() {
+
+    return new Date(
+        Number(yearEl.value),
+        Number(monthEl.value) + 1,
+        0
+    ).getDate();
+
+}
+
+
+/* =========================================================
+   CREATE DUTY INFORMATION
+========================================================= */
+
+function getDutyList() {
+
+    const days =
+        daysInMonth();
+
+    const month =
+        Number(monthEl.value);
+
+    const year =
+        Number(yearEl.value);
+
+    const currentMonth =
+        monthNames[month];
+
+    const previousMonth =
+        monthNames[
+            (month + 11) % 12
+        ];
+
+    const nextMonth =
+        monthNames[
+            (month + 1) % 12
+        ];
+
+    const duties = [];
+
+
+    /* =========================
+       PREVIOUS MONTH → 01
+       = 6 HOURS
+    ========================= */
+
+    const previousLastDate =
+        new Date(
+            year,
+            month,
+            0
+        );
+
+    const currentFirstDate =
+        new Date(
+            year,
+            month,
+            1
+        );
+
+
+    duties.push({
+
+        id: "previous-first",
+
+        text:
+            `${String(previousLastDate.getDate()).padStart(2,"0")} ${previousMonth} → 01 ${currentMonth}`,
+
+        weekdays:
+            `${weekdayNames[previousLastDate.getDay()]} → ${weekdayNames[currentFirstDate.getDay()]}`,
+
+        hours: 6,
+
+        className: "first-duty"
+
+    });
+
+
+    /* =========================
+       NORMAL DUTIES
+       = 8 HOURS
+    ========================= */
+
+    for (
+        let day = 1;
+        day < days;
+        day++
+    ) {
+
+        const firstDate =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+        const secondDate =
+            new Date(
+                year,
+                month,
+                day + 1
+            );
+
+
+        duties.push({
+
+            id:
+                `duty-${day}`,
+
+            text:
+                `${String(day).padStart(2,"0")} ${currentMonth} → ${String(day + 1).padStart(2,"0")} ${currentMonth}`,
+
+            weekdays:
+                `${weekdayNames[firstDate.getDay()]} → ${weekdayNames[secondDate.getDay()]}`,
+
+            hours: 8,
+
+            className: ""
+
+        });
+
+    }
+
+
+    /* =========================
+       LAST DAY → NEXT MONTH 01
+       = 2 HOURS
+    ========================= */
+
+    const lastDate =
+        new Date(
+            year,
+            month,
+            days
+        );
+
+    const nextFirstDate =
+        new Date(
+            year,
+            month + 1,
+            1
+        );
+
+
+    duties.push({
+
+        id: "last-next",
+
+        text:
+            `${String(days).padStart(2,"0")} ${currentMonth} → 01 ${nextMonth}`,
+
+        weekdays:
+            `${weekdayNames[lastDate.getDay()]} → ${weekdayNames[nextFirstDate.getDay()]}`,
+
+        hours: 2,
+
+        className: "last-duty"
+
+    });
+
+
+    return duties;
+
+}
+
+
+/* =========================================================
+   BUILD EMPLOYEE DUTY POPUP
+========================================================= */
+
+function buildEmployeeCalendar() {
+
+    employeeCalendar.innerHTML = "";
+
+
+    const duties =
+        getDutyList();
+
+
+    duties.forEach(
+        duty => {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+            wrapper.className =
+                "duty-pair " +
+                duty.className;
+
+
+            const input =
+                document.createElement(
+                    "input"
+                );
+
+            input.type =
+                "checkbox";
+
+            input.id =
+                "employee-" +
+                duty.id;
+
+            input.dataset.originalId =
+                duty.id;
+
+            input.dataset.hours =
+                duty.hours;
+
+
+            input.checked =
+                temporaryEmployeeDays
+                    .includes(
+                        duty.id
+                    );
+
+
+            const label =
+                document.createElement(
+                    "label"
+                );
+
+            label.htmlFor =
+                input.id;
+
+
+            label.innerHTML = `
+
+                <span class="duty-date">
+
+                    <span class="duty-dates">
+                        ${duty.text}
+                    </span>
+
+                    <span class="duty-weekdays">
+                        ${duty.weekdays}
+                    </span>
+
+                </span>
+
+                <span class="hours">
+                    ${duty.hours} Hrs
+                </span>
+
+            `;
+
+
+            input.addEventListener(
+                "change",
+                updateEmployeePopupTotals
+            );
+
+
+            wrapper.appendChild(
+                input
+            );
+
+            wrapper.appendChild(
+                label
+            );
+
+            employeeCalendar.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+
+    updateEmployeePopupTotals();
+
+}
+
+
+/* =========================================================
+   OPEN EMPLOYEE POPUP
+========================================================= */
+
+function openEmployeePopup(
+    index
+) {
+
+    const emp =
+        employees[index];
+
+    if (!emp) {
+        return;
+    }
+
+
+    currentEmployeeIndex =
+        index;
+
+
+    temporaryEmployeeDays =
+        Array.isArray(emp.days)
+            ? [...emp.days]
+            : [];
+
+
+    document.getElementById(
+        "employeeModalTitle"
+    ).textContent =
+        emp.name;
+
+
+    document.getElementById(
+        "employeeModalInfo"
+    ).textContent =
+        `PE: ${emp.pe} | ${emp.desig} | ${emp.station}`;
+
+
+    buildEmployeeCalendar();
+
+
+    document.getElementById(
+        "employeeOverlay"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* =========================================================
+   UPDATE POPUP TOTALS
+========================================================= */
+
+function updateEmployeePopupTotals() {
+
+    const selected =
+        employeeCalendar.querySelectorAll(
+            "input[type=checkbox]:checked"
+        );
+
+
+    let hours = 0;
+
+
+    selected.forEach(
+        input => {
+
+            hours +=
+                Number(
+                    input.dataset.hours
+                );
+
+        }
+    );
+
+
+    const unit =
+        hours / 6;
+
+
+    document.getElementById(
+        "employeeModalSummary"
+    ).innerHTML = `
+
+        Selected Duties: ${selected.length}<br>
+
+        Total Hours: ${hours}<br>
+
+        Total Unit: ${unit.toFixed(2)}
+
+    `;
+
+}
+
+
+/* =========================================================
+   SAVE EMPLOYEE DUTIES
+========================================================= */
+
+function saveEmployeeDuties() {
+
+    if (
+        currentEmployeeIndex < 0 ||
+        !employees[
+            currentEmployeeIndex
+        ]
+    ) {
+
+        return;
+
+    }
+
+
+    const selected =
+        employeeCalendar.querySelectorAll(
+            "input[type=checkbox]:checked"
+        );
+
+
+    employees[
+        currentEmployeeIndex
+    ].days =
+        [...selected].map(
+            input =>
+                input.dataset.originalId
+        );
+
+
+    renderEmployees();
+
+    closeEmployeePopup();
+
+}
+
+
+/* =========================================================
+   CLOSE EMPLOYEE POPUP
+========================================================= */
+
+function closeEmployeePopup() {
+
+    document.getElementById(
+        "employeeOverlay"
+    ).style.display =
+        "none";
+
+
+    currentEmployeeIndex =
+        -1;
+
+    temporaryEmployeeDays =
+        [];
+
+}
+
+
+/* =========================================================
+   CLICK OUTSIDE POPUP
+========================================================= */
+
+document.getElementById(
+    "employeeOverlay"
+).addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === this
+        ) {
+
+            closeEmployeePopup();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CALCULATE EMPLOYEE NDA
+========================================================= */
+
+function calculateEmployeeNDA(
+    emp
+) {
+
+    const days =
+        Array.isArray(emp.days)
+            ? emp.days
+            : [];
+
+
+    const dutyList =
+        getDutyList();
+
+
+    let hours = 0;
+
+
+    days.forEach(
+        id => {
+
+            const duty =
+                dutyList.find(
+                    d => d.id === id
+                );
+
+
+            if (duty) {
+
+                hours +=
+                    duty.hours;
+
+            }
+
+        }
+    );
+
+
+    return {
+
+        duties:
+            days.length,
+
+        hours:
+            hours,
+
+        unit:
+            hours / 6
+
+    };
+
+}
+
+
+/* =========================================================
+   RENDER EMPLOYEES
+========================================================= */
+
+function renderEmployees() {
+
+    const container =
+        document.getElementById(
+            "employees"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (!employees.length) {
+
+        container.innerHTML = `
+            <div class="no-employees">
+                No employees available.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    employees.forEach(
+        (emp, index) => {
+
+            const result =
+                calculateEmployeeNDA(
+                    emp
+                );
+
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "employee-row";
+
+
+            row.innerHTML = `
+
+                <div class="employee-pe">
+                    ${escapeHTML(emp.pe)}
+                </div>
+
+
+                <div
+                    class="employee-name"
+                    onclick="openEmployeePopup(${index})">
+
+                    ${escapeHTML(emp.name)}
+
+                </div>
+
+
+                <div class="employee-desig">
+                    ${escapeHTML(emp.desig)}
+                </div>
+
+
+                <div class="employee-station">
+                    ${escapeHTML(emp.station)}
+                </div>
+
+
+                <div class="employee-duty-count">
+                    ${result.duties}
+                </div>
+
+
+                <div class="employee-hours">
+                    ${result.hours}
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT PDF DATES
+========================================================= */
+
+function formatDutyDates(
+    selectedDays
+) {
+
+    if (
+        !selectedDays ||
+        !selectedDays.length
+    ) {
+
+        return "———";
+
+    }
+
+
+    const duties =
+        getDutyList();
+
+
+    return selectedDays
+        .map(
+            id => {
+
+                const duty =
+                    duties.find(
+                        d =>
+                            d.id === id
+                    );
+
+
+                if (!duty) {
+                    return "";
+                }
+
+
+                if (
+                    id ===
+                    "previous-first"
+                ) {
+
+                    const previousLast =
+                        new Date(
+                            Number(yearEl.value),
+                            Number(monthEl.value),
+                            0
+                        ).getDate();
+
+
+                    return (
+                        String(
+                            previousLast
+                        ).padStart(
+                            2,
+                            "0"
+                        )
+                        + "/01"
+                    );
+
+                }
+
+
+                if (
+                    id ===
+                    "last-next"
+                ) {
+
+                    const days =
+                        daysInMonth();
+
+
+                    return (
+                        String(days)
+                            .padStart(
+                                2,
+                                "0"
+                            )
+                        + "/01"
+                    );
+
+                }
+
+
+                const day =
+                    Number(
+                        id.replace(
+                            "duty-",
+                            ""
+                        )
+                    );
+
+
+                return (
+                    String(day)
+                        .padStart(
+                            2,
+                            "0"
+                        )
+                    + "/"
+                    + String(
+                        day + 1
+                    ).padStart(
+                        2,
+                        "0"
+                    )
+                );
+
+            }
+        )
+        .filter(Boolean)
+        .join(",");
+
+}
+
+
+/* =========================================================
+   GENERATE PDF
+========================================================= */
+
+function generatePDF() {
+
+    const month =
+        monthNames[
+            Number(monthEl.value)
+        ];
+
+
+    const year =
+        Number(yearEl.value);
+
+
+    const rows =
+        employees
+            .map(
+                (emp, index) => {
+
+                    const result =
+                        calculateEmployeeNDA(
+                            emp
+                        );
+
+
+                    return `
+
+                    <tr>
+
+                        <td style="text-align:center;">
+                            ${index + 1}
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                emp.name
+                            )}
+
+                            <br>
+
+                            <strong>
+                                PF:
+                                ${escapeHTML(
+                                    emp.pe
+                                )}
+                            </strong>
+
+                            <br>
+
+                            <strong>
+                                BU:
+                                ${escapeHTML(
+                                    emp.station
+                                )}
+                            </strong>
+
+                        </td>
+
+
+                        <td style="text-align:center;">
+                            ${escapeHTML(
+                                emp.desig
+                            )}
+                        </td>
+
+
+                        <td class="date-cell">
+                            ${formatDutyDates(
+                                emp.days
+                            )}
+                        </td>
+
+
+                        <td style="text-align:center;">
+                            ${result.hours}
+                        </td>
+
+
+                        <td style="text-align:center;">
+                            ${result.unit.toFixed(2)}
+                        </td>
+
+                    </tr>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    document.getElementById(
+        "printArea"
+    ).innerHTML = `
+
+        <div class="preview-page">
+
+
+            <div class="letter-line">
+
+                From,<br>
+
+                ${escapeHTML(
+                    document.getElementById(
+                        "from"
+                    ).value
+                )}
+
+            </div>
+
+
+            <div class="letter-line">
+
+                To,<br>
+
+                ${escapeHTML(
+                    document.getElementById(
+                        "to"
+                    ).value
+                )}
+
+            </div>
+
+
+            <div class="subject">
+
+                <strong>
+                    Subject:
+                </strong>
+
+                Submission of Night Duty Allowance
+                for the month of
+                ${month}, ${year}.
+
+            </div>
+
+
+            <div class="letter-line">
+
+                Respected Sir,
+
+            </div>
+
+
+            <div class="letter-line">
+
+                The Detail of the Night Duty Allowance
+                for the Month of
+                ${month}, ${year}
+                of the Following Employee:
+                This is for Your Kind Attention.
+
+            </div>
+
+
+            <table class="preview-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>SNo</th>
+
+                        <th>
+                            Name of the<br>
+                            Employee
+                        </th>
+
+                        <th>
+                            Desg.
+                        </th>
+
+                        <th>
+                            Date on which
+                            Night Duty Performed
+                        </th>
+
+                        <th>
+                            Hours
+                        </th>
+
+                        <th>
+                            Unit
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    ${rows}
+
+                </tbody>
+
+            </table>
+
+
+            <div class="bottom">
+
+                <div>
+
+                    <strong>Date:</strong>
+
+                    <br><br>
+
+                    <strong>Place:</strong>
+
+                </div>
+
+
+                <div class="signature">
+
+                    SMR/KONDAPURAM
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
+
+
+    window.print();
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value || "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        );
+
+}
+
+
+/* =========================================================
+   CLEAR ALL
+========================================================= */
+
+function clearAll() {
+
+    employees.forEach(
+        emp => {
+
+            emp.days = [];
+
+        }
+    );
+
+
+    renderEmployees();
+
+}
+
+
+/* =========================================================
+   MONTH / YEAR CHANGE
+========================================================= */
+
+monthEl.addEventListener(
+    "change",
+    function() {
+
+        employees.forEach(
+            emp => {
+
+                emp.days = [];
+
+            }
+        );
+
+
+        renderEmployees();
+
+    }
+);
+
+
+yearEl.addEventListener(
+    "change",
+    function() {
+
+        employees.forEach(
+            emp => {
+
+                emp.days = [];
+
+            }
+        );
+
+
+        renderEmployees();
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+renderEmployees();
+
+</script>
+
+</body>
+</html>
