@@ -2717,6 +2717,9 @@ function hideAppLoading() {
 ========================================================= */
 
 function generatePDF() {
+    
+    const mainCSS =
+        document.getElementById("mainCSS");
 
     const printCSS =
         document.getElementById("printCSS");
@@ -2728,6 +2731,10 @@ function generatePDF() {
        DISABLE NORMAL MUSTER PRINT CSS
     ===================================================== */
 
+    if (mainCSS) {
+        main.disabled = true;
+    }
+    
     if (printCSS) {
         printCSS.disabled = true;
     }
@@ -3138,6 +3145,7 @@ function generatePDF() {
         "afterprint",
         function restorePrintCSS() {
             if (printCSS) {
+                mainCSS.disabled = false;
                 printCSS.disabled = false;
 				ndaCSS.disabled = true;
             }
