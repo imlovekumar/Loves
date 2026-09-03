@@ -33,8 +33,7 @@
             </button>
             <div id="headerMenu" class="header-menu-dropdown">
                 <button onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
-            		<!-- <button onclick="toggleSkin(); closeHeaderMenu();">👁️View Muster</button> -->
-				<button onclick="syncAttendance(true); closeHeaderMenu();">🔄 Sync Attendance</button>
+            		<button onclick="syncAttendance(true); closeHeaderMenu();">🔄 Sync Attendance</button>
 				<button onclick="saveAttendance(); closeHeaderMenu();">💾 Save Attendance</button>
 				<button onclick="resetData(); closeHeaderMenu();">🔘 Reset Attendance</button>
 				<button onclick="logoutMuster(true); closeHeaderMenu();">🔒 Logout</button>
@@ -460,17 +459,7 @@
 	<span>Period: <b id="attendancePeriod"></b></span>
     <span>Present: <b id="presentCount">0</b></span>
 </div>
-<div class="attendance-nda">
-	<div class="nda-input-group">
-    		<label for="attendanceNDA">NDA</label>
-        		<input type="number" id="attendanceNDA" min="0" step="0.5" placeholder="Hours" oninput="updateAttendanceNDA(this.value)">
-            <span>hours</span>
-    </div>
-    <div class="nda-remark-group">
-    		<label for="attendanceNDARemark">NDA Remark</label>
-        <input type="text" id="attendanceNDARemark" placeholder="Enter NDA remark..." oninput="updateAttendanceNDARemark(this.value)">
-    </div>
-</div>
+
 <div class="attendance-table-wrapper">
 	<table class="attendance-table">
     		<thead>
@@ -485,6 +474,68 @@
 </div>
 </div>
 </div>
+
+<!-- =========================================================
+     NDA NIGHT DUTY SELECTION POPUP
+========================================================= -->
+
+<div id="ndaSelectionOverlay" class="employee-overlay">
+    <div class="employee-modal">
+        <div class="employee-modal-header">
+            <div>
+                <div id="ndaSelectionTitle"
+                    class="employee-modal-title">Night Duty
+  				</div>
+                <div
+                    id="ndaSelectionEmployee"
+                    class="employee-modal-info">
+                </div>
+            </div>
+            <button
+                class="close-modal"
+                type="button"
+                onclick="closeNDASelection()">
+                ×
+            </button>
+        </div>
+        <div class="employee-duty-calendar">
+            <div
+                id="ndaSelectionBody"
+                class="calendar">
+            </div>
+        </div>
+<div class="nda-selection-remark">
+    <label for="ndaSelectionRemark">NDA Remarks</label>
+    <textarea
+        id="ndaSelectionRemark"
+        rows="2"
+        placeholder="Enter NDA remarks...">
+    </textarea>
+</div>
+        <div class="employee-modal-footer">
+
+            <div
+                id="ndaSelectionSummary"
+                class="employee-modal-summary">
+
+                Selected Duties: 0<br>
+                Total Hours: 0<br>
+                Total Unit: 0.00
+
+            </div>
+            <button
+                class="save-duty-btn"
+                type="button"
+                onclick="saveNDASelection()">
+
+                Save
+
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="printArea"></div>
 </main>
 
 <!-- =========================================
@@ -495,12 +546,8 @@
     <div class="status-card">
         <div id="statusSpinner" class="status-spinner"></div>
         <div id="statusIcon" class="status-icon"></div>
-        <div id="statusTitle" class="status-title">
-            Processing...
-        </div>
-        <div id="statusMessage" class="status-message">
-            Please wait
-        </div>
+        <div id="statusTitle" class="status-title">Processing...</div>
+        <div id="statusMessage" class="status-message">Please wait</div>
     </div>
 </div>
 
@@ -617,6 +664,7 @@ function changeMusterPeriod() {
         employee.nda = "";
         employee.ndaRemark = "";
         employee.remark = "";
+		employee.ndaSelection = "";
 
     });
 
@@ -1253,8 +1301,15 @@ function renderNDATable() {
             <td>${escapeHTML(emp.pe || "")}</td>
 
             <td class="nda-name">
-                ${escapeHTML(emp.name || "")}
-            </td>
+    <button
+        type="button"
+        class="nda-name-button"
+        onclick="openNDASelection(${index})"
+        title="Night Duty Selection"
+    >
+        ${escapeHTML(emp.name || "")}
+    </button>
+</td>
 
             <td>${escapeHTML(emp.desig || "")}</td>
 
@@ -1276,6 +1331,571 @@ function renderNDATable() {
         body.appendChild(tr);
     });
 }
+
+/* =========================================================
+   NDA NIGHT DUTY SELECTION
+========================================================= */
+
+let currentNDAEmployee = null;
+
+let temporaryNDASelection = [];
+
+
+/* =========================================================
+   OPEN NDA SELECTION
+========================================================= */
+
+function openNDASelection(employeeIndex) {
+
+    const employee = employees[employeeIndex];
+
+    if (!employee) {
+        return;
+    }
+
+    currentNDAEmployee = employeeIndex;
+
+    /*
+       Temporary selection is loaded from this employee.
+
+       We use a separate temporary array so that
+       clicking Save is what commits the selection.
+    */
+
+    temporaryNDASelection =
+        Array.isArray(employee.ndaSelection)
+            ? [...employee.ndaSelection]
+            : [];
+			
+	document.getElementById(
+    "ndaSelectionRemark"
+).value =
+    employee.ndaRemark || "";
+
+    document.getElementById(
+        "ndaSelectionTitle"
+    ).textContent =
+        "Night Duty";
+
+
+    document.getElementById(
+        "ndaSelectionEmployee"
+    ).textContent =
+        `${(employee.name || "").toUpperCase()} | ${employee.desig || ""}`;
+
+
+    buildNDASelectionCalendar();
+
+
+    document.getElementById(
+        "ndaSelectionOverlay"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* =========================================================
+   BUILD FULL MONTH CALENDAR
+========================================================= */
+
+function buildNDASelectionCalendar() {
+
+    const body =
+        document.getElementById(
+            "ndaSelectionBody"
+        );
+
+    body.innerHTML = "";
+
+
+    const period =
+        document.getElementById(
+            "musterPeriod"
+        ).value;
+
+
+    const year =
+        Number(
+            document.getElementById(
+                "musterYear"
+            ).value
+        );
+
+
+    const [startMonth] =
+        period.split("-").map(Number);
+
+
+    /*
+       JavaScript month is zero based.
+    */
+
+    const month =
+        startMonth - 1;
+
+
+    const days =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+
+    const weekdayNames = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ];
+
+
+    const currentMonth =
+        monthNames[month];
+
+
+    const previousMonth =
+        monthNames[
+            (month + 11) % 12
+        ];
+
+
+    const nextMonth =
+        monthNames[
+            (month + 1) % 12
+        ];
+
+
+    const duties = [];
+
+
+    /* =====================================================
+       PREVIOUS MONTH LAST DAY → 01
+       6 HOURS
+    ===================================================== */
+
+    const previousLastDate =
+        new Date(
+            year,
+            month,
+            0
+        );
+
+
+    const currentFirstDate =
+        new Date(
+            year,
+            month,
+            1
+        );
+
+
+    duties.push({
+
+        id: "previous-first",
+
+        text:
+            `${String(previousLastDate.getDate()).padStart(2, "0")} ${previousMonth} → 01 ${currentMonth}`,
+
+        weekdays:
+            `${weekdayNames[previousLastDate.getDay()]} → ${weekdayNames[currentFirstDate.getDay()]}`,
+
+        hours: 6,
+
+        className: "first-duty"
+
+    });
+
+
+    /* =====================================================
+       NORMAL DUTIES
+       8 HOURS
+    ===================================================== */
+
+    for (
+        let day = 1;
+        day < days;
+        day++
+    ) {
+
+        const firstDate =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+
+        const secondDate =
+            new Date(
+                year,
+                month,
+                day + 1
+            );
+
+
+        duties.push({
+
+            id:
+                `duty-${day}`,
+
+            text:
+                `${String(day).padStart(2, "0")} ${currentMonth} → ${String(day + 1).padStart(2, "0")} ${currentMonth}`,
+
+            weekdays:
+                `${weekdayNames[firstDate.getDay()]} → ${weekdayNames[secondDate.getDay()]}`,
+
+            hours: 8,
+
+            className: ""
+
+        });
+
+    }
+
+
+    /* =====================================================
+       LAST DAY → NEXT MONTH 01
+       2 HOURS
+    ===================================================== */
+
+    const lastDate =
+        new Date(
+            year,
+            month,
+            days
+        );
+
+
+    const nextFirstDate =
+        new Date(
+            year,
+            month + 1,
+            1
+        );
+
+
+    duties.push({
+
+        id: "last-next",
+
+        text:
+            `${String(days).padStart(2, "0")} ${currentMonth} → 01 ${nextMonth}`,
+
+        weekdays:
+            `${weekdayNames[lastDate.getDay()]} → ${weekdayNames[nextFirstDate.getDay()]}`,
+
+        hours: 2,
+
+        className: "last-duty"
+
+    });
+
+
+    /* =====================================================
+       CREATE ROWS
+    ===================================================== */
+
+    duties.forEach(
+        duty => {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "duty-pair " +
+                duty.className;
+
+
+            const input =
+                document.createElement(
+                    "input"
+                );
+
+
+            input.type =
+                "checkbox";
+
+
+            input.id =
+                "nda-duty-" +
+                duty.id;
+
+
+            input.dataset.originalId =
+                duty.id;
+
+
+            input.dataset.hours =
+                duty.hours;
+
+
+            input.checked =
+                temporaryNDASelection.includes(
+                    duty.id
+                );
+
+
+            const label =
+                document.createElement(
+                    "label"
+                );
+
+
+            label.htmlFor =
+                input.id;
+
+
+            label.innerHTML = `
+
+                <span class="duty-date">
+
+                    <span class="duty-dates">
+                        ${duty.text}
+                    </span>
+
+                    <span class="duty-weekdays">
+                        ${duty.weekdays}
+                    </span>
+
+                </span>
+
+                <span class="hours">
+                    ${duty.hours} Hrs
+                </span>
+
+            `;
+
+
+            input.addEventListener(
+                "change",
+                updateNDASelection
+            );
+
+
+            wrapper.appendChild(
+                input
+            );
+
+
+            wrapper.appendChild(
+                label
+            );
+
+
+            body.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+
+    updateNDASelection();
+
+}
+
+
+/* =========================================================
+   UPDATE POPUP TOTALS
+========================================================= */
+
+function updateNDASelection() {
+
+    const body =
+        document.getElementById(
+            "ndaSelectionBody"
+        );
+
+
+    const selected =
+        body.querySelectorAll(
+            "input[type=checkbox]:checked"
+        );
+
+
+    temporaryNDASelection =
+        [...selected].map(
+            input =>
+                input.dataset.originalId
+        );
+
+
+    let hours = 0;
+
+
+    selected.forEach(
+        input => {
+
+            hours +=
+                Number(
+                    input.dataset.hours
+                );
+
+        }
+    );
+
+
+    const unit =
+        hours / 6;
+
+
+    document.getElementById(
+        "ndaSelectionSummary"
+    ).innerHTML = `
+
+        Selected Duties: ${selected.length}<br>
+
+        Total Hours: ${hours}<br>
+
+        Total Unit: ${unit.toFixed(2)}
+
+    `;
+
+}
+
+
+/* =========================================================
+   SAVE NDA SELECTION
+========================================================= */
+
+function updateNDAHours(value) {
+    if (currentNDAEmployee === null) {
+        return;
+    }
+    employees[currentNDAEmployee].nda =
+        value;
+    renderNDATable();
+}
+
+function updateNDARemark(value) {
+    if (currentNDAEmployee === null) {
+        return;
+    }
+    employees[currentNDAEmployee].ndaRemark =
+        value;
+    renderNDATable();
+}
+
+function saveNDASelection() {
+
+    if (
+        currentNDAEmployee === null ||
+        !employees[currentNDAEmployee]
+    ) {
+        return;
+    }
+
+    const employee =
+        employees[currentNDAEmployee];
+
+    /* Save selected duties */
+    employee.ndaSelection =
+        [...temporaryNDASelection];
+
+
+    /* Calculate NDA hours */
+
+    let totalHours = 0;
+
+    temporaryNDASelection.forEach(id => {
+
+        if (id === "previous-first") {
+            totalHours += 6;
+        }
+
+        else if (id === "last-next") {
+            totalHours += 2;
+        }
+
+        else if (id.startsWith("duty-")) {
+            totalHours += 8;
+        }
+
+    });
+
+
+    /* Save total NDA hours */
+	
+	updateNDAHours(totalHours);
+
+
+    /* Save NDA remark */
+
+    updateNDARemark(
+    document.getElementById(
+        "ndaSelectionRemark"
+    ).value.trim()
+);
+
+    closeNDASelection();
+}
+
+/* =========================================================
+   CLOSE NDA SELECTION
+========================================================= */
+
+function closeNDASelection() {
+
+    document.getElementById(
+        "ndaSelectionOverlay"
+    ).style.display =
+        "none";
+
+
+    currentNDAEmployee =
+        null;
+
+
+    temporaryNDASelection =
+        [];
+
+}
+
+
+/* =========================================================
+   CLICK OUTSIDE POPUP
+========================================================= */
+
+document.getElementById(
+    "ndaSelectionOverlay"
+).addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === this
+        ) {
+
+            closeNDASelection();
+
+        }
+
+    }
+);
 
 /* =========================================================
    UPDATE
@@ -1384,12 +2004,6 @@ function openAttendance(employeeIndex) {
     currentAttendanceEmployee = employeeIndex;
     const employee = employees[employeeIndex];
 
-	document.getElementById("attendanceNDA").value =
-    employee.nda || "";
-	
-	document.getElementById("attendanceNDARemark").value =
-    employee.ndaRemark || "";
-	
 	document.getElementById("attendanceRemark").value =
     employee.remark || "";
 
@@ -1468,25 +2082,6 @@ function openAttendance(employeeIndex) {
     });
     updatePresentCount();
     overlay.style.display = "flex";
-}
-
-function updateAttendanceNDA(value) {
-
-    if (currentAttendanceEmployee === null) {
-        return;
-    }
-    employees[currentAttendanceEmployee].nda = value;
-    renderNDATable();
-}
-
-function updateAttendanceNDARemark(value) {
-
-    if (currentAttendanceEmployee === null) {
-        return;
-    }
-
-    employees[currentAttendanceEmployee].ndaRemark = value;
-    renderNDATable();
 }
 
 function updateAttendance(
@@ -1607,16 +2202,6 @@ function printMuster() {
     }, 1000);
 }
 
-function toggleSkin() {
-    const css = document.getElementById('printCSS');
-
-    if (css.media === 'print') {
-        css.media = 'all';
-    } else {
-        css.media = 'print';
-    }
-}
-
 function toggleHeaderMenu() {
     document.getElementById("headerMenu").classList.toggle("show");
 }
@@ -1631,14 +2216,6 @@ document.addEventListener("click", function (e) {
         closeHeaderMenu();
     }
 });
-
-/* =========================================
-   INITIAL DATE
-========================================= */
-
-//( function init() {
-//	changeMusterPeriod();
-//})();
 
 /* =========================================
    SAVE ATTENDANCE
@@ -1675,13 +2252,14 @@ async function saveAttendance() {
     ----------------------------------------- */
 
     const attendance =
-        employees.map(employee => ({
-            pe: employee.pe || "",
-            days: employee.days || [],
-            nda: employee.nda || "",
-            ndaRemark: employee.ndaRemark || "",
-            remark: employee.remark || ""
-        }));
+    employees.map(employee => ({
+        pe: employee.pe || "",
+        days: employee.days || [],
+        nda: employee.nda || "",
+        ndaRemark: employee.ndaRemark || "",
+        ndaSelection: employee.ndaSelection || [],
+        remark: employee.remark || ""
+    }));
 
     /* -----------------------------------------
        PERIOD
@@ -1944,6 +2522,12 @@ if (showMessage) {
 
             employee.ndaRemark =
                 saved.ndaRemark || "";
+				
+			/* NDA Selection */
+
+			if (Array.isArray(saved.ndaSelection)) {
+    				employee.ndaSelection = [...saved.ndaSelection];
+			}
 
             /* Employee Remark */
 
@@ -2039,100 +2623,72 @@ function showStatus(title, message = "", type = "loading") {
     /* Reset */
 
     spinner.classList.add("hidden");
-
     icon.className = "status-icon";
     icon.textContent = "";
 
     /* Loading */
-
     if (type === "loading") {
-
         spinner.classList.remove("hidden");
-
     }
-
     /* Success */
-
     else if (type === "success") {
-
         icon.classList.add("success");
         icon.textContent = "✓";
-
     }
-
     /* Error */
-
     else if (type === "error") {
-
         icon.classList.add("error");
         icon.textContent = "✕";
 
     }
-
     /* Info */
-
     else if (type === "info") {
-
         icon.classList.add("info");
         icon.textContent = "i";
-
     }
-
     overlay.classList.add("show");
 }
-
 
 /* =========================================
    HIDE STATUS
 ========================================= */
 
 function hideStatus() {
-
     const overlay =
         document.getElementById("statusOverlay");
-
     if (overlay) {
         overlay.classList.remove("show");
     }
 }
-
 
 /* =========================================
    SUCCESS MESSAGE
 ========================================= */
 
 function showSuccess(title, message = "", duration = 1800) {
-
     showStatus(title, message, "success");
-
     setTimeout(() => {
         hideStatus();
     }, duration);
 }
-
 
 /* =========================================
    ERROR MESSAGE
 ========================================= */
 
 function showError(title, message = "", duration = 2500) {
-
     showStatus(title, message, "error");
-
     setTimeout(() => {
         hideStatus();
     }, duration);
 }
-
 
 /* =========================================
    INFO MESSAGE
 ========================================= */
 
 function showInfo(title, message = "", duration = 2000) {
-
     showStatus(title, message, "info");
-
     setTimeout(() => {
         hideStatus();
     }, duration);
@@ -2141,17 +2697,14 @@ function showInfo(title, message = "", duration = 2000) {
 function showAppLoading() {
     const overlay =
         document.getElementById("appLoadingOverlay");
-
     if (overlay) {
         overlay.style.display = "flex";
     }
 }
 
-
 function hideAppLoading() {
     const overlay =
         document.getElementById("appLoadingOverlay");
-
     if (overlay) {
         overlay.style.display = "none";
     }
