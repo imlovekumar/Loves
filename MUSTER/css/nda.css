@@ -10,7 +10,7 @@ NDA PAGE
     width: 100% !important;
     box-sizing: border-box;
     font-family: Calibri, sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     color: #000;
     background: #fff;
@@ -20,13 +20,16 @@ NDA PAGE
 LETTER TEXT
 ========================================================= */
 
-#printArea .nda-letter-line {
+#printArea .nda-letter-line,
+#printArea .nda-letter-salu,
+#printArea .nda-letter-intro {
 	margin-bottom: 14px;
+	font-size: 16px;
 }
 
 #printArea .nda-subject {
-	margin-top: 18px;
-	margin-bottom: 18px;
+	margin-bottom: 14px;
+	font-size: 16px;
 }
 
 /* =========================================================
@@ -38,7 +41,7 @@ NDA TABLE
 	border-collapse: collapse !important;
 	border-spacing: 0 !important;
 	margin-top: 18px;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 #printArea .nda-preview-table th,
@@ -51,6 +54,8 @@ NDA TABLE
 	text-align: center;
 	vertical-align: middle;
 	font-weight: bold;
+	height: 35px;
+	font-size: 14px;
 }
 
 #printArea .nda-preview-table td {
@@ -68,7 +73,7 @@ COLUMN ALIGNMENT
 }
 
 #printArea .nda-employee {
-	width: 23%;
+	width: 25%;
 	text-align: left;
 	margin-left: 4px;
 	vertical-align: middle;
@@ -76,13 +81,14 @@ COLUMN ALIGNMENT
 }
 
 #printArea .nda-desig {
-	width: 9%;
-	text-align: center;
+	width: 8%;
+	text-align: left;
+	margin-left: 6px;
 	vertical-align: middle;
 }
 
 #printArea .nda-dates {
-	width: 46%;
+	width: 45%;
 	text-align: left;
 	vertical-align: middle;
 }
@@ -106,14 +112,16 @@ BOTTOM
 #printArea .nda-bottom {
 	display: flex;
 	justify-content: space-between;
-	margin-top: 35px;
+	margin-top: 25px;
 	width: 100%;
+	font-size: 16px;
 }
 
 #printArea .nda-signature {
 	min-width: 180px;
 	text-align: center;
-	font-weight: bold;
+	font-weight: 600;
+	font-size: 16px;
 }
 
 /* =========================================================
