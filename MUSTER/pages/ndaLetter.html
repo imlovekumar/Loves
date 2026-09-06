@@ -187,32 +187,30 @@ const year = data.year;
                 <tr>
 
                     <td class="nda-sno">
+					<strong>
                         ${index + 1}
+					</strong>
                     </td>
 
                     <td class="nda-employee">
-
-                        ${escapeHTML(
-                            emp.name || ""
-                        )}
-
-                        <br>
+					<strong>
+						${escapeHTML(emp.name || "")}
+					</strong>
+					<br>
 
                         <strong>
                             PF:
-                            ${escapeHTML(
-                                emp.pe || ""
-                            )}
-                        </strong>
-
+						</strong>
+                        ${escapeHTML(emp.pe || "")}
                         <br>
 
                         <strong>
                             BU:
-                            ${escapeHTML(
-                                emp.billUnit || ""
-                            )}
-                        </strong>
+						</strong>
+                            ${escapeHTML(emp.billUnit || "")}
+                                
+                            
+                        
 
                     </td>
 
@@ -233,7 +231,9 @@ const year = data.year;
 </td>
 
                     <td class="nda-hours">
+					<strong>
                         ${emp.hours || 0}
+					</strong>
                     </td>
 
                     <td class="nda-unit">
@@ -253,14 +253,15 @@ const year = data.year;
 			                 FROM
 			            ============================================== -->
 			            <div class="nda-letter-line">
-    From,<br>
-    ${escapeHTML(data.depot || "")}
-</div>
+							<strong>From,</strong><br>
+    							${escapeHTML(data.depot || "")}
+						</div>
+    
 			            <!-- =============================================
 			                 TO
 			            ============================================== -->
 			            <div class="nda-letter-line">
-			                To,<br>
+			                <strong>To,</strong><br>
 			                Sr. DPO, GUNTAKAL
 			            </div>
 			            <!-- =============================================
@@ -276,16 +277,16 @@ const year = data.year;
 			            <!-- =============================================
 			                 SALUTATION
 			            ============================================== -->
-			            <div class="nda-letter-line">
+			            <div class="nda-letter-salu">
 			                Respected Sir,
 			            </div>
 			            <!-- =============================================
 			                 INTRODUCTION
 			            ============================================== -->
-			            <div class="nda-letter-line">
-			                The Detail of the Night Duty Allowance
+			            <div class="nda-letter-intro">
+			                &ensp;&ensp;&emsp;&emsp;The Detail of the Night Duty Allowance
 			                for the Month of ${month}, ${year}
-			                of the Following Employee<br>
+			                of the Following Employee,
 			                This is for Your Kind Attention.
 			            </div>
 			            <!-- =============================================
@@ -328,7 +329,7 @@ const year = data.year;
 			                    <strong>
 			                        Date:
 			                    </strong>
-			                    <br><br>
+			                    <br>
 			                    <strong>
 			                        Place:
 			                    </strong>
