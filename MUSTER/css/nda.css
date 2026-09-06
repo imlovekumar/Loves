@@ -1,0 +1,130 @@
+/* =========================================================
+NDA — PRINT AREA ONLY
+========================================================= */
+
+/* =========================================================
+NDA PAGE
+========================================================= */
+
+#printArea .nda-preview-page {
+    width: 100% !important;
+    box-sizing: border-box;
+    font-family: Calibri, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #000;
+    background: #fff;
+}
+
+/* =========================================================
+LETTER TEXT
+========================================================= */
+
+#printArea .nda-letter-line {
+	margin-bottom: 14px;
+}
+
+#printArea .nda-subject {
+	margin-top: 18px;
+	margin-bottom: 18px;
+}
+
+/* =========================================================
+NDA TABLE
+========================================================= */
+
+#printArea .nda-preview-table {
+	width: 100% !important;
+	border-collapse: collapse !important;
+	border-spacing: 0 !important;
+	margin-top: 18px;
+	font-size: 11px;
+}
+
+#printArea .nda-preview-table th,
+#printArea .nda-preview-table td {
+	border: 1px solid #cbd5e1 !important;
+	padding: 4px !important;
+}
+
+#printArea .nda-preview-table th {
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+}
+
+#printArea .nda-preview-table td {
+	vertical-align: middle;
+}
+
+/* =========================================================
+COLUMN ALIGNMENT
+========================================================= */
+
+#printArea .nda-sno {
+	width: 6%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#printArea .nda-employee {
+	width: 23%;
+	text-align: left;
+	margin-left: 4px;
+	vertical-align: middle;
+	text-transform: uppercase;
+}
+
+#printArea .nda-desig {
+	width: 9%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#printArea .nda-dates {
+	width: 46%;
+	text-align: left;
+	vertical-align: middle;
+}
+
+#printArea .nda-hours {
+	width: 8%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#printArea .nda-unit {
+	width: 8%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* =========================================================
+BOTTOM
+========================================================= */
+
+#printArea .nda-bottom {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 35px;
+	width: 100%;
+}
+
+#printArea .nda-signature {
+	min-width: 180px;
+	text-align: center;
+	font-weight: bold;
+}
+
+/* =========================================================
+TABLE PAGE BREAK
+========================================================= */
+
+#printArea .nda-preview-table {
+	page-break-inside: auto;
+}
+
+#printArea .nda-preview-table tr {
+	page-break-inside: avoid;
+	page-break-after: auto;
+}
