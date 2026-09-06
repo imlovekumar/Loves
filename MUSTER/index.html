@@ -33,7 +33,8 @@
             </button>
             <div id="headerMenu" class="header-menu-dropdown">
                 <button onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
-            		<button onclick="openNDA(); closeHeaderMenu();">🖨️ View NDA</button>
+            		<button onclick="openNDA(); closeHeaderMenu();">📄 NDA Letter</button>
+				<button onclick="openNH(); closeHeaderMenu();">📄 NH Letter</button>
 				<button onclick="syncAttendance(true); closeHeaderMenu();">🔄 Sync Attendance</button>
 				<button onclick="saveAttendance(); closeHeaderMenu();">💾 Save Attendance</button>
 				<button onclick="resetData(); closeHeaderMenu();">🔘 Reset Attendance</button>
@@ -2855,6 +2856,138 @@ function openNDA() {
         "pages/ndaLetter.html?data=" +
         encodeURIComponent(
             JSON.stringify(ndaData)
+        );
+
+}
+
+function getNHSelectedDates(emp, year, monthIndex, days) {
+
+    const attendance =
+        Array.isArray(emp.days)
+            ? emp.days
+            : [];
+
+    const dates = [];
+
+    attendance.forEach((status, index) => {
+
+        if (
+            status !== "NHP" &&
+            status !== "NHR" &&
+            status !== "NHAV"
+        ) {
+            return;
+        }
+
+        const date =
+            new Date(
+                year,
+                monthIndex,
+                11 + index
+            );
+
+        const day =
+            String(
+                date.getDate()
+            ).padStart(2, "0");
+
+        const month =
+            String(
+                date.getMonth() + 1
+            ).padStart(2, "0");
+
+        const fullDate =
+            `${day}/${month}/${date.getFullYear()}`;
+
+        dates.push(
+            `${fullDate} : ${status}`
+        );
+    });
+
+    return dates;
+}
+
+function openNH() {
+	
+	const depot = getCurrentDepot();
+	
+    const period =
+        document.getElementById("musterPeriod").value;
+
+    const year =
+        Number(
+            document.getElementById("musterYear").value
+        );
+
+    const [startMonth] =
+        period.split("-").map(Number);
+
+    const monthIndex =
+        startMonth - 1;
+		
+	const days =
+    new Date(
+        year,
+        monthIndex + 1,
+        0
+    ).getDate();
+
+    const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+    const month =
+        monthNames[monthIndex];
+
+
+    /* =====================================================
+       EMPLOYEE DATA
+    ===================================================== */
+
+    const billUnit =
+        document.getElementById("bu").value;
+
+    const nhEmployees =
+    employees.map(emp => ({
+        name: emp.name || "",
+        pe: emp.pe || "",
+        desig: emp.desig || "",
+        billUnit: billUnit || "",
+
+        nhDate:
+            getNHSelectedDates(
+                emp,
+                year,
+                monthIndex,
+                days
+            )
+    }));
+    /* =====================================================
+       SEND TO A4
+    ===================================================== */
+
+    const nhData = {
+        month: month,
+        year: year,
+        employees: nhEmployees,
+		depot:depot
+    };
+
+    window.location.href =
+        "pages/nhLetter.html?data=" +
+        encodeURIComponent(
+            JSON.stringify(nhData)
         );
 
 }
