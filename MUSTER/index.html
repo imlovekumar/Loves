@@ -33,7 +33,8 @@
             </button>
             <div id="headerMenu" class="header-menu-dropdown">
                 <button onclick="printMuster(); closeHeaderMenu();">🖨️ Print Muster</button>
-            		<button onclick="syncAttendance(true); closeHeaderMenu();">🔄 Sync Attendance</button>
+            		<button onclick="openNDA(); closeHeaderMenu();">🖨️ View NDA</button>
+				<button onclick="syncAttendance(true); closeHeaderMenu();">🔄 Sync Attendance</button>
 				<button onclick="saveAttendance(); closeHeaderMenu();">💾 Save Attendance</button>
 				<button onclick="resetData(); closeHeaderMenu();">🔘 Reset Attendance</button>
 				<button onclick="logoutMuster(true); closeHeaderMenu();">🔒 Logout</button>
@@ -110,7 +111,6 @@
 
 })();
 </script>
-
 <main class="container" id="musterApp">
 
 	<!-- Muster Detail SETTINGS -->
@@ -1473,7 +1473,6 @@ function buildNDASelectionCalendar() {
     const currentMonth =
         monthNames[month];
 
-
     const previousMonth =
         monthNames[
             (month + 11) % 12
@@ -2708,6 +2707,156 @@ function hideAppLoading() {
     if (overlay) {
         overlay.style.display = "none";
     }
+}
+
+function getNDASelectedDates(emp, year, monthIndex, days) {
+
+    const selection =
+        Array.isArray(emp.ndaSelection)
+            ? emp.ndaSelection
+            : [];
+
+    const dates = [];
+
+    selection.forEach(id => {
+
+        /* Previous month last day → 01 */
+        if (id === "previous-first") {
+
+            const previousLastDate =
+                new Date(
+                    year,
+                    monthIndex,
+                    0
+                );
+
+            dates.push(
+                String(
+                    previousLastDate.getDate()
+                ).padStart(2, "0")
+                + "-01"
+            );
+
+            return;
+        }
+
+
+        /* Normal duty */
+        if (id.startsWith("duty-")) {
+
+            const day =
+                Number(
+                    id.replace("duty-", "")
+                );
+
+            dates.push(
+                String(day).padStart(2, "0")
+                + "-"
+                + String(day + 1).padStart(2, "0")
+            );
+
+            return;
+        }
+
+
+        /* Last day → next month 01 */
+        if (id === "last-next") {
+
+            dates.push(
+                String(days).padStart(2, "0")
+                + "-01"
+            );
+        }
+
+    });
+
+    return dates;
+}
+
+function openNDA() {
+	
+	const depot = getCurrentDepot();
+	
+    const period =
+        document.getElementById("musterPeriod").value;
+
+    const year =
+        Number(
+            document.getElementById("musterYear").value
+        );
+
+    const [startMonth] =
+        period.split("-").map(Number);
+
+    const monthIndex =
+        startMonth - 1;
+		
+	const days =
+    new Date(
+        year,
+        monthIndex + 1,
+        0
+    ).getDate();
+
+    const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+    const month =
+        monthNames[monthIndex];
+
+
+    /* =====================================================
+       EMPLOYEE DATA
+    ===================================================== */
+
+    const billUnit =
+        document.getElementById("bu").value;
+
+    const ndaEmployees =
+        employees.map(emp => ({
+            name: emp.name || "",
+            pe: emp.pe || "",
+            desig: emp.desig || "",
+            billUnit: billUnit || "",
+			ndaDate: getNDASelectedDates(
+        			emp,
+        			year,
+        			monthIndex,
+        			days
+    			),
+			hours: emp.nda || "",
+			unit: ((emp.nda || 0) / 6).toFixed(2)
+        }));
+
+    /* =====================================================
+       SEND TO A4
+    ===================================================== */
+
+    const ndaData = {
+        month: month,
+        year: year,
+        employees: ndaEmployees,
+		depot:depot
+    };
+
+    window.location.href =
+        "pages/ndaLetter.html?data=" +
+        encodeURIComponent(
+            JSON.stringify(ndaData)
+        );
+
 }
 </script>
 </body>
