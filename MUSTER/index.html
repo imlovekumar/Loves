@@ -2848,6 +2848,7 @@ function openNDA() {
     const ndaData = {
         month: month,
         year: year,
+		office:employees[0].office,
         employees: ndaEmployees,
 		depot:depot
     };
@@ -2964,7 +2965,6 @@ function openNH() {
         pe: emp.pe || "",
         desig: emp.desig || "",
         billUnit: billUnit || "",
-
         nhDate:
             getNHSelectedDates(
                 emp,
@@ -2980,6 +2980,7 @@ function openNH() {
     const nhData = {
         month: month,
         year: year,
+		office:employees[0].office,
         employees: nhEmployees,
 		depot:depot
     };
