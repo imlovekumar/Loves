@@ -1,1 +1,352 @@
-i love
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>NDA Preview</title>
+
+<!-- =========================================================
+     BASIC A4 PAGE CSS
+========================================================= -->
+		<style>
+			* {
+			    box-sizing: border-box;
+			}
+			html,
+			body {
+			    margin: 0;
+			    padding: 0;
+			    min-height: 100%;
+			    font-family: Arial, sans-serif;
+			    background: #e5e5e5;
+			}
+			
+			/* =========================================================
+			   TOP BAR
+			========================================================= */
+			.top-bar {
+			    height: 55px;
+			    background: #222;
+			    display: flex;
+			    align-items: center;
+			    gap: 10px;
+			    padding: 0 12px;
+			    position: sticky;
+			    top: 0;
+			    z-index: 100;
+			}
+			.top-bar button {
+			    border: none;
+			    background: #fff;
+			    color: #222;
+			    padding: 9px 16px;
+			    border-radius: 6px;
+			    font-size: 16px;
+			    cursor: pointer;
+			}
+			.top-bar button:active {
+			    transform: scale(0.96);
+			}
+			
+			/* =========================================================
+			   PAPER AREA
+			========================================================= */
+			.paper-container {
+			    width: 100%;
+			    overflow-x: auto;
+			    overflow-y: visible;
+			    padding: 20px;
+			}
+			/* =========================================================
+			   A4 PAPER
+			========================================================= */
+			.a4-paper {
+			    width: 210mm;
+			    min-width: 210mm;
+			    height: 297mm;
+			    min-height: 297mm;
+			    margin: 0 auto;
+			    background: #fff;
+			    box-shadow:
+			        0 2px 12px rgba(0,0,0,0.25);
+			    position: relative;
+			    padding: 15mm;
+			}
+			/* =========================================================
+			   MOBILE
+			   Keep A4 at FULL SIZE.
+			   Do NOT shrink.
+			========================================================= */
+			@media (max-width: 600px) {
+			    .paper-container {
+			        padding: 10px;
+			    }
+			    .a4-paper {
+			        margin-left: 0;
+			        margin-right: 0;
+			    }
+			}
+			/* =========================================================
+			   PRINT
+			========================================================= */
+			@media print {
+			    @page {
+			        size: A4 portrait;
+			        margin: 0;
+			    }
+			    html,
+			    body {
+			        background: #fff;
+			    }
+			    .top-bar {
+			        display: none;
+			    }
+			    .paper-container {
+			        padding: 0;
+			        overflow: visible;
+			    }
+			    .a4-paper {
+			        width: 210mm;
+			        min-width: 210mm;
+			        height: 297mm;
+			        min-height: 297mm;
+			        margin: 0;
+			        box-shadow: none;
+			    }
+			}
+		</style>
+		<!-- =========================================================
+     NDA CSS
+========================================================= -->
+		<link rel="stylesheet" href="../css/nda.css" />
+	</head>
+	<body>
+		<!-- =======================================================
+     TOP BAR
+======================================================= -->
+		<div class="top-bar">
+			<button id="back" onclick="goBack()">← Back</button>
+			<button id="print" onclick="window.print()">🖨 Print</button>
+		</div>
+		<!-- =======================================================
+     A4 CONTAINER
+======================================================= -->
+		<div class="paper-container">
+			<div class="a4-paper">
+				<div id="printArea"></div>
+			</div>
+		</div>
+		<script>
+			/* =========================================================
+			   BACK
+			========================================================= */
+			function goBack() {
+			    history.back();
+			}
+			
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+			/* =========================================================
+			   GENERATE NDA
+			   TEMPORARY STATIC FORMAT ONLY
+			   No data exchange with index.html yet.
+			========================================================= */
+			function generatePDF() {
+				
+				const params =
+    new URLSearchParams(window.location.search);
+
+const data =
+    JSON.parse(
+        params.get("data")
+    );
+
+const month = data.month;
+const year = data.year;
+
+			    const printArea =
+			        document.getElementById("printArea");
+			    if (!printArea) {
+			        alert("printArea not found.");
+			        return;
+			    }
+				
+				const rows =
+    data.employees
+        .map((emp, index) => {
+
+            return `
+
+                <tr>
+
+                    <td class="nda-sno">
+                        ${index + 1}
+                    </td>
+
+                    <td class="nda-employee">
+
+                        ${escapeHTML(
+                            emp.name || ""
+                        )}
+
+                        <br>
+
+                        <strong>
+                            PF:
+                            ${escapeHTML(
+                                emp.pe || ""
+                            )}
+                        </strong>
+
+                        <br>
+
+                        <strong>
+                            BU:
+                            ${escapeHTML(
+                                emp.billUnit || ""
+                            )}
+                        </strong>
+
+                    </td>
+
+                    <td class="nda-desig">
+
+                        ${escapeHTML(
+                            emp.desig || ""
+                        )}
+
+                    </td>
+
+                    <td class="nda-dates">
+    ${escapeHTML(
+        (emp.ndaDate && emp.ndaDate.length > 0)
+            ? emp.ndaDate.join(", ")
+            : "---"
+    )}
+</td>
+
+                    <td class="nda-hours">
+                        ${emp.hours || 0}
+                    </td>
+
+                    <td class="nda-unit">
+                        ${emp.unit || "0.00"}
+                    </td>
+
+                </tr>
+
+            `;
+
+        })
+        .join("");
+		
+			    printArea.innerHTML = `
+			        <div class="nda-preview-page">
+			            <!-- =============================================
+			                 FROM
+			            ============================================== -->
+			            <div class="nda-letter-line">
+    From,<br>
+    ${escapeHTML(data.depot || "")}
+</div>
+			            <!-- =============================================
+			                 TO
+			            ============================================== -->
+			            <div class="nda-letter-line">
+			                To,<br>
+			                Sr. DPO, GUNTAKAL
+			            </div>
+			            <!-- =============================================
+			                 SUBJECT
+			            ============================================== -->
+			            <div class="nda-subject">
+			                <strong>
+			                    Subject:
+			                </strong>
+			                Submission of Night Duty Allowance
+			                for the month of ${month}, ${year}.
+			            </div>
+			            <!-- =============================================
+			                 SALUTATION
+			            ============================================== -->
+			            <div class="nda-letter-line">
+			                Respected Sir,
+			            </div>
+			            <!-- =============================================
+			                 INTRODUCTION
+			            ============================================== -->
+			            <div class="nda-letter-line">
+			                The Detail of the Night Duty Allowance
+			                for the Month of ${month}, ${year}
+			                of the Following Employee<br>
+			                This is for Your Kind Attention.
+			            </div>
+			            <!-- =============================================
+			                 NDA TABLE
+			            ============================================== -->
+			            <table class="nda-preview-table">
+			                <thead>
+			                    <tr>
+			                        <th>
+			                            SNo
+			                        </th>
+			                        <th>
+			                            Name of the Employee
+			                        </th>
+			                        <th>
+			                            Desg.
+			                        </th>
+			                        <th>
+			                            Date on which Night Duty Performed
+			                        </th>
+			                        <th>
+			                            Hours
+			                        </th>
+			                        <th>
+			                            Unit
+			                        </th>
+			                    </tr>
+			                </thead>
+			                <tbody>
+
+    ${rows}
+
+</tbody>
+			            </table>
+			            <!-- =============================================
+			                 BOTTOM
+			            ============================================== -->
+			            <div class="nda-bottom">
+			                <div>
+			                    <strong>
+			                        Date:
+			                    </strong>
+			                    <br><br>
+			                    <strong>
+			                        Place:
+			                    </strong>
+			                </div>
+			                <div class="nda-signature">
+  								<br><br><br>${escapeHTML(data.depot || "")}
+							</div>
+			            </div>
+			        </div>
+			    `;
+			}
+			/* =========================================================
+			   AUTO GENERATE ON PAGE LOAD
+			========================================================= */
+			document.addEventListener(
+			    "DOMContentLoaded",
+			    generatePDF
+			);
+		</script>
+	</body>
+</html>
