@@ -79,18 +79,9 @@
 			    position: relative;
 			    padding: 15mm;
 							box-sizing: border-box;
+							border : 1px solid #000;
 			}
-			
-			.a4-paper::before {
-    content: "";
-    position: absolute;
-    top: 3mm;
-    left: 3mm;
-    right: 3mm;
-    bottom: 3mm;
-    border: 1px solid #000;
-    pointer-events: none;
-}
+
 			/* =========================================================
 			   MOBILE
 			   Keep A4 at FULL SIZE.
@@ -127,11 +118,12 @@
 			    .a4-paper {
 			        width: 210mm;
 			        min-width: 210mm;
-			        height: 297mm;
-			        min-height: 297mm;
+			        height: 286mm;
+			        min-height: 286mm;
 			        margin: 0;
 			        box-shadow: none;
 					padding: 5mm;
+					border:none;
 			    }
 			}
 		</style>
