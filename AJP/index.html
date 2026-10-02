@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Journey Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --night: #11172b;
+  --night-2: #1b2340;
+  --paper: #eef1f7;
+  --ink: #141a2e;
+  --muted: #6b7490;
+  --line: #d3d9e8;
+  --signal: #ffb21a;
+  --go: #19b37a;
+  --radius: 18px;
+  --sans: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--night); }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--sans);
+  color: var(--ink);
+  background:
+    radial-gradient(500px 280px at 85% -40px, rgba(255,178,26,.18), transparent 70%),
+    var(--night);
+  padding: calc(18px + env(safe-area-inset-top)) 14px calc(24px + env(safe-area-inset-bottom));
+}
+.wrap { max-width: 460px; margin: 0 auto; }
+
+/* page title */
+.top { display: flex; align-items: center; gap: 12px; color: #fff; margin: 4px 4px 18px; }
+.top .badge {
+  width: 46px; height: 46px; border-radius: 14px; flex: none; overflow: hidden;
+  display: grid; place-items: center; font-size: 24px; background: transparent;
+}
+.top .badge img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.top h1 { margin: 0; font: 700 26px/1 var(--cond); letter-spacing: .02em; }
+.top p { margin: 3px 0 0; font-size: 13px; color: #98a2c3; }
+
+/* ticket */
+.ticket { background: var(--paper); border-radius: var(--radius); overflow: hidden; box-shadow: 0 24px 50px rgba(0,0,0,.45); }
+.stub { padding: 20px 18px 22px; }
+.body { padding: 22px 18px 20px; position: relative; }
+.body::before, .body::after {
+  content: ""; position: absolute; top: -11px; width: 22px; height: 22px; border-radius: 50%; background: var(--night);
+}
+.body::before { left: -11px; }
+.body::after { right: -11px; }
+.body::marker { content: none; }
+.perf { border-top: 2px dashed var(--line); }
+
+label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+
+/* route: From / To station dropdowns (look like the Class dropdown) */
+.route { display: grid; grid-template-columns: 1fr 44px 1fr; align-items: end; gap: 6px; }
+.station.dd { margin-bottom: 0; }
+.rlabel { height: 16px; margin-bottom: 6px; min-width: 0; }
+.rlabel label { margin: 0; line-height: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.station.to .rlabel label { text-align: right; }
+.rlabel label.found { font-size: 11.5px; font-weight: 700; letter-spacing: .03em; color: #4f8a6b; }
+.st-input {
+  width: 100%; min-width: 0; padding: 0 0 4px; border: 0; border-bottom: 2px solid var(--line); border-radius: 0; background: transparent;
+  font: 700 clamp(32px, 10.5vw, 46px)/1 var(--cond); letter-spacing: .04em; text-transform: uppercase; color: var(--ink);
+  transition: border-color .2s;
+}
+.st-input, .st-input:focus, .st-input:focus-visible { outline: none; }
+.st-input::placeholder { color: #b8c0d6; }
+.station:focus-within .st-input { border-bottom-color: var(--signal); }
+.station.to .st-input { text-align: right; }
+.station.invalid .st-input { opacity: .38; }
+.station .dd-list { right: auto; width: min(290px, calc(100vw - 64px)); }
+.station.to .dd-list { left: auto; right: 0; }
+.dd-list li[aria-disabled="true"] { opacity: .38; cursor: not-allowed; }
+.dd-list li[aria-disabled="true"]:hover { background: transparent; }
+.route-arrow {
+  width: 44px; height: 44px; margin-bottom: 2px; border-radius: 50%; display: grid; place-items: center; color: var(--signal);
+  font: 700 17px/1 var(--cond); letter-spacing: .06em;
+  background: linear-gradient(145deg, #232d52, var(--night));
+  box-shadow: 0 0 0 4px var(--paper), 0 0 0 5.5px var(--line), 0 8px 16px rgba(17,23,43,.3);
+}
+
+/* fields */
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.field { min-width: 0; }
+.field { margin-bottom: 16px; }
+.field input {
+  width: 100%; height: 50px; padding: 0 14px; font: 500 16px var(--sans); color: var(--ink);
+  background: #fff; border: 1.5px solid var(--line); border-radius: 12px; outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.field input:focus { border-color: var(--night-2); box-shadow: 0 0 0 4px rgba(255,178,26,.35); }
+.req { color: #d9534f; }
+.field input.err, .field input.err:focus { border-color: #d9534f; box-shadow: 0 0 0 4px rgba(217,83,79,.18); }
+.pw { position: relative; }
+.pw input { padding-right: 44px; }
+.pw button {
+  position: absolute; right: 5px; top: 7px; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 8px;
+  background: transparent; color: var(--night-2); cursor: pointer; display: grid; place-items: center;
+}
+.pw button .off { display: none; }
+.pw button.on .off { display: block; }
+.pw button.on .open { display: none; }
+
+/* date field (opens the custom calendar) */
+.datebox {
+  position: relative; display: flex; align-items: center; justify-content: space-between; width: 100%; text-align: left;
+  height: 50px; padding: 0 14px; background: #fff; border: 1.5px solid var(--line); border-radius: 12px; cursor: pointer;
+  font: 500 15px var(--sans); color: var(--ink); transition: border-color .2s, box-shadow .2s;
+  -webkit-appearance: none; appearance: none;
+}
+.datebox:focus-visible { border-color: var(--night-2); box-shadow: 0 0 0 4px rgba(255,178,26,.35); }
+.datebox .ph { color: #9aa3bd; }
+.datebox svg { flex: none; margin-left: 8px; color: var(--night-2); }
+
+/* calendar popup */
+.modal.centered { padding-top: calc(14px + env(safe-area-inset-top)); overflow-y: auto; }
+.modal.centered .sheet { margin: auto; }
+.sheet.cal { padding: 16px 14px 14px; }
+.cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cal-title { font: 700 22px/1 var(--cond); letter-spacing: .04em; }
+.cal-nav {
+  width: 40px; height: 40px; border: 0; border-radius: 50%; background: #dfe4f0; color: var(--night-2);
+  display: grid; place-items: center; cursor: pointer;
+}
+.cal-nav:disabled { opacity: .35; cursor: default; }
+.cal-dow, .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.cal-dow span { text-align: center; padding: 4px 0; font: 600 12px var(--sans); color: var(--muted); }
+.cal-day {
+  height: 42px; border: 0; border-radius: 12px; background: #fff; cursor: pointer;
+  font: 600 15px var(--sans); color: var(--ink); transition: background .15s;
+}
+.cal-day:hover:not(:disabled) { background: #e3e8f3; }
+.cal-day.today { box-shadow: inset 0 0 0 1.5px var(--night-2); }
+.cal-day.sel { background: var(--signal); color: var(--night); box-shadow: 0 6px 14px rgba(255,178,26,.35); }
+.cal-day:disabled { background: transparent; color: #b5bdd2; cursor: not-allowed; box-shadow: none; }
+.cal-day.off:disabled {
+  background: repeating-linear-gradient(135deg, #e1e6f1 0 5px, #eef1f7 5px 10px); color: #98a1ba; text-decoration: line-through;
+}
+.cal-note { margin: 12px 2px; min-height: 16px; font-size: 12.5px; line-height: 1.35; color: var(--muted); }
+.cal-note b { color: var(--ink); }
+.cal-train { margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cal-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.cal-week span { height: 32px; display: grid; place-items: center; border-radius: 10px; font: 700 13px var(--sans); }
+.cal-week .on { background: var(--go); color: #fff; }
+.cal-week .off { background: #e3e7f1; color: #a0a8c0; }
+.sheet.cal .btn { width: 100%; }
+
+/* chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.chip {
+  min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff;
+  font: 600 14px var(--sans); color: var(--ink); cursor: pointer; transition: background .15s, color .15s, border-color .15s;
+}
+.chip small { display: block; font-weight: 500; font-size: 10.5px; color: var(--muted); margin-top: -1px; }
+.chip[aria-checked="true"] { background: var(--night); border-color: var(--night); color: #fff; }
+.chip[aria-checked="true"] small { color: #aeb7d6; }
+.chip.quota[aria-checked="true"] { background: var(--signal); border-color: var(--signal); color: var(--night); }
+.chip.quota[aria-checked="true"] small { color: #5b4208; }
+
+/* payment type + availability check side by side */
+.payrow { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 18px; }
+.payrow .pay { flex: none; }
+.payrow .chips { margin-bottom: 0; flex-wrap: nowrap; }
+.payrow .avl-wrap { flex: 1; min-width: 0; }
+.avl {
+  width: 100%; min-height: 44px; padding: 6px 10px; border-radius: 12px; cursor: pointer;
+  border: 1.5px solid var(--night); background: var(--night); color: var(--signal);
+  font: 700 14px/1.15 var(--cond); letter-spacing: .05em; text-transform: uppercase; text-align: center;
+  transition: transform .12s ease, filter .2s, background .2s, color .2s;
+}
+.avl:hover { filter: brightness(1.15); }
+.avl:active { transform: scale(.97); }
+.avl:disabled { cursor: progress; filter: none; opacity: .8; }
+.avl.ok { background: var(--go); border-color: var(--go); color: #fff; }
+.avl.bad { background: #fff; border-color: var(--line); color: #b3392f; }
+
+/* custom class dropdown */
+.dd { position: relative; margin-bottom: 18px; }
+.dd-btn {
+  width: 100%; height: 52px; display: flex; align-items: center; gap: 12px; padding: 0 14px; text-align: left;
+  background: #fff; border: 1.5px solid var(--line); border-radius: 12px; cursor: pointer;
+  font: 500 15px var(--sans); color: var(--ink); transition: border-color .2s, box-shadow .2s;
+}
+.dd.open .dd-btn, .dd-btn:focus-visible { border-color: var(--night-2); box-shadow: 0 0 0 4px rgba(255,178,26,.35); outline: none; }
+.dd .code {
+  flex: none; min-width: 38px; height: 28px; padding: 0 6px; display: grid; place-items: center; border-radius: 8px;
+  background: var(--night); color: var(--signal); font: 700 15px/1 var(--cond); letter-spacing: .05em;
+}
+.dd .name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dd .chev { flex: none; color: var(--night-2); transition: transform .2s; }
+.dd.open .chev { transform: rotate(180deg); }
+.dd-list {
+  position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 20; margin: 0; padding: 6px; list-style: none;
+  background: #fff; border: 1.5px solid var(--line); border-radius: 14px; box-shadow: 0 18px 40px rgba(17,23,43,.25);
+  max-height: 228px; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: #b9c1d9 transparent;
+}
+.dd.up .dd-list { top: auto; bottom: calc(100% + 6px); }
+.dd-list::-webkit-scrollbar { width: 6px; }
+.dd-list::-webkit-scrollbar-track { background: transparent; margin: 8px 0; }
+.dd-list::-webkit-scrollbar-thumb { background: #b9c1d9; border-radius: 6px; }
+.dd-list::-webkit-scrollbar-thumb:hover { background: var(--night-2); }
+.dd-list[hidden] { display: none; }
+.dd-list li {
+  display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 10px; cursor: pointer;
+  font: 500 15px var(--sans); color: var(--ink);
+}
+.dd-list li:hover, .dd-list li.active { background: #eef1f7; }
+.dd-list li[aria-selected="true"] { background: #fff3cf; }
+.dd-list li[aria-selected="true"] .code { background: var(--signal); color: var(--night); }
+.dd-list li .tick { margin-left: auto; color: var(--night-2); opacity: 0; flex: none; }
+.dd-list li[aria-selected="true"] .tick { opacity: 1; }
+
+/* user button + login popup */
+.user-btn {
+  position: relative; margin-left: auto; flex: none; width: 46px; height: 46px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.18); background: var(--night-2); color: var(--signal); cursor: pointer;
+  display: grid; place-items: center; transition: background .2s;
+}
+.user-btn:hover { background: #26305a; }
+.user-btn.ready::after {
+  content: ""; position: absolute; top: -4px; right: -4px; width: 20px; height: 20px; border-radius: 50%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%2319b37a'/%3E%3Cpath d='M6.5 12.5l4 4 7-8.5' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / cover no-repeat; box-shadow: 0 0 0 2px var(--night);
+}
+.sheet-head h2 { display: flex; align-items: center; gap: 8px; }
+.sheet .verified { display: none; width: 20px; height: 20px; border-radius: 50%; background: var(--go); color: #fff; place-items: center; }
+.sheet.ready .verified { display: inline-grid; }
+.modal {
+  position: fixed; inset: 0; z-index: 50; display: flex; align-items: flex-start; justify-content: center;
+  padding: calc(76px + env(safe-area-inset-top)) 14px 14px; background: rgba(8,12,24,.68);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+}
+.modal[hidden] { display: none; }
+.sheet {
+  width: 100%; max-width: 420px; background: var(--paper); border-radius: var(--radius); padding: 20px 18px 18px;
+  box-shadow: 0 24px 50px rgba(0,0,0,.5); animation: drop .22s ease;
+}
+@keyframes drop { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+.sheet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.sheet-head h2 { margin: 0; font: 700 24px/1 var(--cond); letter-spacing: .03em; }
+.sheet-head p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+.close-btn {
+  flex: none; width: 38px; height: 38px; border: 0; border-radius: 50%; background: #dfe4f0; color: var(--night-2);
+  cursor: pointer; display: grid; place-items: center;
+}
+.sheet .cta { margin-top: 4px; }
+@media (prefers-reduced-motion: reduce) { .sheet { animation: none; } }
+
+/* saved details */
+.saved {
+  margin-top: 18px; padding: 16px; background: #fff; border: 1.5px solid var(--line); border-radius: 16px;
+  animation: drop .25s ease;
+}
+.saved[hidden] { display: none; }
+.saved-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font: 700 21px/1 var(--cond); letter-spacing: .04em; }
+.saved-head .ok { width: 20px; height: 20px; border-radius: 50%; background: var(--go); color: #fff; display: grid; place-items: center; }
+.saved dl { margin: 0; }
+.saved .row { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding: 9px 0; border-top: 1px dashed var(--line); }
+.saved dt { flex: none; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.saved dd { margin: 0; text-align: right; font-size: 14.5px; font-weight: 600; word-break: break-word; }
+.saved-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.btn {
+  height: 48px; border-radius: 12px; border: 1.5px solid var(--night); cursor: pointer;
+  font: 700 19px var(--cond); letter-spacing: .06em; transition: background .2s, color .2s, transform .12s;
+}
+.btn:active { transform: scale(.97); }
+.btn.copy { background: var(--night); color: var(--signal); }
+.btn.copy.done { background: var(--go); border-color: var(--go); color: #fff; }
+.btn.reset { background: transparent; color: var(--night); }
+.btn.reset:hover { background: #e3e8f3; }
+
+
+
+/* one-line notes under fields, shown as a small box that matches the inputs.
+   Always visible and greyed out; turns green when a value is found and orange on an error.
+   Fixed height, so changing it never moves the page. */
+.fieldnote {
+  margin-top: 6px; height: 28px; padding: 0 14px; border: 1.5px solid #dde1ec; border-radius: 10px;
+  background: #e9ecf3; color: #a3abc0;
+  line-height: 25px; font-size: 11.5px; font-weight: 700; letter-spacing: .04em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.fieldnote:empty::before { content: attr(data-ph); }   /* faint placeholder while empty */
+.fieldnote:not(:empty) { color: var(--muted); }          /* e.g. "Fetching..." */
+.fieldnote.ok { background: #e6f1ec; border-color: #cfe3d8; color: #4f8a6b; }
+.fieldnote.bad { background: #fbece0; border-color: #f3d5bd; color: #b4540a; }
+.field.note-field { margin-bottom: 0; }
+
+/* input with icon */
+.inbox { position: relative; }
+.field .inbox input { padding-right: 44px; }
+.inbox svg { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--night-2); pointer-events: none; }
+
+.phone .cc {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%); padding-right: 10px;
+  border-right: 1.5px solid var(--line); font: 600 15px/22px var(--sans); color: var(--ink); pointer-events: none;
+}
+.field .phone input { padding-left: 64px; }
+
+/* dropdowns */
+.field select {
+  width: 100%; height: 50px; padding: 0 40px 0 14px; font: 500 15px var(--sans); color: var(--ink);
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%2311172b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+  border: 1.5px solid var(--line); border-radius: 12px; outline: none; appearance: none; -webkit-appearance: none;
+  text-overflow: ellipsis; transition: border-color .2s, box-shadow .2s;
+}
+.field select:focus { border-color: var(--night-2); box-shadow: 0 0 0 4px rgba(255,178,26,.35); }
+.stub .grid { margin-bottom: 0; }
+.stub .route { margin-top: 12px; }
+
+.cta {
+  width: 100%; height: 56px; border: 0; border-radius: 14px; cursor: pointer;
+  background: var(--signal); color: var(--night); font: 700 21px var(--cond); letter-spacing: .06em;
+  box-shadow: 0 8px 20px rgba(255,178,26,.35); transition: transform .12s ease, filter .2s;
+}
+.cta:active { transform: scale(.98); }
+.cta:hover { filter: brightness(1.05); }
+.toast {
+  margin-top: 12px; text-align: center; font-size: 13px; font-weight: 600; color: #0b7a53; min-height: 18px;
+}
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
+
+@media (max-width: 380px) {
+  .grid { grid-template-columns: 1fr; gap: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge"><img src="images/logo.png" alt="Logo" onerror="this.parentNode.textContent='🚆'"></div>
+    <div>
+      <h1>Journey Planner</h1>
+      <p>Fill in once, then start booking</p>
+    </div>
+    <button type="button" class="user-btn" id="userBtn" aria-label="IRCTC Login details" aria-haspopup="dialog">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+    </button>
+  </header>
+
+  <main class="ticket">
+    <section class="stub">
+      <div class="grid">
+        <div class="field note-field">
+          <label for="trainNumber">Train number <span class="req" aria-hidden="true">*</span></label>
+          <div class="inbox">
+            <input type="text" id="trainNumber" inputmode="numeric" maxlength="5" placeholder="12951" required aria-required="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 14h.01M15 14h.01M8 21l2-4M16 21l-2-4"/></svg>
+          </div>
+          <div class="fieldnote" id="trainStatus" data-ph="TRAIN NAME"></div>
+        </div>
+        <div class="field note-field">
+          <label for="dateBtn">Journey date</label>
+          <button type="button" class="datebox" id="dateBtn" aria-haspopup="dialog">
+            <span id="dateText" class="ph">DD-MM-YYYY</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </button>
+          <input type="hidden" id="JDate">
+          <div class="fieldnote" id="dateHint" data-ph="DAY"></div>
+        </div>
+      </div>
+
+      <div class="route">
+        <div class="station dd" id="fromDd">
+          <div class="rlabel"><label id="fromLbl" for="from">From</label></div>
+          <input type="text" class="st-input" id="from" maxlength="5" placeholder="---" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fromList" aria-label="From station">
+          <ul class="dd-list" id="fromList" role="listbox" aria-labelledby="fromLbl" hidden></ul>
+        </div>
+        <div class="route-arrow" aria-hidden="true">TO</div>
+        <div class="station dd to" id="toDd">
+          <div class="rlabel"><label id="toLbl" for="to">To</label></div>
+          <input type="text" class="st-input" id="to" maxlength="5" placeholder="---" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="toList" aria-label="To station">
+          <ul class="dd-list" id="toList" role="listbox" aria-labelledby="toLbl" hidden></ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="perf"></div>
+
+    <section class="body">
+      <span class="lbl" id="quotaLbl">Quota</span>
+      <div class="chips" role="radiogroup" aria-labelledby="quotaLbl" id="quotaChips">
+        <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="GENERAL">General</button>
+        <button type="button" class="chip quota" role="radio" aria-checked="true" data-value="TATKAL">Tatkal</button>
+        <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="PREMIUM TATKAL">Premium Tatkal</button>
+      </div>
+      <input type="hidden" id="quota" value="TATKAL">
+
+      <span class="lbl" id="classLbl">Class</span>
+      <div class="dd" id="classDd">
+        <button type="button" class="dd-btn" id="classBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="classLbl classCode classText">
+          <span class="code" id="classCode">SL</span><span class="name" id="classText">Sleeper</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <ul class="dd-list" id="classList" role="listbox" aria-labelledby="classLbl" hidden>
+          <li role="option" id="cls-2S" data-value="Second Sitting (2S)" data-code="2S" data-name="Second Sitting" aria-selected="false"><span class="code">2S</span><span class="name">Second Sitting</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="cls-SL" data-value="Sleeper (SL)" data-code="SL" data-name="Sleeper" aria-selected="true"><span class="code">SL</span><span class="name">Sleeper</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="cls-CC" data-value="AC Chair car (CC)" data-code="CC" data-name="AC Chair Car" aria-selected="false"><span class="code">CC</span><span class="name">AC Chair Car</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="cls-3A" data-value="AC 3 Tier (3A)" data-code="3A" data-name="Third AC" aria-selected="false"><span class="code">3A</span><span class="name">Third AC</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="cls-3E" data-value="AC 3 Economy (3E)" data-code="3E" data-name="AC 3 Economy" aria-selected="false"><span class="code">3E</span><span class="name">AC 3 Economy</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="cls-2A" data-value="AC 2 Tier (2A)" data-code="2A" data-name="Second AC" aria-selected="false"><span class="code">2A</span><span class="name">Second AC</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="cls-1A" data-value="AC First Class (1A)" data-code="1A" data-name="First AC" aria-selected="false"><span class="code">1A</span><span class="name">First AC</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="cls-EC" data-value="Exec. Chair Car (EC)" data-code="EC" data-name="Exec. Chair Car" aria-selected="false"><span class="code">EC</span><span class="name">Exec. Chair Car</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+        </ul>
+      </div>
+      <input type="hidden" id="className" value="Sleeper (SL)">
+
+      <div class="field">
+        <label for="mobile">Mobile number</label>
+        <div class="inbox phone">
+          <span class="cc">+91</span>
+          <input type="tel" id="mobile" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel-national">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        </div>
+      </div>
+
+      <div class="payrow">
+        <div class="pay">
+          <span class="lbl" id="payLbl">Payment type</span>
+          <div class="chips" role="radiogroup" aria-labelledby="payLbl" id="paymentChips">
+            <button type="button" class="chip quota" role="radio" aria-checked="true" data-value="QR">QR</button>
+            <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="WALLET">Wallet</button>
+          </div>
+        </div>
+        <div class="avl-wrap">
+          <span class="lbl" id="avlLbl">Availability</span>
+          <button type="button" class="avl" id="avlBtn" aria-labelledby="avlLbl avlBtn">Check</button>
+        </div>
+      </div>
+      <input type="hidden" id="payment" value="QR">
+
+      <button type="button" class="cta" onclick="getValues()">SAVE DETAILS</button>
+
+      <section class="saved" id="saved" hidden aria-live="polite">
+        <div class="saved-head">
+          <span class="ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l5 5 9-11"/></svg></span>
+          Saved details
+        </div>
+        <dl id="savedList"></dl>
+        <div class="saved-actions">
+          <button type="button" class="btn copy" id="copyBtn" onclick="copyDetails()">COPY</button>
+          <button type="button" class="btn reset" onclick="resetAll()">RESET</button>
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="loginModal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <div class="sheet-head">
+      <div>
+        <h2 id="loginTitle">IRCTC Login details<span class="verified" title="Verified" aria-label="Details filled"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l5 5 9-11"/></svg></span></h2>
+        <p>Used to sign in when booking starts</p>
+      </div>
+      <button type="button" class="close-btn" id="closeLogin" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+        <div class="field">
+          <label for="username">Username</label>
+          <div class="inbox">
+            <input type="text" id="username" autocomplete="username" autocapitalize="none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+          </div>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="pw">
+            <input type="password" id="password" autocomplete="current-password">
+            <button type="button" id="pwBtn" onclick="togglePassword()" aria-label="Show password">
+              <svg class="open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.9 17.9A10.4 10.4 0 0 1 12 19C5.6 19 2 12 2 12a18 18 0 0 1 5.1-5.9M9.9 5.2A9.8 9.8 0 0 1 12 5c6.4 0 10 7 10 7a18 18 0 0 1-2.2 3.2M1 1l22 22"/><path d="M14.1 14.1A3 3 0 0 1 9.9 9.9"/></svg>
+            </button>
+          </div>
+        </div>
+    <button type="button" class="cta" id="saveLogin">SAVE</button>
+  </div>
+</div>
+
+<div class="modal centered" id="calModal" hidden>
+  <div class="sheet cal" role="dialog" aria-modal="true" aria-label="Choose journey date">
+    <div class="cal-head">
+      <button type="button" class="cal-nav" id="calPrev" aria-label="Previous month"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <div class="cal-title" id="calTitle"></div>
+      <button type="button" class="cal-nav" id="calNext" aria-label="Next month"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+    <div class="cal-dow" aria-hidden="true"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-note" id="calNote"></div>
+    <button type="button" class="btn reset" id="calClose">CLOSE</button>
+  </div>
+</div>
+
+
+<script src="js/script.js"></script>
+<script>
+// ===== Train lookup =====
+// The label stays "Train number"; the train name shows on the one-line status under the field.
+const trainInput = document.getElementById("trainNumber");
+const trainStatus = document.getElementById("trainStatus");
+let trainData = null;   // last successful lookup (the calendar reads the running days from it)
+let trainReq = 0;       // lets a newer lookup cancel an older one
+
+function applyStations(list) {   // fills / clears the From and To dropdowns; must never break the lookup
+  try { setStations(list); } catch (e) { console.debug("Station list skipped:", e); }
+}
+
+function setTrainStatus(text, kind) {   // kind: "ok" (found) | "bad" (not found) | nothing
+  trainStatus.textContent = text;
+  trainStatus.title = text;
+  trainStatus.className = "fieldnote" + (kind ? " " + kind : "");
+  try { refreshDateHint(); } catch (e) {}   // calendar side; must never affect the lookup
+}
+
+// tapping a filled train number clears it (and, via the input event, the station list / name / availability)
+function clearTrain() {
+  if (!trainInput.value) return;
+  trainInput.value = "";
+  trainInput.dispatchEvent(new Event("input", { bubbles: true }));
+}
+trainInput.addEventListener("focus", clearTrain);
+trainInput.addEventListener("click", () => { if (trainInput.value.length === 5) clearTrain(); });
+
+trainInput.addEventListener("input", async () => {
+  trainInput.value = trainInput.value.replace(/\D/g, "");
+  trainInput.classList.remove("err");
+  const number = trainInput.value;
+  const id = ++trainReq;
+
+  trainData = null;
+  applyStations([]);
+  setTrainStatus("");
+  if (number.length !== 5) return;
+
+  setTrainStatus("Fetching\u2026");
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 5000);
+
+  try {
+    const response = await fetch(
+      `https://www.irctc.co.in/eticketing/protected/mapps1/trnscheduleenquiry/${number}`,
+      {
+        method: "GET",
+        headers: {
+          "Accept": "application/json, text/plain, */*",
+          "greq": "1786346446139:35112400-a522-4941-9480-9c04e976b031"
+        },
+        signal: ctrl.signal
+      }
+    );
+    const data = await response.json();
+    if (id !== trainReq) return;
+    if (!data || typeof data.trainName !== "string" || !data.trainName.trim()) throw new Error("No train name in reply");
+    trainData = data;
+    applyStations(data.stationList);
+    setTrainStatus(data.trainName.trim().toUpperCase(), "ok");
+  } catch (error) {
+    if (id !== trainReq) return;
+    console.debug("Train lookup failed:", error);
+    setTrainStatus("No Train", "bad");
+  } finally {
+    clearTimeout(timer);
+  }
+});
+
+// ===== Password toggle, chips =====
+function togglePassword() {
+  const pw = document.getElementById("password");
+  const btn = document.getElementById("pwBtn");
+  const show = pw.type === "password";
+  pw.type = show ? "text" : "password";
+  btn.classList.toggle("on", show);
+  btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+}
+
+// Chip groups keep the hidden inputs (#quota, #className) in sync
+function bindChips(groupId, hiddenId) {
+  const group = document.getElementById(groupId);
+  group.addEventListener("click", (e) => {
+    const chip = e.target.closest(".chip");
+    if (!chip) return;
+    group.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-checked", c === chip));
+    document.getElementById(hiddenId).value = chip.dataset.value;
+  });
+}
+bindChips("quotaChips", "quota");
+bindChips("paymentChips", "payment");
+
+// Login popup
+(function () {
+  const modal = document.getElementById("loginModal");
+  const userBtn = document.getElementById("userBtn");
+  const u = document.getElementById("username");
+  const p = document.getElementById("password");
+  function refreshDot() {
+    const ok = u.value.trim() !== "" && p.value !== "";
+    userBtn.classList.toggle("ready", ok);
+    modal.querySelector(".sheet").classList.toggle("ready", ok);
+    userBtn.setAttribute("aria-label", ok ? "IRCTC Login details (filled)" : "IRCTC Login details");
+  }
+  function openLogin() { modal.hidden = false; setTimeout(() => u.focus(), 50); }
+  function closeLogin() { modal.hidden = true; refreshDot(); userBtn.focus(); }
+  userBtn.addEventListener("click", openLogin);
+  document.getElementById("closeLogin").addEventListener("click", closeLogin);
+  document.getElementById("saveLogin").addEventListener("click", closeLogin);
+  modal.addEventListener("click", e => { if (e.target === modal) closeLogin(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.hidden) closeLogin(); });
+  u.addEventListener("input", refreshDot);
+  p.addEventListener("input", refreshDot);
+  setTimeout(refreshDot, 300); // pick up browser autofill
+})();
+
+// Custom class dropdown
+(function () {
+  const dd = document.getElementById("classDd");
+  const btn = document.getElementById("classBtn");
+  const list = document.getElementById("classList");
+  const items = Array.from(list.querySelectorAll("li"));
+  let active = items.findIndex(li => li.getAttribute("aria-selected") === "true");
+
+  function setActive(i) {
+    active = (i + items.length) % items.length;
+    items.forEach((li, idx) => li.classList.toggle("active", idx === active));
+    const li = items[active];
+    if (li.offsetTop < list.scrollTop) list.scrollTop = li.offsetTop - 6;
+    else if (li.offsetTop + li.offsetHeight > list.scrollTop + list.clientHeight)
+      list.scrollTop = li.offsetTop + li.offsetHeight - list.clientHeight + 6;
+  }
+  function fit() {
+    const r = btn.getBoundingClientRect();
+    const below = window.innerHeight - r.bottom - 14;
+    const above = r.top - 14;
+    const up = below < 180 && above > below;
+    dd.classList.toggle("up", up);
+    list.style.maxHeight = Math.max(120, Math.min(228, up ? above : below)) + "px";
+  }
+  function setOpen(open) {
+    dd.classList.toggle("open", open);
+    list.hidden = !open;
+    btn.setAttribute("aria-expanded", open);
+    if (open) { fit(); setActive(Math.max(active, 0)); }
+  }
+  function choose(li, silent) {
+    items.forEach(x => x.setAttribute("aria-selected", x === li));
+    document.getElementById("className").value = li.dataset.value;
+    document.getElementById("classCode").textContent = li.dataset.code;
+    document.getElementById("classText").textContent = li.dataset.name;
+    active = items.indexOf(li);
+    setOpen(false);
+    if (!silent) btn.focus();
+  }
+  window.resetClassDropdown = () => choose(items.find(li => li.dataset.code === "SL"), true);
+  btn.addEventListener("click", () => setOpen(list.hidden));
+  items.forEach(li => li.addEventListener("click", () => choose(li)));
+  document.addEventListener("click", e => { if (!dd.contains(e.target)) setOpen(false); });
+  btn.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (list.hidden) setOpen(true); else setActive(active + (e.key === "ArrowDown" ? 1 : -1));
+    } else if ((e.key === "Enter" || e.key === " ") && !list.hidden) {
+      e.preventDefault(); choose(items[active]);
+    } else if (e.key === "Escape") setOpen(false);
+  });
+})();
+
+// ===== From / To station inputs (editable, with a suggestion list built from the train's stationList) =====
+(function () {
+  const KEYS = ["from", "to"];
+  const TICK = '<svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>';
+  const DEFAULT = { from: "From", to: "To" };
+  let stations = [];                 // [{ code, name, boardingDisabled, order }]
+  const act = { from: -1, to: -1 };  // highlighted suggestion (keyboard)
+  const ui = {};
+  KEYS.forEach(k => {
+    ui[k] = {
+      dd: document.getElementById(k + "Dd"),
+      input: document.getElementById(k),
+      list: document.getElementById(k + "List"),
+      label: document.getElementById(k + "Lbl")
+    };
+  });
+
+  function nameFor(code) {
+    const st = stations.find(s => s.code === code);
+    return st ? st.name : "";
+  }
+  // the From / To label turns into the station name when the typed code matches a stop on the route
+  function showNames() {
+    KEYS.forEach(k => {
+      const n = nameFor(ui[k].input.value);
+      ui[k].label.textContent = n || DEFAULT[k];
+      ui[k].label.classList.toggle("found", !!n);
+      ui[k].label.title = n;
+      // a code that is greyed out in the suggestions can still be typed; the input just looks faded as a warning
+      const st = stations.find(x => x.code === ui[k].input.value);
+      ui[k].dd.classList.toggle("invalid", !!st && isBlocked(k, st));
+    });
+  }
+
+  // From can't be a boarding-disabled stop or the last stop; To must come after the From station (when From is a known stop)
+  function isBlocked(k, st) {
+    if (k === "from") return st.boardingDisabled || stations.indexOf(st) === stations.length - 1;
+    const fi = stations.findIndex(s => s.code === ui.from.input.value);
+    return fi >= 0 && stations.indexOf(st) <= fi;
+  }
+
+  // best matches first: exact code, code starts with, name starts with, anything that contains it
+  function matches(q) {
+    const flat = t => t.replace(/[^A-Z0-9]/g, "");
+    const out = [];
+    stations.forEach(st => {
+      const n = flat(st.name);
+      let rank = 4;
+      if (q) {
+        if (st.code === q) rank = 0;
+        else if (st.code.startsWith(q)) rank = 1;
+        else if (n.startsWith(q)) rank = 2;
+        else if (st.code.includes(q) || n.includes(q)) rank = 3;
+        else return;
+      }
+      out.push({ st, rank });
+    });
+    return out.sort((a, b) => a.rank - b.rank || a.st.order - b.st.order).map(x => x.st);
+  }
+
+  function render(k, q) {
+    const list = ui[k].list;
+    list.textContent = "";
+    const found = matches(q);
+    found.forEach(st => {
+      const li = document.createElement("li");
+      li.setAttribute("role", "option");
+      li.dataset.code = st.code;
+      li.setAttribute("aria-selected", st.code === ui[k].input.value);
+      li.setAttribute("aria-disabled", isBlocked(k, st));
+      const code = document.createElement("span");
+      code.className = "code";
+      code.textContent = st.code;
+      const name = document.createElement("span");
+      name.className = "name";
+      name.textContent = st.name;
+      li.append(code, name);
+      li.insertAdjacentHTML("beforeend", TICK);
+      list.appendChild(li);
+    });
+    return found.length;
+  }
+
+  function fit(k) {   // keep the list on screen: shrink it, or open it upwards when there's no room below
+    const u = ui[k], r = u.input.getBoundingClientRect();
+    const below = window.innerHeight - r.bottom - 14, above = r.top - 14;
+    const up = below < 180 && above > below;
+    u.dd.classList.toggle("up", up);
+    u.list.style.maxHeight = Math.max(120, Math.min(228, up ? above : below)) + "px";
+  }
+
+  function close(k) {
+    const u = ui[k];
+    u.dd.classList.remove("open");
+    u.list.hidden = true;
+    u.input.setAttribute("aria-expanded", "false");
+    act[k] = -1;
+  }
+
+  function open(k, q) {
+    KEYS.filter(x => x !== k).forEach(close);
+    if (!stations.length || !render(k, q)) { close(k); return; }
+    const u = ui[k];
+    u.dd.classList.add("open");
+    u.list.hidden = false;
+    u.input.setAttribute("aria-expanded", "true");
+    fit(k);
+    u.list.scrollTop = 0;
+    const items = Array.from(u.list.children);
+    highlight(k, items.findIndex(li => li.getAttribute("aria-disabled") !== "true"));
+  }
+
+  function highlight(k, i) {
+    const items = Array.from(ui[k].list.children);
+    if (!items.length || i < 0) { act[k] = -1; return; }
+    act[k] = Math.max(0, Math.min(items.length - 1, i));
+    items.forEach((li, n) => li.classList.toggle("active", n === act[k]));
+    const li = items[act[k]], list = ui[k].list;
+    if (li.offsetTop < list.scrollTop) list.scrollTop = li.offsetTop - 6;
+    else if (li.offsetTop + li.offsetHeight > list.scrollTop + list.clientHeight)
+      list.scrollTop = li.offsetTop + li.offsetHeight - list.clientHeight + 6;
+  }
+
+  function step(k, dir) {
+    const items = Array.from(ui[k].list.children);
+    for (let i = act[k] + dir; i >= 0 && i < items.length; i += dir) {
+      if (items[i].getAttribute("aria-disabled") !== "true") { highlight(k, i); return; }
+    }
+  }
+
+  function choose(k, li) {
+    if (!li || li.getAttribute("aria-disabled") === "true") return;
+    ui[k].input.value = li.dataset.code;
+    showNames();
+    close(k);
+  }
+
+  KEYS.forEach(k => {
+    const u = ui[k];
+    let prev = "";
+    // tapping the box clears it so a new code can be typed; if nothing is entered the old code comes back
+    u.input.addEventListener("focus", () => { prev = u.input.value; u.input.value = ""; showNames(); });
+    u.input.addEventListener("blur", () => { if (!u.input.value) { u.input.value = prev; showNames(); } });
+    u.input.addEventListener("input", () => {
+      u.input.value = u.input.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+      showNames();
+      open(k, u.input.value);          // suggestions appear as soon as you type
+    });
+    u.input.addEventListener("keydown", e => {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        if (u.list.hidden) open(k, ""); else step(k, e.key === "ArrowDown" ? 1 : -1);
+      } else if (e.key === "Enter" && !u.list.hidden) {
+        e.preventDefault();
+        choose(k, u.list.children[act[k]]);
+      } else if (e.key === "Tab") close(k);
+    });
+    u.list.addEventListener("mousedown", e => e.preventDefault());   // keep focus in the input while picking
+    u.list.addEventListener("click", e => choose(k, e.target.closest("li")));
+  });
+  document.addEventListener("click", e => KEYS.forEach(k => { if (!ui[k].dd.contains(e.target)) close(k); }));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") KEYS.forEach(close); });
+
+  // Called by the train lookup: prefill From = first boarding stop, To = last stop; [] clears both
+  window.setStations = function (list) {
+    stations = (Array.isArray(list) ? list : [])
+      .filter(st => st && st.stationCode)
+      .map(st => ({
+        code: String(st.stationCode).trim().toUpperCase(),
+        name: String(st.stationName || "").trim().toUpperCase(),
+        boardingDisabled: st.boardingDisabled === true || st.boardingDisabled === "true",
+        order: Number(st.stnSerialNumber) || 0
+      }))
+      .sort((a, b) => a.order - b.order);
+    const first = stations.length > 1
+      ? stations.findIndex((st, i) => i < stations.length - 1 && !st.boardingDisabled)
+      : -1;
+    if (first < 0) stations = [];
+    KEYS.forEach(close);
+    ui.from.input.value = stations.length ? stations[first].code : "";
+    ui.to.input.value = stations.length ? stations[stations.length - 1].code : "";
+    showNames();
+  };
+})();
+
+// Journey date: custom calendar that greys out the days the train doesn't run
+const jDate = document.getElementById("JDate");
+const dateText = document.getElementById("dateText");
+const dateBtn = document.getElementById("dateBtn");
+const dateHint = document.getElementById("dateHint");
+const today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+const DAY_KEYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const DAY_LONG = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+// only an explicit "N" disables a weekday, so missing data never blocks a date
+function runsOn(dow) { return !trainData || !trainData["trainRunsOn" + DAY_KEYS[dow]] || trainData["trainRunsOn" + DAY_KEYS[dow]] !== "N"; }
+function pad(n) { return String(n).padStart(2, "0"); }
+
+// one line under the date: the weekday, or "Date not available" when the train doesn't run that day
+function refreshDateHint() {
+  let msg = "", kind = "";
+  if (jDate.value) {
+    const dow = new Date(jDate.value + "T00:00:00").getDay();
+    if (runsOn(dow)) { msg = DAY_LONG[dow].toUpperCase(); kind = " ok"; }
+    else { msg = "Date not available"; kind = " bad"; }
+  }
+  dateHint.textContent = msg;
+  dateHint.className = "fieldnote" + kind;
+}
+
+jDate.addEventListener("change", () => {
+  if (jDate.value) {
+    dateText.textContent = jDate.value.split("-").reverse().join("-");
+    dateText.classList.remove("ph");
+  } else {
+    dateText.textContent = "DD-MM-YYYY";
+    dateText.classList.add("ph");
+  }
+  refreshDateHint();
+});
+
+(function () {
+  const modal = document.getElementById("calModal");
+  const grid = document.getElementById("calGrid");
+  const title = document.getElementById("calTitle");
+  const note = document.getElementById("calNote");
+  const prev = document.getElementById("calPrev");
+  const next = document.getElementById("calNext");
+  const nowY = +today.slice(0, 4), nowM = +today.slice(5, 7) - 1;
+  let vy = nowY, vm = nowM;
+
+  function render() {
+    title.textContent = new Date(vy, vm, 1).toLocaleString("en-US", { month: "long", year: "numeric" });
+    grid.textContent = "";
+    const first = new Date(vy, vm, 1).getDay();
+    const count = new Date(vy, vm + 1, 0).getDate();
+    for (let i = 0; i < first; i++) grid.appendChild(document.createElement("span"));
+    for (let d = 1; d <= count; d++) {
+      const iso = vy + "-" + pad(vm + 1) + "-" + pad(d);
+      const past = iso < today;
+      const off = !runsOn(new Date(vy, vm, d).getDay());
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cal-day" + (iso === today ? " today" : "") + (off && !past ? " off" : "") +
+                    (iso === jDate.value && !past && !off ? " sel" : "");
+      b.textContent = d;
+      b.dataset.iso = iso;
+      b.disabled = past || off;
+      if (off && !past) b.setAttribute("aria-label", d + ", train does not run");
+      grid.appendChild(b);
+    }
+    const idx = vy * 12 + vm, nowIdx = nowY * 12 + nowM;
+    prev.disabled = idx <= nowIdx;
+    next.disabled = idx >= nowIdx + 3;   // current month + 3 more
+
+    note.textContent = "";
+    if (trainData) {
+      const nm = document.createElement("div");
+      nm.className = "cal-train";
+      nm.textContent = (String(trainData.trainName || "").trim() || "This train").toUpperCase();
+      const week = document.createElement("div");
+      week.className = "cal-week";
+      [["M", 1], ["T", 2], ["W", 3], ["T", 4], ["F", 5], ["S", 6], ["S", 0]].forEach(([letter, dow]) => {
+        const d = document.createElement("span");
+        d.textContent = letter;
+        d.className = runsOn(dow) ? "on" : "off";
+        d.title = DAY_LONG[dow] + (runsOn(dow) ? ": runs" : ": does not run");
+        week.appendChild(d);
+      });
+      note.append(nm, week);
+    }
+  }
+
+  function openCal() {
+    const base = jDate.value && jDate.value >= today ? jDate.value : today;
+    vy = +base.slice(0, 4); vm = +base.slice(5, 7) - 1;
+    render();
+    modal.hidden = false;
+    const f = grid.querySelector(".cal-day.sel") || grid.querySelector(".cal-day:not(:disabled)");
+    if (f) f.focus({ preventScroll: true });
+  }
+  function closeCal() { modal.hidden = true; dateBtn.focus(); }
+  function shift(n) { vm += n; if (vm < 0) { vm = 11; vy--; } if (vm > 11) { vm = 0; vy++; } render(); }
+
+  dateBtn.addEventListener("click", openCal);
+  prev.addEventListener("click", () => shift(-1));
+  next.addEventListener("click", () => shift(1));
+  document.getElementById("calClose").addEventListener("click", closeCal);
+  modal.addEventListener("click", e => { if (e.target === modal) closeCal(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.hidden) closeCal(); });
+  grid.addEventListener("click", e => {
+    const btn = e.target.closest(".cal-day");
+    if (!btn || btn.disabled) return;
+    jDate.value = btn.dataset.iso;
+    jDate.dispatchEvent(new Event("change"));
+    closeCal();
+  });
+})();
+
+// Default to today's date
+jDate.value = today;
+jDate.dispatchEvent(new Event("change"));
+
+// Digits only for mobile and train number
+["mobile", "trainNumber"].forEach(id => {
+  document.getElementById(id).addEventListener("input", e => {
+    e.target.value = e.target.value.replace(/\D/g, "");
+  });
+});
+
+// ---- Copy format: static text stays the same, only the values change ----
+// COPY_TAIL = the static part of the script that follows the sleep function.
+// (COPY_TAIL is loaded from js/script.js)
+
+function buildCopyText(d) {
+  const q = v => JSON.stringify(v);   // safe double-quoted string, handles quotes/backslashes in values
+  return [
+    "javascript:(async function() {",
+    "",
+    "const username = " + q(d.username) + ";",
+    "const password = " + q(d.password) + ";",
+    "const trainNumber = " + q(d.trainNumber) + ";",
+    "const JDate = " + q(d.JDate) + ";",
+    "const from = " + q(d.from) + ";",
+    "const to = " + q(d.to) + ";",
+    "const quota = " + q(d.quota) + ";",
+    "const className = " + q(d.className) + ";",
+    "const mobile = " + q(d.mobile) + ";",
+    "const paymentType = " + q(d.paymentType) + ";",
+    "",
+    "function sleep(ms) { ",
+    "    return new Promise(resolve => setTimeout(resolve, ms)); ",
+    "}"
+  ].join("\n") + "\n\n" + COPY_TAIL;
+}
+
+let savedText = "";
+
+function getValues() {
+  const val = id => document.getElementById(id).value.trim();
+  const username = val("username");
+  const password = document.getElementById("password").value;
+  const trainNumber = val("trainNumber");
+  if (!/^\d{5}$/.test(trainNumber)) {   // train number is mandatory
+    trainInput.classList.add("err");
+    setTrainStatus(trainNumber ? "Enter 5-digit train number" : "Train number required", "bad");
+    trainInput.scrollIntoView({ behavior: "smooth", block: "center" });
+    trainInput.focus();
+    return;
+  }
+  const dateValue = document.getElementById("JDate").value;
+  const JDate = dateValue ? dateValue.split("-").reverse().join("-") : "";
+  const from = val("from").toUpperCase();
+  const to = val("to").toUpperCase();
+  const quota = val("quota");
+  const className = val("className");
+  const mobile = val("mobile");
+  const payment = val("payment");
+
+  console.log({ username, password, trainNumber, JDate, from, to, quota, className, mobile, payment });
+
+  const dash = v => (v ? v : "-");
+  const rows = [
+    ["Train number", dash(trainNumber), dash(trainNumber)],
+    ["Journey date", dash(JDate), dash(JDate)],
+    ["From", dash(from), dash(from)],
+    ["To", dash(to), dash(to)],
+    ["Quota", dash(quota), dash(quota)],
+    ["Class", dash(className), dash(className)],
+    ["Mobile", mobile ? "+91 " + mobile : "-", mobile ? "+91 " + mobile : "-"],
+    ["Payment type", dash(payment), dash(payment)],
+    ["Username", dash(username), dash(username)],
+    ["Password", password ? "\u2022".repeat(Math.min(password.length, 10)) : "-", dash(password)]
+  ];
+
+  const list = document.getElementById("savedList");
+  list.textContent = "";
+  rows.forEach(([label, shown]) => {
+    const row = document.createElement("div");
+    row.className = "row";
+    const dt = document.createElement("dt");
+    dt.textContent = label;
+    const dd = document.createElement("dd");
+    dd.textContent = shown;
+    row.append(dt, dd);
+    list.appendChild(row);
+  });
+  const dp = dateValue ? dateValue.split("-") : [];
+  const copyDate = dp.length === 3 ? `${+dp[2]}-${+dp[1]}-${dp[0]}` : "";   // e.g. 2-11-2026
+  savedText = buildCopyText({
+    username, password, trainNumber, JDate: copyDate, from, to, quota, className, mobile, paymentType: payment
+  });
+
+  const panel = document.getElementById("saved");
+  panel.hidden = false;
+  panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+async function copyDetails() {
+  const btn = document.getElementById("copyBtn");
+  let ok = false;
+  try {
+    await navigator.clipboard.writeText(savedText);
+    ok = true;
+  } catch (e) {
+    const ta = document.createElement("textarea");
+    ta.value = savedText;
+    ta.style.cssText = "position:fixed;opacity:0;";
+    document.body.appendChild(ta);
+    ta.select();
+    try { ok = document.execCommand("copy"); } catch (err) {}
+    ta.remove();
+  }
+  btn.textContent = ok ? "COPIED \u2713" : "COPY FAILED";
+  btn.classList.toggle("done", ok);
+  setTimeout(() => { btn.textContent = "COPY"; btn.classList.remove("done"); }, 1800);
+}
+
+function setChip(groupId, hiddenId, value) {
+  document.querySelectorAll("#" + groupId + " .chip").forEach(c =>
+    c.setAttribute("aria-checked", c.dataset.value === value));
+  document.getElementById(hiddenId).value = value;
+}
+
+function resetAll() {
+  ["trainNumber", "mobile", "username", "password"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+  trainReq++; trainData = null; applyStations([]); setTrainStatus("");
+  // date back to today
+  const jd = document.getElementById("JDate");
+  jd.value = today;
+  jd.dispatchEvent(new Event("change"));
+  // chips + class dropdown back to defaults
+  setChip("quotaChips", "quota", "TATKAL");
+  setChip("paymentChips", "payment", "QR");
+  window.resetClassDropdown();
+  window.resetAvailability();
+  // password hidden again, tick removed
+  document.getElementById("password").type = "password";
+  document.getElementById("pwBtn").classList.remove("on");
+  document.getElementById("pwBtn").setAttribute("aria-label", "Show password");
+  document.getElementById("username").dispatchEvent(new Event("input"));
+  document.getElementById("password").dispatchEvent(new Event("input"));
+  // hide saved area, fresh start
+  document.getElementById("saved").hidden = true;
+  document.getElementById("savedList").textContent = "";
+  savedText = "";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+// ===== Check availability (same request logic as the standalone checker; paymentFlag is always N) =====
+(function () {
+  const BASE_URL = "https://www.irctc.co.in/eticketing/protected/mapps1/avlFarenquiry";
+  const QUOTA_CODE = { "GENERAL": "GN", "TATKAL": "TQ", "PREMIUM TATKAL": "PT" };
+  const btn = document.getElementById("avlBtn");
+  const DEFAULT = "Check";
+  let shownKey = null, busy = false;
+
+  function params() {
+    const val = id => document.getElementById(id).value.trim();
+    const iso = document.getElementById("JDate").value;                       // yyyy-mm-dd
+    const cls = document.querySelector("#classList li[aria-selected='true']");
+    return {
+      trainNumber: val("trainNumber"),
+      journeyDate: iso.replace(/-/g, ""),                                       // yyyymmdd
+      responseDate: iso ? `${Number(iso.slice(8, 10))}-${Number(iso.slice(5, 7))}-${iso.slice(0, 4)}` : "",
+      from: val("from").toUpperCase(),
+      to: val("to").toUpperCase(),
+      journeyClass: cls ? cls.dataset.code : "",
+      quota: QUOTA_CODE[val("quota")] || "",
+      paymentFlag: "N"
+    };
+  }
+  const keyOf = p => [p.trainNumber, p.journeyDate, p.from, p.to, p.journeyClass, p.quota].join("|");
+
+  function show(text, state) {
+    btn.textContent = text;
+    btn.classList.toggle("ok", state === "ok");
+    btn.classList.toggle("bad", state === "bad");
+  }
+  // any change to the journey puts the button back to "Check"
+  function resetIfChanged() {
+    if (busy || shownKey === null) return;
+    if (keyOf(params()) !== shownKey) { shownKey = null; show(DEFAULT); }
+  }
+  window.resetAvailability = () => { shownKey = null; busy = false; btn.disabled = false; show(DEFAULT); };
+  ["input", "change", "click"].forEach(ev =>
+    document.addEventListener(ev, e => { if (e.target !== btn) setTimeout(resetIfChanged, 0); }, true));
+  const origSet = window.setStations;
+  window.setStations = function () { origSet.apply(this, arguments); resetIfChanged(); };
+
+  btn.addEventListener("click", async () => {
+    if (busy) return;
+    const p = params();
+    if (p.trainNumber.length !== 5) return show("Train no.?", "bad");
+    if (!/^\d{8}$/.test(p.journeyDate)) return show("Pick date", "bad");
+    if (!p.from || !p.to) return show("From / To?", "bad");
+    if (!p.journeyClass) return show("Pick class", "bad");
+    if (!p.quota) return show("Pick quota", "bad");
+
+    const url = `${BASE_URL}/${p.trainNumber}/${p.journeyDate}/${p.from}/${p.to}/${p.journeyClass}/${p.quota}/${p.paymentFlag}`;
+    const headers = new Headers();
+    headers.append("Accept", "application/json, text/plain, */*");
+    headers.append("Content-Type", "application/json");
+    headers.append("greq", Date.now() + ":39825583-d383-4cc1-ad40-15db7ee26206");
+
+    busy = true; btn.disabled = true; show("Checking\u2026");
+    const key = keyOf(p);
+    try {
+      const response = await fetch(url, { method: "POST", headers, body: JSON.stringify({ moreThanOneDay: false }) });
+      if (!response.ok) { show(`Error ${response.status}`, "bad"); return; }
+      const json = await response.json();
+      const item = json?.avlDayList?.find(x => x.availablityDate === p.responseDate);
+      if (!item) { show("Not found", "bad"); return; }
+      const status = item.availablityStatus || "---";
+      const amount = json.totalCollectibleAmount || "---";
+      show(`${status} | \u20b9${amount}`, "ok");
+    } catch (error) {
+      console.error(error);
+      show("Request failed", "bad");
+    } finally {
+      busy = false; btn.disabled = false; shownKey = key;
+    }
+  });
+})();
+</script>
+</body>
+</html>
