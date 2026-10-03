@@ -532,6 +532,7 @@ trainInput.addEventListener("click", () => { if (trainInput.value.length === 5) 
 trainInput.addEventListener("input", async () => {
   trainInput.value = trainInput.value.replace(/\D/g, "");
   trainInput.classList.remove("err");
+  if (trainInput.value.length === 5) trainInput.blur();   // 5 digits entered: hide the mobile keyboard
   const number = trainInput.value;
   const id = ++trainReq;
 
