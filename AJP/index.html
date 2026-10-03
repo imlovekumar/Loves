@@ -945,8 +945,8 @@ bindChips("paymentChips", "payment");
     const u = ui[k];
     let prev = "";
     // tapping the box clears it so a new code can be typed; if nothing is entered the old code comes back
-    u.input.addEventListener("focus", () => { prev = u.input.value; u.input.value = ""; showNames(); });
-    u.input.addEventListener("blur", () => { if (!u.input.value) { u.input.value = prev; showNames(); } });
+    u.input.addEventListener("focus", () => { prev = u.input.value; u.input.value = ""; showNames(); open(k, ""); });   // suggestions open right away
+    u.input.addEventListener("blur", () => { if (!u.input.value) { u.input.value = prev; showNames(); } close(k); });
     u.input.addEventListener("input", () => {
       u.input.value = u.input.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
       showNames();
