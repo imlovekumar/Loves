@@ -213,6 +213,7 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
   font: 500 15px var(--sans); color: var(--ink);
 }
 .dd-list li:hover, .dd-list li.active { background: #eef1f7; }
+.dd-list li.na { display: none; }   /* class not running on this train */
 .dd-list li[aria-selected="true"] { background: #fff3cf; }
 .dd-list li[aria-selected="true"] .code { background: var(--signal); color: var(--night); }
 .dd-list li .tick { margin-left: auto; color: var(--night-2); opacity: 0; flex: none; }
@@ -408,6 +409,7 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
           <li role="option" id="cls-2A" data-value="AC 2 Tier (2A)" data-code="2A" data-name="Second AC" aria-selected="false"><span class="code">2A</span><span class="name">Second AC</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
           <li role="option" id="cls-1A" data-value="AC First Class (1A)" data-code="1A" data-name="First AC" aria-selected="false"><span class="code">1A</span><span class="name">First AC</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
           <li role="option" id="cls-EC" data-value="Exec. Chair Car (EC)" data-code="EC" data-name="Exec. Chair Car" aria-selected="false"><span class="code">EC</span><span class="name">Exec. Chair Car</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="cls-EV" data-value="Vistadome AC (EV)" data-code="EV" data-name="Vistadome AC" aria-selected="false"><span class="code">EV</span><span class="name">Vistadome AC</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
         </ul>
       </div>
       <input type="hidden" id="className" value="Sleeper (SL)">
@@ -539,6 +541,7 @@ trainInput.addEventListener("input", async () => {
   trainData = null;
   applyStations([]);
   setTrainStatus("");
+  window.showClasses(null);   // new train number: back to the preset classes until its own list arrives
   if (number.length !== 5) return;
 
   setTrainStatus("Fetching\u2026");
@@ -561,8 +564,10 @@ trainInput.addEventListener("input", async () => {
     if (id !== trainReq) return;
     if (!data || typeof data.trainName !== "string" || !data.trainName.trim()) throw new Error("No train name in reply");
     trainData = data;
+    moveToRunningDate();   // selected date not a running day: jump to the next one that is
     applyStations(data.stationList);
     setTrainStatus(data.trainName.trim().toUpperCase(), "ok");
+    loadTrainClasses(number, data, id);   // runs once per train number (not on From / To / date changes)
   } catch (error) {
     if (id !== trainReq) return;
     console.debug("Train lookup failed:", error);
@@ -571,6 +576,115 @@ trainInput.addEventListener("input", async () => {
     clearTimeout(timer);
   }
 });
+
+// ===== Available classes for the train (fetched once per train number; presets stay if anything fails) =====
+async function getAvailableClasses(trainNumber, dateValue, knownSchedule, signal) {
+
+    const [year, month, day] = dateValue.split("-");
+    const journeyDate = `${year}${month}${day}`;
+
+    // 1. Get train details (already fetched by the train lookup, so reuse it when we have it)
+    let trainData = knownSchedule;
+    if (!trainData) {
+        const scheduleResponse = await fetch(
+            `https://www.irctc.co.in/eticketing/protected/mapps1/trnscheduleenquiry/${trainNumber}`,
+            {
+                method: "GET",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    greq: "1786346446139:35112400-a522-4941-9480-9c04e976b031"
+                },
+                signal
+            }
+        );
+
+        if (!scheduleResponse.ok)
+            throw new Error(`Train request failed: ${scheduleResponse.status}`);
+
+        trainData = await scheduleResponse.json();
+    }
+
+    const stationFrom = trainData.stationFrom;
+    const stationTo = trainData.stationTo;
+
+    if (!stationFrom || !stationTo)
+        throw new Error("Station details not found");
+
+
+    // 2. Get availability
+    const availabilityResponse = await fetch(
+        "https://www.irctc.co.in/eticketing/protected/mapps1/altAvlEnq/TC",
+        {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                greq: "1790991049524:f2496a8b-4840-4ce5-a584-50263feae23b"
+            },
+            body: JSON.stringify({
+                srcStn: stationFrom,
+                destStn: stationTo,
+                jrnyDate: journeyDate
+            }),
+            signal
+        }
+    );
+
+    if (!availabilityResponse.ok)
+        throw new Error(
+            `Availability request failed: ${availabilityResponse.status}`
+        );
+
+    const availabilityData =
+        await availabilityResponse.json();
+
+
+    // 3. Find requested train
+    const train =
+        availabilityData.trainBtwnStnsList?.find(
+            item =>
+                String(item.trainNumber) === String(trainNumber)
+        );
+
+
+    if (!train)
+        throw new Error(`Train ${trainNumber} not found`);
+
+
+    // 4. Return available classes
+    return {
+        trainNumber,
+        trainName: trainData.trainName,
+        stationFrom,
+        stationTo,
+        journeyDate,
+        availableClasses: train.avlClasses || []
+    };
+}
+
+const classCache = new Map();   // train number -> its class codes (successful lookups only)
+
+async function loadTrainClasses(number, schedule, id) {
+  try {
+    let codes = classCache.get(number);
+    if (!codes) {
+      const dateValue = document.getElementById("JDate").value;   // yyyy-mm-dd
+      if (!dateValue) return;
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 8000);
+      try {
+        const res = await getAvailableClasses(number, dateValue, schedule, ctrl.signal);
+        codes = res.availableClasses;
+      } finally { clearTimeout(timer); }
+      if (!Array.isArray(codes) || !codes.length) return;      // nothing usable: keep the presets
+      classCache.set(number, codes);
+    }
+    if (id !== trainReq) return;                               // a newer train number took over
+    window.showClasses(codes);
+  } catch (error) {
+    console.debug("Class lookup failed, keeping preset classes:", error);   // presets stay as they are
+  }
+}
 
 // ===== Password toggle, chips =====
 function togglePassword() {
@@ -658,14 +772,32 @@ bindChips("paymentChips", "payment");
     setOpen(false);
     if (!silent) btn.focus();
   }
-  window.resetClassDropdown = () => choose(items.find(li => li.dataset.code === "SL"), true);
+  // Show only the classes this train runs (codes = array), or every preset class (codes = null / empty / no match)
+  function showClasses(codes) {
+    const want = Array.isArray(codes) ? codes.map(c => String(c).trim().toUpperCase()) : [];
+    const any = items.some(li => want.includes(li.dataset.code));
+    items.forEach(li => li.classList.toggle("na", any && !want.includes(li.dataset.code)));
+    const sel = items.find(li => li.getAttribute("aria-selected") === "true");
+    if (sel && sel.classList.contains("na")) {
+      choose(items.find(li => !li.classList.contains("na")), true);   // chosen class doesn't run: pick the first one that does
+      if (window.resetAvailability) window.resetAvailability();
+    }
+  }
+  window.showClasses = showClasses;
+  window.resetClassDropdown = () => { showClasses(null); choose(items.find(li => li.dataset.code === "SL"), true); };
   btn.addEventListener("click", () => setOpen(list.hidden));
   items.forEach(li => li.addEventListener("click", () => choose(li)));
   document.addEventListener("click", e => { if (!dd.contains(e.target)) setOpen(false); });
   btn.addEventListener("keydown", e => {
     if (e.key === "ArrowDown" || e.key === "ArrowUp") {
       e.preventDefault();
-      if (list.hidden) setOpen(true); else setActive(active + (e.key === "ArrowDown" ? 1 : -1));
+      if (list.hidden) setOpen(true);
+      else {
+        const dir = e.key === "ArrowDown" ? 1 : -1;
+        let n = active;
+        for (let k = 0; k < items.length; k++) { n = (n + dir + items.length) % items.length; if (!items[n].classList.contains("na")) break; }
+        setActive(n);
+      }
     } else if ((e.key === "Enter" || e.key === " ") && !list.hidden) {
       e.preventDefault(); choose(items[active]);
     } else if (e.key === "Escape") setOpen(false);
@@ -869,6 +1001,19 @@ const DAY_LONG = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 // only an explicit "N" disables a weekday, so missing data never blocks a date
 function runsOn(dow) { return !trainData || !trainData["trainRunsOn" + DAY_KEYS[dow]] || trainData["trainRunsOn" + DAY_KEYS[dow]] !== "N"; }
 function pad(n) { return String(n).padStart(2, "0"); }
+
+// If the chosen date is a day the train doesn't run, move to the next running day (looks up to a week ahead)
+function moveToRunningDate() {
+  if (!jDate.value || !trainData) return;
+  const [y, m, d] = jDate.value.split("-").map(Number);
+  for (let i = 0; i < 7; i++) {
+    const dt = new Date(y, m - 1, d + i);
+    if (!runsOn(dt.getDay())) continue;
+    const iso = dt.getFullYear() + "-" + pad(dt.getMonth() + 1) + "-" + pad(dt.getDate());
+    if (iso !== jDate.value) { jDate.value = iso; jDate.dispatchEvent(new Event("change")); }
+    return;
+  }
+}
 
 // one line under the date: the weekday, or "Date not available" when the train doesn't run that day
 function refreshDateHint() {
