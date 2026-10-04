@@ -447,11 +447,11 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
     <section class="body">
       <span class="lbl" id="quotaLbl">Quota</span>
       <div class="chips" role="radiogroup" aria-labelledby="quotaLbl" id="quotaChips">
-        <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="GENERAL">General</button>
-        <button type="button" class="chip quota" role="radio" aria-checked="true" data-value="TATKAL">Tatkal</button>
+        <button type="button" class="chip quota" role="radio" aria-checked="true" data-value="GENERAL">General</button>
+        <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="TATKAL">Tatkal</button>
         <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="PREMIUM TATKAL">Premium Tatkal</button>
       </div>
-      <input type="hidden" id="quota" value="TATKAL">
+      <input type="hidden" id="quota" value="GENERAL">
 
       <span class="lbl" id="classLbl">Class</span>
       <div class="dd" id="classDd">
@@ -1392,7 +1392,7 @@ function resetAll(keepLogin) {
   jd.value = today;
   jd.dispatchEvent(new Event("change"));
   // chips + class dropdown back to defaults
-  setChip("quotaChips", "quota", "TATKAL");
+  setChip("quotaChips", "quota", "GENERAL");
   setChip("paymentChips", "payment", "QR");
   window.resetClassDropdown();
   window.resetAvailability();
