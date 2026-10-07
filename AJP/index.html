@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Journey Planner</title>
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
@@ -167,6 +167,7 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
 .datebox svg { flex: none; margin-left: 8px; color: var(--night-2); }
 
 /* calendar popup */
+.modal.modal-top { overflow-y: auto; }   /* passenger popup: starts at the same top offset as the login popup, scrolls when tall */
 .modal.centered { padding-top: calc(14px + env(safe-area-inset-top)); overflow-y: auto; }
 .modal.centered .sheet { margin: auto; }
 .sheet.cal { padding: 16px 14px 14px; }
@@ -201,6 +202,8 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
 
 /* chips */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+#paxChips { margin-bottom: 12px; }          /* tighter gaps: class/quota -> passenger type -> mobile -> payment type */
+.body > .field { margin-bottom: 12px; }
 .chip {
   min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff;
   font: 600 14px var(--sans); color: var(--ink); cursor: pointer; transition: background .15s, color .15s, border-color .15s;
@@ -228,6 +231,19 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
 .avl.ok { background: var(--go); border-color: var(--go); color: #fff; }
 .avl.bad { background: #fff; border-color: var(--line); color: #b3392f; }
 
+/* no auto-zoom when a field is focused: iOS zooms into anything under 16px */
+input, select, textarea { font-size: max(16px, 1em); }
+/* quota + class side by side */
+.qc { display: grid; grid-template-columns: 6fr 7fr; gap: 8px; margin-bottom: 12px; align-items: start; }   /* fixed widths, quota a bit smaller than class */
+.qc-cell { min-width: 0; }
+.qc .dd { margin-bottom: 0; }
+.qc .dd-btn { padding: 0 7px; gap: 5px; font-size: 13.5px; }
+.qc .dd .code { flex: none; min-width: 27px; height: 26px; padding: 0 3px; font-size: 13px; }
+.qc .dd .chev { width: 10px; height: 10px; }
+.qc .dd-btn .name { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13.5px; }   /* one line only: a long name ends in ... while the code stays fully visible */
+.qc .dd-list { width: max-content; min-width: 100%; max-width: calc(100vw - 56px); }
+.qc-cell:last-child .dd-list { left: auto; right: 0; }
+@media (max-width: 345px) { .qc .dd-btn, .qc .dd-btn .name { font-size: 13px; } }
 /* custom class dropdown */
 .dd { position: relative; margin-bottom: 18px; }
 .dd-btn {
@@ -273,6 +289,61 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
   display: grid; place-items: center; transition: background .2s;
 }
 .user-btn:hover { background: #26305a; }
+.chip .plus { margin-right: 6px; vertical-align: -1px; }
+.chip .pcount:not(:empty)::before { content: " \00b7 "; }
+
+/* new passenger popup */
+.sheet.pax { max-width: 440px; }
+.pax-tools { display: flex; align-items: center; gap: 8px; }
+.pax-tools button {
+  flex: none; width: 38px; height: 38px; border: 0; border-radius: 50%; cursor: pointer; display: grid; place-items: center;
+  background: var(--night); color: var(--signal); transition: transform .12s ease, opacity .2s;
+}
+.pax-tools button:active { transform: scale(.92); }
+.pax-tools button:disabled { opacity: .3; cursor: not-allowed; }
+.pax-tools .close-btn { background: #dfe4f0; color: var(--night-2); }
+#passengers:empty::before { content: "No passengers yet. Tap + to add one."; display: block; text-align: center; color: var(--muted); font-size: 13.5px; padding: 8px 0 20px; }
+.pcard { background: #fff; border: 1.5px solid var(--line); border-radius: 14px; padding: 10px 12px 2px; margin-bottom: 8px; }
+.phead { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.pcard h3 { margin: 0; font: 700 18px/1 var(--cond); letter-spacing: .04em; text-transform: uppercase; color: var(--night-2); }
+.pgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 8px; }
+.pcard .field { margin-bottom: 8px; }
+.pcard .field label { margin-bottom: 3px; font-size: 12px; }
+.pcard .field input { height: 44px; padding-top: 0; padding-bottom: 0; font-size: 16px; }
+.pgrid .wide { grid-column: 1 / -1; }
+.pcard .field input, .pcard .field select { background: var(--paper); }
+.psave {
+  flex: none; height: 32px; padding: 0 18px; border: 0; border-radius: 10px; cursor: pointer;
+  background: var(--signal); color: var(--night); font: 700 17px/1 var(--cond); letter-spacing: .06em; text-transform: uppercase;
+  box-shadow: 0 6px 14px rgba(255,178,26,.35); transition: transform .12s ease, filter .2s;
+}
+.psave:hover { filter: brightness(1.05); }
+.psave:active { transform: scale(.97); }
+.pcard .dd { margin-bottom: 0; }
+.pcard .dd-btn { height: 44px; background: var(--paper); }
+.pcard .dd.open .dd-btn { background: #fff; }
+.pcard .dd-list { width: max-content; min-width: 100%; max-width: calc(100vw - 72px); }
+.pcard .dd.gender .dd-list { left: auto; right: 0; }   /* right-hand column: open towards the left */
+.pcard .dd-list li { padding: 8px 10px; gap: 8px; }
+.pcard .pview { display: none; }
+.pcard.done { padding: 0; margin-bottom: 6px; }
+.pcard.done .pedit { display: none; }
+.pcard.done .pview {
+  display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 12px; border: 0; background: transparent;
+  font: inherit; color: var(--ink); text-align: left; cursor: pointer; border-radius: 14px;
+}
+.pcard.done .pview:hover { background: #f6f8fc; }
+.pview .pn { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--night); color: var(--signal); display: grid; place-items: center; font: 700 13px/1 var(--cond); }
+.pview .pt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.pview .pt > * { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pview .l1 { font-size: 14px; }
+.pview .l1 b { font-weight: 700; }
+.pview .l1 span { color: var(--muted); font-size: 13px; margin-left: 10px; }
+.pview .l2 { font-size: 12.5px; color: var(--muted); }
+.pview .cb { display: inline-block; margin-left: 2px; padding: 1px 6px; border-radius: 5px; font: 700 10.5px/1.3 var(--sans); letter-spacing: .04em; vertical-align: 1px; }
+.pview .cb.yes { background: #e6f1ec; color: #3f7d5f; }
+.pview .cb.no { background: #e8ecf5; color: #5b6482; }
+.pview svg { flex: none; color: var(--muted); }
 .refresh-btn[hidden] { display: none; }
 /* refresh icon: same round button as the login icon, sitting just before it */
 .refresh-btn + .user-btn { margin-left: 0; }
@@ -445,14 +516,22 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
     <div class="perf"></div>
 
     <section class="body">
+      <div class="qc">
+      <div class="qc-cell">
       <span class="lbl" id="quotaLbl">Quota</span>
-      <div class="chips" role="radiogroup" aria-labelledby="quotaLbl" id="quotaChips">
-        <button type="button" class="chip quota" role="radio" aria-checked="true" data-value="GENERAL">General</button>
-        <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="TATKAL">Tatkal</button>
-        <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="PREMIUM TATKAL">Premium Tatkal</button>
+      <div class="dd" id="quotaDd">
+        <button type="button" class="dd-btn" id="quotaBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="quotaLbl quotaCode quotaText">
+          <span class="code" id="quotaCode">GN</span><span class="name" id="quotaText">General</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <ul class="dd-list" id="quotaList" role="listbox" aria-labelledby="quotaLbl" hidden>
+          <li role="option" id="q-GN" data-value="GENERAL" data-code="GN" data-name="General" aria-selected="true"><span class="code">GN</span><span class="name">General</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="q-TQ" data-value="TATKAL" data-code="TQ" data-name="Tatkal" aria-selected="false"><span class="code">TQ</span><span class="name">Tatkal</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="q-PT" data-value="PREMIUM TATKAL" data-code="PT" data-name="Premium Tatkal" aria-selected="false"><span class="code">PT</span><span class="name">Premium Tatkal</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" id="q-DP" data-value="DUTY PASS" data-code="DP" data-name="Duty Pass" aria-selected="false"><span class="code">DP</span><span class="name">Duty Pass</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+        </ul>
       </div>
-      <input type="hidden" id="quota" value="GENERAL">
-
+      </div>
+      <div class="qc-cell">
       <span class="lbl" id="classLbl">Class</span>
       <div class="dd" id="classDd">
         <button type="button" class="dd-btn" id="classBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="classLbl classCode classText">
@@ -470,7 +549,18 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
           <li role="option" id="cls-EV" data-value="Vistadome AC (EV)" data-code="EV" data-name="Vistadome AC" aria-selected="false"><span class="code">EV</span><span class="name">Vistadome AC</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
         </ul>
       </div>
+      </div>
+      </div>
+      <input type="hidden" id="quota" value="GENERAL">
+
       <input type="hidden" id="className" value="Sleeper (SL)">
+
+      <span class="lbl" id="paxLbl">Passenger type</span>
+      <div class="chips" role="radiogroup" aria-labelledby="paxLbl" id="paxChips">
+        <button type="button" class="chip quota" role="radio" aria-checked="true" data-value="EXISTING">Existing</button>
+        <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="NEW" id="newPaxBtn" aria-haspopup="dialog"><svg class="plus" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>New Passenger<span class="pcount" id="paxCount"></span></button>
+      </div>
+      <input type="hidden" id="passenger" value="EXISTING">
 
       <div class="field">
         <label for="mobile">Mobile number</label>
@@ -542,6 +632,29 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
           </div>
         </div>
     <button type="button" class="cta" id="saveLogin">SAVE</button>
+  </div>
+</div>
+
+<div class="modal modal-top" id="paxModal" hidden>
+  <div class="sheet pax" role="dialog" aria-modal="true" aria-labelledby="paxTitle">
+    <div class="sheet-head">
+      <div>
+        <h2 id="paxTitle">Passengers</h2>
+        <p id="paxHint">General &bull; Quota</p>
+      </div>
+      <div class="pax-tools">
+        <button type="button" id="removePassenger" title="Remove last passenger" aria-label="Remove last passenger">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+        </button>
+        <button type="button" id="addPassenger" title="Add passenger" aria-label="Add passenger">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <button type="button" class="close-btn" id="closePax" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="passengers"></div>
   </div>
 </div>
 
@@ -773,7 +886,6 @@ function bindChips(groupId, hiddenId) {
     document.getElementById(hiddenId).value = chip.dataset.value;
   });
 }
-bindChips("quotaChips", "quota");
 bindChips("paymentChips", "payment");
 
 // Login popup
@@ -798,6 +910,57 @@ bindChips("paymentChips", "payment");
   u.addEventListener("input", refreshDot);
   p.addEventListener("input", refreshDot);
   setTimeout(refreshDot, 300); // pick up browser autofill
+})();
+
+// Custom quota dropdown (same look and behaviour as the class dropdown)
+(function () {
+  const dd = document.getElementById("quotaDd");
+  const btn = document.getElementById("quotaBtn");
+  const list = document.getElementById("quotaList");
+  const items = Array.from(list.querySelectorAll("li"));
+  let active = 0;
+
+  function setActive(i) {
+    active = (i + items.length) % items.length;
+    items.forEach((li, idx) => li.classList.toggle("active", idx === active));
+  }
+  function fit() {
+    const r = btn.getBoundingClientRect();
+    const below = window.innerHeight - r.bottom - 14, above = r.top - 14;
+    const up = below < 180 && above > below;
+    dd.classList.toggle("up", up);
+    list.style.maxHeight = Math.max(120, Math.min(228, up ? above : below)) + "px";
+  }
+  function setOpen(open) {
+    dd.classList.toggle("open", open);
+    list.hidden = !open;
+    btn.setAttribute("aria-expanded", open);
+    if (open) { fit(); setActive(Math.max(active, 0)); }
+  }
+  function choose(li, silent) {
+    const q = document.getElementById("quota");
+    const changed = q.value !== li.dataset.value;
+    items.forEach(x => x.setAttribute("aria-selected", x === li));
+    q.value = li.dataset.value;
+    document.getElementById("quotaCode").textContent = li.dataset.code;
+    document.getElementById("quotaText").textContent = li.dataset.name;
+    active = items.indexOf(li);
+    setOpen(false);
+    if (!silent) btn.focus();
+    if (changed) q.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  window.resetQuotaDropdown = () => choose(items[0], true);
+  btn.addEventListener("click", () => setOpen(list.hidden));
+  items.forEach(li => li.addEventListener("click", () => choose(li)));
+  document.addEventListener("click", e => { if (!dd.contains(e.target)) setOpen(false); });
+  btn.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (list.hidden) setOpen(true); else setActive(active + (e.key === "ArrowDown" ? 1 : -1));
+    } else if ((e.key === "Enter" || e.key === " ") && !list.hidden) {
+      e.preventDefault(); choose(items[active]);
+    } else if (e.key === "Escape") setOpen(false);
+  });
 })();
 
 // Custom class dropdown
@@ -1268,6 +1431,21 @@ jDate.dispatchEvent(new Event("change"));
 // COPY_TAIL = the static part of the script that follows the sleep function.
 // (COPY_TAIL is loaded from js/script.js)
 
+// const passengers=[ { name:"..", age:30, gender:"..", berth:"..", child:null }, ... ];
+function passengersBlock(list) {
+  const q = v => JSON.stringify(v);
+  const items = (list || []).map(p => [
+    "    {",
+    "        name:" + q(p.name) + ",",
+    "        age:" + Number(p.age) + ",",
+    "        gender:" + q(p.gender) + ",",
+    "        berth:" + q(p.berth) + ",",
+    "        child:" + (p.childBerth == null ? "null" : q(p.childBerth)),
+    "    }"
+  ].join("\n"));
+  return "const passengers=[\n" + items.join(",\n") + "\n];";
+}
+
 function buildCopyText(d) {
   const q = v => JSON.stringify(v);   // safe double-quoted string, handles quotes/backslashes in values
   return [
@@ -1284,9 +1462,8 @@ function buildCopyText(d) {
     "const mobile = " + q(d.mobile) + ";",
     "const paymentType = " + q(d.paymentType) + ";",
     "",
-    "function sleep(ms) { ",
-    "    return new Promise(resolve => setTimeout(resolve, ms)); ",
-    "}"
+    "const existingPassengers = " + (d.existingPassengers ? "true" : "false") + ";",
+    ...(d.existingPassengers ? [] : ["", passengersBlock(d.passengers)]),   // the passengers list only exists for New Passenger
   ].join("\n") + "\n\n" + COPY_TAIL;
 }
 
@@ -1312,6 +1489,8 @@ function getValues() {
   const className = val("className");
   const mobile = val("mobile");
   const payment = val("payment");
+  const passenger = val("passenger");                      // EXISTING | NEW
+  const paxLabel = passenger === "NEW" ? "New Passenger (" + ((window.newPassengers || []).length || 1) + ")" : "Existing";
 
   console.log({ username, password, trainNumber, JDate, from, to, quota, className, mobile, payment });
 
@@ -1323,6 +1502,7 @@ function getValues() {
     ["To", dash(to), dash(to)],
     ["Quota", dash(quota), dash(quota)],
     ["Class", dash(className), dash(className)],
+    ["Passenger type", paxLabel, paxLabel],
     ["Mobile", mobile ? "+91 " + mobile : "-", mobile ? "+91 " + mobile : "-"],
     ["Payment type", dash(payment), dash(payment)],
     ["Username", dash(username), dash(username)],
@@ -1344,7 +1524,9 @@ function getValues() {
   const dp = dateValue ? dateValue.split("-") : [];
   const copyDate = dp.length === 3 ? `${+dp[2]}-${+dp[1]}-${dp[0]}` : "";   // e.g. 2-11-2026
   savedText = buildCopyText({
-    username, password, trainNumber, JDate: copyDate, from, to, quota, className, mobile, paymentType: payment
+    username, password, trainNumber, JDate: copyDate, from, to, quota, className, mobile, paymentType: payment,
+    existingPassengers: passenger !== "NEW",
+    passengers: passenger === "NEW" ? (window.newPassengers || []) : []
   });
 
   const panel = document.getElementById("saved");
@@ -1392,8 +1574,9 @@ function resetAll(keepLogin) {
   jd.value = today;
   jd.dispatchEvent(new Event("change"));
   // chips + class dropdown back to defaults
-  setChip("quotaChips", "quota", "GENERAL");
+  if (window.resetQuotaDropdown) window.resetQuotaDropdown();
   setChip("paymentChips", "payment", "QR");
+  if (!keepLogin && window.resetPassengers) window.resetPassengers();   // the top-bar refresh icon leaves passenger type alone
   window.resetClassDropdown();
   window.resetAvailability();
   if (!keepLogin) {
@@ -1421,6 +1604,290 @@ function resetAll(keepLogin) {
   const prevSet = window.setStations;
   window.setStations = function () { prevSet.apply(this, arguments); sync(); };
   sync();
+})();
+
+// ===== New passenger popup =====
+(function () {
+  const modal = document.getElementById("paxModal");
+  const list = document.getElementById("passengers");
+  const addBtn = document.getElementById("addPassenger");
+  const removeBtn = document.getElementById("removePassenger");
+  const newBtn = document.getElementById("newPaxBtn");
+  const countEl = document.getElementById("paxCount");
+  const hintEl = document.getElementById("paxHint");
+  const existingBtn = document.querySelector('#paxChips [data-value="EXISTING"]');
+  window.newPassengers = [];   // saved passengers: { name, age, gender, berth, childBerth }
+
+  // General allows 6 passengers, Tatkal and Premium Tatkal allow 4
+  const maxPax = () => document.getElementById("quota").value === "GENERAL" ? 6 : 4;
+  const cards = () => [...list.children];
+  const openCardEl = () => cards().find(c => c.classList.contains("open"));
+
+  // Themed dropdown, same look and behaviour as the Class dropdown. Its .value works like a <select>'s.
+  const CHEV = '<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+  const TICK = '<svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>';
+  const OPTIONS = {
+    gender: ["Male", "Female", "Transgender"],
+    berth: ["Lower", "Middle", "Upper", "Side Lower", "Side Upper"],
+    childBerth: ["Yes", "No"]
+  };
+  const LABELS = { gender: "Gender", berth: "Berth preference", childBerth: "Child berth" };
+  function closeSelects(except) {
+    list.querySelectorAll(".psel.open").forEach(d => { if (d !== except) d.setOpen(false); });
+  }
+  function makeSelect(cls) {
+    const opts = OPTIONS[cls];
+    const dd = document.createElement("div");
+    dd.className = "dd psel " + cls;
+    dd.innerHTML = '<button type="button" class="dd-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="' + LABELS[cls] + '"><span class="name"></span>' + CHEV + '</button><ul class="dd-list" role="listbox" hidden></ul>';
+    const btn = dd.querySelector(".dd-btn"), ul = dd.querySelector(".dd-list"), label = dd.querySelector(".name");
+    const items = opts.map(o => {
+      const li = document.createElement("li");
+      li.setAttribute("role", "option"); li.dataset.value = o;
+      li.innerHTML = '<span class="name"></span>' + TICK;
+      li.firstChild.textContent = o;
+      ul.appendChild(li);
+      return li;
+    });
+    let current = opts[0], active = 0;
+    function mark() { items.forEach((li, i) => li.setAttribute("aria-selected", li.dataset.value === current)); label.textContent = current; active = Math.max(0, opts.indexOf(current)); }
+    function setActive(i) {
+      active = (i + items.length) % items.length;
+      items.forEach((li, idx) => li.classList.toggle("active", idx === active));
+      const li = items[active];
+      if (li.offsetTop < ul.scrollTop) ul.scrollTop = li.offsetTop - 6;
+      else if (li.offsetTop + li.offsetHeight > ul.scrollTop + ul.clientHeight) ul.scrollTop = li.offsetTop + li.offsetHeight - ul.clientHeight + 6;
+    }
+    function fit() {
+      const r = btn.getBoundingClientRect();
+      const below = window.innerHeight - r.bottom - 14, above = r.top - 14;
+      const up = below < 200 && above > below;
+      dd.classList.toggle("up", up);
+      ul.style.maxHeight = Math.max(120, Math.min(228, up ? above : below)) + "px";
+    }
+    dd.setOpen = function (open) {
+      if (open) closeSelects(dd);
+      dd.classList.toggle("open", open); ul.hidden = !open; btn.setAttribute("aria-expanded", open);
+      if (open) { fit(); setActive(active); }
+    };
+    function choose(v) {
+      current = v; mark(); dd.setOpen(false);
+      dd.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    Object.defineProperty(dd, "value", { get: () => current, set: v => { if (opts.includes(v)) { current = v; mark(); } } });
+    btn.addEventListener("click", () => dd.setOpen(ul.hidden));
+    items.forEach(li => li.addEventListener("click", () => { choose(li.dataset.value); btn.focus(); }));
+    btn.addEventListener("keydown", e => {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        if (ul.hidden) dd.setOpen(true); else setActive(active + (e.key === "ArrowDown" ? 1 : -1));
+      } else if ((e.key === "Enter" || e.key === " ") && !ul.hidden) {
+        e.preventDefault(); choose(items[active].dataset.value);
+      } else if (e.key === "Escape" && !ul.hidden) { e.stopPropagation(); dd.setOpen(false); }
+    });
+    mark();
+    return dd;
+  }
+  document.addEventListener("click", e => { if (!e.target.closest(".psel")) closeSelects(); });
+
+  function createPassenger() {
+    const div = document.createElement("div");
+    div.className = "pcard open";
+    div.innerHTML = `
+      <button type="button" class="pview" aria-label="Edit passenger">
+        <span class="pn"></span><span class="pt"></span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      </button>
+      <div class="pedit">
+        <div class="phead"><h3>Passenger</h3><button type="button" class="psave">Save</button></div>
+        <div class="pgrid">
+          <div class="field wide">
+            <label>Name</label>
+            <input class="name" maxlength="16" placeholder="Passenger name" autocomplete="off">
+          </div>
+          <div class="field">
+            <label>Age</label>
+            <input class="age" type="number" inputmode="numeric" min="1" max="125" placeholder="Age">
+          </div>
+          <div class="field">
+            <label>Gender</label>
+            <div class="pslot" data-cls="gender"></div>
+          </div>
+          <div class="field wide">
+            <label>Berth Preference</label>
+            <div class="pslot" data-cls="berth"></div>
+          </div>
+          <div class="field wide child" hidden>
+            <label>Child Berth</label>
+            <div class="pslot" data-cls="childBerth"></div>
+          </div>
+        </div>
+      </div>`;
+    div.querySelectorAll(".pslot").forEach(slot => slot.replaceWith(makeSelect(slot.dataset.cls)));
+    list.appendChild(div);
+    const age = div.querySelector(".age"), child = div.querySelector(".child"), name = div.querySelector(".name");
+    age.addEventListener("input", () => {
+      age.classList.remove("err");
+      child.hidden = !age.value || Number(age.value) >= 12;   // child berth question only for under 12
+    });
+    name.addEventListener("input", () => name.classList.remove("err"));
+    div.querySelector(".pview").addEventListener("click", () => openCard(div));
+    div.querySelector(".psave").addEventListener("click", () => saveCard(div));
+    return div;
+  }
+
+  // name and age filled (and sensible)? Marks the bad field and returns it
+  function check(card) {
+    const name = card.querySelector(".name"), age = card.querySelector(".age");
+    const a = Number(age.value);
+    const badName = !name.value.trim();
+    const badAge = !age.value || !(a >= 1 && a <= 125);
+    name.classList.toggle("err", badName);
+    age.classList.toggle("err", badAge);
+    return badName ? name : badAge ? age : null;
+  }
+
+  function summarise(card) {
+    const g = sel => card.querySelector(sel).value;
+    const child = card.querySelector(".child");
+    const pt = card.querySelector(".pt");
+    pt.textContent = "";
+    // line 1: name, age, gender   |   line 2: berth preference (and child berth when asked)
+    const l1 = document.createElement("div"); l1.className = "l1";
+    const b = document.createElement("b"); b.textContent = g(".name").trim();
+    const sp = document.createElement("span"); sp.textContent = g(".age") + " \u2022 " + g(".gender");
+    l1.append(b, sp);
+    const l2 = document.createElement("div"); l2.className = "l2";
+    l2.append(document.createTextNode(g(".berth")));
+    if (!child.hidden) {                           // child berth answer sits in a small box
+      l2.append(document.createTextNode(" \u2022 Child Berth "));
+      const cb = document.createElement("span"); cb.className = "cb " + (g(".childBerth") === "Yes" ? "yes" : "no");
+      cb.textContent = g(".childBerth").toUpperCase();
+      l2.append(cb);
+    }
+    pt.append(l1, l2);
+  }
+
+  // only one passenger is editable at a time: the current one must be filled before another opens
+  function openCard(card) {
+    const cur = openCardEl();
+    if (cur === card) return true;
+    if (cur) {
+      if (check(cur)) cur.remove();                     // no name / age yet: that passenger just closes
+      else { summarise(cur); cur.classList.remove("open"); cur.classList.add("done"); }
+    }
+    card.classList.remove("done"); card.classList.add("open");
+    renumber();
+    card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    return true;
+  }
+
+  function renumber() {
+    cards().forEach((card, i) => {
+      card.querySelector("h3").textContent = "Passenger " + (i + 1);
+      card.querySelector(".pn").textContent = i + 1;
+    });
+    const max = maxPax();
+    removeBtn.disabled = cards().length < 1;
+    addBtn.disabled = cards().length >= max;
+    const q = document.getElementById("quota").value;
+    hintEl.textContent = ({ "GENERAL": "General", "TATKAL": "Tatkal", "PREMIUM TATKAL": "Premium Tatkal", "DUTY PASS": "Duty Pass" }[q] || "General") + " \u2022 Quota";
+  }
+
+  addBtn.addEventListener("click", () => {
+    if (cards().length >= maxPax()) return;
+    const cur = openCardEl();
+    if (cur) {                                   // previous passenger must have name and age first
+      const bad = check(cur);
+      if (bad) { bad.focus(); return; }
+    }
+    const card = createPassenger();
+    cards().forEach(c => { if (c !== card && c.classList.contains("open")) { summarise(c); c.classList.remove("open"); c.classList.add("done"); } });
+    renumber();
+    card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    card.querySelector(".name").focus({ preventScroll: true });
+  });
+  removeBtn.addEventListener("click", () => {
+    if (!cards().length) return;
+    list.lastElementChild.remove();
+    renumber();
+  });
+
+  // closing (x, SAVE, Escape, tap outside): unfilled passengers are dropped, filled ones are kept as collapsed rows and saved;
+  // with nobody left the passenger type goes back to Existing
+  const read = card => {
+    const child = card.querySelector(".child");
+    return {
+      name: card.querySelector(".name").value.trim(),
+      age: Number(card.querySelector(".age").value),
+      gender: card.querySelector(".gender").value,
+      berth: card.querySelector(".berth").value,
+      childBerth: child.hidden ? null : card.querySelector(".childBerth").value
+    };
+  };
+
+  // small SAVE inside a passenger: needs name + age, then the card folds into its two-line row (popup stays open)
+  function saveCard(card) {
+    const bad = check(card);
+    if (bad) { bad.focus(); return; }
+    summarise(card); card.classList.remove("open"); card.classList.add("done");
+    window.newPassengers = cards().filter(c => c.classList.contains("done")).map(read);
+    document.getElementById("passenger").value = "NEW";
+    closeSelects(); renumber(); sync();
+  }
+
+  function finalize() {
+    cards().forEach(card => {
+      if (check(card)) { card.remove(); return; }
+      summarise(card); card.classList.remove("open"); card.classList.add("done");
+    });
+    window.newPassengers = cards().map(read);
+    document.getElementById("passenger").value = window.newPassengers.length ? "NEW" : "EXISTING";
+    renumber(); sync();
+  }
+
+  // "New Passenger" chip looks selected only while the type is NEW (and shows how many are saved)
+  function sync() {
+    const isNew = document.getElementById("passenger").value === "NEW";
+    newBtn.setAttribute("aria-checked", isNew);
+    existingBtn.setAttribute("aria-checked", !isNew);
+    countEl.textContent = isNew && window.newPassengers.length ? String(window.newPassengers.length) : "";
+  }
+
+  function open() {
+    modal.hidden = false; renumber();
+    setTimeout(() => { const o = openCardEl(); const f = o && o.querySelector(".name"); if (f && !f.value) f.focus(); }, 50);
+  }
+  function close() { if (modal.hidden) return; closeSelects(); finalize(); modal.hidden = true; newBtn.focus(); }
+
+  newBtn.addEventListener("click", open);
+  existingBtn.addEventListener("click", () => { document.getElementById("passenger").value = "EXISTING"; sync(); });
+  document.getElementById("closePax").addEventListener("click", close);
+  modal.addEventListener("click", e => { if (e.target === modal) close(); });
+  document.addEventListener("keydown", e => {
+    if (e.key !== "Escape" || modal.hidden) return;
+    if (list.querySelector(".psel.open")) { closeSelects(); return; }   // Escape closes an open dropdown first
+    close();
+  });
+
+  // quota changed (General <-> Tatkal / Premium Tatkal): enforce the new passenger limit
+  function applyLimit() {
+    const max = maxPax();
+    while (cards().length > max) list.lastElementChild.remove();
+    if (window.newPassengers.length > max) window.newPassengers = window.newPassengers.slice(0, max);
+    renumber(); sync();
+  }
+  document.getElementById("quota").addEventListener("change", applyLimit);
+
+  // full RESET: back to Existing and one empty passenger
+  window.resetPassengers = function () {
+    window.newPassengers = [];
+    list.textContent = ""; renumber();
+    document.getElementById("passenger").value = "EXISTING";
+    sync();
+  };
+
+  renumber(); sync();
 })();
 
 // ===== Train name box: tap to see every station on this train's route =====
@@ -1588,7 +2055,7 @@ function resetAll(keepLogin) {
 // ===== Check availability (same request logic as the standalone checker; paymentFlag is always N) =====
 (function () {
   const BASE_URL = "https://www.irctc.co.in/eticketing/protected/mapps1/avlFarenquiry";
-  const QUOTA_CODE = { "GENERAL": "GN", "TATKAL": "TQ", "PREMIUM TATKAL": "PT" };
+  const QUOTA_CODE = { "GENERAL": "GN", "TATKAL": "TQ", "PREMIUM TATKAL": "PT", "DUTY PASS": "DP" };
   const btn = document.getElementById("avlBtn");
   const DEFAULT = "Check";
   let shownKey = null, busy = false;
