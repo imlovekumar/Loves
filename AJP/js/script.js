@@ -1,2 +1,805 @@
-// COPY_TAIL = the part of the copied script that follows the settings (const ... lines); it starts with function sleep and ends with the call to execute().
-const COPY_TAIL = "function sleep(ms) { \n    return new Promise(resolve => setTimeout(resolve, ms)); \n}\n\nfunction setAngularValue(element, value) {\n  if (!element) return;\n  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, \"value\").set;\n  setter.call(element, value);\n  element.dispatchEvent(new Event(\"input\", { bubbles: true }));\n  element.dispatchEvent(new Event(\"change\", { bubbles: true }));\n}\n\nasync function ensureLoggedIn(username, password) {\n    const verified = document.querySelector(\"button.nav-link-1 .verified-icon\");\n    const profile = document.querySelector(\"button.nav-link-1 .profile-name\");\n    if (profile || verified) {\n        return true;\n    }\n    const loginButton = document.querySelector(\".btn-login.ng-star-inserted\");\n    if (loginButton) {\n        loginButton.click();\n    }\n\n    let usernameField;\n    let passwordField;\n    while (!usernameField || !passwordField) {\n        usernameField = document.querySelector(\"input#username[formcontrolname='userid']\");\n        passwordField = document.querySelector(\"input#password[formcontrolname='password']\");\n        if (!usernameField || !passwordField) {\n            await sleep(100);\n        }\n    }\n    setAngularValue(usernameField, username);\n    setAngularValue(passwordField, password);\n\n    let activeLogin;\n    while (!activeLogin) {\n        activeLogin = document.querySelector(\".btn-action.btn-login.active\");\n        if (!activeLogin) {\n            await sleep(100);\n        }\n    }\n    activeLogin.click();\n    let loginVerified = false;\n    while (!loginVerified) {\n        const verified = document.querySelector(\"button.nav-link-1 .verified-icon\");\n        const profile = document.querySelector(\"button.nav-link-1 .profile-name\");\n        const loginError = document.querySelector(\".loginError\");\n\n        if (profile || verified) {\n            loginVerified = true;\n            return true;\n\n        } else if (loginError) {\n            const eyeButton = document.querySelector(\"button.eye-btn[aria-label='Toggle password visibility']\");\n            if (eyeButton) {\n                eyeButton.click();\n            }\n            loginError.style.animation = \"loginErrorBlink 0.5s ease-in-out 6\";\n            if (!document.getElementById(\"loginErrorBlinkStyle\")) {\n                const style = document.createElement(\"style\");\n                style.id = \"loginErrorBlinkStyle\";\n                style.textContent = `\n                    @keyframes loginErrorBlink {\n                        0%, 100% {\n                            opacity: 1;\n                        }\n                        50% {\n                            opacity: 0;\n                        }\n                    }\n                `;\n                document.head.appendChild(style);\n            }\n            return false;\n\n        } else {\n            await sleep(100);\n        }\n    }\n}\n\nasync function selectStation(code) {\n  let option;\n  while (!option) {\n    option = [...document.querySelectorAll('div[role=\"option\"]')]\n      .find(el => {\n        const codeEl = el.querySelector(\".option-code\");\n        return codeEl && codeEl.textContent.trim() === code;\n      });\n    if (!option) await sleep(100);\n  }\n  option.click();\n}\n\nasync function selectSource(val) {\n    const source = [...document.querySelectorAll(\"span.select-placeholder\")]\n        .find(el => el.textContent.trim() === \"Select Source\");\n        source?.click();\n    \n    let input;\n    while (!input) {\n        input = document.querySelector('input[formcontrolname=\"origin\"]');\n        if (!input) await sleep(100);\n    }\n    setAngularValue(input, val);\n    await selectStation(val);\n}\n\nasync function selectDestination(val) {\n    const destination = [...document.querySelectorAll(\"span.select-placeholder\")]\n        .find(el => el.textContent.trim() === \"Select Destination\");\n        destination?.click();\n    let input;\n    while (!input) {\n        input = document.querySelector('input[formcontrolname=\"destination\"]');\n        if (!input) await sleep(100);\n    }\n    setAngularValue(input, val);\n    await selectStation(val);\n}\n\nasync function selectTravelDate(targetDate) {\n    const [day, month, year] = targetDate.split(\"-\");\n    const targetMonth = new Date( year, Number(month) - 1 ).toLocaleString(\"en-US\", { month: \"long\" });\n\n    let dateField;\n    while (!dateField) {\n        dateField = document.querySelector( \"div[role='button'][aria-label='Select travel date']\");\n        if (!dateField) {\n            await sleep(100);\n        }\n    }\n    dateField.click();\n    while (true) {\n        const title = document.querySelector( \".ui-datepicker-title\");\n        const currentMonth = title?.querySelector(\".ui-datepicker-month\")?.textContent.trim();\n        const currentYear = title?.querySelector(\".ui-datepicker-year\")?.textContent.trim();\n        if ( currentMonth === targetMonth && currentYear === year) {\n            break;\n        }\n\n        const nextButton =\n            document.querySelector(\".ui-datepicker-next-icon\");\n        if (!nextButton) {\n            await sleep(100);\n            continue;\n        }\n        nextButton.click();\n        await sleep(100);\n    }\n\n    let dayElement;\n    while (!dayElement) {\n        dayElement = [...document.querySelectorAll(\"td a.ui-state-default\")]\n            .find(el => el.textContent.trim() === day);\n        if (!dayElement) {\n            await sleep(100);\n        }\n    }\n    dayElement.click();\n}\n\nasync function selectQuota(quota) {\n    let quotaLabel;\n    while (!quotaLabel) {\n        quotaLabel = [...document.querySelectorAll(\"span.field-label\")]\n            .find(el => el.textContent.trim() === \"Quota\");\n        if (!quotaLabel) {\n            await sleep(100);\n        }\n    }\n    quotaLabel.click();\n    let quotaOption;\n    while (!quotaOption) {\n        quotaOption = [...document.querySelectorAll(\"span.option-name\")]\n            .find(el => el.textContent.trim() === quota);\n        if (!quotaOption) {\n            await sleep(100);\n        }\n    }\n    quotaOption.click();\n}\n\nasync function clickSearchTrains() {\n    let searchButton;\n    while (!searchButton) {\n        searchButton = [...document.querySelectorAll(\"span.search-btn-label\")]\n            .find(el => el.textContent.trim() === \"Search Trains\");\n        if (!searchButton) {\n            await sleep(100);\n        }\n    }\n    searchButton.click();\n}\n\nasync function get_current_time_api(zone = \"india\") {\n    if (zone === \"india\") {\n        return new Intl.DateTimeFormat(\"en-IN\", {\n            timeZone: \"Asia/Kolkata\",\n            hour: \"2-digit\",\n            minute: \"2-digit\",\n            second: \"2-digit\",\n            hour12: false\n        }).format(new Date());\n    }\n}\n\nasync function sleep_for_availability_check(quota, className) {\n\n    if (quota === \"TATKAL\" && ( className === \"Sleeper (SL)\" || className === \"Second Sitting (2S)\" )) {\n        const targetTime = \"10:59:57\";\n        const currentTime = await get_current_time_api(\"india\");\n        const [currentHours, currentMinutes, currentSeconds] = currentTime.split(\":\").map(Number);\n        const [targetHours, targetMinutes, targetSeconds] = targetTime.split(\":\").map(Number);\n        const currentTotalSeconds = currentHours * 3600 + currentMinutes * 60 + currentSeconds;\n        const targetTotalSeconds = targetHours * 3600 + targetMinutes * 60 + targetSeconds;\n\n        if (currentTotalSeconds < targetTotalSeconds) {\n            const balanceTime = targetTotalSeconds - currentTotalSeconds;\n\n            showAvailabilityTimer(targetTime);\n\n            for (let i = balanceTime; i >= 1; i--) {\n                updateAvailabilityTimer(i);\n                await sleep(1000);\n            }\n            hideAvailabilityTimer();\n\n            return \"Proceeding to Check Availability\";\n        } else {\n            return \"No Sleep Required\";\n        }\n    } \n    else if ( quota === \"TATKAL\" && ( \n        \n        className === \"AC 3 Tier (3A)\" || \n        className === \"AC 2 Tier (2A)\" || \n        className === \"AC First Class (1A)\" || \n        className === \"AC 3 Economy (3E)\" || \n        className === \"AC Chair car (CC)\" || \n        className === \"Exec. Chair Car (EC)\" || \n        className === \"Vistadome AC (EV)\" )) {\n        \n        const targetTime = \"09:59:57\";\n        const currentTime = await get_current_time_api(\"india\");\n        const [currentHours, currentMinutes, currentSeconds] = currentTime.split(\":\").map(Number);\n        const [targetHours, targetMinutes, targetSeconds] = targetTime.split(\":\").map(Number);\n        const currentTotalSeconds = currentHours * 3600 + currentMinutes * 60 + currentSeconds;\n        const targetTotalSeconds = targetHours * 3600 + targetMinutes * 60 + targetSeconds;\n\n        if (currentTotalSeconds < targetTotalSeconds) {\n            const balanceTime = targetTotalSeconds - currentTotalSeconds;\n\n            showAvailabilityTimer(targetTime);\n\n            for (let i = balanceTime; i >= 1; i--) {\n                updateAvailabilityTimer(i);\n                await sleep(1000);\n            }\n            hideAvailabilityTimer();\n\n            return \"Proceeding to Check Availability\";\n        } else {\n            return \"No Sleep Required\";\n        }\n    }\n    else if (quota === \"GENERAL\") {\n        const currentTime = await get_current_time_api(\"india\");\n        const [hours, minutes, seconds] = currentTime.split(\":\").map(Number);\n        const currentTotalSeconds = hours * 3600 + minutes * 60 + seconds;\n        const startTime = 7 * 3600 + 58 * 60;\n        const targetTime = \"08:00:00\";\n        const targetTotalSeconds = 8 * 3600;\n        if ( currentTotalSeconds >= startTime && currentTotalSeconds < targetTotalSeconds ) {\n            const balanceTime = targetTotalSeconds - currentTotalSeconds;\n            showAvailabilityTimer(targetTime);\n            for (let i = balanceTime; i >= 1; i--) {\n                updateAvailabilityTimer(i);\n                await sleep(1000);\n            }\n            hideAvailabilityTimer();\n            return \"Proceeding to Check Availability\";\n        } else {\n            return \"No Sleep Required\";\n        }\n    } else  {\n        return \"No Sleep Required\";\n    }\n}\n\n\nfunction showAvailabilityTimer(targetTime) {\n    document.getElementById(\"availabilityTimerOverlay\")?.remove();\n    const overlay = document.createElement(\"div\");\n    overlay.id = \"availabilityTimerOverlay\";\n    overlay.innerHTML = `\n        <div class=\"availability-timer-box\">\n            <div class=\"availability-title\">\n                Waiting for Availability\n            </div>\n            <div class=\"availability-target\">\n                Check Availability @ ${targetTime} IST\n            </div>\n            <div class=\"availability-countdown-row\">\n                <div id=\"availabilityCountdown\">00</div>\n                <div class=\"availability-seconds\">Seconds</div>\n            </div>\n            <div class=\"availability-subtitle\">\n                Please wait...\n            </div>\n        </div>\n    `;\n    document.body.appendChild(overlay);\n    const style = document.createElement(\"style\");\n    style.id = \"availabilityTimerStyle\";\n    style.textContent = `\n        #availabilityTimerOverlay {\n            position: fixed;\n            inset: 0;\n            background: rgba(0, 0, 0, 0.65);\n            z-index: 999999;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n        }\n        .availability-timer-box {\n            width: 360px;\n            padding: 30px;\n            background: #ffffff;\n            border-radius: 18px;\n            text-align: center;\n            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);\n            font-family: Arial, sans-serif;\n        }\n        .availability-title {\n            font-size: 22px;\n            font-weight: 700;\n            margin-bottom: 10px;\n        }\n        .availability-target {\n            font-size: 14px;\n            color: #666;\n            margin-bottom: 20px;\n        }\n        #availabilityCountdown {\n            font-size: 64px;\n            font-weight: 700;\n            line-height: 1;\n            margin: 10px 0;\n        }\n        .availability-subtitle {\n            font-size: 14px;\n            color: #777;\n            margin-top: 15px;\n        }\n        .availability-countdown-row {\n            display: flex;\n            align-items: baseline;\n            justify-content: center;\n            gap: 8px;\n        }\n\n        #availabilityCountdown {\n            font-size: 64px;\n            font-weight: 700;\n            line-height: 1;\n        }\n\n        .availability-seconds {\n            font-size: 18px;\n            font-weight: 600;\n            color: #666;\n        }\n    `;\n    document.head.appendChild(style);\n}\n\nfunction updateAvailabilityTimer(seconds) {\n    const countdown = document.getElementById(\"availabilityCountdown\");\n    if (countdown) {\n        countdown.textContent = seconds;\n    }\n}\n\nfunction hideAvailabilityTimer() {\n    document.getElementById(\"availabilityTimerOverlay\")?.remove();\n    document.getElementById(\"availabilityTimerStyle\")?.remove();\n}\n\nasync function checkAndBookRetry(trainNumber, className) {\n    let train;\n    while (!train) {\n        train = [...document.querySelectorAll(\".train-number\")]\n            .find(el => el.textContent.trim() === trainNumber);\n        if (!train) {\n            await sleep(100);\n        }\n    }\n\n    const trainCard = train.closest(\".train-card\");\n    if (trainCard) {\n        trainCard.scrollIntoView({\n            behavior: \"smooth\",\n            block: \"center\",\n            inline: \"nearest\"\n        });\n\n        trainCard.setAttribute(\"tabindex\", \"-1\");\n        trainCard.focus({ preventScroll: true });\n    }\n    \n    await sleep_for_availability_check(quota, className);\n\n    while (true) {\n        let availabilityButton = trainCard.querySelector(\"button.btn-availability\");\n        while (!availabilityButton) {\n            await sleep(100);\n            availabilityButton = trainCard.querySelector(\"button.btn-availability\");\n        }\n        availabilityButton.click();\n        while (document.querySelector(\".dimmer\")) {\n            await sleep(100);\n        }\n\n        let classCard = [...trainCard.querySelectorAll(\".class-card\")]\n            .find(card => {\n                const code = card.querySelector(\".class-code\");\n                return code && code.textContent.trim() === className;\n            });\n\n        if (!classCard) {\n            await sleep(100);\n            continue;\n        }\n\n        while (true) {\n            const bookButton = classCard.querySelector(\"button.btn-book\");\n            if (bookButton) {\n                bookButton.click();\n                return;\n            }\n\n            const toast = [...document.querySelectorAll(\".ui-toast-message-content\")]\n                .find(el => el.querySelector(\".ui-toast-close-icon\"));\n\n            if (toast) {\n                const detail = toast.querySelector(\".ui-toast-detail\")?.textContent || \"\";\n                if (detail.includes(\"Unable to Process Request\")) {\n                    await sleep(3000);\n                }\n                const closeButton = toast.querySelector(\".ui-toast-close-icon\");\n                if (closeButton) {\n                    closeButton.click();\n                }\n                while (document.body.contains(toast)) {\n                    await sleep(100);\n                }\n            }\n\n            let refreshButton;\n            while (!refreshButton) {\n                refreshButton = classCard.querySelector('span[aria-label=\"Refresh availability\"]');\n                if (!refreshButton) {\n                    await sleep(100);\n                }\n            }\n            refreshButton.click();\n            while (document.querySelector(\".dimmer\")) {\n                await sleep(100);\n            }\n        }\n    }\n}\n\nfunction selectOption(selector,text) {\n        const dropdown=document.querySelector(selector);\n        if(!dropdown) throw new Error(selector+\" NOT FOUND\");\n        dropdown.querySelector(\".ui-dropdown\").click();\n        const option=[...document.querySelectorAll(\".ui-dropdown-panel li\")]\n            .find(element=>element.textContent.trim()===text);\n        if(!option) throw new Error(text+\" option NOT FOUND\");\n        option.click();\n}\n\nasync function autofill(passengers) {\n\n    for(let i=0;i<passengers.length;i++){\n        const passenger=passengers[i];\n        let newPassenger;\n        while (!newPassenger) {\n            newPassenger = document.querySelector(\"button.btn-new-passenger\");\n            if(!newPassenger) {\n                await sleep(100);\n            }\n        }\n        newPassenger.click();\n        const name= document.querySelector('p-autocomplete[formcontrolname=\"passengerName\"] input');\n        const age= document.querySelector('input[formcontrolname=\"passengerAge\"]');\n        if(!name)   throw new Error(\"Name NOT FOUND for Passenger \"+(i+1));\n        if(!age)    throw new Error(\"Age NOT FOUND for Passenger \"+(i+1));\n        setAngularValue(name,passenger.name);\n        setAngularValue(age,passenger.age);\n        selectOption('p-dropdown[formcontrolname=\"passengerGender\"]',passenger.gender);\n        selectOption('p-dropdown[formcontrolname=\"passengerBerthChoice\"]',passenger.berth);\n        if(passenger.age<12){\n            const child=document.querySelector('p-dropdown[formcontrolname=\"childBerthFlag\"]');\n            if(!child)  throw new Error(\"Child Berth NOT FOUND for Passenger \"+(i+1));\n            selectOption('p-dropdown[formcontrolname=\"childBerthFlag\"]',passenger.child);\n        }\n\n        const add=[...document.querySelectorAll(\"button.ap-add-btn.app-modal-button.app-modal-button--primary\")]\n            .find(element=>element.textContent.trim()===\"Add\");\n        if(!add)    throw new Error(\"Add button NOT FOUND for Passenger \"+(i+1));\n        add.click();\n    }\n    return true;\n}\n\nasync function completeBookingDetails(mobile) {\n    if (existingPassengers) {\n    let existingButton;\n    while (!existingButton) {\n        existingButton = [...document.querySelectorAll(\"button.btn-existing\")]\n            .find(button => button.textContent.trim() === \"Existing Passenger\");\n        if (!existingButton) {\n            await sleep(100);\n        }\n    }\n    existingButton.click();\n    let checkboxes;\n    while (!checkboxes || checkboxes.length === 0) {\n        checkboxes = [...document.querySelectorAll(\".ep-body .ep-passenger-row div[role='checkbox']\")];\n        if (checkboxes.length === 0) {\n            await sleep(100);\n        }\n    }\n    checkboxes.forEach(checkbox => {\n        checkbox.click();\n    });\n    let addButton;\n    while (!addButton) {\n        addButton = [...document.querySelectorAll(\"button.btn.ep-add-btn\")]\n            .find(button => button.textContent.trim() === \"Add\");\n        if (!addButton) {\n            await sleep(100);\n        }\n    }\n    addButton.click();\n    } else {\n        await autofill(passengers);\n    }\n    let mobileInput;\n    while (!mobileInput) {\n        mobileInput = document.querySelector(\"input[placeholder='Enter mobile number']\");\n        if (!mobileInput) {\n            await sleep(100);\n        }\n    }\n    setAngularValue(mobileInput, mobile);\n    let otherPreferences;\n    while (!otherPreferences) {\n        otherPreferences = [...document.querySelectorAll(\".section-header\")]\n            .find(header => header.querySelector(\".section-title\")?.textContent.trim() === \"Other Preferences\");\n        if (!otherPreferences) {\n            await sleep(100);\n        }\n    }\n    if (otherPreferences.getAttribute(\"aria-expanded\") !== \"true\") {\n        otherPreferences.click();\n    }\n    let autoUpgrade;\n    while (!autoUpgrade) {\n        autoUpgrade = document.querySelector(\"p-checkbox[formcontrolname='autoUpgradationSelected']\");\n        if (!autoUpgrade) {\n            await sleep(100);\n        }\n    }\n    const autoBox = autoUpgrade.querySelector(\".ui-chkbox-box\");\n    if (autoBox) {\n        autoBox.click();\n    }\n    let bookOnly;\n    while (!bookOnly) {\n        bookOnly = document.querySelector(\"p-checkbox[formcontrolname='bookOnlyIfCnf']\");\n        if (!bookOnly) {\n            await sleep(100);\n        }\n    }\n    const bookBox = bookOnly.querySelector(\".ui-chkbox-box\");\n    if (bookBox) {\n        bookBox.click();\n    }\n    if (paymentType.toLowerCase() !== \"qr\") {\n        return;\n    }\n    let option;\n    while (!option) {\n        option = [...document.querySelectorAll(\".payment-option\")]\n            .find(el => el.querySelector(\".payment-label\")?.textContent.trim()\n                .startsWith(\"Pay through BHIM/UPI\"));\n        if (!option) {\n            await sleep(100);\n        }\n    }\n    const radio = option.querySelector(\"p-radiobutton[formcontrolname='paymentType']\");\n    if (radio) {\n        const box = radio.querySelector(\".ui-radiobutton-box\");\n        if (box) {\n            box.click();\n        }\n    }\n}\n\nasync function calculateFareUntilPayment() {\n    let retryCount = 0;\n    while (true) {\n        let fareButton;\n        while (!fareButton) {\n            fareButton = [...document.querySelectorAll(\"button.btn.btn-calc-fare\")]\n                .find(button => button.textContent.trim() === \"Calculate Fare\");\n\n            if (!fareButton) {\n                await sleep(100);\n            }\n        }\n        fareButton.click();\n\n        while (document.querySelector(\".dimmer\")) {\n            await sleep(100);\n        }\n\n        while (true) {\n            const paymentButton = [...document.querySelectorAll(\"button.btn.btn-payment\")]\n                .find(button => button.textContent.trim() === \"Continue To Payment\");\n\n            if (paymentButton) {\n                paymentButton.click();\n                return;\n            }\n\n            const toast = [...document.querySelectorAll(\".ui-toast-message-content\")]\n                .find(el => el.querySelector(\".ui-toast-close-icon\"));\n\n            if (toast) {\n                const detail = toast.querySelector(\".ui-toast-detail\")?.textContent || \"\";\n\n                if (detail.includes(\"Unable to Process Request\")) {\n                    retryCount++;\n                    if (retryCount > 10) {\n                        return;\n                    }\n                    await sleep(3000);\n                }\n\n                const closeButton = toast.querySelector(\".ui-toast-close-icon\");\n                if (closeButton) {\n                    closeButton.click();\n                }\n                while (document.body.contains(toast)) {\n                    await sleep(100);\n                }\n                break;\n            }\n            await sleep(100);\n        }\n        await sleep(200);\n    }\n}\n\nasync function clickToPayQR() {\n    let payButton;\n    while (!payButton) {\n        payButton = [...document.querySelectorAll(\n            \"button.ipay-qr-button\"\n        )]\n        .find(button =>\n            button.textContent.trim() === \"Click to pay\"\n        );\n        if (!payButton) {\n            await sleep(100);\n        }\n    }\n    payButton.click();\n}\n\nasync function payviawallet() {\n    let card;\n    while (!card) {\n        card = [...document.querySelectorAll(\".payment-card\")]\n            .find(el => el.querySelector(\".card-title\")?.textContent.trim() === \"IRCTC E-Wallet\");\n        if (!card) {\n            await sleep(100);\n        }\n    }\n\n    card.click();\n    let payButton;\n    while (!payButton) {\n        payButton = [...document.querySelectorAll(\"button.btn.btn-payment\")]\n            .find(el => el.textContent.trim() === \"Pay & Book\");\n        if (!payButton) {\n            await sleep(100);\n        }\n    }\n    payButton.click();\n    let confirmButton;\n    while (!confirmButton) {\n        confirmButton = [...document.querySelectorAll(\".ewallet-confirm-actions button\")]\n            .find(el => el.textContent.trim().toUpperCase() === \"CONFIRM\");\n        if (!confirmButton) {\n            await sleep(100);\n        }\n    }\n    confirmButton.click();\n}\n\nasync function execute() {\n    const loginSuccess = await ensureLoggedIn(username, password);\n    if (!loginSuccess) { \n        return;\n    }\n    await selectSource(from);\n    await selectDestination(to);\n    await selectTravelDate(JDate);\n    await selectQuota(quota);\n    await clickSearchTrains();\n    await checkAndBookRetry(trainNumber,className);\n    await completeBookingDetails(mobile);\n    await calculateFareUntilPayment();\n    if (paymentType.toLowerCase() === \"qr\") {\n        await clickToPayQR();\n    } else {\n        await payviawallet();\n    }\n}\n\nawait execute();\n\n})();";
+// COPY_TAIL = everything the bookmarklet contains AFTER the settings (the const ... lines the page generates).
+//
+// HOW TO EDIT: paste your whole script between the two marker lines below, exactly as it is - no quotes, no escaping, no \n.
+// Keep the first line  const COPY_TAIL = (function () {/*  and the last line  */}).toString()...  as they are.
+// The only thing the pasted text must not contain is the two characters  */  (they would end the block).
+const COPY_TAIL = (function () {/*
+function sleep(ms) { 
+    return new Promise(resolve => setTimeout(resolve, ms)); 
+}
+
+function setAngularValue(element, value) {
+  if (!element) return;
+  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+  setter.call(element, value);
+  element.dispatchEvent(new Event("input", { bubbles: true }));
+  element.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+async function ensureLoggedIn(username, password) {
+    const verified = document.querySelector("button.nav-link-1 .verified-icon");
+    const profile = document.querySelector("button.nav-link-1 .profile-name");
+    if (profile || verified) {
+        return true;
+    }
+    const loginButton = document.querySelector(".btn-login.ng-star-inserted");
+    if (loginButton) {
+        loginButton.click();
+    }
+
+    let usernameField;
+    let passwordField;
+    while (!usernameField || !passwordField) {
+        usernameField = document.querySelector("input#username[formcontrolname='userid']");
+        passwordField = document.querySelector("input#password[formcontrolname='password']");
+        if (!usernameField || !passwordField) {
+            await sleep(100);
+        }
+    }
+    setAngularValue(usernameField, username);
+    setAngularValue(passwordField, password);
+
+    let activeLogin;
+    while (!activeLogin) {
+        activeLogin = document.querySelector(".btn-action.btn-login.active");
+        if (!activeLogin) {
+            await sleep(100);
+        }
+    }
+    activeLogin.click();
+    let loginVerified = false;
+    while (!loginVerified) {
+        const verified = document.querySelector("button.nav-link-1 .verified-icon");
+        const profile = document.querySelector("button.nav-link-1 .profile-name");
+        const loginError = document.querySelector(".loginError");
+
+        if (profile || verified) {
+            loginVerified = true;
+            return true;
+
+        } else if (loginError) {
+            const eyeButton = document.querySelector("button.eye-btn[aria-label='Toggle password visibility']");
+            if (eyeButton) {
+                eyeButton.click();
+            }
+            loginError.style.animation = "loginErrorBlink 0.5s ease-in-out 6";
+            if (!document.getElementById("loginErrorBlinkStyle")) {
+                const style = document.createElement("style");
+                style.id = "loginErrorBlinkStyle";
+                style.textContent = `
+                    @keyframes loginErrorBlink {
+                        0%, 100% {
+                            opacity: 1;
+                        }
+                        50% {
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            return false;
+
+        } else {
+            await sleep(100);
+        }
+    }
+}
+
+async function selectStation(code) {
+  let option;
+  while (!option) {
+    option = [...document.querySelectorAll('div[role="option"]')]
+      .find(el => {
+        const codeEl = el.querySelector(".option-code");
+        return codeEl && codeEl.textContent.trim() === code;
+      });
+    if (!option) await sleep(100);
+  }
+  option.click();
+}
+
+async function selectSource(val) {
+    const source = [...document.querySelectorAll("span.select-placeholder")]
+        .find(el => el.textContent.trim() === "Select Source");
+        source?.click();
+    
+    let input;
+    while (!input) {
+        input = document.querySelector('input[formcontrolname="origin"]');
+        if (!input) await sleep(100);
+    }
+    setAngularValue(input, val);
+    await selectStation(val);
+}
+
+async function selectDestination(val) {
+    const destination = [...document.querySelectorAll("span.select-placeholder")]
+        .find(el => el.textContent.trim() === "Select Destination");
+        destination?.click();
+    let input;
+    while (!input) {
+        input = document.querySelector('input[formcontrolname="destination"]');
+        if (!input) await sleep(100);
+    }
+    setAngularValue(input, val);
+    await selectStation(val);
+}
+
+async function selectTravelDate(targetDate) {
+    const [day, month, year] = targetDate.split("-");
+    const targetMonth = new Date( year, Number(month) - 1 ).toLocaleString("en-US", { month: "long" });
+
+    let dateField;
+    while (!dateField) {
+        dateField = document.querySelector( "div[role='button'][aria-label='Select travel date']");
+        if (!dateField) {
+            await sleep(100);
+        }
+    }
+    dateField.click();
+    while (true) {
+        const title = document.querySelector( ".ui-datepicker-title");
+        const currentMonth = title?.querySelector(".ui-datepicker-month")?.textContent.trim();
+        const currentYear = title?.querySelector(".ui-datepicker-year")?.textContent.trim();
+        if ( currentMonth === targetMonth && currentYear === year) {
+            break;
+        }
+
+        const nextButton =
+            document.querySelector(".ui-datepicker-next-icon");
+        if (!nextButton) {
+            await sleep(100);
+            continue;
+        }
+        nextButton.click();
+        await sleep(100);
+    }
+
+    let dayElement;
+    while (!dayElement) {
+        dayElement = [...document.querySelectorAll("td a.ui-state-default")]
+            .find(el => el.textContent.trim() === day);
+        if (!dayElement) {
+            await sleep(100);
+        }
+    }
+    dayElement.click();
+}
+
+async function passConfirmation() {
+    let okButton;
+    while (!okButton) {
+        okButton = [...document.querySelectorAll("button.ui-confirmdialog-acceptbutton")]
+            .find(button =>button.textContent.trim() === "OK");
+        if (!okButton) {
+            await sleep(100);
+        }
+    }
+    okButton.click();
+}
+
+async function selectQuota(quota) {
+    let quotaLabel;
+    while (!quotaLabel) {
+        quotaLabel = [...document.querySelectorAll("span.field-label")]
+            .find(el => el.textContent.trim() === "Quota");
+        if (!quotaLabel) {
+            await sleep(100);
+        }
+    }
+    quotaLabel.click();
+    let quotaOption;
+    while (!quotaOption) {
+        quotaOption = [...document.querySelectorAll("span.option-name")]
+            .find(el => el.textContent.trim() === quota);
+        if (!quotaOption) {
+            await sleep(100);
+        }
+    }
+    quotaOption.click();
+    if (quota === "DUTY PASS") {
+        await passConfirmation();
+    }
+}
+
+async function selectConcession() {
+    let concessionLabel;
+    while (!concessionLabel) {
+        concessionLabel = [...document.querySelectorAll("span.field-label")]
+            .find(el => el.textContent.trim() === "Concession");
+        if (!concessionLabel) {
+            await sleep(100);
+        }
+    }
+    concessionLabel.click();
+    let concessionOption;
+    while (!concessionOption) {
+        concessionOption = [...document.querySelectorAll("span.option-name")]
+            .find(el => el.textContent.trim() === "Railway Pass Concession");
+        if (!concessionOption) {
+            await sleep(100);
+        }
+    }
+    concessionOption.click();
+    await passConfirmation();
+}
+
+async function clickSearchTrains() {
+    let searchButton;
+    while (!searchButton) {
+        searchButton = [...document.querySelectorAll("span.search-btn-label")]
+            .find(el => el.textContent.trim() === "Search Trains");
+        if (!searchButton) {
+            await sleep(100);
+        }
+    }
+    searchButton.click();
+}
+
+async function get_current_time_api(zone = "india") {
+    if (zone === "india") {
+        return new Intl.DateTimeFormat("en-IN", {
+            timeZone: "Asia/Kolkata",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        }).format(new Date());
+    }
+}
+
+async function sleep_for_availability_check(quota, className) {
+
+    if (quota === "TATKAL" && ( className === "Sleeper (SL)" || className === "Second Sitting (2S)" )) {
+        const targetTime = "10:59:57";
+        const currentTime = await get_current_time_api("india");
+        const [currentHours, currentMinutes, currentSeconds] = currentTime.split(":").map(Number);
+        const [targetHours, targetMinutes, targetSeconds] = targetTime.split(":").map(Number);
+        const currentTotalSeconds = currentHours * 3600 + currentMinutes * 60 + currentSeconds;
+        const targetTotalSeconds = targetHours * 3600 + targetMinutes * 60 + targetSeconds;
+
+        if (currentTotalSeconds < targetTotalSeconds) {
+            const balanceTime = targetTotalSeconds - currentTotalSeconds;
+
+            showAvailabilityTimer(targetTime);
+
+            for (let i = balanceTime; i >= 1; i--) {
+                updateAvailabilityTimer(i);
+                await sleep(1000);
+            }
+            hideAvailabilityTimer();
+
+            return "Proceeding to Check Availability";
+        } else {
+            return "No Sleep Required";
+        }
+    } 
+    else if ( quota === "TATKAL" && ( 
+        
+        className === "AC 3 Tier (3A)" || 
+        className === "AC 2 Tier (2A)" || 
+        className === "AC First Class (1A)" || 
+        className === "AC 3 Economy (3E)" || 
+        className === "AC Chair car (CC)" || 
+        className === "Exec. Chair Car (EC)" || 
+        className === "Vistadome AC (EV)" )) {
+        
+        const targetTime = "09:59:57";
+        const currentTime = await get_current_time_api("india");
+        const [currentHours, currentMinutes, currentSeconds] = currentTime.split(":").map(Number);
+        const [targetHours, targetMinutes, targetSeconds] = targetTime.split(":").map(Number);
+        const currentTotalSeconds = currentHours * 3600 + currentMinutes * 60 + currentSeconds;
+        const targetTotalSeconds = targetHours * 3600 + targetMinutes * 60 + targetSeconds;
+
+        if (currentTotalSeconds < targetTotalSeconds) {
+            const balanceTime = targetTotalSeconds - currentTotalSeconds;
+
+            showAvailabilityTimer(targetTime);
+
+            for (let i = balanceTime; i >= 1; i--) {
+                updateAvailabilityTimer(i);
+                await sleep(1000);
+            }
+            hideAvailabilityTimer();
+
+            return "Proceeding to Check Availability";
+        } else {
+            return "No Sleep Required";
+        }
+    }
+    else if (quota === "GENERAL") {
+        const currentTime = await get_current_time_api("india");
+        const [hours, minutes, seconds] = currentTime.split(":").map(Number);
+        const currentTotalSeconds = hours * 3600 + minutes * 60 + seconds;
+        const startTime = 7 * 3600 + 58 * 60;
+        const targetTime = "08:00:00";
+        const targetTotalSeconds = 8 * 3600;
+        if ( currentTotalSeconds >= startTime && currentTotalSeconds < targetTotalSeconds ) {
+            const balanceTime = targetTotalSeconds - currentTotalSeconds;
+            showAvailabilityTimer(targetTime);
+            for (let i = balanceTime; i >= 1; i--) {
+                updateAvailabilityTimer(i);
+                await sleep(1000);
+            }
+            hideAvailabilityTimer();
+            return "Proceeding to Check Availability";
+        } else {
+            return "No Sleep Required";
+        }
+    } else  {
+        return "No Sleep Required";
+    }
+}
+
+
+function showAvailabilityTimer(targetTime) {
+    document.getElementById("availabilityTimerOverlay")?.remove();
+    const overlay = document.createElement("div");
+    overlay.id = "availabilityTimerOverlay";
+    overlay.innerHTML = `
+        <div class="availability-timer-box">
+            <div class="availability-title">
+                Waiting for Availability
+            </div>
+            <div class="availability-target">
+                Check Availability @ ${targetTime} IST
+            </div>
+            <div class="availability-countdown-row">
+                <div id="availabilityCountdown">00</div>
+                <div class="availability-seconds">Seconds</div>
+            </div>
+            <div class="availability-subtitle">
+                Please wait...
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    const style = document.createElement("style");
+    style.id = "availabilityTimerStyle";
+    style.textContent = `
+        #availabilityTimerOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .availability-timer-box {
+            width: 360px;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            font-family: Arial, sans-serif;
+        }
+        .availability-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .availability-target {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        #availabilityCountdown {
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1;
+            margin: 10px 0;
+        }
+        .availability-subtitle {
+            font-size: 14px;
+            color: #777;
+            margin-top: 15px;
+        }
+        .availability-countdown-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        #availabilityCountdown {
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .availability-seconds {
+            font-size: 18px;
+            font-weight: 600;
+            color: #666;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function updateAvailabilityTimer(seconds) {
+    const countdown = document.getElementById("availabilityCountdown");
+    if (countdown) {
+        countdown.textContent = seconds;
+    }
+}
+
+function hideAvailabilityTimer() {
+    document.getElementById("availabilityTimerOverlay")?.remove();
+    document.getElementById("availabilityTimerStyle")?.remove();
+}
+
+async function checkAndBookRetry(trainNumber, className) {
+    let train;
+    while (!train) {
+        train = [...document.querySelectorAll(".train-number")]
+            .find(el => el.textContent.trim() === trainNumber);
+        if (!train) {
+            await sleep(100);
+        }
+    }
+
+    const trainCard = train.closest(".train-card");
+    if (trainCard) {
+        trainCard.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest"
+        });
+
+        trainCard.setAttribute("tabindex", "-1");
+        trainCard.focus({ preventScroll: true });
+    }
+    
+    await sleep_for_availability_check(quota, className);
+
+    while (true) {
+        let availabilityButton = trainCard.querySelector("button.btn-availability");
+        while (!availabilityButton) {
+            await sleep(100);
+            availabilityButton = trainCard.querySelector("button.btn-availability");
+        }
+        availabilityButton.click();
+        while (document.querySelector(".dimmer")) {
+            await sleep(100);
+        }
+
+        let classCard = [...trainCard.querySelectorAll(".class-card")]
+            .find(card => {
+                const code = card.querySelector(".class-code");
+                return code && code.textContent.trim() === className;
+            });
+
+        if (!classCard) {
+            await sleep(100);
+            continue;
+        }
+
+        while (true) {
+            const bookButton = classCard.querySelector("button.btn-book");
+            if (bookButton) {
+                bookButton.click();
+                return;
+            }
+
+            const toast = [...document.querySelectorAll(".ui-toast-message-content")]
+                .find(el => el.querySelector(".ui-toast-close-icon"));
+
+            if (toast) {
+                const detail = toast.querySelector(".ui-toast-detail")?.textContent || "";
+                if (detail.includes("Unable to Process Request")) {
+                    await sleep(3000);
+                }
+                const closeButton = toast.querySelector(".ui-toast-close-icon");
+                if (closeButton) {
+                    closeButton.click();
+                }
+                while (document.body.contains(toast)) {
+                    await sleep(100);
+                }
+            }
+
+            let refreshButton;
+            while (!refreshButton) {
+                refreshButton = classCard.querySelector('span[aria-label="Refresh availability"]');
+                if (!refreshButton) {
+                    await sleep(100);
+                }
+            }
+            refreshButton.click();
+            while (document.querySelector(".dimmer")) {
+                await sleep(100);
+            }
+        }
+    }
+}
+
+function selectOption(selector,text) {
+        const dropdown=document.querySelector(selector);
+        if(!dropdown) throw new Error(selector+" NOT FOUND");
+        dropdown.querySelector(".ui-dropdown").click();
+        const option=[...document.querySelectorAll(".ui-dropdown-panel li")]
+            .find(element=>element.textContent.trim()===text);
+        if(!option) throw new Error(text+" option NOT FOUND");
+        option.click();
+}
+
+async function autofill(passengers) {
+
+    for(let i=0;i<passengers.length;i++){
+        const passenger=passengers[i];
+        let newPassenger;
+        while (!newPassenger) {
+            newPassenger = document.querySelector("button.btn-new-passenger");
+            if(!newPassenger) {
+                await sleep(100);
+            }
+        }
+        newPassenger.click();
+        const name= document.querySelector('p-autocomplete[formcontrolname="passengerName"] input');
+        const age= document.querySelector('input[formcontrolname="passengerAge"]');
+        if(!name)   throw new Error("Name NOT FOUND for Passenger "+(i+1));
+        if(!age)    throw new Error("Age NOT FOUND for Passenger "+(i+1));
+        setAngularValue(name,passenger.name);
+        setAngularValue(age,passenger.age);
+        selectOption('p-dropdown[formcontrolname="passengerGender"]',passenger.gender);
+        selectOption('p-dropdown[formcontrolname="passengerBerthChoice"]',passenger.berth);
+        if(passenger.age<12){
+            const child=document.querySelector('p-dropdown[formcontrolname="childBerthFlag"]');
+            if(!child)  throw new Error("Child Berth NOT FOUND for Passenger "+(i+1));
+            selectOption('p-dropdown[formcontrolname="childBerthFlag"]',passenger.child);
+        }
+        if(passConcession){
+            let concession;
+            while(!concession){concession=document.querySelector('p-dropdown[formcontrolname="passConcessionType"]');
+                if(!concession)
+                    await sleep(300);
+            }
+            selectOption('p-dropdown[formcontrolname="passConcessionType"]',"Pass Booking");
+            let passNumber;
+            let passPin;
+            while(!passNumber || !passPin){
+                passNumber=document.querySelector('input[formcontrolname="passUPN"]');
+                passPin=document.querySelector('input[formcontrolname="passBookingCode"]');
+                if(!passNumber || !passPin)
+                    await sleep(300);
+            }
+            setAngularValue(passNumber,passenger.passNumber);
+            setAngularValue(passPin,passenger.passPin);
+        }
+
+        const add=[...document.querySelectorAll("button.ap-add-btn.app-modal-button.app-modal-button--primary")]
+            .find(element=>element.textContent.trim()==="Add");
+        if(!add)    throw new Error("Add button NOT FOUND for Passenger "+(i+1));
+        add.click();
+    }
+    return true;
+}
+
+async function completeBookingDetails(mobile) {
+    if (existingPassengers) {
+    let existingButton;
+    while (!existingButton) {
+        existingButton = [...document.querySelectorAll("button.btn-existing")]
+            .find(button => button.textContent.trim() === "Existing Passenger");
+        if (!existingButton) {
+            await sleep(100);
+        }
+    }
+    existingButton.click();
+    let checkboxes;
+    while (!checkboxes || checkboxes.length === 0) {
+        checkboxes = [...document.querySelectorAll(".ep-body .ep-passenger-row div[role='checkbox']")];
+        if (checkboxes.length === 0) {
+            await sleep(100);
+        }
+    }
+    checkboxes.forEach(checkbox => {
+        checkbox.click();
+    });
+    let addButton;
+    while (!addButton) {
+        addButton = [...document.querySelectorAll("button.btn.ep-add-btn")]
+            .find(button => button.textContent.trim() === "Add");
+        if (!addButton) {
+            await sleep(100);
+        }
+    }
+    addButton.click();
+    } else {
+        await autofill(passengers);
+    }
+    let mobileInput;
+    while (!mobileInput) {
+        mobileInput = document.querySelector("input[placeholder='Enter mobile number']");
+        if (!mobileInput) {
+            await sleep(100);
+        }
+    }
+    setAngularValue(mobileInput, mobile);
+    let otherPreferences;
+    while (!otherPreferences) {
+        otherPreferences = [...document.querySelectorAll(".section-header")]
+            .find(header => header.querySelector(".section-title")?.textContent.trim() === "Other Preferences");
+        if (!otherPreferences) {
+            await sleep(100);
+        }
+    }
+    if (otherPreferences.getAttribute("aria-expanded") !== "true") {
+        otherPreferences.click();
+    }
+    let autoUpgrade;
+    while (!autoUpgrade) {
+        autoUpgrade = document.querySelector("p-checkbox[formcontrolname='autoUpgradationSelected']");
+        if (!autoUpgrade) {
+            await sleep(100);
+        }
+    }
+    const autoBox = autoUpgrade.querySelector(".ui-chkbox-box");
+    if (autoBox) {
+        autoBox.click();
+    }
+    let bookOnly;
+    while (!bookOnly) {
+        bookOnly = document.querySelector("p-checkbox[formcontrolname='bookOnlyIfCnf']");
+        if (!bookOnly) {
+            await sleep(100);
+        }
+    }
+    const bookBox = bookOnly.querySelector(".ui-chkbox-box");
+    if (bookBox) {
+        bookBox.click();
+    }
+    if (paymentType.toLowerCase() !== "qr") {
+        return;
+    }
+    let option;
+    while (!option) {
+        option = [...document.querySelectorAll(".payment-option")]
+            .find(el => el.querySelector(".payment-label")?.textContent.trim()
+                .startsWith("Pay through BHIM/UPI"));
+        if (!option) {
+            await sleep(100);
+        }
+    }
+    const radio = option.querySelector("p-radiobutton[formcontrolname='paymentType']");
+    if (radio) {
+        const box = radio.querySelector(".ui-radiobutton-box");
+        if (box) {
+            box.click();
+        }
+    }
+}
+
+async function calculateFareUntilPayment() {
+    let retryCount = 0;
+    while (true) {
+        let fareButton;
+        while (!fareButton) {
+            fareButton = [...document.querySelectorAll("button.btn.btn-calc-fare")]
+                .find(button => button.textContent.trim() === "Calculate Fare");
+
+            if (!fareButton) {
+                await sleep(100);
+            }
+        }
+        fareButton.click();
+
+        while (document.querySelector(".dimmer")) {
+            await sleep(100);
+        }
+
+        while (true) {
+            const paymentButton = [...document.querySelectorAll("button.btn.btn-payment")]
+                .find(button => button.textContent.trim() === "Continue To Payment");
+
+            if (paymentButton) {
+                paymentButton.click();
+                return;
+            }
+
+            const toast = [...document.querySelectorAll(".ui-toast-message-content")]
+                .find(el => el.querySelector(".ui-toast-close-icon"));
+
+            if (toast) {
+                const detail = toast.querySelector(".ui-toast-detail")?.textContent || "";
+
+                if (detail.includes("Unable to Process Request")) {
+                    retryCount++;
+                    if (retryCount > 10) {
+                        return;
+                    }
+                    await sleep(3000);
+                }
+
+                const closeButton = toast.querySelector(".ui-toast-close-icon");
+                if (closeButton) {
+                    closeButton.click();
+                }
+                while (document.body.contains(toast)) {
+                    await sleep(100);
+                }
+                break;
+            }
+            await sleep(100);
+        }
+        await sleep(200);
+    }
+}
+
+async function clickToPayQR() {
+    let payButton;
+    while (!payButton) {
+        payButton = [...document.querySelectorAll(
+            "button.ipay-qr-button"
+        )]
+        .find(button =>
+            button.textContent.trim() === "Click to pay"
+        );
+        if (!payButton) {
+            await sleep(100);
+        }
+    }
+    payButton.click();
+}
+
+async function payviawallet() {
+    let card;
+    while (!card) {
+        card = [...document.querySelectorAll(".payment-card")]
+            .find(el => el.querySelector(".card-title")?.textContent.trim() === "IRCTC E-Wallet");
+        if (!card) {
+            await sleep(100);
+        }
+    }
+
+    card.click();
+    let payButton;
+    while (!payButton) {
+        payButton = [...document.querySelectorAll("button.btn.btn-payment")]
+            .find(el => el.textContent.trim() === "Pay & Book");
+        if (!payButton) {
+            await sleep(100);
+        }
+    }
+    payButton.click();
+    let confirmButton;
+    while (!confirmButton) {
+        confirmButton = [...document.querySelectorAll(".ewallet-confirm-actions button")]
+            .find(el => el.textContent.trim().toUpperCase() === "CONFIRM");
+        if (!confirmButton) {
+            await sleep(100);
+        }
+    }
+    confirmButton.click();
+}
+
+async function execute() {
+    const loginSuccess = await ensureLoggedIn(username, password);
+    if (!loginSuccess) { 
+        return;
+    }
+    await selectSource(from);
+    await selectDestination(to);
+    await selectTravelDate(JDate);
+    await selectQuota(quota);
+    if (passConcession || quota === "DUTY PASS") {
+        await selectConcession();
+    }
+    await clickSearchTrains();
+    await checkAndBookRetry(trainNumber,className);
+    await completeBookingDetails(mobile);
+    await calculateFareUntilPayment();
+    if (paymentType.toLowerCase() === "qr") {
+        await clickToPayQR();
+    } else {
+        await payviawallet();
+    }
+}
+
+await execute();
+
+})();
+*/}).toString().replace(/\r\n?/g, "\n").replace(/^[\s\S]*?\/\*\n?/, "").replace(/\n?\*\/\s*\}\s*$/, "");
