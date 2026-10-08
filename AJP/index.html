@@ -58,7 +58,7 @@ body {
 /* ticket */
 .ticket { background: var(--paper); border-radius: var(--radius); overflow: hidden; box-shadow: 0 24px 50px rgba(0,0,0,.45); }
 .stub { padding: 20px 18px 22px; }
-.body { padding: 22px 18px 20px; position: relative; }
+.body { padding: 12px 18px 20px; position: relative; }
 .body::before, .body::after {
   content: ""; position: absolute; top: -11px; width: 22px; height: 22px; border-radius: 50%; background: var(--night);
 }
@@ -202,7 +202,15 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
 
 /* chips */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-#paxChips { margin-bottom: 12px; }          /* tighter gaps: class/quota -> passenger type -> mobile -> payment type */
+/* passenger type (left, fills the row) | divider | concession: Pass sits flush with the right edge of the Class box */
+.paxgrid { margin-bottom: 12px; }   /* tighter gaps: class/quota -> passenger type -> mobile -> payment type */
+#paxChips { flex-wrap: nowrap; margin-bottom: 0; gap: 8px; }   /* compact: chips keep their natural width */
+#paxChips .chip { flex: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
+#paxChips .chip .plus { flex: none; margin-right: 4px; }
+/* New Passenger: the count sits at the start; its space is always reserved so nothing moves when it appears */
+.pcount { flex: none; display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 5px; border-radius: 50%;
+  background: var(--night); color: var(--signal); font: 700 12px/1 var(--cond); visibility: hidden; }
+.pcount:not(:empty) { visibility: visible; }
 .body > .field { margin-bottom: 12px; }
 .chip {
   min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff;
@@ -233,8 +241,27 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
 
 /* no auto-zoom when a field is focused: iOS zooms into anything under 16px */
 input, select, textarea { font-size: max(16px, 1em); }
+/* concession: slim green dropdown (same look as the train name box) */
+.dd.concdd { margin-bottom: 6px; }   /* same 6px gap as between Train number and the train name box (".dd" would otherwise add 18px) */
+.concbox {
+  display: flex; align-items: center; width: 100%; height: 28px; padding: 0 27px 0 9px; border: 1.5px solid #cfe3d8; border-radius: 10px;
+  background: #e6f1ec url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f8a6b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 9px center / 14px;
+  color: #4f8a6b; font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; text-align: left;
+  white-space: nowrap; overflow: hidden; cursor: pointer; transition: border-color .15s, filter .15s;
+}
+.concbox .clab { flex: none; font-size: 9px; font-weight: 600; letter-spacing: .03em; opacity: .75; }   /* compact label inside the box, like +91 in the mobile input */
+.concbox .cdiv { flex: none; width: 1px; height: 12px; margin: 0 6px; background: #a9cdb9; }
+.concbox .cval { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.concbox:active { filter: brightness(.96); }
+.concbox:focus-visible { outline: 2px solid var(--night-2); outline-offset: 2px; }
+.concdd.open .concbox { border-color: #4f8a6b; }
+.concbox:disabled { opacity: .55; cursor: not-allowed; background-image: none; padding-right: 9px; }   /* Tatkal / Premium Tatkal: shows None, not clickable */
+.concbox[data-locked] {   /* Duty Pass: always Railway Pass Concession, with a small lock instead of the arrow */
+  cursor: default;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f8a6b' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='9' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E");
+}
 /* quota + class side by side */
-.qc { display: grid; grid-template-columns: 6fr 7fr; gap: 8px; margin-bottom: 12px; align-items: start; }   /* fixed widths, quota a bit smaller than class */
+.qc { display: grid; grid-template-columns: 6fr 7fr; gap: 8px; margin-bottom: 6px; align-items: start; }   /* fixed widths, quota a bit smaller than class */
 .qc-cell { min-width: 0; }
 .qc .dd { margin-bottom: 0; }
 .qc .dd-btn { padding: 0 7px; gap: 5px; font-size: 13.5px; }
@@ -290,7 +317,6 @@ input, select, textarea { font-size: max(16px, 1em); }
 }
 .user-btn:hover { background: #26305a; }
 .chip .plus { margin-right: 6px; vertical-align: -1px; }
-.chip .pcount:not(:empty)::before { content: " \00b7 "; }
 
 /* new passenger popup */
 .sheet.pax { max-width: 440px; }
@@ -551,14 +577,24 @@ input, select, textarea { font-size: max(16px, 1em); }
       </div>
       </div>
       </div>
+      <div class="dd concdd" id="concDd">
+        <button type="button" class="concbox" id="concBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Concession"><span class="clab">Concession</span><span class="cdiv" aria-hidden="true"></span><span class="cval" id="concText">None</span></button>
+        <ul class="dd-list" id="concList" role="listbox" aria-label="Concession" hidden>
+          <li role="option" data-value="NONE" data-name="None" aria-selected="true"><span class="name">None</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+          <li role="option" data-value="RAILWAY PASS" data-name="Railway Pass Concession" aria-selected="false"><span class="name">Railway Pass Concession</span><svg class="tick" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></li>
+        </ul>
+      </div>
       <input type="hidden" id="quota" value="GENERAL">
+      <input type="hidden" id="concession" value="NONE">
 
       <input type="hidden" id="className" value="Sleeper (SL)">
 
-      <span class="lbl" id="paxLbl">Passenger type</span>
-      <div class="chips" role="radiogroup" aria-labelledby="paxLbl" id="paxChips">
-        <button type="button" class="chip quota" role="radio" aria-checked="true" data-value="EXISTING">Existing</button>
-        <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="NEW" id="newPaxBtn" aria-haspopup="dialog"><svg class="plus" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>New Passenger<span class="pcount" id="paxCount"></span></button>
+      <div class="paxgrid">
+        <span class="lbl" id="paxLbl">Passenger type</span>
+        <div class="chips" role="radiogroup" aria-labelledby="paxLbl" id="paxChips">
+          <button type="button" class="chip quota" role="radio" aria-checked="true" data-value="EXISTING">Existing</button>
+          <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="NEW" id="newPaxBtn" aria-haspopup="dialog"><span class="pcount" id="paxCount"></span><svg class="plus" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>New Passenger</button>
+        </div>
       </div>
       <input type="hidden" id="passenger" value="EXISTING">
 
@@ -1432,7 +1468,7 @@ jDate.dispatchEvent(new Event("change"));
 // (COPY_TAIL is loaded from js/script.js)
 
 // const passengers=[ { name:"..", age:30, gender:"..", berth:"..", child:null }, ... ];
-function passengersBlock(list) {
+function passengersBlock(list, pass) {
   const q = v => JSON.stringify(v);
   const items = (list || []).map(p => [
     "    {",
@@ -1440,10 +1476,14 @@ function passengersBlock(list) {
     "        age:" + Number(p.age) + ",",
     "        gender:" + q(p.gender) + ",",
     "        berth:" + q(p.berth) + ",",
-    "        child:" + (p.childBerth == null ? "null" : q(p.childBerth)),
+    "        child:" + (p.childBerth == null ? "null" : q(p.childBerth)) + (pass ? "," : ""),
+    ...(pass ? [
+      "        passNumber:" + q(p.upn || "") + ",",     // UPN
+      "        passPin:" + q(p.pin || "")               // PIN
+    ] : []),
     "    }"
   ].join("\n"));
-  return "const passengers=[\n" + items.join(",\n") + "\n];";
+  return "const passengers = [\n" + items.join(",\n") + "\n];";
 }
 
 function buildCopyText(d) {
@@ -1463,7 +1503,8 @@ function buildCopyText(d) {
     "const paymentType = " + q(d.paymentType) + ";",
     "",
     "const existingPassengers = " + (d.existingPassengers ? "true" : "false") + ";",
-    ...(d.existingPassengers ? [] : ["", passengersBlock(d.passengers)]),   // the passengers list only exists for New Passenger
+    "const passConcession = " + (d.passConcession ? "true" : "false") + ";",
+    ...(d.existingPassengers ? [] : ["", passengersBlock(d.passengers, d.passConcession)]),   // the passengers list only exists for New Passenger
   ].join("\n") + "\n\n" + COPY_TAIL;
 }
 
@@ -1489,7 +1530,13 @@ function getValues() {
   const className = val("className");
   const mobile = val("mobile");
   const payment = val("payment");
-  const passenger = val("passenger");                      // EXISTING | NEW
+  const passenger = val("passenger");
+  const railwayPass = val("concession") === "RAILWAY PASS";
+  if (passenger === "NEW" && railwayPass) {              // passenger 1 needs PIN and UPN: open the popup to fill them
+    const p1 = (window.newPassengers || [])[0];
+    if (!p1 || !p1.pin || !p1.upn) { document.getElementById("newPaxBtn").click(); return; }
+  }                      // EXISTING | NEW
+  const concLabel = val("concession") === "RAILWAY PASS" ? "Railway Pass Concession" : "None";
   const paxLabel = passenger === "NEW" ? "New Passenger (" + ((window.newPassengers || []).length || 1) + ")" : "Existing";
 
   console.log({ username, password, trainNumber, JDate, from, to, quota, className, mobile, payment });
@@ -1502,6 +1549,7 @@ function getValues() {
     ["To", dash(to), dash(to)],
     ["Quota", dash(quota), dash(quota)],
     ["Class", dash(className), dash(className)],
+    ["Concession", concLabel, concLabel],
     ["Passenger type", paxLabel, paxLabel],
     ["Mobile", mobile ? "+91 " + mobile : "-", mobile ? "+91 " + mobile : "-"],
     ["Payment type", dash(payment), dash(payment)],
@@ -1526,6 +1574,7 @@ function getValues() {
   savedText = buildCopyText({
     username, password, trainNumber, JDate: copyDate, from, to, quota, className, mobile, paymentType: payment,
     existingPassengers: passenger !== "NEW",
+    passConcession: railwayPass,
     passengers: passenger === "NEW" ? (window.newPassengers || []) : []
   });
 
@@ -1575,6 +1624,7 @@ function resetAll(keepLogin) {
   jd.dispatchEvent(new Event("change"));
   // chips + class dropdown back to defaults
   if (window.resetQuotaDropdown) window.resetQuotaDropdown();
+  if (window.resetConcession) window.resetConcession();
   setChip("paymentChips", "payment", "QR");
   if (!keepLogin && window.resetPassengers) window.resetPassengers();   // the top-bar refresh icon leaves passenger type alone
   window.resetClassDropdown();
@@ -1604,6 +1654,58 @@ function resetAll(keepLogin) {
   const prevSet = window.setStations;
   window.setStations = function () { prevSet.apply(this, arguments); sync(); };
   sync();
+})();
+
+// Concession: normal dropdown for General, None (not clickable) for Tatkal / Premium Tatkal, Railway Pass Concession (locked) for Duty Pass
+(function () {
+  const dd = document.getElementById("concDd");
+  const btn = document.getElementById("concBtn");
+  const list = document.getElementById("concList");
+  const items = Array.from(list.querySelectorAll("li"));
+  const field = document.getElementById("concession");
+  const quota = document.getElementById("quota");
+  let lastQuota = quota.value, active = 0;
+
+  function setVal(v) {
+    const was = field.value;
+    field.value = v;
+    if (was !== v) field.dispatchEvent(new Event("change", { bubbles: true }));
+    const li = items.find(x => x.dataset.value === v) || items[0];
+    items.forEach(x => x.setAttribute("aria-selected", x === li));
+    document.getElementById("concText").textContent = li.dataset.name;
+    active = items.indexOf(li);
+  }
+  function setOpen(open) {
+    if (open && (btn.disabled || btn.hasAttribute("data-locked"))) return;
+    const r = btn.getBoundingClientRect();
+    dd.classList.toggle("up", open && window.innerHeight - r.bottom < 150 && r.top > window.innerHeight - r.bottom);
+    dd.classList.toggle("open", open); list.hidden = !open; btn.setAttribute("aria-expanded", open);
+    items.forEach((x, i) => x.classList.toggle("active", open && i === active));
+  }
+  function apply() {
+    const q = quota.value, changed = q !== lastQuota;
+    lastQuota = q;
+    btn.disabled = false; btn.removeAttribute("data-locked"); btn.title = "";
+    setOpen(false);
+    if (q === "DUTY PASS") { setVal("RAILWAY PASS"); btn.dataset.locked = ""; btn.title = "Included with Duty Pass"; }
+    else if (q === "GENERAL") { if (changed) setVal("NONE"); }
+    else { setVal("NONE"); btn.disabled = true; btn.title = "Not available for Tatkal"; }
+  }
+  btn.addEventListener("click", () => setOpen(list.hidden));
+  items.forEach(li => li.addEventListener("click", () => { setVal(li.dataset.value); setOpen(false); btn.focus(); }));
+  document.addEventListener("click", e => { if (!dd.contains(e.target)) setOpen(false); });
+  btn.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (list.hidden) setOpen(true);
+      else { active = (active + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length; items.forEach((x, i) => x.classList.toggle("active", i === active)); }
+    } else if ((e.key === "Enter" || e.key === " ") && !list.hidden) {
+      e.preventDefault(); setVal(items[active].dataset.value); setOpen(false);
+    } else if (e.key === "Escape") setOpen(false);
+  });
+  quota.addEventListener("change", apply);
+  window.resetConcession = () => { lastQuota = quota.value; setVal("NONE"); apply(); };
+  apply();
 })();
 
 // ===== New passenger popup =====
@@ -1721,6 +1823,14 @@ function resetAll(keepLogin) {
             <label>Child Berth</label>
             <div class="pslot" data-cls="childBerth"></div>
           </div>
+          <div class="field rp" hidden>
+            <label>PIN<span class="req rq"> *</span></label>
+            <input class="pin" maxlength="6" placeholder="PIN" autocomplete="off" autocapitalize="characters">
+          </div>
+          <div class="field rp" hidden>
+            <label>UPN<span class="req rq"> *</span></label>
+            <input class="upn" maxlength="10" placeholder="UPN" autocomplete="off" autocapitalize="characters">
+          </div>
         </div>
       </div>`;
     div.querySelectorAll(".pslot").forEach(slot => slot.replaceWith(makeSelect(slot.dataset.cls)));
@@ -1731,12 +1841,23 @@ function resetAll(keepLogin) {
       child.hidden = !age.value || Number(age.value) >= 12;   // child berth question only for under 12
     });
     name.addEventListener("input", () => name.classList.remove("err"));
+    div.querySelectorAll(".pin, .upn").forEach(i => i.addEventListener("input", () => i.classList.remove("err")));
     div.querySelector(".pview").addEventListener("click", () => openCard(div));
     div.querySelector(".psave").addEventListener("click", () => saveCard(div));
     return div;
   }
 
   // name and age filled (and sensible)? Marks the bad field and returns it
+  // PIN / UPN exist only while the concession is Railway Pass Concession
+  const rpOn = () => document.getElementById("concession").value === "RAILWAY PASS";
+  function applyRP() {
+    const on = rpOn();
+    cards().forEach((card, i) => {
+      card.querySelectorAll(".rp").forEach(f => { f.hidden = !on; });
+      card.querySelectorAll(".rq").forEach(m => { m.hidden = i !== 0; });   // the * only on passenger 1
+    });
+  }
+
   function check(card) {
     const name = card.querySelector(".name"), age = card.querySelector(".age");
     const a = Number(age.value);
@@ -1744,7 +1865,12 @@ function resetAll(keepLogin) {
     const badAge = !age.value || !(a >= 1 && a <= 125);
     name.classList.toggle("err", badName);
     age.classList.toggle("err", badAge);
-    return badName ? name : badAge ? age : null;
+    const pin = card.querySelector(".pin"), upn = card.querySelector(".upn");
+    const need = rpOn() && cards()[0] === card;                 // only passenger 1 must have PIN and UPN
+    const badPin = need && !pin.value.trim(), badUpn = need && !upn.value.trim();
+    pin.classList.toggle("err", badPin);
+    upn.classList.toggle("err", badUpn);
+    return badName ? name : badAge ? age : badPin ? pin : badUpn ? upn : null;
   }
 
   function summarise(card) {
@@ -1787,6 +1913,7 @@ function resetAll(keepLogin) {
       card.querySelector("h3").textContent = "Passenger " + (i + 1);
       card.querySelector(".pn").textContent = i + 1;
     });
+    applyRP();
     const max = maxPax();
     removeBtn.disabled = cards().length < 1;
     addBtn.disabled = cards().length >= max;
@@ -1822,7 +1949,8 @@ function resetAll(keepLogin) {
       age: Number(card.querySelector(".age").value),
       gender: card.querySelector(".gender").value,
       berth: card.querySelector(".berth").value,
-      childBerth: child.hidden ? null : card.querySelector(".childBerth").value
+      childBerth: child.hidden ? null : card.querySelector(".childBerth").value,
+      ...(rpOn() ? { pin: card.querySelector(".pin").value.trim(), upn: card.querySelector(".upn").value.trim() } : {})
     };
   };
 
@@ -1856,6 +1984,8 @@ function resetAll(keepLogin) {
 
   function open() {
     modal.hidden = false; renumber();
+    const first = cards()[0];                                 // concession turned to Railway Pass after passenger 1 was saved: ask for PIN / UPN
+    if (first && rpOn() && check(first)) openCard(first);
     setTimeout(() => { const o = openCardEl(); const f = o && o.querySelector(".name"); if (f && !f.value) f.focus(); }, 50);
   }
   function close() { if (modal.hidden) return; closeSelects(); finalize(); modal.hidden = true; newBtn.focus(); }
@@ -1878,6 +2008,7 @@ function resetAll(keepLogin) {
     renumber(); sync();
   }
   document.getElementById("quota").addEventListener("change", applyLimit);
+  document.getElementById("concession").addEventListener("change", () => { applyRP(); if (!modal.hidden) renumber(); });
 
   // full RESET: back to Existing and one empty passenger
   window.resetPassengers = function () {
