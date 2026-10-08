@@ -41,7 +41,8 @@ async function ensureLoggedIn(username, password) {
 
     let activeLogin;
     while (!activeLogin) {
-        activeLogin = document.querySelector(".btn-action.btn-login.active");
+        activeLogin = [...document.querySelectorAll('.login-form .actions-row button[type="submit"]')]
+                            .find(b => b.innerText.trim() === 'LOGIN');
         if (!activeLogin) {
             await sleep(100);
         }
@@ -651,6 +652,13 @@ async function completeBookingDetails(mobile) {
     const bookBox = bookOnly.querySelector(".ui-chkbox-box");
     if (bookBox) {
         bookBox.click();
+    }
+    if (passConcession) {
+        const insurance = document.querySelector('p-checkbox[formcontrolname="travelInsuranceOpted"] .ui-chkbox-box');
+        if (insurance && insurance.getAttribute("aria-checked") === "true") {
+            insurance.click();
+            await wait(300);
+        }
     }
     if (paymentType.toLowerCase() !== "qr") {
         return;
