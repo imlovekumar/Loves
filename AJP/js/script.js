@@ -4,6 +4,7 @@
 // Keep the first line  const COPY_TAIL = (function () {/*  and the last line  */}).toString()...  as they are.
 // The only thing the pasted text must not contain is the two characters  */  (they would end the block).
 const COPY_TAIL = (function () {/*
+
 function sleep(ms) { 
     return new Promise(resolve => setTimeout(resolve, ms)); 
 }
@@ -503,14 +504,28 @@ async function checkAndBookRetry(trainNumber, className) {
             }
 
             let refreshButton;
+            let refreshRetryCount = 0;
             while (!refreshButton) {
-                refreshButton = classCard.querySelector('span[aria-label="Refresh availability"]');
+                refreshButton = classCard.querySelector('span.sync-icon[aria-label="Refresh Availability"]');
                 if (!refreshButton) {
-                    await sleep(100);
+                        await sleep(100);
                 }
             }
-            refreshButton.click();
-            while (document.querySelector(".dimmer")) {
+            while (true) {
+                refreshButton.click();
+                refreshRetryCount++;
+                while (document.querySelector(".dimmer")) {
+                    await sleep(100);
+                }
+                if (refreshRetryCount % 5 === 0) {
+                    await sleep(2000);
+                } else {
+                    await sleep(1000);
+                }
+                refreshButton = classCard.querySelector('span.sync-icon[aria-label="Refresh Availability"]' );
+                if (!refreshButton) {
+                    break;
+                }
                 await sleep(100);
             }
         }
