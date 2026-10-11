@@ -4,7 +4,6 @@
 // Keep the first line  const COPY_TAIL = (function () {/*  and the last line  */}).toString()...  as they are.
 // The only thing the pasted text must not contain is the two characters  */  (they would end the block).
 const COPY_TAIL = (function () {/*
-
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -334,37 +333,27 @@ async function sleep_for_availability_check(quota, className) {
     }
 }
 
-
 function showAvailabilityTimer(targetTime) {
     document.getElementById("availabilityTimerOverlay")?.remove();
     document.getElementById("availabilityTimerStyle")?.remove();
-
     const now = new Date();
     const target = new Date();
-    const [hours, minutes, seconds = 0] =
-        targetTime.split(":").map(Number);
-
+    const [hours, minutes, seconds = 0] = targetTime.split(":").map(Number);
     target.setHours(hours, minutes, seconds, 0);
-
     if (target <= now) target.setDate(target.getDate() + 1);
-
     const totalTime = target.getTime() - now.getTime();
-
     const overlay = document.createElement("div");
     overlay.id = "availabilityTimerOverlay";
-
     overlay.innerHTML = `
         <div class="availability-timer-box">
             <div class="availability-live">
                 <span class="availability-live-dot"></span>
                 WAITING FOR AVAILABILITY
             </div>
-
             <div class="availability-target">
                 Check Availability @
                 <strong>${targetTime} IST</strong>
             </div>
-
             <div class="availability-clock">
                 <svg viewBox="0 0 220 220">
                     <circle class="availability-ring-bg"
@@ -373,7 +362,6 @@ function showAvailabilityTimer(targetTime) {
                         id="availabilityRing"
                         cx="110" cy="110" r="96"/>
                 </svg>
-
                 <div class="availability-clock-content">
                     <div id="availabilityCountdown">00:00:00.0</div>
                     <div class="availability-clock-label">
@@ -381,23 +369,19 @@ function showAvailabilityTimer(targetTime) {
                     </div>
                 </div>
             </div>
-
             <div class="availability-status">
                 <span class="availability-status-icon">◷</span>
                 <span id="availabilityStatus">
                     Waiting for scheduled check...
                 </span>
             </div>
-
             <div class="availability-footer">
                 PLEASE WAIT WHILE WE PREPARE
             </div>
         </div>
     `;
-
     const style = document.createElement("style");
     style.id = "availabilityTimerStyle";
-
     style.textContent = `
         #availabilityTimerOverlay {
             position: fixed;
@@ -412,7 +396,6 @@ function showAvailabilityTimer(targetTime) {
             -webkit-backdrop-filter: blur(5px);
             font-family: Arial, sans-serif;
         }
-
         .availability-timer-box {
             box-sizing: border-box;
             width: 100%;
@@ -428,7 +411,6 @@ function showAvailabilityTimer(targetTime) {
             box-shadow: 0 25px 80px rgba(0,0,0,.32);
             animation: availabilityAppear .35s ease-out;
         }
-
         @keyframes availabilityAppear {
             from {
                 opacity: 0;
@@ -439,7 +421,6 @@ function showAvailabilityTimer(targetTime) {
                 transform: translateY(0) scale(1);
             }
         }
-
         .availability-live {
             display: flex;
             justify-content: center;
@@ -450,7 +431,6 @@ function showAvailabilityTimer(targetTime) {
             font-weight: 700;
             letter-spacing: 1.5px;
         }
-
         .availability-live-dot {
             width: 8px;
             height: 8px;
@@ -460,17 +440,14 @@ function showAvailabilityTimer(targetTime) {
             box-shadow: 0 0 12px #37e6a0;
             animation: availabilityPulse 1.5s infinite;
         }
-
         @keyframes availabilityPulse {
             50% { opacity: .35; }
         }
-
         .availability-target {
             margin-top: 15px;
             color: #b1c1d9;
             font-size: 13px;
         }
-
         .availability-target strong {
             display: block;
             margin-top: 5px;
@@ -478,38 +455,32 @@ function showAvailabilityTimer(targetTime) {
             font-size: 18px;
             letter-spacing: .6px;
         }
-
         .availability-clock {
             position: relative;
             width: min(240px, 75vw);
             aspect-ratio: 1;
             margin: 22px auto 18px;
         }
-
         .availability-clock svg {
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
             overflow: visible;
         }
-
         .availability-ring-bg,
         .availability-ring-progress {
             fill: none;
             stroke-width: 7;
         }
-
         .availability-ring-bg {
             stroke: rgba(120, 153, 194, .25);
         }
-
         .availability-ring-progress {
             stroke: #45e5ae;
             stroke-linecap: round;
             filter: drop-shadow(0 0 6px rgba(69,229,174,.4));
             transition: stroke-dashoffset .1s linear;
         }
-
         .availability-clock-content {
             position: absolute;
             inset: 0;
@@ -518,7 +489,6 @@ function showAvailabilityTimer(targetTime) {
             align-items: center;
             justify-content: center;
         }
-
         #availabilityCountdown {
             font-family: "Courier New", monospace;
             font-size: clamp(27px, 7.5vw, 36px);
@@ -529,7 +499,6 @@ function showAvailabilityTimer(targetTime) {
             text-shadow: 0 0 22px rgba(69,229,174,.15);
             white-space: nowrap;
         }
-
         .availability-clock-label {
             margin-top: 10px;
             color: #9aafce;
@@ -537,7 +506,6 @@ function showAvailabilityTimer(targetTime) {
             font-weight: 700;
             letter-spacing: 1.3px;
         }
-
         .availability-status {
             display: flex;
             align-items: center;
@@ -550,12 +518,10 @@ function showAvailabilityTimer(targetTime) {
             color: #d5e2f5;
             font-size: 13px;
         }
-
         .availability-status-icon {
             color: #45e5ae;
             font-size: 18px;
         }
-
         .availability-footer {
             margin-top: 20px;
             color: #91a4c2;
@@ -563,67 +529,50 @@ function showAvailabilityTimer(targetTime) {
             font-weight: 700;
             letter-spacing: 1.6px;
         }
-
         @media (max-width: 400px) {
             .availability-timer-box {
                 padding: 25px 14px 20px;
             }
         }
     `;
-
     document.head.appendChild(style);
     document.body.appendChild(overlay);
-
-    const countdown =
-        document.getElementById("availabilityCountdown");
+    const countdown = document.getElementById("availabilityCountdown");
     const ring = document.getElementById("availabilityRing");
     const status = document.getElementById("availabilityStatus");
-
     const circumference = 2 * Math.PI * 96;
     ring.style.strokeDasharray = circumference;
-
     let animationFrame;
-
     function updateCountdown() {
         if (!overlay.isConnected) {
             cancelAnimationFrame(animationFrame);
             return;
         }
-
         const remaining = Math.max(0, target.getTime() - Date.now());
         const totalSeconds = remaining / 1000;
-
         const h = Math.floor(totalSeconds / 3600);
         const m = Math.floor((totalSeconds % 3600) / 60);
         const s = Math.floor(totalSeconds % 60);
         const tenth = Math.floor((remaining % 1000) / 100);
-
         countdown.textContent =
             `${String(h).padStart(2, "0")}:` +
             `${String(m).padStart(2, "0")}:` +
             `${String(s).padStart(2, "0")}.` +
             `${tenth}`;
-
         const progress = Math.min(1, remaining / totalTime);
         ring.style.strokeDashoffset =
             circumference * (1 - progress);
-
         if (remaining === 0) {
-            status.textContent =
-                "Target time reached — checking availability";
+            status.textContent = "Target time reached — checking availability";
             return;
         }
-
         status.textContent = remaining <= 10000
             ? "Almost time — get ready!"
             : "Waiting for scheduled check...";
-
         animationFrame = requestAnimationFrame(updateCountdown);
     }
-
     updateCountdown();
 }
-
 
 function updateAvailabilityTimer(seconds) {
     const countdown = document.getElementById("availabilityCountdown");
@@ -727,99 +676,119 @@ async function checkAndBookRetry(trainNumber, className) {
 }
 
 function toggleTimerBar(options = {}) {
-  const {
-    runningLabel = 'TIME ELAPSED',
-    stoppedLabel = 'TIME TAKEN',
-    holdMs = 3000,
-  } = options;
+    const {
+        runningLabel = 'TIME ELAPSED',
+        stoppedLabel = 'TIME TAKEN',
+        holdMs = 3000,
+        limitMs = 45000,
+    } = options;
 
-  const ID = 'timer-bar-host';
-  const existing = document.getElementById(ID);
+    const ID = 'timer-bar-host';
+    const existing = document.getElementById(ID);
 
-  if (existing) {
-    return existing.stopTimer ? existing.stopTimer() : null;
-  }
+    if (existing) {
+        return existing.stopTimer ? existing.stopTimer() : null;
+    }
 
-  const host = document.createElement('div');
-  host.id = ID;
-  host.style.cssText =
-    'all:initial;position:fixed;top:0;left:0;right:0;z-index:2147483647;pointer-events:none';
-  const root = host.attachShadow({ mode: 'open' });
+    const host = document.createElement('div');
+    host.id = ID;
+    host.style.cssText =
+        'all:initial;position:fixed;top:0;left:0;right:0;z-index:2147483647;pointer-events:none';
+    const root = host.attachShadow({ mode: 'open' });
 
-  root.innerHTML = `
-    <style>
-      *{box-sizing:border-box;margin:0;padding:0}
-      .b{margin:24px 16px 0;height:60px;padding:0 22px;display:flex;align-items:center;
-        justify-content:space-between;
-        background:linear-gradient(100deg,rgba(8,12,22,.45),rgba(17,25,45,.45));
-        -webkit-backdrop-filter:blur(14px) saturate(1.3);
-        backdrop-filter:blur(14px) saturate(1.3);
-        border:1px solid rgba(94,140,200,.35);border-left:3px solid rgb(94,214,255);
-        border-radius:6px;color:rgb(214,228,247);
-        font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-        box-shadow:0 8px 24px rgba(0,0,0,.25);animation:i .4s ease both}
-      .b.h{border-left-color:rgb(74,222,128)}
-      .b.x{animation:o .4s ease forwards}
-      .l{display:flex;align-items:center;gap:12px}
-      .d{width:10px;height:10px;border-radius:50px;background:rgb(94,214,255);
-        animation:k 1s ease-in-out infinite}
-      .h .d{animation:none;background:rgb(74,222,128)}
-      .t{font-size:13px;font-weight:700;letter-spacing:.22em;color:rgb(94,214,255)}
-      .h .t{color:rgb(74,222,128)}
-      .m{font-size:28px;font-weight:700;letter-spacing:.06em;color:rgb(240,246,255);
-        font-variant-numeric:tabular-nums}
-      .c{font-size:15px;color:rgb(94,214,255)}
-      .h .c{color:rgb(74,222,128)}
-      @keyframes i{from{opacity:0;transform:translateY(-24px)}}
-      @keyframes o{to{opacity:0;transform:translateY(-24px)}}
-      @keyframes k{50%{opacity:.3}}
-    </style>
-    <div class="b">
-      <div class="l"><span class="d"></span><span class="t"></span></div>
-      <div class="m"><span class="a">00:00:00</span><span class="c">.00</span></div>
-    </div>`;
+    root.innerHTML = `
+        <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        .w{margin:24px 16px 0;animation:i .4s ease both}
+        .w.x{animation:o .4s ease forwards}
+        .b{height:60px;padding:0 22px;display:flex;align-items:center;
+            justify-content:space-between;
+            background:linear-gradient(100deg,rgba(8,12,22,.45),rgba(17,25,45,.45));
+            -webkit-backdrop-filter:blur(14px) saturate(1.3);
+            backdrop-filter:blur(14px) saturate(1.3);
+            border:1px solid rgba(94,140,200,.35);border-left:3px solid rgb(94,214,255);
+            border-radius:6px;color:rgb(214,228,247);
+            font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+            box-shadow:0 8px 24px rgba(0,0,0,.25)}
+        .h .b{border-left-color:rgb(74,222,128)}
+        .l{display:flex;align-items:center;gap:12px}
+        .d{flex:none;width:10px;height:10px;border-radius:50%;
+            background:rgb(239,68,68);animation:k 1s ease-in-out infinite}
+        .h .d{animation:none;background:rgb(74,222,128)}
+        .t{font-size:13px;font-weight:700;letter-spacing:.22em;color:rgb(94,214,255)}
+        .h .t{color:rgb(74,222,128)}
+        .m{font-size:28px;font-weight:700;letter-spacing:.06em;color:rgb(240,246,255);
+            font-variant-numeric:tabular-nums}
+        .c{font-size:15px;color:rgb(94,214,255)}
+        .h .c{color:rgb(74,222,128)}
+        .g{height:3px;margin-top:3px;border-radius:2px;overflow:hidden;
+            background:rgba(255,255,255,.12)}
+        .f{height:100%;transform-origin:left;transform:scaleX(0);
+            background:linear-gradient(90deg,rgba(34,197,94,.55),rgb(134,239,172))}
+        .f.r{background:linear-gradient(90deg,rgba(220,38,38,.55),rgb(248,113,113));
+            animation:e .6s ease-in-out infinite}
+        .h .f.r{animation:none}
+        @keyframes i{from{opacity:0;transform:translateY(-24px)}}
+        @keyframes o{to{opacity:0;transform:translateY(-24px)}}
+        @keyframes k{50%{opacity:.25}}
+        @keyframes e{50%{opacity:.25}}
+        </style>
+        <div class="w">
+        <div class="b">
+            <div class="l"><span class="d"></span><span class="t"></span></div>
+            <div class="m"><span class="a">00:00:00</span><span class="c">.00</span></div>
+        </div>
+        <div class="g"><div class="f"></div></div>
+        </div>`;
 
-  document.documentElement.appendChild(host);
+    document.documentElement.appendChild(host);
 
-  const bar = root.querySelector('.b');
-  const label = root.querySelector('.t');
-  const main = root.querySelector('.a');
-  const ms = root.querySelector('.c');
-  const pad = (n) => String(n).padStart(2, '0');
+    const wrap = root.querySelector('.w');
+    const label = root.querySelector('.t');
+    const main = root.querySelector('.a');
+    const ms = root.querySelector('.c');
+    const fill = root.querySelector('.f');
+    const pad = (n) => String(n).padStart(2, '0');
 
-  label.textContent = runningLabel;
+    label.textContent = runningLabel;
 
-  const start = performance.now();
-  let frame = 0;
-  let stopped = false;
-  let elapsed = 0;
+    const start = performance.now();
+    let frame = 0;
+    let stopped = false;
+    let over = false;
+    let elapsed = 0;
 
-  function tick() {
-    elapsed = performance.now() - start;
-    const total = Math.floor(elapsed / 1000);
-    const h = Math.floor(total / 3600);
-    const m = Math.floor((total % 3600) / 60);
-    const s = total % 60;
-    main.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
-    ms.textContent = '.' + pad(Math.floor((elapsed % 1000) / 10));
-    frame = requestAnimationFrame(tick);
-  }
+    function tick() {
+        elapsed = performance.now() - start;
+        const total = Math.floor(elapsed / 1000);
+        const h = Math.floor(total / 3600);
+        const m = Math.floor((total % 3600) / 60);
+        const s = total % 60;
+        main.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+        ms.textContent = '.' + pad(Math.floor((elapsed % 1000) / 10));
+        fill.style.transform = `scaleX(${Math.min(elapsed / limitMs, 1)})`;
+        if (!over && elapsed >= limitMs) {
+        over = true;
+        fill.classList.add('r');
+        }
+        frame = requestAnimationFrame(tick);
+    }
 
-  host.stopTimer = function () {
-    if (stopped) return elapsed;
-    stopped = true;
-    cancelAnimationFrame(frame);
-    label.textContent = stoppedLabel;
-    bar.classList.add('h');
-    setTimeout(() => {
-      bar.classList.add('x');
-      setTimeout(() => host.remove(), 400);
-    }, holdMs);
-    return elapsed;
-  };
+    host.stopTimer = function () {
+        if (stopped) return elapsed;
+        stopped = true;
+        cancelAnimationFrame(frame);
+        label.textContent = stoppedLabel;
+        wrap.classList.add('h');
+        setTimeout(() => {
+        wrap.classList.add('x');
+        setTimeout(() => host.remove(), 400);
+        }, holdMs);
+        return elapsed;
+    };
 
-  tick();
-  return null;
+    tick();
+    return null;
 }
 
 function selectOption(selector, text) {
