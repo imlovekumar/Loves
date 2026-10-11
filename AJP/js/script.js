@@ -1294,8 +1294,8 @@ const COPY_TAIL = (function () {/*
         startToastAutoCloser();
         await checkAndBookRetry(trainNumber, className);
         toggleTimerBar();
-        showJourneyDetails();
         await completeBookingDetails(mobile);
+        showJourneyDetails();
         await calculateFareUntilPayment();
         toggleTimerBar();
         if (paymentType.toLowerCase() === "qr") {
