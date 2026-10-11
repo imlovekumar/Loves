@@ -1,195 +1,8 @@
-// COPY_TAIL = everything the bookmarklet contains AFTER the settings (the const ... lines the page generates).
-//
-// HOW TO EDIT: paste your whole script between the two marker lines below, exactly as it is - no quotes, no escaping, no \n.
-// Keep the first line  const COPY_TAIL = (function () {/*  and the last line  */}).toString()...  as they are.
-// The only thing the pasted text must not contain is the two characters  */  (they would end the block).
 const COPY_TAIL = (function () {/*
-function sleep(ms) {
+
+    function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-
-function showJourneyDetails(options = {}) {
-  const { durationMs = 45000, fadeMs = 400 } = options;
-
-  const ID = 'journey-bar-host';
-  const existing = document.getElementById(ID);
-  if (existing) {
-    if (existing.hideBar) existing.hideBar();
-    return;
-  }
-
-  const trainEl = document.querySelector('.train-name');
-  if (!trainEl) {
-    alert('Train details not found!');
-    return;
-  }
-
-  let c = trainEl.closest('span') || trainEl.parentElement;
-  for (let i = 0; i < 5 && c && !c.querySelector('.stations-row'); i++) {
-    c = c.parentElement;
-  }
-
-  const pad = (n) => String(n).padStart(2, '0');
-  const text = (sel, root = c) => root?.querySelector(sel)?.innerText.trim() || '';
-
-  const fullName = text('.train-name');
-  const trainNo = (fullName.match(/\b\d{5}\b/) || ['--'])[0];
-  const trainName =
-    fullName
-      .replace(/\b\d{5}\b/, '')
-      .replace(/[()\[\]]/g, '')
-      .replace(/^[\s\-–—:|]+|[\s\-–—:|]+$/g, '')
-      .trim() || '';
-
-  const MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
-  function fmtDate(s) {
-    let m = s.match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
-    if (m) return `${pad(m[3])}-${pad(m[2])}`;
-    m = s.match(/(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2,4})/);
-    if (m) return `${pad(m[1])}-${pad(m[2])}`;
-    m = s.match(/(\d{1,2})\s*([A-Za-z]{3})/);
-    if (m) {
-      const mi = MONTHS.indexOf(m[2].toLowerCase());
-      if (mi >= 0) return `${pad(m[1])}-${pad(mi + 1)}`;
-    }
-    return s || '--';
-  }
-  const date = fmtDate(text('.journey-date'));
-
-  const stations = c?.querySelectorAll('.stations-row .station-name');
-  function stationCode(el) {
-    if (!el) return '--';
-    const near = el.parentElement?.querySelector('.station-code, .code');
-    if (near && near.innerText.trim()) return near.innerText.trim().toUpperCase();
-    const s = el.innerText.trim();
-    const m = s.match(/\(([A-Za-z]{2,5})\)/);
-    return m ? m[1].toUpperCase() : s || '--';
-  }
-  const from = stationCode(stations?.[0]);
-  const to = stationCode(stations?.[1]);
-
-  const rows = [...document.querySelectorAll('.class-quota-row')];
-  const row =
-    rows.find((r) => {
-      const p = r.parentElement;
-      return p && (p.contains(trainEl) || p.parentElement?.contains(trainEl));
-    }) || rows[0];
-  const vals = row ? [...row.querySelectorAll('.meta-value')].map((x) => x.innerText.trim()) : [];
-
-  function classCode(s) {
-    const t = s.toLowerCase();
-    const m = s.match(/\b(SL|3A|2A|1A|3E|CC|EC|2S|FC)\b/);
-    if (m) return m[1];
-    if (t.includes('sleeper')) return 'SL';
-    if (t.includes('economy')) return '3E';
-    if (t.includes('third') || /3\s*tier|3\s*ac/.test(t)) return '3A';
-    if (t.includes('second ac') || /2\s*tier|2\s*ac/.test(t)) return '2A';
-    if (t.includes('first ac') || /1\s*ac/.test(t)) return '1A';
-    if (t.includes('exec')) return 'EC';
-    if (t.includes('chair')) return 'CC';
-    if (t.includes('second sitting')) return '2S';
-    return s || '--';
-  }
-  function quotaCode(s) {
-    const t = s.toLowerCase();
-    const m = s.match(/\b(GN|TQ|PT|DP|LD|SS|HP|YU)\b/);
-    if (m) return m[1];
-    if (t.includes('premium')) return 'PT';
-    if (t.includes('tatkal')) return 'TQ';
-    if (t.includes('divyang') || t.includes('handicap') || t.includes('disab')) return 'DP';
-    if (t.includes('general')) return 'GN';
-    if (t.includes('ladies')) return 'LD';
-    if (t.includes('senior') || t.includes('lower')) return 'SS';
-    return s || '--';
-  }
-  const cls = classCode(vals[0] || '');
-  const quota = quotaCode(vals[1] || '');
-
-  const host = document.createElement('div');
-  host.id = ID;
-  host.style.cssText =
-    'all:initial;position:fixed;bottom:0;left:0;right:0;z-index:2147483647;pointer-events:none';
-  const root = host.attachShadow({ mode: 'open' });
-
-  root.innerHTML = `
-    <style>
-      *{box-sizing:border-box;margin:0;padding:0}
-      .w{margin:0 16px 24px;animation:fin ${fadeMs}ms ease both}
-      .w.out{animation:fout ${fadeMs}ms ease forwards}
-      .b{min-height:56px;padding:10px 22px;display:flex;align-items:center;flex-wrap:wrap;
-        gap:8px 20px;
-        background:linear-gradient(100deg,rgba(8,12,22,.45),rgba(17,25,45,.45));
-        -webkit-backdrop-filter:blur(14px) saturate(1.3);
-        backdrop-filter:blur(14px) saturate(1.3);
-        border:1px solid rgba(94,140,200,.35);border-left:3px solid rgb(94,214,255);
-        border-radius:6px;color:rgb(214,228,247);
-        font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-        box-shadow:0 8px 24px rgba(0,0,0,.25)}
-      .l{display:flex;align-items:center;gap:12px;min-width:0}
-      .d{flex:none;width:10px;height:10px;border-radius:50%;background:rgb(94,214,255)}
-      .p{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px}
-      .c{display:inline-flex;align-items:center;padding:5px 11px;border-radius:5px;
-        font-size:13px;font-weight:700;letter-spacing:.12em;white-space:nowrap}
-      .u{color:rgb(240,246,255);border:1px solid rgba(140,160,200,.35);background:rgba(255,255,255,.05)}
-      .u i{font-style:normal;color:rgb(108,126,156);margin:0 6px}
-      .q{color:rgb(94,214,255);border:1px solid rgba(94,214,255,.45);background:rgba(94,214,255,.08)}
-      .k{color:rgb(134,239,172);border:1px solid rgba(74,222,128,.45);background:rgba(74,222,128,.08)}
-      .tn{min-width:0}
-      .n{flex:none;color:rgb(94,214,255)}
-      .nm{margin-left:10px;min-width:0;max-width:240px;overflow:hidden;text-overflow:ellipsis;
-        white-space:nowrap;letter-spacing:.06em}
-      .nm:empty{display:none}
-      .g{height:3px;margin-top:3px;border-radius:2px;overflow:hidden;background:rgba(255,255,255,.12)}
-      .f{height:100%;transform-origin:left;
-        background:linear-gradient(90deg,rgba(34,197,94,.55),rgb(134,239,172));
-        animation:drain ${durationMs}ms linear forwards}
-      @media (max-width:520px){.nm{max-width:38vw}.p{margin-left:0}}
-      @keyframes fin{from{opacity:0;transform:translateY(24px)}}
-      @keyframes fout{to{opacity:0;transform:translateY(24px)}}
-      @keyframes drain{to{transform:scaleX(0)}}
-    </style>
-    <div class="w" id="w">
-      <div class="b">
-        <div class="l">
-          <span class="d"></span>
-          <span class="c u tn"><span class="n" id="n"></span><span class="nm" id="nm"></span></span>
-        </div>
-        <div class="p">
-          <span class="c u"><span id="f1"></span><i>&rarr;</i><span id="f2"></span></span>
-          <span class="c u" id="s"></span>
-          <span class="c q" id="q"></span>
-          <span class="c k" id="k"></span>
-        </div>
-      </div>
-      <div class="g"><div class="f"></div></div>
-    </div>`;
-
-  const set = (id, v) => (root.getElementById(id).textContent = v);
-  set('n', trainNo);
-  set('nm', trainName);
-  set('f1', from);
-  set('f2', to);
-  set('s', date);
-  set('q', quota);
-  set('k', cls);
-
-  document.documentElement.appendChild(host);
-
-  const wrap = root.getElementById('w');
-  let hidden = false;
-  let timer = 0;
-
-  host.hideBar = function () {
-    if (hidden) return;
-    hidden = true;
-    clearTimeout(timer);
-    wrap.classList.add('out');
-    setTimeout(() => host.remove(), fadeMs);
-  };
-
-  timer = setTimeout(host.hideBar, durationMs);
-}
-
 
     function setAngularValue(element, value) {
         if (!element) return;
@@ -1001,6 +814,188 @@ function showJourneyDetails(options = {}) {
         return null;
     }
 
+    function showJourneyDetails(options = {}) {
+        const { durationMs = 45000, fadeMs = 400 } = options;
+
+        const ID = 'journey-bar-host';
+        const existing = document.getElementById(ID);
+        if (existing) {
+            if (existing.hideBar) existing.hideBar();
+            return;
+        }
+
+        const trainEl = document.querySelector('.train-name');
+        if (!trainEl) {
+            alert('Train details not found!');
+            return;
+        }
+
+        let c = trainEl.closest('span') || trainEl.parentElement;
+        for (let i = 0; i < 5 && c && !c.querySelector('.stations-row'); i++) {
+            c = c.parentElement;
+        }
+
+        const pad = (n) => String(n).padStart(2, '0');
+        const text = (sel, root = c) => root?.querySelector(sel)?.innerText.trim() || '';
+
+        const fullName = text('.train-name');
+        const trainNo = (fullName.match(/\b\d{5}\b/) || ['--'])[0];
+        const trainName =
+            fullName
+            .replace(/\b\d{5}\b/, '')
+            .replace(/[()\[\]]/g, '')
+            .replace(/^[\s\-–—:|]+|[\s\-–—:|]+$/g, '')
+            .trim() || '';
+
+        const MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+        function fmtDate(s) {
+            let m = s.match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
+            if (m) return `${pad(m[3])}-${pad(m[2])}`;
+            m = s.match(/(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2,4})/);
+            if (m) return `${pad(m[1])}-${pad(m[2])}`;
+            m = s.match(/(\d{1,2})\s*([A-Za-z]{3})/);
+            if (m) {
+            const mi = MONTHS.indexOf(m[2].toLowerCase());
+            if (mi >= 0) return `${pad(m[1])}-${pad(mi + 1)}`;
+            }
+            return s || '--';
+        }
+        const date = fmtDate(text('.journey-date'));
+
+        const stations = c?.querySelectorAll('.stations-row .station-name');
+        function stationCode(el) {
+            if (!el) return '--';
+            const near = el.parentElement?.querySelector('.station-code, .code');
+            if (near && near.innerText.trim()) return near.innerText.trim().toUpperCase();
+            const s = el.innerText.trim();
+            const m = s.match(/\(([A-Za-z]{2,5})\)/);
+            return m ? m[1].toUpperCase() : s || '--';
+        }
+        const from = stationCode(stations?.[0]);
+        const to = stationCode(stations?.[1]);
+
+        const rows = [...document.querySelectorAll('.class-quota-row')];
+        const row =
+            rows.find((r) => {
+            const p = r.parentElement;
+            return p && (p.contains(trainEl) || p.parentElement?.contains(trainEl));
+            }) || rows[0];
+        const vals = row ? [...row.querySelectorAll('.meta-value')].map((x) => x.innerText.trim()) : [];
+
+        function classCode(s) {
+            const t = s.toLowerCase();
+            const m = s.match(/\b(SL|3A|2A|1A|3E|CC|EC|2S|FC)\b/);
+            if (m) return m[1];
+            if (t.includes('sleeper')) return 'SL';
+            if (t.includes('economy')) return '3E';
+            if (t.includes('third') || /3\s*tier|3\s*ac/.test(t)) return '3A';
+            if (t.includes('second ac') || /2\s*tier|2\s*ac/.test(t)) return '2A';
+            if (t.includes('first ac') || /1\s*ac/.test(t)) return '1A';
+            if (t.includes('exec')) return 'EC';
+            if (t.includes('chair')) return 'CC';
+            if (t.includes('second sitting')) return '2S';
+            return s || '--';
+        }
+        function quotaCode(s) {
+            const t = s.toLowerCase();
+            const m = s.match(/\b(GN|TQ|PT|DP|LD|SS|HP|YU)\b/);
+            if (m) return m[1];
+            if (t.includes('premium')) return 'PT';
+            if (t.includes('tatkal')) return 'TQ';
+            if (t.includes('divyang') || t.includes('handicap') || t.includes('disab')) return 'DP';
+            if (t.includes('general')) return 'GN';
+            if (t.includes('ladies')) return 'LD';
+            if (t.includes('senior') || t.includes('lower')) return 'SS';
+            return s || '--';
+        }
+        const cls = classCode(vals[0] || '');
+        const quota = quotaCode(vals[1] || '');
+
+        const host = document.createElement('div');
+        host.id = ID;
+        host.style.cssText =
+            'all:initial;position:fixed;bottom:0;left:0;right:0;z-index:2147483647;pointer-events:none';
+        const root = host.attachShadow({ mode: 'open' });
+
+        root.innerHTML = `
+            <style>
+            *{box-sizing:border-box;margin:0;padding:0}
+            .w{margin:0 16px 24px;animation:fin ${fadeMs}ms ease both}
+            .w.out{animation:fout ${fadeMs}ms ease forwards}
+            .b{min-height:56px;padding:10px 22px;display:flex;align-items:center;flex-wrap:wrap;
+                gap:8px 20px;
+                background:linear-gradient(100deg,rgba(8,12,22,.45),rgba(17,25,45,.45));
+                -webkit-backdrop-filter:blur(14px) saturate(1.3);
+                backdrop-filter:blur(14px) saturate(1.3);
+                border:1px solid rgba(94,140,200,.35);border-left:3px solid rgb(94,214,255);
+                border-radius:6px;color:rgb(214,228,247);
+                font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+                box-shadow:0 8px 24px rgba(0,0,0,.25)}
+            .l{display:flex;align-items:center;gap:12px;min-width:0}
+            .d{flex:none;width:10px;height:10px;border-radius:50%;background:rgb(94,214,255)}
+            .p{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px}
+            .c{display:inline-flex;align-items:center;padding:5px 11px;border-radius:5px;
+                font-size:13px;font-weight:700;letter-spacing:.12em;white-space:nowrap}
+            .u{color:rgb(240,246,255);border:1px solid rgba(140,160,200,.35);background:rgba(255,255,255,.05)}
+            .u i{font-style:normal;color:rgb(108,126,156);margin:0 6px}
+            .q{color:rgb(94,214,255);border:1px solid rgba(94,214,255,.45);background:rgba(94,214,255,.08)}
+            .k{color:rgb(134,239,172);border:1px solid rgba(74,222,128,.45);background:rgba(74,222,128,.08)}
+            .tn{min-width:0}
+            .n{flex:none;color:rgb(94,214,255)}
+            .nm{margin-left:10px;min-width:0;max-width:240px;overflow:hidden;text-overflow:ellipsis;
+                white-space:nowrap;letter-spacing:.06em}
+            .nm:empty{display:none}
+            .g{height:3px;margin-top:3px;border-radius:2px;overflow:hidden;background:rgba(255,255,255,.12)}
+            .f{height:100%;transform-origin:left;
+                background:linear-gradient(90deg,rgba(34,197,94,.55),rgb(134,239,172));
+                animation:drain ${durationMs}ms linear forwards}
+            @media (max-width:520px){.nm{max-width:38vw}.p{margin-left:0}}
+            @keyframes fin{from{opacity:0;transform:translateY(24px)}}
+            @keyframes fout{to{opacity:0;transform:translateY(24px)}}
+            @keyframes drain{to{transform:scaleX(0)}}
+            </style>
+            <div class="w" id="w">
+            <div class="b">
+                <div class="l">
+                <span class="d"></span>
+                <span class="c u tn"><span class="n" id="n"></span><span class="nm" id="nm"></span></span>
+                </div>
+                <div class="p">
+                <span class="c u"><span id="f1"></span><i>&rarr;</i><span id="f2"></span></span>
+                <span class="c u" id="s"></span>
+                <span class="c q" id="q"></span>
+                <span class="c k" id="k"></span>
+                </div>
+            </div>
+            <div class="g"><div class="f"></div></div>
+            </div>`;
+
+        const set = (id, v) => (root.getElementById(id).textContent = v);
+        set('n', trainNo);
+        set('nm', trainName);
+        set('f1', from);
+        set('f2', to);
+        set('s', date);
+        set('q', quota);
+        set('k', cls);
+
+        document.documentElement.appendChild(host);
+
+        const wrap = root.getElementById('w');
+        let hidden = false;
+        let timer = 0;
+
+        host.hideBar = function () {
+            if (hidden) return;
+            hidden = true;
+            clearTimeout(timer);
+            wrap.classList.add('out');
+            setTimeout(() => host.remove(), fadeMs);
+        };
+
+        timer = setTimeout(host.hideBar, durationMs);
+        }
+
     function selectOption(selector, text) {
         const dropdown = document.querySelector(selector);
         if (!dropdown) throw new Error(selector + " NOT FOUND");
@@ -1299,8 +1294,8 @@ function showJourneyDetails(options = {}) {
         startToastAutoCloser();
         await checkAndBookRetry(trainNumber, className);
         toggleTimerBar();
-        await completeBookingDetails(mobile);
         showJourneyDetails();
+        await completeBookingDetails(mobile);
         await calculateFareUntilPayment();
         toggleTimerBar();
         if (paymentType.toLowerCase() === "qr") {
@@ -1309,8 +1304,7 @@ function showJourneyDetails(options = {}) {
             await payviawallet();
         }
     }
-
     await execute();
-
 })();
+
 */}).toString().replace(/\r\n?/g, "\n").replace(/^[\s\S]*?\/\*\n?/, "").replace(/\n?\*\/\s*\}\s*$/, "");
