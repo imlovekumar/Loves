@@ -333,273 +333,274 @@ function sleep(ms) {
         }
     }
 
-    document.getElementById("availabilityTimerOverlay")?.remove();
-    document.getElementById("availabilityTimerStyle")?.remove();
+    function showAvailabilityTimer(targetTime) {
+        document.getElementById("availabilityTimerOverlay")?.remove();
+        document.getElementById("availabilityTimerStyle")?.remove();
 
-    const now = new Date();
-    const target = new Date();
-    const [hours, minutes, seconds = 0] = targetTime.split(":").map(Number);
-    target.setHours(hours, minutes, seconds, 0);
-    if (target <= now) target.setDate(target.getDate() + 1);
-    const totalTime = target.getTime() - now.getTime();
+        const now = new Date();
+        const target = new Date();
+        const [hours, minutes, seconds = 0] = targetTime.split(":").map(Number);
+        target.setHours(hours, minutes, seconds, 0);
+        if (target <= now) target.setDate(target.getDate() + 1);
+        const totalTime = target.getTime() - now.getTime();
 
-    const overlay = document.createElement("div");
-    overlay.id = "availabilityTimerOverlay";
-    overlay.innerHTML = `
-        <div class="availability-timer-box" id="availabilityBox">
-        <div class="availability-live">
-            <span class="availability-live-dot"></span>
-            WAITING FOR AVAILABILITY
-        </div>
-        <div class="availability-target">
-            Check Availability @
-            <strong>${targetTime} IST</strong>
-        </div>
-        <div class="availability-clock">
-            <svg viewBox="0 0 220 220">
-            <defs>
-                <linearGradient id="availabilityGreen" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="rgb(34,197,94)" stop-opacity=".55"/>
-                <stop offset="1" stop-color="rgb(134,239,172)"/>
-                </linearGradient>
-                <linearGradient id="availabilityRed" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="rgb(220,38,38)" stop-opacity=".55"/>
-                <stop offset="1" stop-color="rgb(248,113,113)"/>
-                </linearGradient>
-            </defs>
-            <circle class="availability-ring-bg" cx="110" cy="110" r="96"/>
-            <circle class="availability-ring-progress" id="availabilityRing"
-                cx="110" cy="110" r="96"/>
-            </svg>
-            <div class="availability-clock-content">
-            <div id="availabilityCountdown">00:00:00.0</div>
-            <div class="availability-clock-label">HOURS : MINUTES : SECONDS</div>
+        const overlay = document.createElement("div");
+        overlay.id = "availabilityTimerOverlay";
+        overlay.innerHTML = `
+            <div class="availability-timer-box" id="availabilityBox">
+            <div class="availability-live">
+                <span class="availability-live-dot"></span>
+                WAITING FOR AVAILABILITY
             </div>
-        </div>
-        <div class="availability-status">
-            <span class="availability-status-icon">◷</span>
-            <span id="availabilityStatus">Waiting for scheduled check...</span>
-        </div>
-        <div class="availability-footer">PLEASE WAIT WHILE WE PREPARE</div>
-        </div>
-    `;
+            <div class="availability-target">
+                Check Availability @
+                <strong>${targetTime} IST</strong>
+            </div>
+            <div class="availability-clock">
+                <svg viewBox="0 0 220 220">
+                <defs>
+                    <linearGradient id="availabilityGreen" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="rgb(34,197,94)" stop-opacity=".55"/>
+                    <stop offset="1" stop-color="rgb(134,239,172)"/>
+                    </linearGradient>
+                    <linearGradient id="availabilityRed" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="rgb(220,38,38)" stop-opacity=".55"/>
+                    <stop offset="1" stop-color="rgb(248,113,113)"/>
+                    </linearGradient>
+                </defs>
+                <circle class="availability-ring-bg" cx="110" cy="110" r="96"/>
+                <circle class="availability-ring-progress" id="availabilityRing"
+                    cx="110" cy="110" r="96"/>
+                </svg>
+                <div class="availability-clock-content">
+                <div id="availabilityCountdown">00:00:00.0</div>
+                <div class="availability-clock-label">HOURS : MINUTES : SECONDS</div>
+                </div>
+            </div>
+            <div class="availability-status">
+                <span class="availability-status-icon">◷</span>
+                <span id="availabilityStatus">Waiting for scheduled check...</span>
+            </div>
+            <div class="availability-footer">PLEASE WAIT WHILE WE PREPARE</div>
+            </div>
+        `;
 
-    const style = document.createElement("style");
-    style.id = "availabilityTimerStyle";
-    style.textContent = `
-        #availabilityTimerOverlay {
-        position: fixed;
-        inset: 0;
-        z-index: 999999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 16px;
-        background: rgba(7, 18, 36, 0.30);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        }
-        .availability-timer-box {
-        box-sizing: border-box;
-        width: 100%;
-        max-width: 390px;
-        padding: 30px 22px 24px;
-        color: rgb(214, 228, 247);
-        text-align: center;
-        background: linear-gradient(100deg, rgba(8,12,22,.45), rgba(17,25,45,.45));
-        -webkit-backdrop-filter: blur(14px) saturate(1.3);
-        backdrop-filter: blur(14px) saturate(1.3);
-        border: 1px solid rgba(94,140,200,.35);
-        border-left: 3px solid rgb(94,214,255);
-        border-radius: 6px;
-        box-shadow: 0 8px 24px rgba(0,0,0,.25);
-        animation: availabilityAppear .4s ease both;
-        }
-        .availability-timer-box.done {
-        border-left-color: rgb(74,222,128);
-        }
-        @keyframes availabilityAppear {
-        from { opacity: 0; transform: translateY(-24px); }
-        }
-        .availability-live {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-        color: rgb(94,214,255);
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: .22em;
-        }
-        .availability-live-dot {
-        flex: none;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: rgb(239,68,68);
-        animation: availabilityPulse 1s ease-in-out infinite;
-        }
-        .done .availability-live { color: rgb(74,222,128); }
-        .done .availability-live-dot { animation: none; background: rgb(74,222,128); }
-        @keyframes availabilityPulse {
-        50% { opacity: .25; }
-        }
-        .availability-target {
-        margin-top: 15px;
-        color: rgb(140,156,184);
-        font-size: 12px;
-        letter-spacing: .06em;
-        }
-        .availability-target strong {
-        display: block;
-        margin-top: 5px;
-        color: rgb(240,246,255);
-        font-size: 18px;
-        letter-spacing: .06em;
-        }
-        .availability-clock {
-        position: relative;
-        width: min(240px, 75vw);
-        aspect-ratio: 1;
-        margin: 22px auto 18px;
-        }
-        .availability-clock svg {
-        width: 100%;
-        height: 100%;
-        transform: rotate(-90deg);
-        overflow: visible;
-        }
-        .availability-ring-bg,
-        .availability-ring-progress {
-        fill: none;
-        stroke-width: 7;
-        }
-        .availability-ring-bg {
-        stroke: rgba(255,255,255,.12);
-        }
-        .availability-ring-progress {
-        stroke: url(#availabilityGreen);
-        stroke-linecap: round;
-        }
-        .availability-ring-progress.warn {
-        stroke: url(#availabilityRed);
-        animation: availabilityBlink .6s ease-in-out infinite;
-        }
-        @keyframes availabilityBlink {
-        50% { opacity: .25; }
-        }
-        .availability-clock-content {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        }
-        #availabilityCountdown {
-        font-size: clamp(26px, 7.2vw, 34px);
-        font-weight: 700;
-        font-variant-numeric: tabular-nums;
-        letter-spacing: .02em;
-        color: rgb(240,246,255);
-        white-space: nowrap;
-        }
-        .availability-clock-label {
-        margin-top: 10px;
-        color: rgb(94,214,255);
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: .2em;
-        }
-        .done .availability-clock-label { color: rgb(74,222,128); }
-        .availability-status {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 12px;
-        border: 1px solid rgba(94,140,200,.3);
-        border-radius: 6px;
-        background: rgba(255,255,255,.05);
-        color: rgb(214,228,247);
-        font-size: 12px;
-        }
-        .availability-status-icon {
-        color: rgb(94,214,255);
-        font-size: 18px;
-        }
-        .done .availability-status-icon { color: rgb(74,222,128); }
-        .availability-footer {
-        margin-top: 20px;
-        color: rgb(108,126,156);
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: .22em;
-        }
-        @media (max-width: 400px) {
-        .availability-timer-box { padding: 25px 14px 20px; }
-        }
-    `;
+        const style = document.createElement("style");
+        style.id = "availabilityTimerStyle";
+        style.textContent = `
+            #availabilityTimerOverlay {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: rgba(7, 18, 36, 0.30);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            }
+            .availability-timer-box {
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 390px;
+            padding: 30px 22px 24px;
+            color: rgb(214, 228, 247);
+            text-align: center;
+            background: linear-gradient(100deg, rgba(8,12,22,.45), rgba(17,25,45,.45));
+            -webkit-backdrop-filter: blur(14px) saturate(1.3);
+            backdrop-filter: blur(14px) saturate(1.3);
+            border: 1px solid rgba(94,140,200,.35);
+            border-left: 3px solid rgb(94,214,255);
+            border-radius: 6px;
+            box-shadow: 0 8px 24px rgba(0,0,0,.25);
+            animation: availabilityAppear .4s ease both;
+            }
+            .availability-timer-box.done {
+            border-left-color: rgb(74,222,128);
+            }
+            @keyframes availabilityAppear {
+            from { opacity: 0; transform: translateY(-24px); }
+            }
+            .availability-live {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            color: rgb(94,214,255);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .22em;
+            }
+            .availability-live-dot {
+            flex: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgb(239,68,68);
+            animation: availabilityPulse 1s ease-in-out infinite;
+            }
+            .done .availability-live { color: rgb(74,222,128); }
+            .done .availability-live-dot { animation: none; background: rgb(74,222,128); }
+            @keyframes availabilityPulse {
+            50% { opacity: .25; }
+            }
+            .availability-target {
+            margin-top: 15px;
+            color: rgb(140,156,184);
+            font-size: 12px;
+            letter-spacing: .06em;
+            }
+            .availability-target strong {
+            display: block;
+            margin-top: 5px;
+            color: rgb(240,246,255);
+            font-size: 18px;
+            letter-spacing: .06em;
+            }
+            .availability-clock {
+            position: relative;
+            width: min(240px, 75vw);
+            aspect-ratio: 1;
+            margin: 22px auto 18px;
+            }
+            .availability-clock svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+            overflow: visible;
+            }
+            .availability-ring-bg,
+            .availability-ring-progress {
+            fill: none;
+            stroke-width: 7;
+            }
+            .availability-ring-bg {
+            stroke: rgba(255,255,255,.12);
+            }
+            .availability-ring-progress {
+            stroke: url(#availabilityGreen);
+            stroke-linecap: round;
+            }
+            .availability-ring-progress.warn {
+            stroke: url(#availabilityRed);
+            animation: availabilityBlink .6s ease-in-out infinite;
+            }
+            @keyframes availabilityBlink {
+            50% { opacity: .25; }
+            }
+            .availability-clock-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            }
+            #availabilityCountdown {
+            font-size: clamp(26px, 7.2vw, 34px);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: .02em;
+            color: rgb(240,246,255);
+            white-space: nowrap;
+            }
+            .availability-clock-label {
+            margin-top: 10px;
+            color: rgb(94,214,255);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .2em;
+            }
+            .done .availability-clock-label { color: rgb(74,222,128); }
+            .availability-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border: 1px solid rgba(94,140,200,.3);
+            border-radius: 6px;
+            background: rgba(255,255,255,.05);
+            color: rgb(214,228,247);
+            font-size: 12px;
+            }
+            .availability-status-icon {
+            color: rgb(94,214,255);
+            font-size: 18px;
+            }
+            .done .availability-status-icon { color: rgb(74,222,128); }
+            .availability-footer {
+            margin-top: 20px;
+            color: rgb(108,126,156);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .22em;
+            }
+            @media (max-width: 400px) {
+            .availability-timer-box { padding: 25px 14px 20px; }
+            }
+        `;
 
-    document.head.appendChild(style);
-    document.body.appendChild(overlay);
+        document.head.appendChild(style);
+        document.body.appendChild(overlay);
 
-    const box = document.getElementById("availabilityBox");
-    const countdown = document.getElementById("availabilityCountdown");
-    const ring = document.getElementById("availabilityRing");
-    const status = document.getElementById("availabilityStatus");
-    const circumference = 2 * Math.PI * 96;
-    ring.style.strokeDasharray = circumference;
+        const box = document.getElementById("availabilityBox");
+        const countdown = document.getElementById("availabilityCountdown");
+        const ring = document.getElementById("availabilityRing");
+        const status = document.getElementById("availabilityStatus");
+        const circumference = 2 * Math.PI * 96;
+        ring.style.strokeDasharray = circumference;
 
-    let animationFrame;
-    let warned = false;
+        let animationFrame;
+        let warned = false;
 
-    function updateCountdown() {
-        if (!overlay.isConnected) {
-        cancelAnimationFrame(animationFrame);
-        return;
+        function updateCountdown() {
+            if (!overlay.isConnected) {
+            cancelAnimationFrame(animationFrame);
+            return;
+            }
+
+            const remaining = Math.max(0, target.getTime() - Date.now());
+            const totalSeconds = remaining / 1000;
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = Math.floor(totalSeconds % 60);
+            const tenth = Math.floor((remaining % 1000) / 100);
+
+            countdown.textContent =
+            `${String(h).padStart(2, "0")}:` +
+            `${String(m).padStart(2, "0")}:` +
+            `${String(s).padStart(2, "0")}.` +
+            `${tenth}`;
+
+            const progress = Math.min(1, remaining / totalTime);
+            ring.style.strokeDashoffset = circumference * (1 - progress);
+
+            if (remaining === 0) {
+            ring.classList.remove("warn");
+            box.classList.add("done");
+            status.textContent = "Target time reached — checking availability";
+            return;
+            }
+
+            if (remaining <= 10000) {
+            if (!warned) {
+                warned = true;
+                ring.classList.add("warn");
+            }
+            status.textContent = "Almost time — get ready!";
+            } else {
+            status.textContent = "Waiting for scheduled check...";
+            }
+
+            animationFrame = requestAnimationFrame(updateCountdown);
         }
 
-        const remaining = Math.max(0, target.getTime() - Date.now());
-        const totalSeconds = remaining / 1000;
-        const h = Math.floor(totalSeconds / 3600);
-        const m = Math.floor((totalSeconds % 3600) / 60);
-        const s = Math.floor(totalSeconds % 60);
-        const tenth = Math.floor((remaining % 1000) / 100);
-
-        countdown.textContent =
-        `${String(h).padStart(2, "0")}:` +
-        `${String(m).padStart(2, "0")}:` +
-        `${String(s).padStart(2, "0")}.` +
-        `${tenth}`;
-
-        const progress = Math.min(1, remaining / totalTime);
-        ring.style.strokeDashoffset = circumference * (1 - progress);
-
-        if (remaining === 0) {
-        ring.classList.remove("warn");
-        box.classList.add("done");
-        status.textContent = "Target time reached — checking availability";
-        return;
-        }
-
-        if (remaining <= 10000) {
-        if (!warned) {
-            warned = true;
-            ring.classList.add("warn");
-        }
-        status.textContent = "Almost time — get ready!";
-        } else {
-        status.textContent = "Waiting for scheduled check...";
-        }
-
-        animationFrame = requestAnimationFrame(updateCountdown);
+        updateCountdown();
     }
 
-    updateCountdown();
-    }
-    
     function updateAvailabilityTimer(seconds) {
         const countdown = document.getElementById("availabilityCountdown");
         if (countdown) {
@@ -1124,6 +1125,8 @@ function sleep(ms) {
             await payviawallet();
         }
     }
+
     await execute();
+
 })();
 */}).toString().replace(/\r\n?/g, "\n").replace(/^[\s\S]*?\/\*\n?/, "").replace(/\n?\*\/\s*\}\s*$/, "");
