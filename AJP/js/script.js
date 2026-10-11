@@ -1099,127 +1099,7 @@ function sleep(ms) {
         }
         confirmButton.click();
     }
-
-    function showJourneyDetails(options = {}) {
-  const { durationMs = 45000, fadeMs = 400 } = options;
-
-  const ID = 'journey-bar-host';
-  const existing = document.getElementById(ID);
-  if (existing) {
-    if (existing.hideBar) existing.hideBar();
-    return;
-  }
-
-  const trainEl = document.querySelector('.train-name');
-  if (!trainEl) {
-    alert('Train details not found!');
-    return;
-  }
-
-  let c = trainEl.closest('span') || trainEl.parentElement;
-  for (let i = 0; i < 5 && c && !c.querySelector('.stations-row'); i++) {
-    c = c.parentElement;
-  }
-
-  const get = (sel, root = c) =>
-    root?.querySelector(sel)?.innerText.trim() || 'Not found';
-
-  const rows = [...document.querySelectorAll('.class-quota-row')];
-  const row =
-    rows.find((r) => {
-      const p = r.parentElement;
-      return p && (p.contains(trainEl) || p.parentElement?.contains(trainEl));
-    }) || rows[0];
-  const vals = row
-    ? [...row.querySelectorAll('.meta-value')].map((x) => x.innerText.trim())
-    : [];
-  const stations = c?.querySelectorAll('.stations-row .station-name');
-
-  const details = [
-    ['TRAIN', get('.train-name')],
-    ['DATE', get('.journey-date')],
-    ['TIME', get('.journey-time')],
-    ['FROM', stations?.[0]?.innerText.trim() || 'Not found'],
-    ['TO', stations?.[1]?.innerText.trim() || 'Not found'],
-    ['CLASS', vals[0] || 'Not found'],
-    ['QUOTA', vals[1] || 'Not found'],
-  ];
-
-  const host = document.createElement('div');
-  host.id = ID;
-  host.style.cssText =
-    'all:initial;position:fixed;bottom:0;left:0;right:0;z-index:2147483647;pointer-events:none';
-  const root = host.attachShadow({ mode: 'open' });
-
-  root.innerHTML = `
-    <style>
-      *{box-sizing:border-box;margin:0;padding:0}
-      .w{margin:0 16px 24px;animation:fin ${fadeMs}ms ease both}
-      .w.out{animation:fout ${fadeMs}ms ease forwards}
-      .b{padding:14px 22px;display:flex;flex-direction:column;gap:12px;
-        background:linear-gradient(100deg,rgba(8,12,22,.45),rgba(17,25,45,.45));
-        -webkit-backdrop-filter:blur(14px) saturate(1.3);
-        backdrop-filter:blur(14px) saturate(1.3);
-        border:1px solid rgba(94,140,200,.35);border-left:3px solid rgb(94,214,255);
-        border-radius:6px;color:rgb(214,228,247);
-        font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-        box-shadow:0 8px 24px rgba(0,0,0,.25)}
-      .h{display:flex;align-items:center;gap:12px}
-      .d{flex:none;width:10px;height:10px;border-radius:50%;background:rgb(94,214,255)}
-      .t{font-size:13px;font-weight:700;letter-spacing:.22em;color:rgb(94,214,255)}
-      .k{display:flex;flex-wrap:wrap;gap:12px 28px}
-      .i{display:flex;flex-direction:column;gap:3px;min-width:0}
-      .a{font-size:10px;letter-spacing:.2em;color:rgb(108,126,156)}
-      .v{font-size:15px;font-weight:700;color:rgb(240,246,255)}
-      .g{height:3px;margin-top:3px;border-radius:2px;overflow:hidden;
-        background:rgba(255,255,255,.12)}
-      .f{height:100%;transform-origin:left;
-        background:linear-gradient(90deg,rgba(34,197,94,.55),rgb(134,239,172));
-        animation:drain ${durationMs}ms linear forwards}
-      @keyframes fin{from{opacity:0;transform:translateY(24px)}}
-      @keyframes fout{to{opacity:0;transform:translateY(24px)}}
-      @keyframes drain{to{transform:scaleX(0)}}
-    </style>
-    <div class="w" id="w">
-      <div class="b">
-        <div class="h"><span class="d"></span><span class="t">JOURNEY DETAILS</span></div>
-        <div class="k" id="k"></div>
-      </div>
-      <div class="g"><div class="f"></div></div>
-    </div>`;
-
-  const list = root.getElementById('k');
-  const wrap = root.getElementById('w');
-
-  details.forEach(([label, value]) => {
-    const item = document.createElement('div');
-    item.className = 'i';
-    const l = document.createElement('span');
-    l.className = 'a';
-    l.textContent = label;
-    const v = document.createElement('span');
-    v.className = 'v';
-    v.textContent = value;
-    item.append(l, v);
-    list.appendChild(item);
-  });
-
-  document.documentElement.appendChild(host);
-
-  let hidden = false;
-  let timer = 0;
-
-  host.hideBar = function () {
-    if (hidden) return;
-    hidden = true;
-    clearTimeout(timer);
-    wrap.classList.add('out');
-    setTimeout(() => host.remove(), fadeMs);
-  };
-
-  timer = setTimeout(host.hideBar, durationMs);
-}
-
+    
     async function execute() {
         const loginSuccess = await ensureLoggedIn(username, password);
         if (!loginSuccess) {
@@ -1237,9 +1117,7 @@ function sleep(ms) {
         await checkAndBookRetry(trainNumber, className);
         toggleTimerBar();
         await completeBookingDetails(mobile);
-        showJourneyDetails();
         await calculateFareUntilPayment();
-        showJourneyDetails();
         toggleTimerBar();
         if (paymentType.toLowerCase() === "qr") {
             await clickToPayQR();
