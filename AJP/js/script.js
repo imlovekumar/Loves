@@ -1138,6 +1138,13 @@ const COPY_TAIL = (function () {/*
         if (autoBox) {
             autoBox.click();
         }
+
+        const noFood = document.querySelector("p-checkbox[formcontrolname='noFood']");
+        const noFoodBox = noFood?.querySelector(".ui-chkbox-box");
+        if (noFoodBox) {
+            noFoodBox.click();
+        }
+
         let bookOnly;
         while (!bookOnly) {
             bookOnly = document.querySelector("p-checkbox[formcontrolname='bookOnlyIfCnf']");
