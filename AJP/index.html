@@ -188,9 +188,10 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
 .cal-day.today { box-shadow: inset 0 0 0 1.5px var(--night-2); }
 .cal-day.sel { background: var(--signal); color: var(--night); box-shadow: 0 6px 14px rgba(255,178,26,.35); }
 .cal-day:disabled { background: transparent; color: #b5bdd2; cursor: not-allowed; box-shadow: none; }
-.cal-day.off:disabled {
+.cal-day.off, .cal-day.off:hover:not(:disabled) {
   background: repeating-linear-gradient(135deg, #e1e6f1 0 5px, #eef1f7 5px 10px); color: #98a1ba; text-decoration: line-through;
 }
+.cal-day.off.sel { background: var(--signal); color: var(--night); text-decoration: none; box-shadow: 0 6px 14px rgba(255,178,26,.35); }   /* picked although the train doesn't run that day */
 .cal-note { margin: 12px 2px; min-height: 16px; font-size: 12.5px; line-height: 1.35; color: var(--muted); }
 .cal-note b { color: var(--ink); }
 .cal-train { margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -1423,11 +1424,11 @@ jDate.addEventListener("change", () => {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "cal-day" + (iso === today ? " today" : "") + (off && !past ? " off" : "") +
-                    (iso === jDate.value && !past && !off ? " sel" : "");
+                    (iso === jDate.value && !past ? " sel" : "");
       b.textContent = d;
       b.dataset.iso = iso;
-      b.disabled = past || off;
-      if (off && !past) b.setAttribute("aria-label", d + ", train does not run");
+      b.disabled = past;
+      if (off && !past) b.setAttribute("aria-label", d + ", train does not run (can still be selected)");
       grid.appendChild(b);
     }
     const idx = vy * 12 + vm, nowIdx = nowY * 12 + nowM;
