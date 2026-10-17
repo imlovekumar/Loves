@@ -44,6 +44,7 @@ const COPY_TAIL = (function () {/*
             }
         }
         activeLogin.click();
+        await sleep(1000;
         let loginVerified = false;
         while (!loginVerified) {
             const verified = document.querySelector("button.nav-link-1 .verified-icon");
