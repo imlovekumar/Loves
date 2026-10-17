@@ -213,8 +213,8 @@ label, .lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
 /* passenger type (left, fills the row) | divider | concession: Pass sits flush with the right edge of the Class box */
 .paxgrid { margin-bottom: 12px; }   /* tighter gaps: class/quota -> passenger type -> mobile -> payment type */
-#paxChips { flex-wrap: nowrap; margin-bottom: 0; gap: 8px; }   /* compact: chips keep their natural width */
-#paxChips .chip { flex: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
+#paxChips { flex-wrap: nowrap; margin-bottom: 0; gap: 8px; }   /* the two chips share the whole row */
+#paxChips .chip { flex: 1 1 auto; min-width: 0; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
 #paxChips .chip .plus { flex: none; margin-right: 4px; }
 /* New Passenger: the count sits at the start; its space is always reserved so nothing moves when it appears */
 .pcount { flex: none; display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 5px; border-radius: 50%;
@@ -739,7 +739,7 @@ input.err { animation: shake .4s ease; }
       <div class="paxgrid">
         <span class="lbl" id="paxLbl">Passenger type</span>
         <div class="chips" role="radiogroup" aria-labelledby="paxLbl" id="paxChips">
-          <button type="button" class="chip quota" role="radio" aria-checked="true" data-value="EXISTING">Existing</button>
+          <button type="button" class="chip quota" role="radio" aria-checked="true" data-value="EXISTING">Master List</button>
           <button type="button" class="chip quota" role="radio" aria-checked="false" data-value="NEW" id="newPaxBtn" aria-haspopup="dialog"><span class="pcount" id="paxCount"></span><svg class="plus" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>New Passenger</button>
         </div>
       </div>
@@ -1761,7 +1761,7 @@ function getValues() {
     if (!p1 || !p1.pin || !p1.upn) { document.getElementById("newPaxBtn").click(); return; }
   }                      // EXISTING | NEW
   const concLabel = val("concession") === "RAILWAY PASS" ? "Railway Pass Concession" : "None";
-  const paxLabel = passenger === "NEW" ? "New Passenger (" + ((window.newPassengers || []).length || 1) + ")" : "Existing";
+  const paxLabel = passenger === "NEW" ? "New Passenger (" + ((window.newPassengers || []).length || 1) + ")" : "Master List";
 
   console.log({ username, password, trainNumber, JDate, from, to, quota, className, mobile, payment });
 
