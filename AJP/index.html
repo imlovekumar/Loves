@@ -24,15 +24,18 @@
   --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html { background: var(--night); }
+html {
+  background:
+    radial-gradient(500px 280px at 85% -40px, rgba(255,178,26,.18), transparent 70%),
+    var(--night);
+  background-attachment: scroll;
+}
 body {
   margin: 0;
   min-height: 100vh;
   font-family: var(--sans);
   color: var(--ink);
-  background:
-    radial-gradient(500px 280px at 85% -40px, rgba(255,178,26,.18), transparent 70%),
-    var(--night);
+  background: transparent;
   padding: calc(18px + env(safe-area-inset-top)) 14px calc(24px + env(safe-area-inset-bottom));
 }
 .wrap { max-width: 460px; margin: 0 auto; }
@@ -498,7 +501,122 @@ input, select, textarea { font-size: max(16px, 1em); }
 @media (max-width: 380px) {
   .grid { grid-template-columns: 1fr; gap: 0; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+/* ================= Motion: entrances, click effects, feedback (look and logic unchanged) ================= */
+html::before {                                       /* slow drifting glow behind the page */
+  content: ""; position: fixed; inset: -25%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(420px 320px at 18% 28%, rgba(255,178,26,.10), transparent 70%),
+    radial-gradient(520px 380px at 82% 72%, rgba(90,120,255,.11), transparent 70%);
+  animation: drift 20s ease-in-out infinite alternate;
+}
+@keyframes drift { from { transform: translate3d(-3%, -2%, 0) scale(1); } to { transform: translate3d(4%, 3%, 0) scale(1.12); } }
+
+/* page entrance */
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes trainIn { from { opacity: 0; transform: translateX(-30px) rotate(-8deg); } to { opacity: 1; transform: none; } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+.top { animation: rise .5s cubic-bezier(.2,.8,.2,1) backwards; }
+.top .badge img { animation: trainIn .7s .15s cubic-bezier(.2,.9,.3,1.2) backwards, bob 4s 1.2s ease-in-out infinite; }
+.ticket { animation: rise .6s .08s cubic-bezier(.2,.8,.2,1) backwards; }
+.stub > *, .body > *:not(#saved) { animation: rise .5s cubic-bezier(.2,.8,.2,1) backwards; }
+.stub > :nth-child(1) { animation-delay: 0.19s; }
+.stub > :nth-child(2) { animation-delay: 0.24s; }
+.stub > :nth-child(3) { animation-delay: 0.29s; }
+.stub > :nth-child(4) { animation-delay: 0.34s; }
+.body > :nth-child(1) { animation-delay: 0.35s; }
+.body > :nth-child(2) { animation-delay: 0.40s; }
+.body > :nth-child(3) { animation-delay: 0.45s; }
+.body > :nth-child(4) { animation-delay: 0.50s; }
+.body > :nth-child(5) { animation-delay: 0.55s; }
+.body > :nth-child(6) { animation-delay: 0.60s; }
+.body > :nth-child(7) { animation-delay: 0.65s; }
+.body > :nth-child(8) { animation-delay: 0.70s; }
+.body > :nth-child(9) { animation-delay: 0.75s; }
+.body > :nth-child(10) { animation-delay: 0.80s; }
+.body > :nth-child(11) { animation-delay: 0.85s; }
+.body > :nth-child(12) { animation-delay: 0.90s; }
+
+/* click / press feedback */
+button, .chip, .dd-btn, .concbox, .cal-day, .pview, .route-arrow, .dd-list li { -webkit-user-select: none; user-select: none; }
+.chip:active, .dd-btn:active, .concbox:not(:disabled):active, .cal-day:not(:disabled):active, .pview:active { transform: scale(.96); }
+.cta:hover, .btn:hover { transform: translateY(-1px); }
+.cta:active, .btn:active { transform: scale(.97); }
+.vbtn:hover svg { transform: scale(1.14) rotate(-8deg); }
+.vbtn svg, .refresh-btn svg, .dd .chev { transition: transform .22s cubic-bezier(.2,.9,.3,1.3); }
+.dd.open .chev { transform: rotate(180deg); }
+.tap-ring {                                          /* ring that spreads from the tap point */
+  position: fixed; z-index: 9999; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; pointer-events: none;
+  background: rgba(255,178,26,.28); border: 2px solid rgba(255,178,26,.6); animation: tap .55s ease-out forwards;
+}
+@keyframes tap { from { transform: scale(.3); opacity: 1; } to { transform: scale(5.5); opacity: 0; } }
+.confetti { position: fixed; z-index: 9999; width: 8px; height: 8px; border-radius: 2px; pointer-events: none; animation: fly .95s cubic-bezier(.15,.7,.3,1) forwards; }
+@keyframes fly { from { transform: translate(0, 0) rotate(0); opacity: 1; } to { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; } }
+
+/* selections and state changes */
+@keyframes chipPop { 0% { transform: scale(.92); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+.chip[aria-checked="true"] { animation: chipPop .38s cubic-bezier(.2,1.4,.4,1); }
+@keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.25); } 100% { transform: scale(1); } }
+.pcount:not(:empty) { animation: pop .38s cubic-bezier(.2,1.5,.4,1); }
+.dd-list li[aria-selected="true"] .tick { animation: pop .3s cubic-bezier(.2,1.5,.4,1); }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(2px); } }
+input.err { animation: shake .4s ease; }
+@keyframes noteIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
+@keyframes noteInOk { from { opacity: 0; transform: translateY(-5px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes noteInBad { 0% { opacity: 0; transform: translateX(-6px); } 40% { transform: translateX(4px); } 70% { transform: translateX(-2px); } 100% { opacity: 1; transform: none; } }
+.fieldnote:not(:empty) { animation: noteIn .3s ease; }
+.fieldnote.ok:not(:empty) { animation-name: noteInOk; }
+.fieldnote.bad:not(:empty) { animation-name: noteInBad; }
+@keyframes badgePop { 0% { transform: scale(0) rotate(-90deg); } 70% { transform: scale(1.25) rotate(8deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes badgePop2 { 0% { transform: scale(0); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
+.sheet .verified[data-state="ok"] { animation: badgePop .5s cubic-bezier(.2,1.4,.4,1); }
+.sheet .verified[data-state="warn"] { animation: badgePop2 .45s cubic-bezier(.2,1.4,.4,1); }
+.sheet .verified[data-state="bad"] { animation: shake .45s ease; }
+@keyframes ring { from { box-shadow: 0 0 0 4px var(--paper), 0 0 0 5.5px var(--signal), 0 8px 16px rgba(255,178,26,.45), 0 0 0 5.5px rgba(255,178,26,.55); }
+                  to   { box-shadow: 0 0 0 4px var(--paper), 0 0 0 5.5px var(--signal), 0 8px 16px rgba(255,178,26,.45), 0 0 0 18px rgba(255,178,26,0); } }
+.route-arrow.search { animation: ring 1.8s ease-out infinite; }   /* the search button gently pulses while it can be used */
+
+/* lists, popups, cards */
+@keyframes ddIn { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes ddInUp { from { opacity: 0; transform: translateY(8px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes liIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+.dd-list:not([hidden]) { animation: ddIn .18s ease-out; transform-origin: top center; }
+.dd.up .dd-list:not([hidden]) { animation-name: ddInUp; transform-origin: bottom center; }
+.dd-list:not([hidden]) li { animation: liIn .22s ease-out backwards; }
+.station .dd-list li { animation: none; }            /* these are rebuilt on every key press */
+.dd-list:not([hidden]) li:nth-child(2) { animation-delay: 0.050s; }
+.dd-list:not([hidden]) li:nth-child(3) { animation-delay: 0.075s; }
+.dd-list:not([hidden]) li:nth-child(4) { animation-delay: 0.100s; }
+.dd-list:not([hidden]) li:nth-child(5) { animation-delay: 0.125s; }
+.dd-list:not([hidden]) li:nth-child(6) { animation-delay: 0.150s; }
+.dd-list:not([hidden]) li:nth-child(7) { animation-delay: 0.175s; }
+.dd-list:not([hidden]) li:nth-child(8) { animation-delay: 0.200s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal:not([hidden]) { animation: fadeIn .22s ease; }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes editIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.pcard { animation: cardIn .3s cubic-bezier(.2,.9,.3,1.1) backwards; }
+.pcard.open .pedit, .pcard.done .pview { animation: editIn .26s ease backwards; }
+@keyframes dayIn { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: none; } }
+.cal-day { animation: dayIn .24s ease backwards; }
+@keyframes savedIn { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+#saved:not([hidden]) { animation: savedIn .5s cubic-bezier(.2,.9,.3,1.1); }
+.saved .row { animation: liIn .35s ease backwards; }
+.saved .row:nth-child(1) { animation-delay: 0.16s; }
+.saved .row:nth-child(2) { animation-delay: 0.20s; }
+.saved .row:nth-child(3) { animation-delay: 0.24s; }
+.saved .row:nth-child(4) { animation-delay: 0.28s; }
+.saved .row:nth-child(5) { animation-delay: 0.32s; }
+.saved .row:nth-child(6) { animation-delay: 0.36s; }
+.saved .row:nth-child(7) { animation-delay: 0.40s; }
+.saved .row:nth-child(8) { animation-delay: 0.44s; }
+.saved .row:nth-child(9) { animation-delay: 0.48s; }
+.saved .row:nth-child(10) { animation-delay: 0.52s; }
+.saved .row:nth-child(11) { animation-delay: 0.56s; }
+.saved .row:nth-child(12) { animation-delay: 0.60s; }
+.saved .row:nth-child(13) { animation-delay: 0.64s; }
+.saved .row:nth-child(14) { animation-delay: 0.68s; }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
 </head>
@@ -821,10 +939,106 @@ trainInput.addEventListener("input", async () => {
 });
 
 // ===== Available classes for the train (fetched once per train number; presets stay if anything fails) =====
+// Class codes can come with a quota tag (SL_TQ, 3A_TQ ...): keep only the class (SL, 3A) and drop repeats.
+const cleanClasses = list => [...new Set((list || []).map(c => String(c).split("_")[0].trim().toUpperCase()).filter(Boolean))];
+
+// Trains between two stations (ConfirmTkt). journeyDate is DD-MM-YYYY. This is the only place that talks to that API.
+async function searchTrains(source, destination, journeyDate, signal) {
+    const params = new URLSearchParams({
+        sourceStationCode: source,
+        destinationStationCode: destination,
+        dateOfJourney: journeyDate, // DD-MM-YYYY
+        enableNearby: "true"
+    });
+
+    const response = await fetch(
+        `https://cttrainsapi.confirmtkt.com/api/v1/trains/search?${params}`,
+        { method: "GET", signal }
+    );
+
+    if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+    }
+
+    const json = await response.json();
+    const trains = json?.data?.trainList || [];
+
+    // Filter and extract only the required details
+    return trains.map(train => ({
+        trainNumber: train.trainNumber,
+        trainName: train.trainName,
+        departureTime: train.departureTime,
+        arrivalTime: train.arrivalTime,
+        availableClasses: cleanClasses(
+            train.avlClassesSorted ||
+            train.avlClasses ||
+            []
+        )
+    }));
+}
+
+// Trains between two stations, IRCTC first (the original API). Same output shape as searchTrains() below.
+async function searchTrainsIrctc(source, destination, isoDate, signal) {
+    const response = await fetch(
+        "https://www.irctc.co.in/eticketing/protected/mapps1/altAvlEnq/TC",
+        {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                greq: "1790991049524:f2496a8b-4840-4ce5-a584-50263feae23b"
+            },
+            body: JSON.stringify({
+                srcStn: source,
+                destStn: destination,
+                jrnyDate: String(isoDate).replace(/-/g, "")   // YYYYMMDD
+            }),
+            signal
+        }
+    );
+
+    if (!response.ok)
+        throw new Error(`IRCTC HTTP Error: ${response.status}`);
+
+    const json = await response.json();
+    const trains = Array.isArray(json?.trainBtwnStnsList) ? json.trainBtwnStnsList : [];
+
+    return trains.map(train => ({
+        trainNumber: train.trainNumber,
+        trainName: train.trainName,
+        departureTime: train.departureTime,
+        arrivalTime: train.arrivalTime,
+        availableClasses: cleanClasses(train.avlClasses)
+    }));
+}
+
+// IRCTC first; if it fails, returns nothing, or (when mustInclude is given) doesn't list that train, the ConfirmTkt API above is used.
+async function findTrains(source, destination, isoDate, outerSignal, mustInclude) {
+    const attempt = async (fn, ms) => {
+        const c = new AbortController();
+        const timer = setTimeout(() => c.abort(), ms);
+        const stop = () => c.abort();
+        if (outerSignal) outerSignal.addEventListener("abort", stop);
+        try { return await fn(c.signal); }
+        finally { clearTimeout(timer); if (outerSignal) outerSignal.removeEventListener("abort", stop); }
+    };
+    const good = list => list.length > 0 && (!mustInclude || list.some(t => String(t.trainNumber) === String(mustInclude)));
+    try {
+        const list = await attempt(sig => searchTrainsIrctc(source, destination, isoDate, sig), 6000);
+        if (good(list)) return list;
+    } catch (error) {
+        if (outerSignal && outerSignal.aborted) throw error;
+        console.debug("IRCTC train search failed, using the fallback:", error);
+    }
+    return attempt(sig => searchTrains(source, destination, isoToDMY(isoDate), sig), 8000);
+}
+
+const isoToDMY = iso => { const [y, m, d] = String(iso).split("-"); return `${d}-${m}-${y}`; };   // 2026-11-29 -> 29-11-2026
+
 async function getAvailableClasses(trainNumber, dateValue, knownSchedule, signal) {
 
     const [year, month, day] = dateValue.split("-");
-    const journeyDate = `${year}${month}${day}`;
+    const journeyDate = `${day}-${month}-${year}`;   // DD-MM-YYYY
 
     // 1. Get train details (already fetched by the train lookup, so reuse it when we have it)
     let trainData = knownSchedule;
@@ -854,40 +1068,12 @@ async function getAvailableClasses(trainNumber, dateValue, knownSchedule, signal
         throw new Error("Station details not found");
 
 
-    // 2. Get availability
-    const availabilityResponse = await fetch(
-        "https://www.irctc.co.in/eticketing/protected/mapps1/altAvlEnq/TC",
-        {
-            method: "POST",
-            headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json",
-                greq: "1790991049524:f2496a8b-4840-4ce5-a584-50263feae23b"
-            },
-            body: JSON.stringify({
-                srcStn: stationFrom,
-                destStn: stationTo,
-                jrnyDate: journeyDate
-            }),
-            signal
-        }
-    );
-
-    if (!availabilityResponse.ok)
-        throw new Error(
-            `Availability request failed: ${availabilityResponse.status}`
-        );
-
-    const availabilityData =
-        await availabilityResponse.json();
+    // 2. Trains between the train's first and last station on that date (IRCTC first, ConfirmTkt as fallback)
+    const trains = await findTrains(stationFrom, stationTo, dateValue, signal, trainNumber);
 
 
     // 3. Find requested train
-    const train =
-        availabilityData.trainBtwnStnsList?.find(
-            item =>
-                String(item.trainNumber) === String(trainNumber)
-        );
+    const train = trains.find(item => String(item.trainNumber) === String(trainNumber));
 
 
     if (!train)
@@ -901,7 +1087,7 @@ async function getAvailableClasses(trainNumber, dateValue, knownSchedule, signal
         stationFrom,
         stationTo,
         journeyDate,
-        availableClasses: train.avlClasses || []
+        availableClasses: train.availableClasses || []
     };
 }
 
@@ -914,7 +1100,7 @@ async function loadTrainClasses(number, schedule, id) {
       const dateValue = document.getElementById("JDate").value;   // yyyy-mm-dd
       if (!dateValue) return;
       const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 8000);
+      const timer = setTimeout(() => ctrl.abort(), 16000);
       try {
         const res = await getAvailableClasses(number, dateValue, schedule, ctrl.signal);
         codes = res.availableClasses;
@@ -2227,7 +2413,6 @@ function resetAll(keepLogin) {
 
 // ===== Train search by route (for when the train number isn't known) =====
 (function () {
-  const URL_AVL = "https://www.irctc.co.in/eticketing/protected/mapps1/altAvlEnq/TC";
   const arrow = document.getElementById("routeArrow");
   const list = document.getElementById("trainList");
   const fromIn = document.getElementById("from"), toIn = document.getElementById("to");
@@ -2275,7 +2460,7 @@ function resetAll(keepLogin) {
       mid.appendChild(n);
       const bits = [];
       if (t.departureTime && t.arrivalTime) bits.push(`${t.departureTime} \u2192 ${t.arrivalTime}`);
-      if (Array.isArray(t.avlClasses) && t.avlClasses.length) bits.push(t.avlClasses.join(" "));
+      if (Array.isArray(t.availableClasses) && t.availableClasses.length) bits.push(t.availableClasses.join(" "));
       if (bits.length) { const m = document.createElement("span"); m.className = "tmeta"; m.textContent = bits.join(" \u00b7 "); mid.appendChild(m); }
       li.append(c, mid);
       list.appendChild(li);
@@ -2292,22 +2477,11 @@ function resetAll(keepLogin) {
     searching = true; shownKey = key; refresh(); showMsg("Searching trains\u2026");
 
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 10000);
+    const timer = setTimeout(() => ctrl.abort(), 16000);
     try {
-      const response = await fetch(URL_AVL, {
-        method: "POST",
-        headers: {
-          "Accept": "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-          "greq": "1790991049524:f2496a8b-4840-4ce5-a584-50263feae23b"
-        },
-        body: JSON.stringify({ srcStn: from, destStn: to, jrnyDate: iso.replace(/-/g, "") }),
-        signal: ctrl.signal
-      });
-      if (!response.ok) throw new Error("Search failed: " + response.status);
-      const data = await response.json();
+      const trains = await findTrains(from, to, iso, ctrl.signal);
       if (keyNow() !== key) { closeList(); return; }                      // inputs changed meanwhile
-      renderTrains(Array.isArray(data.trainBtwnStnsList) ? data.trainBtwnStnsList : [], from, to);
+      renderTrains(trains, from, to);
     } catch (error) {
       console.debug("Train search failed:", error);
       if (keyNow() === key) showMsg("Couldn\u2019t search trains. Try again.");
@@ -2411,6 +2585,42 @@ function resetAll(keepLogin) {
       busy = false; btn.disabled = false; shownKey = key;
     }
   });
+})();
+
+// ===== Motion helpers (visual only) =====
+(function () {
+  const calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (calm) return;
+  const TARGETS = "button, [role='button'], .dd-list li, .cal-day, .inbox, select";
+  document.addEventListener("pointerdown", e => {
+    if (e.button > 0) return;
+    const t = e.target.closest && e.target.closest(TARGETS);
+    if (!t || t.disabled) return;
+    const r = document.createElement("span");
+    r.className = "tap-ring"; r.style.left = e.clientX + "px"; r.style.top = e.clientY + "px";
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), 650);
+  }, true);
+
+  // sparkles from the SAVE DETAILS button when the saved panel opens
+  const saved = document.getElementById("saved");
+  new MutationObserver(() => {
+    if (saved.hidden) return;
+    const b = Array.from(document.querySelectorAll("button")).find(x => /save details/i.test(x.textContent));
+    const box = (b || saved).getBoundingClientRect();
+    const colors = ["#ffb21a", "#19b37a", "#ffffff", "#5a78ff", "#ff7a59"];
+    for (let i = 0; i < 18; i++) {
+      const c = document.createElement("span");
+      c.className = "confetti";
+      c.style.left = (box.left + box.width / 2) + "px"; c.style.top = (box.top + box.height / 2) + "px";
+      c.style.background = colors[i % colors.length];
+      c.style.setProperty("--dx", (Math.random() * 280 - 140) + "px");
+      c.style.setProperty("--dy", (Math.random() * -170 - 30) + "px");
+      c.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 1000);
+    }
+  }).observe(saved, { attributes: true, attributeFilter: ["hidden"] });
 })();
 </script>
 </body>
